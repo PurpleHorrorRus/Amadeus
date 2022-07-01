@@ -58,12 +58,6 @@ class IPC {
                     : this.window.unmaximize(); 
             },
 
-            title: (tray, song) => {
-                const title = song.full_id !== "-1_-1" ? `${song.performer} - ${song.title}` : "Meridius";
-                this.window.setTitle(title);
-                tray.changeTooltip(title);
-            },
-
             clearAuthData: () => {
                 fs.removeSync(common.storage.paths.cookies);
                 common.storage.clear("vk");
