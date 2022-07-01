@@ -1,0 +1,49 @@
+{
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:vue/recommended"
+    ],
+    "globals": {
+        "Atomics": "readonly",
+        "SharedArrayBuffer": "readonly"
+    },
+    "parserOptions": {
+        "ecmaVersion": 2020,
+        "sourceType": "module"
+    },
+    "rules": {
+        "max-len": ["error", { "code": 120}],
+        "no-console": "off",
+        "arrow-parens": ["error", "as-needed"],
+        "curly": ["error", "multi-line"],
+        "import/no-extraneous-dependencies": "off",
+        "require-await": 0,
+
+        "global-require": 0,
+        "import/no-unresolved": 0,
+        "import/newline-after-import": 0,
+        "no-underscore-dangle": 0,
+
+        "vue/max-attributes-per-line": "off",
+        "vue/singleline-html-element-content-newline" : 0,
+        "vue/no-v-html": 0,
+        "vue/multi-word-component-names": "off",
+        "vue/comma-dangle": ["error", "never"],
+        "comma-dangle": ["error", "never"],
+
+        "no-async-promise-executor": 0,
+        "semi": ["error", "always"],
+        "quotes": ["error", "double"],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "no-trailing-spaces": 0,
+        "vue/html-indent": ["warn", 4],
+        "camelcase": 0,
+        "no-return-assign": 0,
+        "vue/attribute-hyphenation": 0,
+        "eol-last": ["error", "never"]
+    }
+}
