@@ -5,16 +5,21 @@
         <div class="conversation-message">
             <span class="conversation-message-name" v-text="name" />
             <ConversationMessage v-if="!conversation.typing" :message="conversation.message" />
+            <ConversationTyping v-else />
         </div>
         
-        <div v-if="outUnread" class="conversation-read" />
+        <div v-if="outUnread" class="conversation-unread-out" />
+        <div v-else-if="inUnread" class="conversation-unread-in">
+            <span class="conversation-unread-in-count" v-text="inUnreadCount" />
+        </div>
     </div>
 </template>
 
 <script>
 export default {
     components: {
-        ConversationMessage: () => import("~/components/Conversations/Message")
+        ConversationMessage: () => import("~/components/Conversations/Message"),
+        ConversationTyping: () => import("~/components/Conversations/Typing")
     },
 
     props: {
@@ -42,7 +47,15 @@ export default {
         },
 
         outUnread() {
-            return this.conversation.information.out_read !== this.conversation.information.last_message_id;
+            return this.conversation.information.out_read < this.conversation.information.last_message_id;
+        },
+
+        inUnread() {
+            return this.conversation.information.in_read < this.conversation.information.last_message_id;
+        },
+
+        inUnreadCount() {
+            return this.conversation.information.last_message_id - this.conversation.information.in_read;
         }
     }
 };
@@ -51,7 +64,7 @@ export default {
 <style lang="scss">
 .conversation {
     display: grid;
-    grid-template-columns: 40px 1fr 10px;
+    grid-template-columns: 40px 1fr 20px;
 
     height: 40px;
 
@@ -85,7 +98,7 @@ export default {
         }
     }
 
-    &-read {
+    &-unread-out {
         justify-self: center;
         align-self: center;
 
@@ -94,6 +107,25 @@ export default {
 
         background: var(--secondary);
         border-radius: 100%;
+    }
+
+    &-unread-in {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        justify-self: center;
+        align-self: center;
+
+        width: 16px;
+        height: 16px;
+
+        background: var(--secondary);
+        border-radius: 100%;
+
+        &-count {
+            font-size: 11px;
+            font-weight: 500;
+        }
     }
 }
 </style>

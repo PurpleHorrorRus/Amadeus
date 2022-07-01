@@ -41,6 +41,25 @@ export default {
                 chat_id: id,
                 fields: "photo_100"
             });
+        },
+
+        GET_BY_ID: ({ state }, id) => {
+            id = Math.abs(id);
+            return state.list.find(item => item.profile.id === id);
+        },
+
+        TRIGGER_TYPING: async ({ dispatch }, { id, sequence }) => {
+            const conversation = await dispatch("GET_BY_ID", id);
+            if (conversation) {
+                conversation.typing = sequence;
+
+                if (sequence) {
+                    setTimeout(() => dispatch("TRIGGER_TYPING", { 
+                        id, 
+                        sequence: false 
+                    }), 5000);
+                }
+            }
         }
     }
 };

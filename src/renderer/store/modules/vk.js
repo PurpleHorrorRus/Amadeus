@@ -11,7 +11,7 @@ export default {
     }),
 
     actions: {
-        AUTH: async ({ state, rootState }) => {
+        AUTH: async ({ dispatch, state, rootState }) => {
             state.client = new VK({
                 token: rootState.config.vk.token
             });
@@ -22,7 +22,20 @@ export default {
             });
 
             state.user = user;
+            dispatch("LISTEN");
+
             return state.client;
+        },
+
+        LISTEN: ({ dispatch, state }) => {
+            state.client.updates.on("message_typing_state", data => {
+                dispatch("conversations/TRIGGER_TYPING", {
+                    id: data.fromId,
+                    sequence: true
+                });
+            });
+
+            state.client.updates.startPolling();
         }
     },
 
