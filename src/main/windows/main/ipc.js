@@ -1,4 +1,5 @@
 import { app, dialog } from "electron";
+import fs from "fs-extra";
 
 import common from "../../common";
 
@@ -7,10 +8,12 @@ class IPC {
         this.window = window;
 
         this.handlers = {
-            config: () => ({
-                paths: common.storage.paths,
-                config: common.storage.config
-            }),
+            config: () => {
+                return {
+                    paths: common.storage.paths,
+                    config: common.storage.config
+                };
+            },
 
             select: async params => {
                 const { canceled, filePaths } = await dialog.showOpenDialog(params);
@@ -27,7 +30,7 @@ class IPC {
             save: args => {
                 if (!args.content) {
                     console.error("Settings content is empty", args.type);
-                    return false;
+                    return;
                 }
 
                 if (!args.type) {
@@ -39,11 +42,20 @@ class IPC {
                 }
 
                 common.storage.save(args.type, args.content);
-                return true;
             },
-            
+
+            blog: line => {
+                return this.window.logger.blog(line);
+            },
+
             minimize: () => {
-                this.window.minimize();
+                return this.window.minimize();
+            },
+
+            maximize: () => {
+                !this.window.isMaximized()
+                    ? this.window.maximize()
+                    : this.window.unmaximize(); 
             },
 
             title: (tray, song) => {
@@ -52,7 +64,14 @@ class IPC {
                 tray.changeTooltip(title);
             },
 
-            restoreConnection: async () => await common.windows.load(this.window, "normal"),
+            clearAuthData: () => {
+                fs.removeSync(common.storage.paths.cookies);
+                common.storage.clear("vk");
+            },
+
+            restoreConnection: async () => {
+                return await common.windows.load(this.window, "normal");
+            },
 
             relaunch: () => {
                 app.relaunch();
