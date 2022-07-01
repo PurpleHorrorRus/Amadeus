@@ -30,8 +30,12 @@ export default {
     width: 100%;
     height: 100%;
 
+    overflow: hidden;
+
     .page {
-        background: #1c1c1c;
+        background: var(--primary);
+
+        overflow-y: auto;
     }
 }
 </style>

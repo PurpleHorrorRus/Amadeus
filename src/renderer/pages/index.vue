@@ -1,26 +1,38 @@
 <template>
-    <div id="index-page">
-        <span class="index-page-label">123</span>
-    </div>
+    <div id="index-page" class="page" />
 </template>
 
 <script>
 import { ipcRenderer } from "electron";
+import { mapActions } from "vuex";
 
 export default {
     async created() {
         const { config } = await ipcRenderer.invoke("config");
         
-        if (!config.vk.token) {
+        if (!config.vk.token || !config.vk.user) {
             this.$router.replace("/login").catch(() => {});
+            ipcRenderer.send("dom-ready");
             return false;
         }
+        
+        this.setConfig(config);
+        await this.auth();
 
+        this.$router.replace("/conversations").catch(() => {});
         return true;
     },
 
     mounted() {
         ipcRenderer.send("dom-ready");
+    },
+    
+    methods: {
+        ...mapActions({
+            setConfig: "SET_CONFIG",
+
+            auth: "vk/AUTH"
+        })
     }
 };
 </script>

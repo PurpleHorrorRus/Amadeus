@@ -28,11 +28,6 @@ html {
     --border: var(--left);
     --borderWidth: 0px;
 
-    --player: #2b2b2b;
-    --player-darker: #141414;
-    --player-slider: #343434;
-    --player-slider-progress: #9b9b9b;
-
     --text: #ffffff;
     --small-text: #939393;
 
@@ -42,7 +37,7 @@ html {
     --song-playing: #4242421f;
     --song-hover: #292c2f29;
 
-    --item: rgba(32, 32, 32, var(--alpha));
+    --item: rgba(32, 32, 32, .8);
     --item-hover: rgba(128, 128, 128, var(--alpha));
     --item-disabled: #000000;
 
