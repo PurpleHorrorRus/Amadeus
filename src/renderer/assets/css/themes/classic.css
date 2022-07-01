@@ -1,0 +1,73 @@
+html {
+    --primary: #121212;
+    --backdrop: #19191a;
+
+    --titlebar: var(--primary);
+    --titlebar-border: #303030;
+
+    --scroll: #545454;
+    --scroll-width: 12px;
+    --scroll-radius: 8px;
+
+    --logo: #ffffff;
+
+    --left: var(--primary);
+    --left-border: #00000000;
+    --left-queue: #121212;
+    --left-icons: #71aaeb;
+
+    --navigation: #121212;
+    --navigation-select: #ffffff26;
+
+    --secondary: #71aaeb;
+    --secondary-hover: #aeb7c21f;
+    --secondary-opacity-half: #aeb7c22d;
+    --secondary-hover-opacity: #aeb7c22d;
+    --secondary-disabled: #aeb7c20c;
+
+    --border: var(--left);
+    --borderWidth: 0px;
+
+    --player: #2b2b2b;
+    --player-darker: #141414;
+    --player-slider: #343434;
+    --player-slider-progress: #9b9b9b;
+
+    --text: #ffffff;
+    --small-text: #939393;
+
+    --song-performer: #939393;
+    --song-title: #ffffff;
+    --song-subtitle: #939393;
+    --song-playing: #4242421f;
+    --song-hover: #292c2f29;
+
+    --item: rgba(32, 32, 32, var(--alpha));
+    --item-hover: rgba(128, 128, 128, var(--alpha));
+    --item-disabled: #000000;
+
+    --field: #202020;
+
+    --icons: #ffffff;
+    --icons-hover: #bdbdbd;
+    --icons-disabled: #4e4e4e;
+
+    --no-cover: #ffffff;
+    --no-cover-background: #2b2b2b;
+
+    --links: #ffffff;
+    --links-active: #2787f5;
+    --links-hover: #2787f5;
+
+    --buttons-text: #ffffff;
+
+    --tooltip: #2787f5;
+    --tooltip-text: #ffffff;
+
+    --settings-view: #161616;
+
+    --switch-unchecked: #545454;
+
+    --skeleton-background: rgba(34, 34, 34, var(--alpha));
+    --skeleton-highlight: rgba(25, 25, 25, var(--alpha));
+}

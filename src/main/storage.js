@@ -7,6 +7,10 @@ import path from "path";
 const isDev = process.env.NODE_ENV === "development";
 
 const clear = {
+    settings: {
+        hideOnClose: false
+    },
+
     vk: {
         token: "",
         user: 0

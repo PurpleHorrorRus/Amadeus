@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, ipcMain } from "electron";
 
 import common from "./common";
 import protocol from "./protocol";
@@ -29,7 +29,7 @@ if (!app.requestSingleInstanceLock()) {
             app.setLoginItemSettings({
                 openAtLogin: sequence,
                 enabled: sequence,
-                name: "Meridius",
+                name: "VKGram",
                 path: process.execPath,
                 args: process.argv
             });

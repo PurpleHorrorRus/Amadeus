@@ -8,14 +8,13 @@ import IPC from "./main/ipc";
 
 nativeTheme.themeSource = "system";
 
-const minWidth = 955;
-const minHeight = 575;
-
 const params = {
     title: "VKGram",
     icon: common.icon,
+
     width: 350,
     height: 450,
+
     frame: false,
     transparent: false,
     webPreferences: common.webPreferences
@@ -24,19 +23,22 @@ const params = {
 class MeridiusWindow {
     constructor() {
         this.window = null;
-        this.events = null;
-        this.ipc = null;
     }
 
     async create() {
         this.window = new BrowserWindow(params);
-        this.window.show();
 
-        this.events = new MainWindowEvents(this.window);
-        this.ipc = new IPC(this.window);
+        this.window.events = new MainWindowEvents(this.window);
+        this.window.ipc = new IPC(this.window);
 
-        for (const handle of Object.keys(this.ipc.handlers)) {
-            ipcMain.handle(handle, this.ipc.handlers[handle]);
+        for (const handle of Object.keys(this.window.ipc.handlers)) {
+            ipcMain.handle(handle, this.window.ipc.handlers[handle]);
+        }
+
+        for (const event of Object.keys(this.window.ipc.events)) {
+            ipcMain.on(event, (_, args) => {
+                return this.window.ipc.events[event](args);
+            });
         }
 
         this.window.webContents.setWindowOpenHandler(({ url }) => {
@@ -45,8 +47,10 @@ class MeridiusWindow {
         });
 
         this.window.webContents.openDevTools();
+        this.window.show();
 
         await common.windows.load(this.window, "normal");
+        return true;
     }
 }
 

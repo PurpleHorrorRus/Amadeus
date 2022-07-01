@@ -33,6 +33,8 @@
         "vue/no-v-html": 0,
         "vue/multi-word-component-names": "off",
         "vue/comma-dangle": ["error", "never"],
+        "vue/valid-model-definition": "off",
+        "vue/valid-attribute-name": "off",
         "comma-dangle": ["error", "never"],
 
         "no-async-promise-executor": 0,

@@ -27,7 +27,7 @@ class IPC {
             save: args => {
                 if (!args.content) {
                     console.error("Settings content is empty", args.type);
-                    return;
+                    return false;
                 }
 
                 if (!args.type) {
@@ -39,6 +39,7 @@ class IPC {
                 }
 
                 common.storage.save(args.type, args.content);
+                return true;
             },
             
             minimize: () => {

@@ -22,7 +22,7 @@ export default {
             const url = new URL(request.url).pathname;
             const normalized = path.normalize(url);
             const protocol = path.join(PRODUCTION_APP_PATH, normalized);
-            callback({ path: protocol });
+            return callback({ path: protocol });
         });
     }
 };

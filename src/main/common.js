@@ -1,8 +1,7 @@
 /* eslint-disable indent */
 /* eslint-disable no-undef */
-import { app, BrowserWindow as classicBrowserWindow } from "electron";
+import { app } from "electron";
 
-import os from "os";
 import path from "path";
 
 import storage from "./storage";
