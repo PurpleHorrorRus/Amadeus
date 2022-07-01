@@ -5,7 +5,7 @@
             @input="search = $event" 
         />
 
-        <DotsHorizontal class="icon meridius clickable" />
+        <DotsHorizontal class="icon vkgram clickable" />
     </div>
 </template>
 

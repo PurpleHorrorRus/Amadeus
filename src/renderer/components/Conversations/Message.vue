@@ -1,9 +1,9 @@
 <template>
     <div class="conversation-message-body nowrap">
         <span 
-            v-if="message.out"
+            v-if="showSender"
             class="conversation-message-body-out small-text highlight" 
-            v-text="'Вы:'" 
+            v-text="sender" 
         />
 
         <span 
@@ -26,6 +26,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     props: {
         message: {
@@ -40,8 +42,27 @@ export default {
     }),
 
     computed: {
+        ...mapState({
+            conversations: state => state.vk.conversations.list
+        }),
+
         showAttachments() {
             return this.message.attachments.length > 0;
+        },
+
+        showSender() {
+            return this.message.out 
+                || this.$parent.conversation.profile.type === "chat";
+        },
+
+        sender() {
+            if (this.message.out) {
+                return "Вы:";
+            }
+
+            return this.$parent.conversation.profile.users.find(user => {
+                return user.id === this.message.from_id;
+            }).first_name + ":";
         },
 
         attachments() {
@@ -117,6 +138,16 @@ export default {
         }
     },
 
+    watch: {
+        conversations: {
+            deep: true,
+
+            handler() {
+                this.updateMessageTime();
+            }
+        }
+    },
+
     created() {
         this.updateInterval = setInterval(() => this.updateMessageTime(), 4 * 1000);
         this.updateMessageTime();
@@ -134,6 +165,13 @@ export default {
             const yearDiff = now.getFullYear() - date.getFullYear();
             if (yearDiff > 0) {
                 this.dateText = `${yearDiff} г.`;
+                return true;
+            }
+
+            let months = (now.getFullYear() - date.getFullYear()) * 12;
+            const monthsDiff = months - date.getMonth() + now.getMonth();
+            if (monthsDiff > 0) {
+                this.dateText = `${monthsDiff} мес.`;
                 return true;
             }
 

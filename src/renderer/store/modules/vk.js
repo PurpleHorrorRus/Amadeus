@@ -1,4 +1,6 @@
 import { VK } from "vk-io";
+// const vk = new VK();
+// vk.updates.on("messages_read")
 
 import conversations from "~/store/modules/vk/conversations";
 
@@ -28,6 +30,14 @@ export default {
         },
 
         LISTEN: ({ dispatch, state }) => {
+            state.client.updates.on("message_new", data => {
+                dispatch("conversations/ADD_MESSAGE", data);
+            });
+
+            state.client.updates.on("messages_read", data => {
+                dispatch("conversations/UPDATE_LAST_MESSAGE", data);
+            });
+
             state.client.updates.on("message_typing_state", data => {
                 dispatch("conversations/TRIGGER_TYPING", {
                     id: data.fromId,

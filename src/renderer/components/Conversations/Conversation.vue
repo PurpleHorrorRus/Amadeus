@@ -8,10 +8,10 @@
             <ConversationTyping v-else />
         </div>
         
-        <div v-if="outUnread" class="conversation-unread-out" />
-        <div v-else-if="inUnread" class="conversation-unread-in">
+        <div v-if="inUnread" class="conversation-unread-in">
             <span class="conversation-unread-in-count" v-text="inUnreadCount" />
         </div>
+        <div v-else-if="outUnread" class="conversation-unread-out" />
     </div>
 </template>
 
@@ -47,14 +47,20 @@ export default {
         },
 
         outUnread() {
-            return this.conversation.information.out_read < this.conversation.information.last_message_id;
+            return this.conversation.information.out_read < this.conversation.information.last_message_id
+                && this.conversation.message.out;
         },
 
         inUnread() {
-            return this.conversation.information.in_read < this.conversation.information.last_message_id;
+            return this.conversation.information.in_read < this.conversation.information.last_message_id
+                && !this.conversation.message.out;
         },
 
         inUnreadCount() {
+            if (this.conversation.information.in_read === 0) {
+                return 1;
+            }
+
             return this.conversation.information.last_message_id - this.conversation.information.in_read;
         }
     }
@@ -67,8 +73,6 @@ export default {
     grid-template-columns: 40px 1fr 20px;
 
     height: 40px;
-
-    column-gap: 10px;
 
     padding: 0px 0px 0px 8px;
 
@@ -83,8 +87,9 @@ export default {
         display: grid;
         grid-template-columns: 1fr;
         align-items: center;
-
         flex-direction: column;
+
+        margin-left: 10px;
 
         &-name {
             width: max-content;
@@ -95,6 +100,7 @@ export default {
         &-text {
             color: var(--small-text);
             font-size: 12px;
+            font-weight: 300;
         }
     }
 

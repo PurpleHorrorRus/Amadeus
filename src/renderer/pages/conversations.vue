@@ -2,7 +2,7 @@
     <div id="conversations-page" class="page">
         <ConversationsHeader />
 
-        <div id="conversations-page-list">
+        <div id="conversations-page-list" ref="conversations">
             <Conversation
                 v-for="(conversation, index) of conversations"
                 :key="index"
@@ -15,26 +15,50 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+import ScrollMixin from "~/mixins/scroll";
+
 export default {
     components: {
         ConversationsHeader: () => import("~/components/Conversations/Header"),
         Conversation: () => import("~/components/Conversations/Conversation")
     },
 
+    mixins: [ScrollMixin],
+
+    data: () => ({
+        load: false
+    }),
+
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.list
-        })
+            conversations: state => state.vk.conversations.list,
+            count: state => state.vk.conversations.count
+        }),
+
+        canScroll() {
+            return !this.load 
+                && this.conversations.length < this.count;
+        }
     },
 
     async created() {
-        const list = await this.fetch();
-        console.log(list);
+        if (this.conversations.length === 0) {
+            await this.fetch();
+        }
+    },
+
+    mounted() {
+        this.registerScroll(this.$refs.conversations, async () => {
+            this.load = true;
+            await this.append();
+            this.load = false;
+        });
     },
 
     methods: {
         ...mapActions({
-            fetch: "vk/conversations/FETCH"
+            fetch: "vk/conversations/FETCH",
+            append: "vk/conversations/APPEND"
         })
     }
 };
