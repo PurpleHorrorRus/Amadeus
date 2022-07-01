@@ -39,11 +39,11 @@ span, input, textarea, select, div {
     &:hover {
         &:not(.active) {
             &.icon {
-                &.meridius path {
+                &.vkgram path {
                     fill: var(--icons-hover) !important;
                 }
         
-                &:not(.meridius) path {
+                &:not(.vkgram) path {
                     stroke: var(--icons-hover) !important;
                 }
             }
@@ -52,11 +52,11 @@ span, input, textarea, select, div {
                 color: var(--icons-hover);
     
                 .icon {
-                    &.meridius path {
+                    &.vkgram path {
                         fill: var(--icons-hover) !important;
                     }
             
-                    &:not(.meridius) path {
+                    &:not(.vkgram) path {
                         stroke: var(--icons-hover) !important;
                     }
                 }
@@ -70,11 +70,11 @@ span, input, textarea, select, div {
 }
 
 @mixin ClickableIcon {
-    &.filled, &.meridius path {
+    &.filled, &.vkgram path {
         fill: var(--secondary);
     }
 
-    &:not(.meridius):not(.nostroke):not(.filled) {
+    &:not(.vkgram):not(.nostroke):not(.filled) {
         stroke: var(--secondary);
     }
 }
@@ -132,13 +132,13 @@ a:not(.clickable) {
 
     color: var(--icons);
 
-    &.meridius path {
+    &.vkgram path {
         fill: var(--icons);
 
         transition: fill .1s ease-in-out;
     }
 
-    &:not(.meridius) {
+    &:not(.vkgram) {
         fill: none;
         
         &:not(.nostroke) {
@@ -167,11 +167,11 @@ a:not(.clickable) {
     }
 
     &.active {
-        &.meridius path {
+        &.vkgram path {
             fill: var(--secondary);
         }
 
-        &:not(.meridius) {
+        &:not(.vkgram) {
             stroke: var(--secondary);
         }
     }
