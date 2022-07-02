@@ -6,7 +6,7 @@ const fields = {
     count: 10,
     filter: "all",
     extended: true,
-    fields: "photo_100"
+    fields: "photo_100,online"
 };
 
 export default {
@@ -138,16 +138,26 @@ export default {
 
         TRIGGER_TYPING: async ({ dispatch }, { id, sequence }) => {
             const conversation = await dispatch("GET_BY_ID", id);
-            if (conversation) {
-                conversation.typing = sequence;
+            conversation.typing = sequence;
 
-                if (sequence) {
-                    setTimeout(() => dispatch("TRIGGER_TYPING", { 
-                        id, 
-                        sequence: false 
-                    }), 5000);
-                }
+            if (sequence) {
+                setTimeout(() => dispatch("TRIGGER_TYPING", { 
+                    id, 
+                    sequence: false 
+                }), 5000);
             }
+        },
+
+        TRIGGER_ONLINE: async ({ dispatch }, data) => {
+            const conversation = await dispatch("GET_BY_ID", data.userId);
+            if (conversation) {
+                conversation.profile.online = data.isOnline;
+                conversation.profile.online_mobile = Number(conversation.profile.online && data.platform < 6);
+                return true;
+            }
+
+            return false;
+            
         }
     }
 };

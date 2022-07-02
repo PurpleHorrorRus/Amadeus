@@ -1,6 +1,6 @@
 <template>
     <div class="conversation">
-        <img :src="conversation.profile.photo_100" class="conversation-avatar">
+        <ConversationAvatar :profile="conversation.profile" />
 
         <div class="conversation-message">
             <span class="conversation-message-name" v-text="name" />
@@ -18,8 +18,9 @@
 <script>
 export default {
     components: {
-        ConversationMessage: () => import("~/components/Conversations/Message"),
-        ConversationTyping: () => import("~/components/Conversations/Typing")
+        ConversationAvatar: () => import("~/components/Conversations/Conversation/Avatar"),
+        ConversationMessage: () => import("~/components/Conversations/Conversation/Message"),
+        ConversationTyping: () => import("~/components/Conversations/Conversation/Typing")
     },
 
     props: {
@@ -72,16 +73,9 @@ export default {
     display: grid;
     grid-template-columns: 40px 1fr 20px;
 
-    height: 40px;
+    height: max-content;
 
     padding: 0px 0px 0px 8px;
-
-    &-avatar {
-        width: 100%;
-        height: 100%;
-
-        border-radius: 100%;
-    }
 
     &-message {
         display: grid;

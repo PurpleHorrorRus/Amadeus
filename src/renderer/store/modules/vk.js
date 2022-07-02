@@ -1,6 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("messages_read")
+// vk.updates.on("friend_online")
 
 import conversations from "~/store/modules/vk/conversations";
 
@@ -43,6 +43,10 @@ export default {
                     id: data.fromId,
                     sequence: true
                 });
+            });
+
+            state.client.updates.on("friend_activity", data => {
+                dispatch("conversations/TRIGGER_ONLINE", data);
             });
 
             state.client.updates.startPolling();
