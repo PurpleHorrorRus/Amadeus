@@ -62,6 +62,7 @@ export default {
         width: 16px;
 
         background: #000000;
+        border-radius: 4px;
 
         path {
             stroke: none;

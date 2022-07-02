@@ -1,9 +1,9 @@
 <template>
-    <div class="conversation">
+    <div class="conversation" @click.left="open">
         <ConversationAvatar :profile="conversation.profile" />
 
         <div class="conversation-message">
-            <span class="conversation-message-name" v-text="name" />
+            <span class="conversation-message-name" v-text="name(conversation.profile)" />
             <ConversationMessage v-if="!conversation.typing" :message="conversation.message" />
             <ConversationTyping v-else />
         </div>
@@ -16,12 +16,16 @@
 </template>
 
 <script>
+import ProfileMixin from "~/mixins/profile";
+
 export default {
     components: {
         ConversationAvatar: () => import("~/components/Conversations/Conversation/Avatar"),
         ConversationMessage: () => import("~/components/Conversations/Conversation/Message"),
         ConversationTyping: () => import("~/components/Conversations/Conversation/Typing")
     },
+
+    mixins: [ProfileMixin],
 
     props: {
         conversation: {
@@ -31,22 +35,6 @@ export default {
     },
 
     computed: {
-        name() {
-            switch(this.conversation.profile.type) {
-                case "chat": {
-                    return this.conversation.profile.title;
-                }
-
-                case "group": {
-                    return this.conversation.profile.name;
-                }
-                
-                default: {
-                    return `${this.conversation.profile.first_name} ${this.conversation.profile.last_name}`;
-                }
-            }
-        },
-
         outUnread() {
             return this.conversation.information.out_read < this.conversation.information.last_message_id
                 && this.conversation.message.out;
@@ -63,6 +51,15 @@ export default {
             }
 
             return this.conversation.information.last_message_id - this.conversation.information.in_read;
+        }
+    },
+
+    methods: {
+        open() {
+            let { id, type } = this.conversation.profile;
+            if (!type) type = "user";
+
+            this.$router.replace(`/messages/${id}?type=${type}`).catch(() => {});
         }
     }
 };

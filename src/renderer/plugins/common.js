@@ -1,4 +1,26 @@
+const monthsShort = ["янв", "фев", "мар", "апр", "май", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"];
+
 class Common {
+    static formatTimeToDayAndMonth(time) {
+        const day = time.getDay();
+        const month = monthsShort[time.getMonth()];
+        return `${day} ${month}`;
+    }
+
+    static fancyTimeFormat(time) {
+        if (!time) {
+            return "00:00";
+        }
+
+        let hours = time.getHours();
+        if (hours < 10) hours = `0${hours}`;
+
+        let mins = time.getMinutes();
+        if (mins < 10) mins = `0${mins}`;
+
+        return `${hours}:${mins}`;
+    }
+
     static getRandom(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
@@ -11,6 +33,10 @@ class Common {
 
         arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
         return arr;
+    }
+
+    static wait(timeout) {
+        return new Promise(resolve => setTimeout(resolve, timeout));    
     }
 }
 

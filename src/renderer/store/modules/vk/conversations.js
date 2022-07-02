@@ -6,7 +6,7 @@ const fields = {
     count: 10,
     filter: "all",
     extended: true,
-    fields: "photo_100,online"
+    fields: "photo_100,online,last_seen"
 };
 
 export default {

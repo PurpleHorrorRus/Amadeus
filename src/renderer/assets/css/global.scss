@@ -175,6 +175,12 @@ a:not(.clickable) {
             stroke: var(--secondary);
         }
     }
+
+    &.loader-icon {
+        position: absolute;
+        align-self: center;
+        left: 46vw;
+    }
 }
 
 .list {
@@ -296,7 +302,7 @@ a:not(.clickable) {
 }
 
 ::-webkit-scrollbar {
-    width: var(--scroll-width);
+    width: 6px;
     height: 6px;
 
     &-track {
@@ -306,7 +312,6 @@ a:not(.clickable) {
 
     &-thumb {
         background: var(--scroll);
-        border: 4px solid var(--primary);
         border-radius: var(--scroll-radius);
     }
 }
