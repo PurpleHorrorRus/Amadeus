@@ -63,6 +63,6 @@ html {
 
     --switch-unchecked: #545454;
 
-    --skeleton-background: rgba(34, 34, 34, var(--alpha));
-    --skeleton-highlight: rgba(25, 25, 25, var(--alpha));
+    --skeleton-background: rgba(34, 34, 34, .8);
+    --skeleton-highlight: rgba(25, 25, 25, .8);
 }

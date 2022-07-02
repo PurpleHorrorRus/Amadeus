@@ -8,6 +8,14 @@
                 :key="index"
                 :conversation="conversation"
             />
+
+            <Skeleton 
+                v-if="load"
+                id="skeleton-conversations"
+                :count="5"
+                :width="'100%'"
+                :height="'40px'" 
+            />
         </div>
     </div>
 </template>
@@ -87,6 +95,10 @@ export default {
         &:hover {
             cursor: pointer;
         }
+    }
+
+    .skeleton-list {
+        flex-direction: column;
     }
 }
 </style>

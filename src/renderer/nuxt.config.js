@@ -52,6 +52,9 @@ module.exports = {
 
     css: [
         "~assets/css/global.scss",
+
+        "vue-loading-skeleton/dist/vue-loading-skeleton.css",
+
         ...themesList
     ]
 };

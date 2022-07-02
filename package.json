@@ -40,6 +40,7 @@
         "@vk-io/authorization": "1.2.1",
         "bluebird": "^3.7.2",
         "sass": "^1.53.0",
-        "vk-io": "4.3.2"
+        "vk-io": "4.3.2",
+        "vue-loading-skeleton": "^1.1.9"
     }
 }
