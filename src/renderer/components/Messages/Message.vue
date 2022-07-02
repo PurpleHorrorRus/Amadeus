@@ -8,13 +8,22 @@
 
         <div class="message-content">
             <span v-if="showName" class="message-content-name" v-text="name" />
-            <span class="message-content-text" v-text="message.text" />
+            <span v-if="message.text" class="message-content-text" v-text="message.text" />
+
+            <MessageAttachments 
+                v-if="message.attachments.length > 0"
+                :attachments="message.attachments" 
+            />
         </div>
     </div>
 </template>
 
 <script>
 export default {
+    components: {
+        MessageAttachments: () => import("~/components/Messages/Attachments")
+    },
+
     props: {
         message: {
             type: Object,
@@ -32,7 +41,8 @@ export default {
         messageClass() {
             return {
                 out: this.message.out,
-                same: this.same && this.isChat
+                same: this.same && this.isChat,
+                singleAttachment: this.message.attachments.length === 1
             };
         },
 
@@ -93,6 +103,12 @@ export default {
         }
     }
 
+    &.singleAttachment {
+        .message-content {
+            background: none;
+        }
+    }
+
     &-avatar {
         width: 40px;
         height: 40px;
@@ -121,6 +137,8 @@ export default {
         &-text {
             font-size: 14px;
             font-weight: 400;
+
+            user-select: text;
         }
     }
 }

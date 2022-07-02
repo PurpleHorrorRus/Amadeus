@@ -20,7 +20,7 @@ const params = {
     webPreferences: common.webPreferences
 };
 
-class MeridiusWindow {
+class MediaWindow {
     constructor() {
         this.window = null;
     }
@@ -54,4 +54,4 @@ class MeridiusWindow {
     }
 }
 
-export default MeridiusWindow;
+export default MediaWindow;

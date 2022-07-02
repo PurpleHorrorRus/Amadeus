@@ -48,15 +48,18 @@ export default {
             });
 
             state.cache[id].messages = history.items.reverse().concat(state.cache[id].messages);
-            return true;
+            return state.cache[id];
         },
 
-        ADD_MESSAGE: ({ state }, data) => {
-            const id = data.payload.message.from_id;
-            if (id in state.cache) {
-                state.cache[id].count++;
-                state.cache[id].messages.push(data.payload.message);
-                return true;
+        ADD_MESSAGE: async ({ state, rootState }, data) => {
+            if (data.payload.message.from_id in state.cache) {
+                const response = await rootState.vk.client.api.messages.getById({
+                    message_ids: data.payload.message.id
+                });
+
+                state.cache[data.payload.message.from_id].count++;
+                state.cache[data.payload.message.from_id].messages.push(response.items[0]);
+                return state.cache[data.payload.message.from_id];
             }
 
             return false;

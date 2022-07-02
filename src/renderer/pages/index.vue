@@ -7,20 +7,27 @@ import { ipcRenderer } from "electron";
 import { mapActions } from "vuex";
 
 export default {
-    async created() {
-        const { config } = await ipcRenderer.invoke("config");
+    created() {
+        ipcRenderer.once("normal", async () => {
+            const { config } = await ipcRenderer.invoke("config");
         
-        if (!config.vk.token || !config.vk.user) {
-            this.$router.replace("/login").catch(() => {});
-            ipcRenderer.send("dom-ready");
-            return false;
-        }
-        
-        this.setConfig(config);
-        await this.auth();
+            if (!config.vk.token || !config.vk.user) {
+                this.$router.replace("/login").catch(() => {});
+                ipcRenderer.send("dom-ready");
+                return false;
+            }
+            
+            this.setConfig(config);
+            await this.auth();
 
-        this.$router.replace("/conversations").catch(() => {});
-        return true;
+            this.$router.replace("/conversations").catch(() => {});
+            return true;
+        });
+
+        ipcRenderer.once("media", () => {
+            this.$router.replace("/media").catch(() => {});
+            return true;
+        });
     },
 
     mounted() {

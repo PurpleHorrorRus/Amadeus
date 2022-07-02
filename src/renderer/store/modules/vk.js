@@ -1,6 +1,5 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("friend_online")
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
@@ -32,8 +31,8 @@ export default {
 
         LISTEN: ({ dispatch, state }) => {
             state.client.updates.on("message_new", data => {
-                dispatch("conversations/ADD_MESSAGE", data);
                 dispatch("messages/ADD_MESSAGE", data);
+                dispatch("conversations/ADD_MESSAGE", data);
             });
 
             state.client.updates.on("messages_read", data => {

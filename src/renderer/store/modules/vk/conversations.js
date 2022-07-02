@@ -96,7 +96,6 @@ export default {
         },
 
         ADD_MESSAGE: async ({ dispatch, state }, data) => {
-            console.log(data);
             data.payload.message.peer_id = Math.abs(data.payload.message.peer_id);
 
             const conversationIndex = await dispatch("GET_INDEX_BY_ID", data.payload.message.peer_id);

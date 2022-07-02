@@ -1,6 +1,8 @@
 import { app, dialog } from "electron";
 import fs from "fs-extra";
 
+import MediaWindow from "../media";
+
 import common from "../../common";
 
 class IPC {
@@ -44,8 +46,8 @@ class IPC {
                 common.storage.save(args.type, args.content);
             },
 
-            blog: line => {
-                return this.window.logger.blog(line);
+            openMedia: media => {
+                return new MediaWindow().create(media, this.window);
             },
 
             minimize: () => {

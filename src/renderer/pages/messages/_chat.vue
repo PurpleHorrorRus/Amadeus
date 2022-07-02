@@ -11,13 +11,12 @@
             />
 
             <Message
-                v-for="(message, index) of chat.messages" 
+                v-for="message of chat.messages"
                 :key="message.id"
                 :message="message"
-                :same="same(index)"
             />
         </div>
-
+        
         <LoaderIcon 
             v-else 
             class="icon loader-icon spin" 
@@ -45,7 +44,12 @@ export default {
         id: 0,
         type: "user",
 
-        autoScroll: false
+        autoScroll: false,
+
+        chat: {
+            count: 0,
+            messages: []
+        }
     }),
 
     computed: {
@@ -65,6 +69,15 @@ export default {
     },
 
     watch: {
+        loading: {
+            handler: function() {
+                this.$nextTick(() => {
+                    this.registerScroll(this.$refs.messages);
+                    this.scrollToBottom();
+                });
+            }
+        },
+
         scrollPercent: {
             handler: async function(scrollPercent) {
                 this.autoScroll = scrollPercent >= 80;
@@ -78,7 +91,7 @@ export default {
         },
 
         "chat.messages": {
-            handler() {
+            handler: function() {
                 if (this.autoScroll) {
                     this.$nextTick(() => this.scrollToBottom());
                 }
@@ -86,23 +99,18 @@ export default {
         }
     },
 
-    async created() {
+    created() {
         this.id = Number(this.$route.params.chat);
         this.type = this.$route.query.type;
+    },
 
+    async mounted() {
         this.chat = await this.load({
             id: this.id,
             type: this.type
         });
 
         this.loading = false;
-
-        for (let i = 0; i < 5; i++) {
-            await this.$nextTick();
-        }
-
-        this.registerScroll(this.$refs.messages);
-        this.scrollToBottom();
     },
 
     methods: {
@@ -116,7 +124,9 @@ export default {
                 return false;
             }
 
-            return this.chat.messages[index].from_id === this.chat.messages[index - 1].from_id;
+            const currentMessage = this.chat.messages[index];
+            const previousMessage = this.chat.messages[index - 1];
+            return currentMessage.from_id === previousMessage.from_id;
         },
 
         scrollToBottom() {
