@@ -1,6 +1,7 @@
 <template>
     <div id="chat-page" class="page">
         <MessagesHeader :conversation="conversation" />
+
         <div v-if="!loading" id="chat-page-messages" ref="messages">
             <Skeleton 
                 v-if="loadMore"
@@ -111,6 +112,11 @@ export default {
         });
 
         this.loading = false;
+        document.addEventListener("keydown", this.exit);
+    },
+
+    beforeDestroy() {
+        document.removeEventListener("keydown", this.exit);
     },
 
     methods: {
@@ -131,6 +137,13 @@ export default {
 
         scrollToBottom() {
             this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+            return true;
+        },
+
+        exit(event) {
+            if (event.code !== "Escape") return false;
+            this.$router.replace("/conversations").catch(() => {});
+            return true;
         }
     }
 };
