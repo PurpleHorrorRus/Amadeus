@@ -42,9 +42,5 @@ export default {
     border-radius: 4px;
 
     font-size: 18px;
-
-    &:focus {
-        border: 2px solid var(--secondary);
-    }
 }
 </style>

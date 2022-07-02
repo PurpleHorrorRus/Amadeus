@@ -245,10 +245,6 @@ export default {
             height: 40px;
 
             font-size: 12px;
-
-            &:focus {
-                border: 2px solid var(--field);
-            }
         }
     }
 }
