@@ -8,7 +8,7 @@
             <ConversationTyping v-else />
         </div>
 
-        <div v-if="!settings.appearance.minimized" class="conversation-unread">
+        <div class="conversation-unread">
             <div v-if="inUnread" class="conversation-unread-in">
                 <span class="conversation-unread-in-count" v-text="inUnreadCount" />
             </div>
@@ -66,7 +66,8 @@ export default {
                 return 1;
             }
 
-            return this.conversation.information.last_message_id - this.conversation.information.in_read;
+            return this.conversation.information.last_message_id 
+                - Math.max(this.conversation.information.out_read, this.conversation.information.in_read);
         }
     },
 
@@ -83,6 +84,8 @@ export default {
 
 <style lang="scss">
 .conversation {
+    position: relative;
+
     display: grid;
     grid-template-columns: 40px 1fr 20px;
     grid-template-rows: 50px;
@@ -102,6 +105,11 @@ export default {
 
         .conversation-avatar {
             justify-self: center;
+        }
+
+        .conversation-unread {
+            position: absolute;
+            top: 3px; right: 2px;
         }
     }
 
