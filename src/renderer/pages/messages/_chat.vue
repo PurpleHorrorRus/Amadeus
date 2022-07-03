@@ -146,7 +146,7 @@ export default {
         },
 
         scrollToBottom() {
-            // this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
             return true;
         },
 
@@ -185,6 +185,10 @@ export default {
             display: flex;
             flex-direction: column;
             row-gap: 10px;
+        }
+
+        .loader-icon {
+            margin: 50%;
         }
     }
 }
