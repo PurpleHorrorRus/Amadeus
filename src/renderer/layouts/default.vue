@@ -21,7 +21,7 @@
             :max="maxWidth"
             @mounted="resizableRef = $event"
             @resize="resize"
-            @resized="saveSettings(settings)"
+            @resized="resized"
         >
             <ConversationsList />
             <div
@@ -129,16 +129,19 @@ export default {
                 if (!this.settings.appearance.minimized) {
                     this.settings.appearance.minimized = true;
                     this.settings.appearance.conversationsWidth = 60;
-                    console.log("minimize");
                 }
             } else {
                 if (this.settings.appearance.minimized) {
-                    console.log("maximize");
                     this.settings.appearance.minimized = false;
                 }
 
                 this.settings.appearance.conversationsWidth = size;
             }
+        },
+
+        resized() {
+            console.log(1);
+            this.saveSettings(this.settings);
         }
     }
 };

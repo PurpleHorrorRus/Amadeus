@@ -8,12 +8,17 @@ import IPC from "./main/ipc";
 
 nativeTheme.themeSource = "system";
 
+const minWidth = 300;
+const minHeight = 380;
+
 const params = {
     title: "VKGram",
     icon: common.icon,
 
-    width: 350,
-    height: 450,
+    width: Math.max(common.storage.config.settings.width, minWidth),
+    height: Math.max(common.storage.config.settings.height, minHeight),
+
+    minWidth, minHeight,
 
     frame: false,
     transparent: false,
@@ -30,6 +35,14 @@ class MediaWindow {
 
         this.window.events = new MainWindowEvents(this.window);
         this.window.ipc = new IPC(this.window);
+
+        this.window.on("resized", () => {
+            const [width, height] = this.window.getSize();
+            common.storage.config.settings.width = width;
+            common.storage.config.settings.height = height;
+            common.storage.save("settings", common.storage.config.settings);
+            return true;
+        });
 
         for (const handle of Object.keys(this.window.ipc.handlers)) {
             ipcMain.handle(handle, this.window.ipc.handlers[handle]);

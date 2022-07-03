@@ -8,6 +8,9 @@ const isDev = process.env.NODE_ENV === "development";
 
 const clear = {
     settings: {
+        width: 380,
+        height: 530,
+
         appearance: {
             conversationsWidth: 300,
             minimized: false

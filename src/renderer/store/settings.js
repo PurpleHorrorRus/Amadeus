@@ -16,7 +16,7 @@ export default {
         SAVE: ({ state }, settings) => {
             state.settings = settings;
 
-            ipcRenderer.send("saveSettings", {
+            ipcRenderer.send("save", {
                 type: "settings",
                 content: settings
             });
@@ -29,7 +29,7 @@ export default {
                 state.settings = settings;
             }
 
-            ipcRenderer.send("saveSettings", {
+            ipcRenderer.send("save", {
                 type,
                 content: settings
             });

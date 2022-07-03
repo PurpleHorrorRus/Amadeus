@@ -31,6 +31,8 @@ import { mapActions, mapState } from "vuex";
 
 import ScrollMixin from "~/mixins/scroll";
 
+import common from "~/plugins/common";
+
 export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
@@ -73,8 +75,11 @@ export default {
     watch: {
         loading: {
             handler: function() {
-                this.$nextTick(() => {
+                this.$nextTick(async () => {
                     this.registerScroll(this.$refs.messages);
+
+                    this.scrollToBottom();
+                    await common.wait(80);
                     this.scrollToBottom();
                 });
             }

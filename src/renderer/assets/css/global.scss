@@ -183,9 +183,8 @@ a:not(.clickable) {
     }
 
     &.loader-icon {
-        position: absolute;
+        justify-self: center;
         align-self: center;
-        left: 46vw;
     }
 }
 
