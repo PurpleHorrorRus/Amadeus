@@ -55,7 +55,8 @@ export default {
                     message: item.last_message,
                     information: item.conversation,
 
-                    typing: false
+                    typing: false,
+                    typingTimeout: null
                 };
             });
         },
@@ -138,13 +139,9 @@ export default {
         TRIGGER_TYPING: async ({ dispatch }, { id, sequence }) => {
             const conversation = await dispatch("GET_BY_ID", id);
             conversation.typing = sequence;
-
-            if (sequence) {
-                setTimeout(() => dispatch("TRIGGER_TYPING", { 
-                    id, 
-                    sequence: false 
-                }), 5000);
-            }
+            clearTimeout(conversation.typingTimeout);
+            conversation.typingTimeout = setTimeout(() => conversation.typing = false, 6000);
+            return true;
         },
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
