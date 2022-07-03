@@ -112,9 +112,8 @@ export default {
             if (yearsDiff > 0) {
                 return `${common.formatTimeToDayAndMonth(date)}, ${date.getFullYear()} г.`;
             }
-            
-            const dateDiff = date.getTime() - now.getTime();
-            const daysDiff = Math.abs(Math.ceil(dateDiff / (1000 * 3600 * 24)));
+
+            const daysDiff = Math.abs(Math.round((now - date) / (1000 * 3600 * 24)));
             switch(daysDiff) {
                 case 0: {
                     return common.fancyTimeFormat(date);
