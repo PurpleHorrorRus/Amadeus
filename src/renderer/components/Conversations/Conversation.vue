@@ -2,7 +2,7 @@
     <div class="conversation" :class="conversationClass" @click.left="open">
         <ConversationAvatar :profile="conversation.profile" />
 
-        <div v-if="!settings.appearance.minimized" class="conversation-message">
+        <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">
             <span class="conversation-message-name nowrap" v-text="name(conversation.profile)" />
             <ConversationMessage v-if="!conversation.typing" :message="conversation.message" />
             <ConversationTyping v-else />
@@ -47,8 +47,12 @@ export default {
         conversationClass() {
             return {
                 active: this.current === this.conversation.profile.id,
-                minimized: this.settings.appearance.minimized
+                minimized: this.settings.appearance.minimized && this.extended
             };
+        },
+
+        extended() {
+            return this.$parent.$parent.$parent.extended;
         },
 
         outUnread() {
