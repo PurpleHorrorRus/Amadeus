@@ -1,5 +1,6 @@
 import Vuex from "vuex";
 
+import settings from "~/store/settings";
 import vk from "~/store/modules/vk";
 
 export default () => {
@@ -9,8 +10,9 @@ export default () => {
         }),
 
         actions: {
-            SET_CONFIG: ({ state }, config) => {
+            SET_CONFIG: async ({ dispatch, state }, config) => {
                 state.config = config;
+                await dispatch("settings/SET", config.settings);
                 return state.config;
             },
 
@@ -21,6 +23,7 @@ export default () => {
         },
 
         modules: {
+            settings,
             vk
         }
     });

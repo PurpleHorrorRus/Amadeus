@@ -2,22 +2,25 @@
     <div class="conversation" :class="conversationClass" @click.left="open">
         <ConversationAvatar :profile="conversation.profile" />
 
-        <div class="conversation-message">
-            <span class="conversation-message-name" v-text="name(conversation.profile)" />
+        <div v-if="!settings.appearance.minimized" class="conversation-message">
+            <span class="conversation-message-name nowrap" v-text="name(conversation.profile)" />
             <ConversationMessage v-if="!conversation.typing" :message="conversation.message" />
             <ConversationTyping v-else />
         </div>
-        
-        <div v-if="inUnread" class="conversation-unread-in">
-            <span class="conversation-unread-in-count" v-text="inUnreadCount" />
+
+        <div v-if="!settings.appearance.minimized" class="conversation-unread">
+            <div v-if="inUnread" class="conversation-unread-in">
+                <span class="conversation-unread-in-count" v-text="inUnreadCount" />
+            </div>
+            <div v-else-if="outUnread" class="conversation-unread-out" />
         </div>
-        <div v-else-if="outUnread" class="conversation-unread-out" />
     </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
 
+import CoreMixin from "~/mixins/core";
 import ProfileMixin from "~/mixins/profile";
 
 export default {
@@ -27,7 +30,7 @@ export default {
         ConversationTyping: () => import("~/components/Conversations/Conversation/Typing")
     },
 
-    mixins: [ProfileMixin],
+    mixins: [CoreMixin, ProfileMixin],
 
     props: {
         conversation: {
@@ -42,9 +45,9 @@ export default {
         }),
 
         conversationClass() {
-            console.log(this.conversation.profile);
             return {
-                active: this.current === this.conversation.profile.id
+                active: this.current === this.conversation.profile.id,
+                minimized: this.settings.appearance.minimized
             };
         },
 
@@ -92,13 +95,23 @@ export default {
     
     border-radius: 4px;
 
+    &.minimized {
+        grid-template-columns: 1fr;
+        
+        padding-left: 0px;
+
+        .conversation-avatar {
+            justify-self: center;
+        }
+    }
+
     &.active {
         background: var(--navigation-select);
     }
 
     &:hover {
-            cursor: pointer;
-        }
+        cursor: pointer;
+    }
 
     &-message {
         display: grid;
@@ -109,7 +122,7 @@ export default {
         margin-left: 10px;
 
         &-name {
-            width: max-content;
+            width: 100%;
 
             font-size: 14px;
         }

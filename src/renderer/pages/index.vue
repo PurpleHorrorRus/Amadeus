@@ -19,7 +19,8 @@ export default {
                 return false;
             }
             
-            this.setConfig(config);
+            console.log(config);
+            await this.setConfig(config);
             await this.auth();
 
             this.$router.replace("/general").catch(() => {});

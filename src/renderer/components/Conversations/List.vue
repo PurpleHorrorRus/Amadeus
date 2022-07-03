@@ -1,6 +1,6 @@
 <template>
-    <div id="conversations" class="page">
-        <ConversationsHeader />
+    <div id="conversations" class="page" :class="conversationClass">
+        <ConversationsHeader v-if="!settings.appearance.minimized" />
 
         <div id="conversations-list" ref="conversations">
             <Conversation
@@ -23,6 +23,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 
 export default {
@@ -31,7 +32,7 @@ export default {
         Conversation: () => import("~/components/Conversations/Conversation")
     },
 
-    mixins: [ScrollMixin],
+    mixins: [CoreMixin, ScrollMixin],
 
     data: () => ({
         load: false
@@ -42,6 +43,12 @@ export default {
             conversations: state => state.vk.conversations.list,
             count: state => state.vk.conversations.count
         }),
+        
+        conversationClass() {
+            return {
+                minimized: this.settings.appearance.minimized
+            };
+        },
 
         canScroll() {
             return !this.load 
@@ -74,13 +81,22 @@ export default {
 
 <style lang="scss">
 #conversations {
-    grid-area: conversations;
-
     display: grid;
     grid-template-rows: 40px 1fr;
 
     width: 100%;
     height: 100%;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &.minimized {
+        grid-template-rows: 1fr;
+
+        ::-webkit-scrollbar {
+            width: 0px;
+        }
+    }
 
     &-list {
         display: flex;
@@ -88,8 +104,8 @@ export default {
 
         padding: 5px 0px;
 
-        overflow-y: auto;
         overflow-x: hidden;
+        overflow-y: auto;
     }
 
     .skeleton-list {
