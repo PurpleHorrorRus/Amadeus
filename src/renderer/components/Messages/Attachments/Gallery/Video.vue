@@ -41,8 +41,7 @@ export default {
 
 <style lang="scss">
 .gallery-item-video {
-    display: flex;
-    flex-direction: column;
+    display: grid;
     row-gap: 8px;
 
     &:hover {
@@ -64,6 +63,8 @@ export default {
         &-image {
             width: 100%;
             height: auto;
+
+            border-radius: 8px;
         }
 
         .icon {
