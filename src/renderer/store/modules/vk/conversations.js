@@ -47,6 +47,8 @@ export default {
             list.items = await dispatch("GET_CHATS", list);
 
             return await Promise.map(list.items, async item => {
+                item.conversation.unread_count = Number(item.conversation.unread_count);
+
                 return {
                     profile: item.profile 
                         || list.profiles.find(profile => profile.id === item.conversation.peer.id) 
@@ -115,6 +117,7 @@ export default {
             conversation.message.out = message.out;
 
             conversation.information.last_message_id = message.id;
+            conversation.information.unread_count++;
 
             dispatch("TRIGGER_TYPING", {
                 id: data.payload.message.from_id,
@@ -129,9 +132,10 @@ export default {
             data.payload.peer_id = Math.abs(data.payload.peer_id);
 
             const conversation = await dispatch("GET_BY_ID", data.payload.peer_id);
-            data.isInbox
-                ? conversation.information.in_read = data.payload.local_id
-                : conversation.information.out_read = data.payload.local_id;
+            if (data.isInbox) {
+                conversation.information.unread_count = 0;
+                conversation.information.in_read = data.payload.local_id;
+            } else conversation.information.out_read = data.payload.local_id;
             
             return true;
         },
