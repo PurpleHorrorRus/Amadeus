@@ -70,7 +70,9 @@ export default {
         .icon {
             position: absolute;
 
-            width: 40%;
+            width: auto;
+            min-width: 30px;
+            max-width: 10rem;
 
             path {
                 fill: var(--secondary);
