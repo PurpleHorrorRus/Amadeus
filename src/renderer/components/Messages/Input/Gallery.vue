@@ -12,7 +12,7 @@
 <script>
 export default {
     components: {
-        AttachmentItem: () => import("~/components/Messages/Input/Gallery/Item")
+        AttachmentItem: () => import("~/components/Messages/Input/Item")
     },
 
     props: {
@@ -45,5 +45,9 @@ export default {
 
     overflow-x: hidden;
     overflow-y: auto;
+    
+    .gallery-item {
+        border-radius: 0px;
+    }
 }
 </style>

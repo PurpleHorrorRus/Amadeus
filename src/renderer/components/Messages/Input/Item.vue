@@ -2,14 +2,14 @@
     <div class="message-attachment-item">
         <XIcon class="icon remove-icon" @click="$emit('remove')" />
 
-        <Photo :data="item.photo.sizes[0].url" />
+        <Photo :item="item" />
     </div>
 </template>
 
 <script>
 export default {
     components: {
-        Photo: () => import("~/components/Messages/Input/Gallery/Photo"),
+        Photo: () => import("~/components/Messages/Attachments/Gallery/Photo"),
 
         XIcon: () => import("~/assets/icons/x.svg")
     },
