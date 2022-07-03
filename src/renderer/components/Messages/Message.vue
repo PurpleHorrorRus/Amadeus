@@ -14,14 +14,30 @@
                 v-if="message.attachments.length > 0"
                 :attachments="message.attachments" 
             />
+
+            <div class="message-content-info">
+                <span 
+                    class="message-content-info-date" 
+                    v-text="messageDate" 
+                />
+
+                <CheckIcon 
+                    v-if="message.out && !isNotRead"
+                    class="icon message-content-info-read" 
+                    :class="checkIconClass"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script>
+import common from "~/plugins/common";
+
 export default {
     components: {
-        MessageAttachments: () => import("~/components/Messages/Attachments")
+        MessageAttachments: () => import("~/components/Messages/Attachments"),
+        CheckIcon: () => import("~/assets/icons/check.svg")
     },
 
     props: {
@@ -44,6 +60,20 @@ export default {
                 same: this.same && this.isChat,
                 singleAttachment: this.message.attachments.length === 1 && !this.message.text
             };
+        },
+
+        checkIconClass() {
+            return {
+                read: !this.isNotRead
+            };
+        },
+
+        conversation() {
+            return this.$parent.conversation;
+        },
+
+        isNotRead() {
+            return this.conversation.information.out_read < this.message.id;
         },
 
         isChat() {
@@ -72,6 +102,30 @@ export default {
 
         name() {
             return this.chatUserProfile.first_name;
+        },
+
+        messageDate() {
+            const date = new Date(this.message.date * 1000);
+            const now = new Date();
+
+            const yearsDiff = now.getFullYear() - date.getFullYear();
+            if (yearsDiff > 0) {
+                return `${common.formatTimeToDayAndMonth(date)}, ${date.getFullYear()} г.`;
+            }
+            
+            const dateDiff = date.getTime() - now.getTime();
+            const daysDiff = Math.abs(Math.ceil(dateDiff / (1000 * 3600 * 24)));
+            switch(daysDiff) {
+                case 0: {
+                    return common.fancyTimeFormat(date);
+                }
+
+                case 1: {
+                    return `вчера, ${common.fancyTimeFormat(date)}`;
+                }
+            }
+
+            return `${common.formatTimeToDayAndMonth(date)}, ${common.fancyTimeFormat(date)}`;
         }
     }
 };
@@ -153,6 +207,26 @@ export default {
             font-weight: 400;
 
             user-select: text;
+        }
+
+        &-info {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            column-gap: 5px;
+
+            &-date {
+                font-size: 10px;
+                font-weight: 400;
+            }
+
+            &-read {
+                width: 14px;
+
+                &.read path {
+                    stroke: #ff2e2e;
+                }
+            }
         }
     }
 }
