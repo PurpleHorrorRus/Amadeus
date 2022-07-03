@@ -22,6 +22,8 @@
 
             <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
+
+        <MessageInput />
     </div>
 </template>
 
@@ -35,7 +37,8 @@ import common from "~/plugins/common";
 export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
-        Message: () => import("~/components/Messages/Message")
+        Message: () => import("~/components/Messages/Message"),
+        MessageInput: () => import("~/components/Messages/Input")
     },
 
     mixins: [ScrollMixin],
@@ -143,7 +146,7 @@ export default {
         },
 
         scrollToBottom() {
-            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+            // this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
             return true;
         },
 
@@ -161,12 +164,18 @@ export default {
     grid-area: page;
 
     display: grid;
-    grid-template-rows: 40px 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: 40px 1fr max-content;
+    grid-template-areas: "header"
+                        "messages"
+                        "input";
     
     width: 100%;
     height: 100%;
 
     &-messages {
+        grid-area: messages;
+
         padding: 10px;
 
         overflow-x: hidden;

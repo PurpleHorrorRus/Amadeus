@@ -44,6 +44,8 @@ export default {
 
 <style lang="scss">
 #messages-header {
+    grid-area: header;
+
     display: flex;
     flex-direction: row;
     column-gap: 5px;

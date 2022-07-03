@@ -133,7 +133,7 @@ export default {
     &-content {
         display: flex;
         flex-direction: column;
-        align-self: flex-start;
+        align-self: center;
         row-gap: 5px;
 
         max-width: 60vw;
