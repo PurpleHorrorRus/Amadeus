@@ -23,7 +23,7 @@ module.exports = {
         publicPath: "./_nuxt/",
 
         extend(config, { isClient }) {
-            config.resolve.alias.vue = "vue/dist/vue.min";
+            // config.resolve.alias.vue = "vue/dist/vue.min";
             config.devtool = (isDev ? "eval-source-map" : false);
 
             if (isClient) {

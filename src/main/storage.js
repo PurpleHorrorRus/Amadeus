@@ -84,14 +84,18 @@ const paths = {
     temp: path.join(app.getPath("temp"), "vkgram")
 };
 
+if (!fs.existsSync(paths.temp)) {
+    fs.mkdirSync(paths.temp);
+}
+
 Object.keys(clear).map(key => {
     paths[key] = dataPath(`${key}.json`);
 });
 
 const config = {
-    rootPath,
     vk: dataNested(paths.vk, clear.vk),
-    settings: dataNested(paths.settings, clear.settings)
+    settings: dataNested(paths.settings, clear.settings),
+    paths
 };
 
 export default {

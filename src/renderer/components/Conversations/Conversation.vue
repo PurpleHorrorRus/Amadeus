@@ -62,12 +62,7 @@ export default {
         },
 
         inUnreadCount() {
-            if (this.conversation.information.in_read === 0) {
-                return 1;
-            }
-
-            return this.conversation.information.last_message_id 
-                - Math.max(this.conversation.information.out_read, this.conversation.information.in_read);
+            return this.conversation.information.unread_count;
         }
     },
 
@@ -128,6 +123,7 @@ export default {
         flex-direction: column;
 
         margin-left: 10px;
+        padding-right: 10px;
 
         &-name {
             width: 100%;

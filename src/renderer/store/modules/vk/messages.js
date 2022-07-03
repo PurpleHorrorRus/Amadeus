@@ -1,3 +1,7 @@
+import Promise from "bluebird";
+import { FormData } from "formdata-node";
+import { fileFromPathSync } from "formdata-node/file-from-path";
+
 import common from "~/plugins/common";
 
 const fields = {
@@ -85,12 +89,11 @@ export default {
                         return message.random_id === data.payload.message.random_id;
                     });
 
-                    ~messageIndex
-                        ? state.cache[id].messages[messageIndex] = response.items[0]
-                        : state.cache[id].messages.push(response.items[0]);
-                } else {
-                    state.cache[id].messages.push(response.items[0]);
-                }
+                    if (~messageIndex) {
+                        state.cache[id].messages[messageIndex].id = response.items[0].id;
+                        state.cache[id].messages[messageIndex] = response.items[0];
+                    } else state.cache[id].messages.push(response.items[0]);
+                } else state.cache[id].messages.push(response.items[0]);
 
                 return state.cache[id];
             }
@@ -102,8 +105,10 @@ export default {
             const peer_id = await dispatch("FORMAT_CHAT_ID", data);
 
             const message = {
-                attachments: [],
+                attachment: [],
+                attachments: data.attachments || [],
                 date: Math.floor(Date.now() / 1000),
+                id: common.getRandom(100000, 999999),
                 peer_id,
                 from_id: rootState.vk.user.id,
                 random_id: common.getRandom(10, 99999999),
@@ -112,11 +117,42 @@ export default {
                 out: 1
             };
 
-            if (peer_id in state.cache) {
-                state.cache[peer_id].messages.push(message);
+            state.cache[peer_id].messages.push(message);
+
+            if (message.attachments.length > 0) {
+                const attachments = await dispatch("UPLOAD", message.attachments);
+                message.attachments = attachments.uploaded;
+                message.attachment = attachments.ids;
             }
 
+            // return true;
             return await rootState.vk.client.api.messages.send(message);
+        },
+
+        UPLOAD: async ({ dispatch, rootState }, attachments) => {
+            const { upload_url } = await rootState.vk.client.api.photos.getMessagesUploadServer();
+            const uploaded = await Promise.map(attachments, async attachment => {
+                attachment.uploading = true;
+                const formData = await dispatch("PREPARE_FORMDATA", attachment.path);
+                const upload = await rootState.vk.client.upload.upload(upload_url, { formData });
+                const [saved] = await rootState.vk.client.api.photos.saveMessagesPhoto(upload);
+                saved.type = attachment.type;
+                attachment.uploading = false;
+                return saved;
+            }, { concurrency: 1 });
+
+            return {
+                uploaded,
+                ids: uploaded.map(attachment => {
+                    return `photo${attachment.owner_id}_${attachment.id}`;
+                }).join(",")
+            };
+        },
+
+        PREPARE_FORMDATA: (_, file) => {
+            const form = new FormData();
+            form.set("file", fileFromPathSync(file));
+            return form;
         },
 
         SET_CURRENT: ({ state }, current) => {
