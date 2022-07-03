@@ -1,6 +1,6 @@
 <template>
     <div id="messages-header">
-        <div id="messages-header-back" @click="back">
+        <div v-if="!extended" id="messages-header-back" @click="back">
             <ArrowLeftIcon class="icon" />
         </div>
 
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
     components: {
         ArrowLeftIcon: () => import("~/assets/icons/arrow-left.svg"),
@@ -25,9 +27,15 @@ export default {
         }
     },
 
+    computed: {
+        ...mapState({
+            extended: state => state.extendedView
+        })
+    },
+
     methods: {
         back() {
-            this.$router.replace("/conversations").catch(() => {});
+            this.$router.replace("/general").catch(() => {});
             return true;
         }
     }

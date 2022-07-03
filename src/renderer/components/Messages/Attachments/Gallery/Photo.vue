@@ -28,5 +28,7 @@ export default {
 .gallery-item-photo {
     width: 100%;
     height: auto;
+
+    border-radius: 8px;
 }
 </style>

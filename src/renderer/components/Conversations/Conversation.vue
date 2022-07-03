@@ -1,5 +1,5 @@
 <template>
-    <div class="conversation" @click.left="open">
+    <div class="conversation" :class="conversationClass" @click.left="open">
         <ConversationAvatar :profile="conversation.profile" />
 
         <div class="conversation-message">
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import ProfileMixin from "~/mixins/profile";
 
 export default {
@@ -35,6 +37,17 @@ export default {
     },
 
     computed: {
+        ...mapState({
+            current: state => state.vk.messages.current
+        }),
+
+        conversationClass() {
+            console.log(this.conversation.profile);
+            return {
+                active: this.current === this.conversation.profile.id
+            };
+        },
+
         outUnread() {
             return this.conversation.information.out_read < this.conversation.information.last_message_id
                 && this.conversation.message.out;
@@ -69,10 +82,23 @@ export default {
 .conversation {
     display: grid;
     grid-template-columns: 40px 1fr 20px;
+    grid-template-rows: 50px;
+    align-items: center;
 
-    height: max-content;
+    height: 50px;
 
-    padding: 0px 0px 0px 8px;
+    margin: 5px;
+    padding-left: 8px;
+    
+    border-radius: 4px;
+
+    &.active {
+        background: var(--navigation-select);
+    }
+
+    &:hover {
+            cursor: pointer;
+        }
 
     &-message {
         display: grid;

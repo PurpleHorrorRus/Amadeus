@@ -3,7 +3,7 @@ import Promise from "bluebird";
 import common from "~/plugins/common";
 
 const fields = {
-    count: 10,
+    count: 100,
     filter: "all",
     extended: true,
     fields: "photo_100,online,last_seen"

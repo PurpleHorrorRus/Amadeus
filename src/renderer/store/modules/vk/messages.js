@@ -6,11 +6,14 @@ export default {
     namespaced: true,
 
     state: () => ({
-        cache: {}
+        cache: {},
+        current: 0
     }),
 
     actions: {
         LOAD: async ({ state, rootState }, chat) => {
+            state.current = chat.id;
+
             switch(chat.type) {
                 case "chat": {
                     chat.id = Number("200000000" + chat.id);
@@ -63,6 +66,11 @@ export default {
             }
 
             return false;
+        },
+
+        SET_CURRENT: ({ state }, current) => {
+            state.current = current;
+            return state.current;
         }
     }
 };

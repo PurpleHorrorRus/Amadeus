@@ -1,6 +1,12 @@
 html {
     box-sizing: border-box;
     font-size: 16px;
+
+    .page {
+        background: var(--primary);
+
+        overflow-y: auto;
+    }
 }
 
 html, body, #app, #__layout, #__layout-app, #__nuxt, .application--wrap {

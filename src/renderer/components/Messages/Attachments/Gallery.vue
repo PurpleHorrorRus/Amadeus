@@ -50,7 +50,6 @@ export default {
             });
 
             if (this.data.length > 1) {
-                console.log("register events");
                 ipcRenderer.on("nextMediaRight", () => {
                     const nextIndex = Math.min(this.openedIndex + 1, this.data.length - 1);
                     if (nextIndex > this.openedIndex) {

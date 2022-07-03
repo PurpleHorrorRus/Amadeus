@@ -42,7 +42,7 @@ export default {
             return {
                 out: this.message.out,
                 same: this.same && this.isChat,
-                singleAttachment: this.message.attachments.length === 1
+                singleAttachment: this.message.attachments.length === 1 && !this.message.text
             };
         },
 
@@ -78,6 +78,18 @@ export default {
 </script>
 
 <style lang="scss">
+#default-layout {
+    &.extended {
+        .message-content {
+            max-width: 35vw;
+        }
+    }
+
+    .message.same:not(.out) {
+        padding-left: 48px;
+    }
+}
+
 .message {
     display: flex;
     flex-direction: row;
@@ -99,12 +111,14 @@ export default {
         }
 
         &:not(.out) {
-            padding-left: 48px;
+            padding-left: 47px;
         }
     }
 
     &.singleAttachment {
         .message-content {
+            padding: 0px 10px 10px 0px;
+
             background: none;
         }
     }

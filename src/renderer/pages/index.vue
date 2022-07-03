@@ -7,6 +7,8 @@ import { ipcRenderer } from "electron";
 import { mapActions } from "vuex";
 
 export default {
+    layout: "empty",
+
     created() {
         ipcRenderer.once("normal", async () => {
             const { config } = await ipcRenderer.invoke("config");
@@ -20,7 +22,7 @@ export default {
             this.setConfig(config);
             await this.auth();
 
-            this.$router.replace("/conversations").catch(() => {});
+            this.$router.replace("/general").catch(() => {});
             return true;
         });
 

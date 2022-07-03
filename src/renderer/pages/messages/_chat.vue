@@ -1,5 +1,5 @@
 <template>
-    <div id="chat-page" class="page">
+    <div id="chat-page">
         <MessagesHeader :conversation="conversation" />
 
         <div v-if="!loading" id="chat-page-messages" ref="messages">
@@ -12,9 +12,10 @@
             />
 
             <Message
-                v-for="message of chat.messages"
+                v-for="(message, index) of chat.messages"
                 :key="message.id"
                 :message="message"
+                :same="same(index)"
             />
         </div>
         
@@ -116,13 +117,15 @@ export default {
     },
 
     beforeDestroy() {
+        this.setCurrent(0);
         document.removeEventListener("keydown", this.exit);
     },
 
     methods: {
         ...mapActions({
             load: "vk/messages/LOAD",
-            append: "vk/messages/APPEND"
+            append: "vk/messages/APPEND",
+            setCurrent: "vk/messages/SET_CURRENT"
         }),
 
         same(index) {
@@ -142,7 +145,7 @@ export default {
 
         exit(event) {
             if (event.code !== "Escape") return false;
-            this.$router.replace("/conversations").catch(() => {});
+            this.$router.replace("/general").catch(() => {});
             return true;
         }
     }
@@ -154,7 +157,7 @@ export default {
     grid-area: page;
 
     display: grid;
-    grid-template-rows: 40px 1fr max-content;
+    grid-template-rows: 40px 1fr;
     
     width: 100%;
     height: 100%;

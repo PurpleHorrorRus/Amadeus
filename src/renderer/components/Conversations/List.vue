@@ -1,8 +1,8 @@
 <template>
-    <div id="conversations-page" class="page">
+    <div id="conversations" class="page">
         <ConversationsHeader />
 
-        <div id="conversations-page-list" ref="conversations">
+        <div id="conversations-list" ref="conversations">
             <Conversation
                 v-for="(conversation, index) of conversations"
                 :key="index"
@@ -73,8 +73,8 @@ export default {
 </script>
 
 <style lang="scss">
-#conversations-page {
-    grid-area: page;
+#conversations {
+    grid-area: conversations;
 
     display: grid;
     grid-template-rows: 40px 1fr;
@@ -85,16 +85,11 @@ export default {
     &-list {
         display: flex;
         flex-direction: column;
-        row-gap: 15px;
 
         padding: 5px 0px;
 
         overflow-y: auto;
         overflow-x: hidden;
-
-        &:hover {
-            cursor: pointer;
-        }
     }
 
     .skeleton-list {
