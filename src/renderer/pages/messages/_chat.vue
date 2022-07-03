@@ -2,7 +2,7 @@
     <div id="chat-page">
         <MessagesHeader :conversation="conversation" />
 
-        <div v-if="!loading" id="chat-page-messages" ref="messages">
+        <div id="chat-page-messages" ref="messages">
             <Skeleton 
                 v-if="loadMore"
                 id="skeleton-messages"
@@ -11,18 +11,17 @@
                 :height="'40px'" 
             />
 
-            <Message
-                v-for="(message, index) of chat.messages"
-                :key="message.id"
-                :message="message"
-                :same="same(index)"
-            />
+            <div v-if="!loading" id="chat-page-messages-list">
+                <Message
+                    v-for="(message, index) of chat.messages"
+                    :key="message.id"
+                    :message="message"
+                    :same="same(index)"
+                />
+            </div>
+
+            <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
-        
-        <LoaderIcon 
-            v-else 
-            class="icon loader-icon spin" 
-        />
     </div>
 </template>
 
@@ -168,14 +167,16 @@ export default {
     height: 100%;
 
     &-messages {
-        display: flex;
-        flex-direction: column;
-        row-gap: 10px;
-
         padding: 10px;
 
         overflow-x: hidden;
         overflow-y: overlay;
+
+        &-list {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
+        }
     }
 }
 </style>
