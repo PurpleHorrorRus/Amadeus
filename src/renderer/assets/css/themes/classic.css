@@ -25,6 +25,8 @@ html {
     --secondary-hover-opacity: #aeb7c22d;
     --secondary-disabled: #aeb7c20c;
 
+    --out: #ff2e2e;
+
     --border: var(--left);
     --borderWidth: 0px;
 

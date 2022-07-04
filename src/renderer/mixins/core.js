@@ -3,6 +3,7 @@ import { mapActions, mapState } from "vuex";
 export default {
     computed: {
         ...mapState({
+            client: state => state.vk.client,
             settings: state => state.settings.settings
         })
     },

@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import DateDiff from "date-diff";
+
 import common from "~/plugins/common";
 
 export default {
@@ -58,7 +60,9 @@ export default {
             return {
                 out: this.message.out,
                 same: this.same && this.isChat,
-                noBackground: this.message.attachments.length >= 1 && !this.message.text
+                noBackground: this.message.attachments.length >= 1 
+                    && !this.message.text 
+                    && !this.isWallAttachment
             };
         },
 
@@ -70,6 +74,10 @@ export default {
 
         conversation() {
             return this.$parent.conversation;
+        },
+
+        isWallAttachment() {
+            return this.message.attachments[0]?.type === "wall";
         },
 
         isNotRead() {
@@ -107,13 +115,14 @@ export default {
         messageDate() {
             const date = new Date(this.message.date * 1000);
             const now = new Date();
+            const diff = new DateDiff(now, date);
 
-            const yearsDiff = now.getFullYear() - date.getFullYear();
+            const yearsDiff = Math.floor(diff.years());
             if (yearsDiff > 0) {
                 return `${common.formatTimeToDayAndMonth(date)}, ${date.getFullYear()} г.`;
             }
 
-            const daysDiff = Math.abs(Math.round((now - date) / (1000 * 3600 * 24)));
+            const daysDiff = Math.floor(diff.days());
             switch(daysDiff) {
                 case 0: {
                     return common.fancyTimeFormat(date);
@@ -155,6 +164,20 @@ export default {
 
         .message-content {
             background: var(--secondary);
+
+            span {
+                &::selection {
+                    background: var(--out);
+                }
+            }
+        }
+
+        span.clickable:hover, .clickable:hover span {
+            color: var(--out) !important;
+        }
+
+        svg.clickable:hover path, .clickable:hover svg path {
+            fill: var(--out);
         }
     }
 
@@ -223,7 +246,7 @@ export default {
                 width: 14px;
 
                 &.read path {
-                    stroke: #ff2e2e;
+                    stroke: var(--out);
                 }
             }
         }

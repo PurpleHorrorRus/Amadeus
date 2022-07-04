@@ -76,6 +76,8 @@ span, input, textarea, select, div {
 }
 
 @mixin ClickableIcon {
+    transition: fill .1s ease-in-out;
+
     &.filled, &.vkgram path {
         fill: var(--secondary);
     }

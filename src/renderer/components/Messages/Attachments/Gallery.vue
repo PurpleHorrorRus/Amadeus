@@ -56,10 +56,9 @@ export default {
     }
 
     &.grid-2 {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
-        grid-template-areas: "item-1 "
-                            "item-2";
+        grid-template-areas: "item-1 item-2";
     }
 
 

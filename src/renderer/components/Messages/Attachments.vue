@@ -1,5 +1,10 @@
 <template>
     <div class="message-content-attachments">
+        <AttachmentWall
+            v-if="attachments[0].type === 'wall'" 
+            :item="attachments[0]"
+        />
+
         <Gallery 
             v-if="galleryItems.length > 0"
             :data="galleryItems" 
@@ -20,6 +25,7 @@
 <script>
 export default {
     components: {
+        AttachmentWall: () => import("~/components/Messages/Attachments/Wall"),
         Gallery: () => import("~/components/Messages/Attachments/Gallery"),
         AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker"),
         AttachmentStory: () => import("~/components/Messages/Attachments/Story")
