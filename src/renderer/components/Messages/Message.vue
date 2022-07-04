@@ -18,7 +18,7 @@
             <div class="message-content-info">
                 <span 
                     class="message-content-info-date" 
-                    v-text="messageDate" 
+                    v-text="relativeDate(message.date * 1000)" 
                 />
 
                 <CheckIcon 
@@ -32,15 +32,15 @@
 </template>
 
 <script>
-import DateDiff from "date-diff";
-
-import common from "~/plugins/common";
+import DateMixin from "~/mixins/date";
 
 export default {
     components: {
         MessageAttachments: () => import("~/components/Messages/Attachments"),
         CheckIcon: () => import("~/assets/icons/check.svg")
     },
+
+    mixins: [DateMixin],
 
     props: {
         message: {
@@ -110,30 +110,6 @@ export default {
 
         name() {
             return this.chatUserProfile.first_name;
-        },
-
-        messageDate() {
-            const date = new Date(this.message.date * 1000);
-            const now = new Date();
-            const diff = new DateDiff(now, date);
-
-            const yearsDiff = Math.floor(diff.years());
-            if (yearsDiff > 0) {
-                return `${common.formatTimeToDayAndMonth(date)}, ${date.getFullYear()} г.`;
-            }
-
-            const daysDiff = Math.floor(diff.days());
-            switch(daysDiff) {
-                case 0: {
-                    return common.fancyTimeFormat(date);
-                }
-
-                case 1: {
-                    return `вчера, ${common.fancyTimeFormat(date)}`;
-                }
-            }
-
-            return `${common.formatTimeToDayAndMonth(date)}, ${common.fancyTimeFormat(date)}`;
         }
     }
 };

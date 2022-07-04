@@ -1,22 +1,35 @@
 <template>
     <div class="attachments-item-wall-repost">
         <RepostIcon class="icon attachments-item-wall-repost-icon" />
+
         <img :src="repost.photo_100" class="attachments-item-wall-repost-avatar">
-        <span 
-            class="attachments-item-wall-repost-name nowrap clickable" 
-            @click="open" 
-            v-text="repost.name"
-        />
+
+        <div class="attachments-item-wall-repost-information nowrap">
+            <span 
+                class="attachments-item-wall-repost-information-name nowrap clickable" 
+                @click="open"
+                v-text="repost.name"
+            />
+
+            <span 
+                class="attachments-item-wall-repost-information-date" 
+                v-text="relativeDate(repost.date * 1000)" 
+            />
+        </div>
     </div>
 </template>
 
 <script>
 import { shell } from "electron";
 
+import DateMixin from "~/mixins/date";
+
 export default {
     components: {
         RepostIcon: () => import("~/assets/icons/repost.svg")
     },
+
+    mixins: [DateMixin],
 
     props: {
         repost: {
@@ -54,15 +67,29 @@ export default {
     }
 
     &-avatar {
-        width: 20px;
-        height: 20px;
+        width: 40px;
+        height: 40px;
 
         border-radius: 100%;
     }
 
-    &-name {
-        font-size: 14px;
-        font-weight: 400;
+    &-information {
+        span {
+            font-weight: 400;
+        }
+
+        &-name {
+            font-size: 14px;
+        }
+
+        &-date {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            color: #ffffff;
+            font-size: 12px;
+        }
     }
 }
 </style>
