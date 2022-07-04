@@ -22,10 +22,6 @@ import AttachmentsMixin from "~/mixins/attachments";
 export default {
     mixins: [AttachmentsMixin],
 
-    data: () => ({
-        openedIndex: 0
-    }),
-
     computed: {
         galleryClass() {
             return {
@@ -43,41 +39,10 @@ export default {
         },
 
         openMedia(index) {
-            ipcRenderer.once("closeMedia", () => {
-                ipcRenderer.removeAllListeners("nextMediaRight");
-                ipcRenderer.removeAllListeners("nextMediaLeft");
-                return true;
+            return ipcRenderer.send("openMedia", {
+                data: this.data,
+                index
             });
-
-            if (this.data.length > 1) {
-                ipcRenderer.on("nextMediaRight", () => {
-                    const nextIndex = Math.min(this.openedIndex + 1, this.data.length - 1);
-                    if (nextIndex > this.openedIndex) {
-                        return this.sendMedia(nextIndex);
-                    }
-                    
-                    return false;
-                });
-
-                ipcRenderer.on("nextMediaLeft", () => {
-                    const prevIndex = Math.max(this.openedIndex - 1, 0);
-                    if (prevIndex < this.openedIndex) {
-                        return this.sendMedia(prevIndex);
-                    }
-                    
-                    return false;
-                });
-            }
-
-            this.openedIndex = index;
-            ipcRenderer.send("openMedia", this.data[index]);
-        },
-
-        sendMedia(index) {
-            const media = this.data[index];
-            ipcRenderer.send("nextMedia", media);
-            this.openedIndex = index;
-            return true;
         }
     }
 };

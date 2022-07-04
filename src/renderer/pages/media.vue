@@ -1,16 +1,16 @@
 <template>
     <div id="media-page" @click.self="close">
-        <div v-if="media" id="media-page-item">
+        <div v-if="~media.index" id="media-page-item">
             <iframe 
-                v-if="media.type === 'video'"
+                v-if="item.type === 'video'"
                 id="media-page-item-player" 
-                :src="media.video.player" 
+                :src="item.video.player" 
             />
 
             <img
-                v-else-if="media.type === 'photo'"
+                v-else-if="item.type === 'photo'"
                 id="media-page-item-image"
-                :src="media.photo.maxSize"
+                :src="item.photo.maxSize"
             >
         </div>
     </div>
@@ -23,16 +23,27 @@ export default {
     layout: "empty",
 
     data: () => ({
-        media: null
+        media: {
+            data: [],
+            index: -1
+        }
     }),
+
+    computed: {
+        item() {
+            return this.media.data[this.media.index];
+        }
+    },
 
     async created() {
         this.media = await ipcRenderer.invoke("requestMedia");
     },
 
     mounted() {
-        ipcRenderer.on("nextMedia", (_, media) => {
-            this.media = media;
+        ipcRenderer.on("changeMedia", (_, index) => {
+            index = Math.max(this.media.index + index, 0);
+            index = Math.min(index, this.media.data.length - 1);
+            this.media.index = index;
             return true;
         });
     },
@@ -62,13 +73,13 @@ export default {
         align-items: center;
         justify-content: center;
 
-        width: 60%;
-        height: 60%;
+        width: max-content;
+        height: max-content;
         max-height: 60vh;
         
         &-player {
-            width: 100%;
-            height: 100%;
+            width: 60vw;
+            height: 60vh;
 
             border: none;
         }

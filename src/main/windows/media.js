@@ -22,12 +22,9 @@ class MeridiusWindow {
     constructor() {
         this.window = null;
         this.mainWindow = null;
-
-        this.media = {};
     }
 
     async create(media, mainWindow) {
-        this.media = media;
         this.mainWindow = mainWindow;
 
         this.window = new BrowserWindow(params);
@@ -36,12 +33,6 @@ class MeridiusWindow {
 
         ipcMain.handleOnce("requestMedia", () => {
             return media;
-        });
-
-        ipcMain.on("nextMedia", (_, media) => {
-            this.media = media;
-            common.windows.send(this.window, "nextMedia", media);
-            return true;
         });
 
         ipcMain.once("close", () => {
@@ -63,12 +54,12 @@ class MeridiusWindow {
 
             switch(input.code) {
                 case "ArrowRight": {
-                    common.windows.send(mainWindow, "nextMediaRight");
+                    common.windows.send(this.window, "changeMedia", 1);
                     break;
                 }
 
                 case "ArrowLeft": {
-                    common.windows.send(mainWindow, "nextMediaLeft");
+                    common.windows.send(this.window, "changeMedia", -1);
                     break;
                 }
 
@@ -84,9 +75,7 @@ class MeridiusWindow {
     close() {
         ipcMain.removeHandler("requestMedia");
         ipcMain.removeAllListeners("close");
-        ipcMain.removeAllListeners("nextMedia");
-        common.windows.send(this.mainWindow, "closeMedia");
-        this.window.close();
+        return this.window.close();
     }
 }
 
