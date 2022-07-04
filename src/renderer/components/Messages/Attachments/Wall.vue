@@ -37,10 +37,9 @@ export default {
     }),
 
     async created() {
-        this.attachments = this.item.wall.attachments || [{
-            wall: this.item.wall.copy_history[0],
-            type: "wall"
-        }];
+        this.attachments = this.item.wall.copy_history?.length > 0
+            ? this.item.wall.copy_history[0]
+            : this.item.wall.attachments || [];
 
         if (this.item.wall.from_id < 0) {
             const [group] = await this.client.api.groups.getById({
