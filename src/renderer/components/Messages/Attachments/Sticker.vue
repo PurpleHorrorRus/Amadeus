@@ -23,6 +23,10 @@ export default {
     width: 20vw;
     min-width: 150px;
 
+    &:hover {
+        cursor: default;
+    }
+
     &-image {
         width: 100%;
     }
