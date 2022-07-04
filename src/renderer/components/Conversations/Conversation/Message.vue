@@ -8,7 +8,7 @@
 
         <span 
             v-if="showAttachments"
-            class="conversation-message-body-attachments small-text highlight" 
+            class="conversation-message-body-attachments small-text highlight nowrap" 
             v-text="attachments" 
         />
 
@@ -27,6 +27,8 @@
 
 <script>
 import { mapState } from "vuex";
+
+import DateDiff from "date-diff";
 
 export default {
     props: {
@@ -165,47 +167,47 @@ export default {
         updateMessageTime() {
             const date = new Date(this.message.date * 1000);
             const now = new Date();
+            const diff = new DateDiff(now, date);
 
-            const yearDiff = now.getFullYear() - date.getFullYear();
-            if (yearDiff > 0) {
-                this.dateText = `${yearDiff} г.`;
+            const yearsDiff = Math.floor(diff.years());
+            if (yearsDiff > 0) {
+                this.dateText = `${yearsDiff} г.`;
                 return true;
             }
 
-            let months = (now.getFullYear() - date.getFullYear()) * 12;
-            const monthsDiff = months - date.getMonth() + now.getMonth();
+            const monthsDiff = Math.floor(diff.months());
             if (monthsDiff > 0) {
                 this.dateText = `${monthsDiff} мес.`;
                 return true;
             }
 
-            const dateDiff = now.getTime() - date.getTime();
-            
-            const daysDiff = Math.floor(dateDiff / (1000 * 3600 * 24));
-            if (daysDiff > 0 && daysDiff < 7) {
-                this.dateText = `${daysDiff} д.`;
-                return true;
-            } else if (daysDiff >= 7) {
-                const weekDiff = Math.floor(daysDiff / 7);
-                this.dateText = `${weekDiff} нед.`;
+            const weeksDiff = Math.floor(diff.weeks());
+            if (weeksDiff > 0) {
+                this.dateText = `${weeksDiff} нед.`;
                 return true;
             }
 
-            const hoursDiff = Math.floor((dateDiff / 1000) / (60 * 60));
+            const daysDiff = Math.floor(diff.days());
+            if (daysDiff > 0) {
+                this.dateText = `${daysDiff} д.`;
+                return true;
+            }
+
+            const hoursDiff = Math.floor(diff.hours());
             if (hoursDiff > 0) {
                 this.dateText = `${hoursDiff} ч.`;
                 return true;
             }
-            
-            const minsDiff = Math.round(dateDiff / 60000);
+
+            const minsDiff = Math.floor(diff.minutes());
             if (minsDiff > 0) {
                 this.dateText = `${minsDiff} м.`;
                 return true;
             }
-            
-            const secsDiff = Math.round(dateDiff / 1000);
-            if (secsDiff > 5) {
-                this.dateText = `${secsDiff} с.`;
+
+            const secondsDiff = Math.floor(diff.seconds());
+            if (secondsDiff > 0) {
+                this.dateText = `${secondsDiff} с.`;
                 return true;
             }
 

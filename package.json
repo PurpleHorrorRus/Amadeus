@@ -36,6 +36,7 @@
         "@nuxtjs/style-resources": "^1.2.1",
         "@vk-io/authorization": "1.2.1",
         "bluebird": "^3.7.2",
+        "date-diff": "^1.0.2",
         "formdata-node": "^4.3.3",
         "sass": "^1.53.0",
         "vk-io": "4.3.2",

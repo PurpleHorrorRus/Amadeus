@@ -2,7 +2,7 @@ const monthsShort = ["янв", "фев", "мар", "апр", "май", "июн",
 
 class Common {
     static formatTimeToDayAndMonth(time) {
-        const day = time.getDay();
+        const day = time.getDate();
         const month = monthsShort[time.getMonth()];
         return `${day} ${month}`;
     }
