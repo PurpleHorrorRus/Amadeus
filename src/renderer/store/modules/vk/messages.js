@@ -102,14 +102,12 @@ export default {
         },
         
         SEND: async ({ dispatch, state, rootState }, data) => {
-            const peer_id = await dispatch("FORMAT_CHAT_ID", data);
-
             const message = {
                 attachment: [],
                 attachments: data.attachments || [],
                 date: Math.floor(Date.now() / 1000),
                 id: common.getRandom(100000, 999999),
-                peer_id,
+                peer_id: await dispatch("FORMAT_CHAT_ID", data),
                 from_id: rootState.vk.user.id,
                 random_id: common.getRandom(10, 99999999),
                 message: data.message,
@@ -117,7 +115,11 @@ export default {
                 out: 1
             };
 
-            state.cache[peer_id].messages.push(message);
+            state.cache[message.peer_id].messages.push(message);
+            dispatch("vk/conversations/ADD_MESSAGE", { payload: { message: {
+                ...message,
+                peer_id: data.id
+            } } }, { root: true });
 
             if (message.attachments.length > 0) {
                 const attachments = await dispatch("UPLOAD", message.attachments);
@@ -125,7 +127,6 @@ export default {
                 message.attachment = attachments.ids;
             }
 
-            // return true;
             return await rootState.vk.client.api.messages.send(message);
         },
 
