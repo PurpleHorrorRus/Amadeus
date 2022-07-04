@@ -9,11 +9,12 @@
             @keypress.enter="send"
         />
 
-        <div id="message-page-input-send" @click="send">
+        <div id="message-page-input-send" :class="sendIconClass" @click="send">
             <SendIcon 
                 v-if="!sending"
                 id="message-page-input-send-icon" 
                 class="icon"
+                :class="sendIconClass"
             />
 
             <LoaderIcon
@@ -62,6 +63,17 @@ export default {
             return {
                 attachments: this.attachments.length > 0
             };
+        },
+
+        canSend() {
+            return this.message.length > 0
+                || this.attachments.length > 0;
+        },
+
+        sendIconClass() {
+            return {
+                disabled: !this.canSend
+            };
         }
     },
 
@@ -73,6 +85,7 @@ export default {
 
             switch (item?.kind) {
                 case "file": {
+                    event.preventDefault();
                     return this.addPhoto(item);
                 }
 
@@ -94,7 +107,7 @@ export default {
         }),
 
         async send(event) {
-            if (this.message.length === 0 && this.attachments.length === 0) {
+            if (!this.canSend) {
                 return false;
             }
 
@@ -217,6 +230,10 @@ export default {
         height: 100%;
         
         cursor: pointer;
+
+        &.disabled {
+            cursor: not-allowed;
+        }
 
         &-icon {
             width: 100%;

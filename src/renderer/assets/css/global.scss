@@ -182,6 +182,14 @@ a:not(.clickable) {
         }
     }
 
+    &.disabled {
+        cursor: not-allowed;
+
+        path {
+            fill: var(--icons-disabled) !important;
+        }
+    }
+
     &.loader-icon {
         justify-self: center;
         align-self: center;

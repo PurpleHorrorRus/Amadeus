@@ -41,7 +41,7 @@ export default {
     width: 100%;
     max-height: 280px;
 
-    padding: 10px 0px;
+    padding-top: 10px;
 
     overflow-x: hidden;
     overflow-y: auto;
