@@ -193,8 +193,11 @@ a:not(.clickable) {
     }
 
     &.loader-icon {
-        justify-self: center;
-        align-self: center;
+        fill: var(--icons);
+
+        path {
+            stroke: none;
+        }
     }
 }
 

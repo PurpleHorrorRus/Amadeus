@@ -1,7 +1,7 @@
 <template>
     <div class="solid-button" :class="{ disabled }">
         <span v-if="!load" class="solid-button-label" v-text="label" />
-        <LoaderIcon v-else class="icon spin" />
+        <LoaderIcon v-else class="icon loader-icon spin" />
     </div>
 </template>
 

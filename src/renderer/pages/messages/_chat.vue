@@ -2,7 +2,7 @@
     <div id="chat-page">
         <MessagesHeader :conversation="conversation" />
 
-        <div id="chat-page-messages" ref="messages">
+        <div id="chat-page-messages" ref="messages" :class="chatPageClass">
             <Skeleton 
                 v-if="loadMore"
                 id="skeleton-messages"
@@ -62,6 +62,12 @@ export default {
         ...mapState({
             conversations: state => state.vk.conversations.list
         }),
+
+        chatPageClass() {
+            return {
+                loading: this.loading
+            };
+        },
     
         conversation() {
             return this.conversations.find(conversation => {
@@ -183,6 +189,12 @@ export default {
     width: 100%;
     height: 100%;
 
+    &.loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
     &-messages {
         grid-area: messages;
 
@@ -195,10 +207,6 @@ export default {
             display: flex;
             flex-direction: column;
             row-gap: 10px;
-        }
-
-        .loader-icon {
-            margin: 50%;
         }
     }
 }

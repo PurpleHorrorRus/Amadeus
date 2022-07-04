@@ -5,6 +5,11 @@
             :repost="repost" 
         />
 
+        <LoaderIcon 
+            v-else 
+            class="icon loader-icon spin" 
+        />
+
         <span 
             v-if="item.wall.text"
             class="attachments-item-wall-text" 
