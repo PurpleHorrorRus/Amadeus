@@ -6,14 +6,11 @@
             :key="index"
             :item="attachment"
             :index="index"
-            @click.native="openMedia(index)"
         />
     </div>
 </template>
 
 <script>
-import { ipcRenderer } from "electron";
-
 import AttachmentPhoto from "~/components/Messages/Attachments/Gallery/Photo";
 import AttachmentVideo from "~/components/Messages/Attachments/Gallery/Video";
 
@@ -36,13 +33,6 @@ export default {
                 case "photo": return AttachmentPhoto;
                 case "video": return AttachmentVideo;
             }
-        },
-
-        openMedia(index) {
-            return ipcRenderer.send("openMedia", {
-                data: this.data,
-                index
-            });
         }
     }
 };
@@ -53,9 +43,11 @@ export default {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
-    align-items: center;
+    align-items: flex-start;
 
     &-item {
+        height: 100%;
+
         cursor: pointer;
     }
 
@@ -72,8 +64,8 @@ export default {
 
 
     &.grid-3 {
-        grid-template-columns: 2fr 1fr;
-        grid-template-rows: max-content 1fr;
+        grid-template-columns: 10rem auto;
+        grid-template-rows: 1fr;
         grid-template-areas: "item-1 item-2"
                             "item-1 item-3";
     }

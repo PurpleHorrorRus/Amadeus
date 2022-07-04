@@ -1,29 +1,20 @@
+import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
+
 export default {
     props: {
-        item: {
-            type: Object,
-            required: true
-        },
-
         index: {
             type: Number,
             required: true
         }
     },
 
+    mixins: [AttachmentMixin],
+
     computed: {
         itemStyle() {
             return {
                 gridArea: `item-${this.index + 1}`
             };
-        }
-    },
-    
-    methods: {
-        calculateMaxSize(images) {
-            return [...images].sort((a, b) => {
-                return (b.width * b.height) - (a.width * a.height);
-            })[0].url;
         }
     }
 };

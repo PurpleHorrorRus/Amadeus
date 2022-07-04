@@ -130,6 +130,10 @@ export default {
                         return "Граффити";
                     }
 
+                    case "story": {
+                        return "История";
+                    }
+
                     default: {
                         return `${count} Вложение`;
                     }

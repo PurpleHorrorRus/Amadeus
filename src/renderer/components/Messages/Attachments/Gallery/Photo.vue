@@ -1,9 +1,9 @@
 <template>
     <img 
         :src="maxSize" 
-        class="gallery-item gallery-item-photo"
+        class="attachments-item attachments-item-photo"
         :style="itemStyle"
-        @click="open"
+        @click="openMedia($parent.data, index)"
     >
 </template>
 
@@ -25,9 +25,9 @@ export default {
 </script>
 
 <style lang="scss">
-.gallery-item-photo {
+.attachments-item-photo {
     width: 100%;
-    height: auto;
+    height: 100%;
 
     border-radius: 8px;
 }

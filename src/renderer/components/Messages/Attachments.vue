@@ -9,6 +9,11 @@
             v-if="attachments[0].type === 'sticker'" 
             :item="attachments[0]"
         />
+
+        <AttachmentStory
+            v-else-if="attachments[0].type === 'story'" 
+            :item="attachments[0]"
+        />
     </div>
 </template>
 
@@ -16,7 +21,8 @@
 export default {
     components: {
         Gallery: () => import("~/components/Messages/Attachments/Gallery"),
-        AttachmentSticker: () => import("~/components/Messages/Attachments/Gallery/Sticker")
+        AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker"),
+        AttachmentStory: () => import("~/components/Messages/Attachments/Story")
     },
 
     props: {
@@ -36,3 +42,27 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.message.out:not(.noBackground) .attachments-item-title {
+    color: var(--text);
+}
+
+.attachments-item {
+    &:hover {
+        cursor: pointer;
+
+        .attachments-item-title {
+            text-decoration: underline;
+        }
+    }
+
+    &-title {
+        margin-left: 5px;
+
+        color: var(--secondary);
+        font-size: 12px;
+        font-weight: 400;
+    }
+}
+</style>

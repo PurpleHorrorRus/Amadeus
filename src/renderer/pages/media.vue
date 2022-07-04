@@ -3,13 +3,22 @@
         <div v-if="~media.index" id="media-page-item">
             <iframe 
                 v-if="item.type === 'video'"
-                id="media-page-item-player" 
+                id="video"
+                class="media-page-item-frame"
                 :src="item.video.player" 
+            />
+
+            <iframe 
+                v-else-if="item.type === 'story'"
+                id="story"
+                class="media-page-item-frame"
+                :src="item.story.video.player"
             />
 
             <img
                 v-else-if="item.type === 'photo'"
-                id="media-page-item-image"
+                id="photo"
+                class="media-page-item-frame"
                 :src="item.photo.maxSize"
             >
         </div>
@@ -76,17 +85,29 @@ export default {
         width: max-content;
         height: max-content;
         max-height: 60vh;
-        
-        &-player {
-            width: 60vw;
-            height: 60vh;
 
-            border: none;
-        }
+        .media-page-item-frame {
+            display: flex;
+            align-items: center;
 
-        &-image {
-            width: auto;
-            max-height: 80vh;
+            &#video, &#story {
+                border: none;
+            }
+
+            &#video {
+                width: 60vw;
+                height: 60vh;
+            }
+
+            &#story {
+                width: 22rem;
+                height: 40rem;
+            }
+
+            &#photo {
+                width: auto;
+                max-height: 80vh;
+            }
         }
     }
 }

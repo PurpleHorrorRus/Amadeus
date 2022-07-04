@@ -58,7 +58,7 @@ export default {
             return {
                 out: this.message.out,
                 same: this.same && this.isChat,
-                singleAttachment: this.message.attachments.length === 1 && !this.message.text
+                noBackground: this.message.attachments.length >= 1 && !this.message.text
             };
         },
 
@@ -168,7 +168,7 @@ export default {
         }
     }
 
-    &.singleAttachment {
+    &.noBackground {
         .message-content {
             padding: 0px 10px 10px 0px;
 

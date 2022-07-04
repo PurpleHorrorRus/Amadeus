@@ -5,19 +5,15 @@
 </template>
 
 <script>
-import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
+import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
-    mixins: [GalleryMixin],
+    mixins: [AttachmentMixin],
 
     computed: {
         sticker() {
             return this.item.sticker.images[this.item.sticker.images.length - 1].url;
         }
-    },
-
-    mounted() {
-        console.log(this.item);
     }
 };
 </script>

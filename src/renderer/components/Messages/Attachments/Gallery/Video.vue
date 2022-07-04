@@ -1,13 +1,17 @@
 <template>
-    <div class="gallery-item gallery-item-video" :style="itemStyle">
-        <div class="gallery-item-video-preview" :style="previewStyle">
-            <img :src="preview" class="gallery-item-video-preview-image">
+    <div 
+        class="attachments-item attachments-item-video" 
+        :style="itemStyle" 
+        @click="openMedia($parent.data, index)"
+    >
+        <div class="attachments-item-video-preview" :style="previewStyle">
+            <img :src="preview" class="attachments-item-video-preview-image">
             <PlayRoundIcon class="icon" />
         </div>
 
         <div 
             v-if="showTitle"
-            class="gallery-item-video-title nowrap" 
+            class="attachments-item-title attachments-item-video-title nowrap" 
             v-text="item.video.title" 
         />
     </div>
@@ -40,15 +44,9 @@ export default {
 </script>
 
 <style lang="scss">
-.gallery-item-video {
+.attachments-item-video {
     display: grid;
     row-gap: 8px;
-
-    &:hover {
-        .gallery-item-video-title {
-            text-decoration: underline;
-        }
-    }
 
     &-preview {
         position: relative;
@@ -70,9 +68,8 @@ export default {
         .icon {
             position: absolute;
 
-            width: auto;
+            width: 20%;
             min-width: 30px;
-            max-width: 10rem;
 
             path {
                 fill: var(--secondary);
@@ -80,14 +77,6 @@ export default {
                 stroke-width: 1px;
             }
         }
-    }
-
-    &-title {
-        margin-left: 5px;
-
-        color: var(--secondary);
-        font-size: 12px;
-        font-weight: 400;
     }
 }
 </style>
