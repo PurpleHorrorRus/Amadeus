@@ -40,6 +40,7 @@ export default {
     computed: {
         storyClass() {
             return { 
+                expired: this.isExpired,
                 clickable: !this.isExpired
             };
         },
@@ -69,6 +70,10 @@ export default {
 
 <style lang="scss">
 .attachments-item-story {
+    &.expired {
+        width: 30vw;
+    }
+
     &-preview {
         width: 100%;
         height: 100%;
