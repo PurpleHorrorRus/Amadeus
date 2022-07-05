@@ -26,7 +26,7 @@ export default {
 
     computed: {
         title() {
-            return `${this.song.artist} - ${this.song.title}`;
+            return `${this.song.artist} — ${this.song.title}`;
         }
     },
 
