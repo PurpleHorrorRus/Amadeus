@@ -169,7 +169,7 @@ export default {
 
     &.noBackground {
         .message-content {
-            padding: 0px 10px 10px 0px;
+            padding: 0px 0px 10px 0px;
 
             background: none;
         }
