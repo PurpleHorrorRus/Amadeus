@@ -21,7 +21,6 @@ export default {
 
     actions: {
         PLAY: async ({ state }, song) => {
-            console.log(song);
             state.song = song;
             
             audioInstance = new Audio();
