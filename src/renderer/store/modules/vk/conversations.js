@@ -153,13 +153,14 @@ export default {
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
             const conversation = await dispatch("GET_BY_ID", data.userId);
-            if (conversation) {
-                conversation.profile.online = data.isOnline;
-                conversation.profile.online_mobile = Number(conversation.profile.online && data.platform < 6);
-                return true;
+            conversation.profile.online = data.isOnline;
+            conversation.profile.online_mobile = Number(conversation.profile.online && data.platform < 6);
+
+            if (!conversation.profile.online) {
+                conversation.profile.last_seen.time = data.payload.date;
             }
 
-            return false;
+            return true;
             
         }
     }

@@ -39,8 +39,12 @@ export default {
     },
 
     watch: {
-        "profie.online": {
-            handler: function() { this.updateLastSeen(); }
+        "profile.online": {
+            deep: true,
+
+            handler: function() { 
+                this.updateLastSeen(); 
+            }
         }
     },
 
