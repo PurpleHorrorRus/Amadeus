@@ -162,8 +162,6 @@ export default {
                 return null;
             });
 
-            console.log(this.DirectData.user);
-
             if (this.DirectData) {
                 return this.success();
             }

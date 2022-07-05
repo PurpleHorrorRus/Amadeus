@@ -2,11 +2,14 @@
     <div 
         class="attachments-item attachments-item-video" 
         :style="itemStyle" 
-        @click="openMedia($parent.data, index)"
+        @click="openVideo"
     >
         <div class="attachments-item-video-preview" :style="previewStyle">
-            <img :src="preview" class="attachments-item-video-preview-image">
-            <PlayRoundIcon class="icon" />
+            <img v-if="preview" :src="preview" class="attachments-item-video-preview-image">
+            <div v-else class="attachments-item-video-preview-empty" />
+
+            <PlayRoundIcon v-if="!isRestrict" class="icon" />
+            <BlockIcon v-else class="icon block" />
         </div>
 
         <div 
@@ -22,7 +25,8 @@ import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
 
 export default {
     components: {
-        PlayRoundIcon: () => import("~/assets/icons/play-round.svg")
+        PlayRoundIcon: () => import("~/assets/icons/play-round.svg"),
+        BlockIcon: () => import("~/assets/icons/block.svg")
     },
 
     mixins: [GalleryMixin],
@@ -34,11 +38,27 @@ export default {
     computed: {
         showTitle() {
             return this.$parent.data.length === 1;
+        },
+
+        isRestrict() {
+            return "restriction" in this.item.video;
         }
     },
 
     created() {
-        this.preview = this.calculateMaxSize(this.item.video.image);
+        this.preview = this.item.video.image
+            ? this.calculateMaxSize(this.item.video.image)
+            : "";
+    },
+
+    methods: {
+        openVideo() {
+            if (this.isRestrict) {
+                return false;
+            }
+
+            return this.openMedia(this.$parent.data, this.index);
+        }
     }
 };
 </script>
@@ -55,6 +75,7 @@ export default {
         align-items: center;
         justify-content: center;
 
+        background: var(--backdrop);
         background-size: cover !important;
         border-radius: 8px;
 
@@ -62,6 +83,13 @@ export default {
             width: 100%;
             height: auto;
 
+            border-radius: 8px;
+        }
+        
+        &-empty {
+            width: 35vw;
+            height: 20vw;
+            
             border-radius: 8px;
         }
 
@@ -75,6 +103,12 @@ export default {
                 fill: var(--secondary);
                 stroke: #000000;
                 stroke-width: 1px;
+            }
+
+            &.block {
+                path {
+                    fill: var(--icons);
+                }
             }
         }
     }

@@ -46,7 +46,7 @@ export default {
                 ...fields
             });
 
-            state.cache[id].messages = history.items.reverse().concat(state.cache[id].messages);
+            state.cache[id].messages = [...history.items.reverse(), ...state.cache[id].messages];
             return state.cache[id];
         },
 

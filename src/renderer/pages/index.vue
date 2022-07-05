@@ -18,8 +18,7 @@ export default {
                 ipcRenderer.send("dom-ready");
                 return false;
             }
-            
-            console.log(config);
+
             await this.setConfig(config);
             await this.auth();
 

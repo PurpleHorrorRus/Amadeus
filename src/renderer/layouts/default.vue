@@ -140,7 +140,6 @@ export default {
         },
 
         resized() {
-            console.log(1);
             this.saveSettings(this.settings);
         }
     }

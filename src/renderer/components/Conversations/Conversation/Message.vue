@@ -79,7 +79,6 @@ export default {
 
             let formatted = [];
             if (this.message.fwd_messages?.length > 0) {
-                console.log(this.message);
                 const fwdMessageText = this.message.fwd_messages.length > 1
                     ? `${this.message.fwd_messages.length} пересланных сообщений`
                     : "Пересланное сообщение";
@@ -154,7 +153,6 @@ export default {
             });
 
             formatted = [...formatted, ...attachments];
-            console.log(formatted);
             return formatted.join(", ");
         }
     },
