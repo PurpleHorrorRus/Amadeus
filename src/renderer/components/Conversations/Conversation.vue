@@ -97,6 +97,10 @@ export default {
     
     border-radius: 4px;
 
+    span {
+        font-weight: 600;
+    }
+
     &.minimized {
         grid-template-columns: 1fr;
         

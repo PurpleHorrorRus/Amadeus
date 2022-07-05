@@ -74,10 +74,6 @@ export default {
     }
 
     &-information {
-        span {
-            font-weight: 400;
-        }
-
         &-name {
             font-size: 14px;
         }

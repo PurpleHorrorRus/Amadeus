@@ -57,8 +57,7 @@ export default {
     width: 100%;
     height: 100%;
 
-    background: #131313;
-    border-bottom: 1px solid #343434;
+    background: var(--titlebar);
 
     z-index: 999;
 

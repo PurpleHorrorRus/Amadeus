@@ -49,7 +49,8 @@ export default {
         }),
 
         showAttachments() {
-            return this.message.attachments.length > 0;
+            return this.message.attachments.length > 0
+                || this.message.fwd_messages?.length > 0;
         },
 
         showSender() {
@@ -76,7 +77,17 @@ export default {
                     : atts[attachment.type] = 1;
             }
 
-            return Object.keys(atts).map(attachment => {
+            let formatted = [];
+            if (this.message.fwd_messages?.length > 0) {
+                console.log(this.message);
+                const fwdMessageText = this.message.fwd_messages.length > 1
+                    ? `${this.message.fwd_messages.length} пересланных сообщений`
+                    : "Пересланное сообщение";
+
+                formatted.push(fwdMessageText);
+            }
+
+            const attachments = Object.keys(atts).map(attachment => {
                 const count = atts[attachment];
 
                 switch(attachment) {
@@ -140,7 +151,11 @@ export default {
                         return `${count} Вложение`;
                     }
                 }
-            }).join(", ");
+            });
+
+            formatted = [...formatted, ...attachments];
+            console.log(formatted);
+            return formatted.join(", ");
         }
     },
 
@@ -201,13 +216,13 @@ export default {
 
             const minsDiff = Math.floor(diff.minutes());
             if (minsDiff > 0) {
-                this.dateText = `${minsDiff} м.`;
+                this.dateText = `${minsDiff} мин.`;
                 return true;
             }
 
             const secondsDiff = Math.floor(diff.seconds());
-            if (secondsDiff > 0) {
-                this.dateText = `${secondsDiff} с.`;
+            if (secondsDiff >= 5) {
+                this.dateText = `${secondsDiff} сек.`;
                 return true;
             }
 

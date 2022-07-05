@@ -197,7 +197,7 @@ export default {
             width: 2px;
             height: 100%;
 
-            background: var(--left-border);
+            background: var(--border-opacity);
 
             z-index: 101;
 

@@ -139,21 +139,21 @@ export default {
         flex-direction: row-reverse;
 
         .message-content {
-            background: var(--secondary);
+            background: var(--out);
 
             span {
                 &::selection {
-                    background: var(--out);
+                    background: var(--out-contrast);
                 }
             }
         }
 
         span.clickable:hover, .clickable:hover span {
-            color: var(--out) !important;
+            color: var(--out-contrast) !important;
         }
 
         svg.clickable:hover path, .clickable:hover svg path {
-            fill: var(--out);
+            fill: var(--out-contrast);
         }
     }
 
@@ -202,7 +202,6 @@ export default {
 
         &-text {
             font-size: 14px;
-            font-weight: 400;
 
             user-select: text;
         }
@@ -215,14 +214,13 @@ export default {
 
             &-date {
                 font-size: 10px;
-                font-weight: 400;
             }
 
             &-read {
                 width: 14px;
 
                 &.read path {
-                    stroke: var(--out);
+                    stroke: var(--out-contrast);
                 }
             }
         }

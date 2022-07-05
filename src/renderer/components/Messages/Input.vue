@@ -213,7 +213,6 @@ export default {
         background: var(--field);
 
         font-size: 14px;
-        font-weight: 400;
 
         outline: none;
         resize: none;

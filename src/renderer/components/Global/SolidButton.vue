@@ -74,9 +74,5 @@ export default {
     .icon {
         width: 16px;
     }
-
-    &-label {
-        color: var(--buttons-text);
-    }
 }
 </style>

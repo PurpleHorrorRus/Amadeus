@@ -87,7 +87,6 @@ export default {
 
     &-text {
         font-size: 12px;
-        font-weight: 400;
 
         white-space: pre-line;
         user-select: text;
