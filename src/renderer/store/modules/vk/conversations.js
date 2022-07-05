@@ -47,7 +47,7 @@ export default {
             list.items = await dispatch("GET_CHATS", list);
 
             return await Promise.map(list.items, async item => {
-                item.conversation.unread_count = Number(item.conversation.unread_count);
+                item.conversation.unread_count = item.conversation.unread_count || 0;
 
                 return {
                     profile: item.profile 
@@ -114,7 +114,10 @@ export default {
             const conversation = state.list[conversationIndex];
             conversation.message = data.payload.message;
             conversation.information.last_message_id = data.payload.message.id;
-            conversation.information.unread_count++;
+
+            if (!data.payload.message.out) {
+                conversation.information.unread_count++;
+            }
 
             dispatch("TRIGGER_TYPING", {
                 id: data.payload.message.from_id,

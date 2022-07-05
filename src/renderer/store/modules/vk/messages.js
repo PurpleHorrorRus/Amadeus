@@ -74,6 +74,10 @@ export default {
         },
 
         ADD_MESSAGE: async ({ state, rootState }, data) => {
+            data.payload.message.peer_id = data.isGroup
+                ? -Math.abs(data.payload.message.peer_id)
+                : data.payload.message.peer_id;
+
             data.payload.message.random_id = data.payload.message.random_id || common.getRandom(10, 99999999);
             data.payload.message.out = Number(data.payload.message.out 
                 || data.payload.message.from_id === rootState.vk.user.id);
@@ -83,19 +87,20 @@ export default {
                     message_ids: data.payload.message.id
                 });
 
-                state.cache[data.payload.message.peer_id].count++;
-                if (data.payload.message.out) {
-                    const messageIndex = findLastIndex(state.cache[data.payload.message.peer_id].messages, message => {
-                        return message.random_id === data.payload.message.random_id;
+                const message = response.items[0];
+                state.cache[message.peer_id].count++;
+                if (message.out) {
+                    const messageIndex = findLastIndex(state.cache[message.peer_id].messages, msg => {
+                        return msg.random_id === message.random_id;
                     });
 
                     if (~messageIndex) {
-                        state.cache[data.payload.message.peer_id].messages[messageIndex].id = response.items[0].id;
-                        state.cache[data.payload.message.peer_id].messages[messageIndex] = response.items[0];
-                    } else state.cache[data.payload.message.peer_id].messages.push(response.items[0]);
-                } else state.cache[data.payload.message.peer_id].messages.push(response.items[0]);
+                        state.cache[message.peer_id].messages[messageIndex].id = message.id;
+                        state.cache[message.peer_id].messages[messageIndex] = message;
+                    } else state.cache[data.payload.message.peer_id].messages.push(message);
+                } else state.cache[message.peer_id].messages.push(message);
 
-                return state.cache[data.payload.message.peer_id];
+                return state.cache[message.peer_id];
             }
 
             return false;
