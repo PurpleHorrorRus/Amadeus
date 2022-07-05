@@ -1,6 +1,7 @@
 import Promise from "bluebird";
 import { FormData } from "formdata-node";
 import { fileFromPathSync } from "formdata-node/file-from-path";
+import { findLastIndex } from "lodash";
 
 import common from "~/plugins/common";
 
@@ -84,11 +85,9 @@ export default {
 
                 state.cache[data.payload.message.peer_id].count++;
                 if (data.payload.message.out) {
-                    const messageIndex = state.cache[data.payload.message.peer_id].messages.findIndex(message => {
+                    const messageIndex = findLastIndex(state.cache[data.payload.message.peer_id].messages, message => {
                         return message.random_id === data.payload.message.random_id;
                     });
-
-                    console.log("index", messageIndex);
 
                     if (~messageIndex) {
                         state.cache[data.payload.message.peer_id].messages[messageIndex].id = response.items[0].id;
