@@ -8,7 +8,7 @@
             <img v-if="preview" :src="preview" class="attachments-item-video-preview-image">
             <div v-else class="attachments-item-video-preview-empty" />
 
-            <PlayRoundIcon v-if="!isRestrict" class="icon" />
+            <PlayIcon v-if="!isRestrict" class="icon" />
             <BlockIcon v-else class="icon block" />
         </div>
 
@@ -25,7 +25,7 @@ import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
 
 export default {
     components: {
-        PlayRoundIcon: () => import("~/assets/icons/play-round.svg"),
+        PlayIcon: () => import("~/assets/icons/play.svg"),
         BlockIcon: () => import("~/assets/icons/block.svg")
     },
 
@@ -41,7 +41,7 @@ export default {
         },
 
         isRestrict() {
-            return "restriction" in this.item.video;
+            return Boolean(this.item.video.restriction);
         }
     },
 
