@@ -90,12 +90,16 @@ export default {
 
         GET_BY_ID: ({ state }, id) => {
             id = Math.abs(id);
-            return state.list.find(item => item.profile.id === id);
+            return state.list.find(item => {
+                return item.profile.id === id;
+            });
         },
 
         GET_INDEX_BY_ID: ({ state }, id) => {
             id = Math.abs(id);
-            return state.list.findIndex(item => item.profile.id === id);
+            return state.list.findIndex(item => {
+                return item.profile.id === id;
+            });
         },
 
         ADD_MESSAGE: async ({ dispatch, state }, data) => {
