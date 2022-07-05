@@ -1,6 +1,5 @@
 import { ipcRenderer } from "electron";
 
-
 export default {
     props: {
         item: {

@@ -13,7 +13,9 @@ const clear = {
 
         appearance: {
             conversationsWidth: 300,
-            minimized: false
+            minimized: false,
+
+            stickersTheme: 1
         },
         
         hideOnClose: false

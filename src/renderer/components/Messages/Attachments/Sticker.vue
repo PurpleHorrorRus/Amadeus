@@ -2,7 +2,7 @@
     <div class="attachments-item attachments-item-sticker">
         <lottie-vue-player
             v-if="item.sticker.animation_url"
-            :src="item.sticker.animation_url"
+            :src="animation"
             class="attachments-item-sticker-animation"
             autoplay
             loop
@@ -18,19 +18,20 @@
 </template>
 
 <script>
+import CoreMixin from "~/mixins/core";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
-    mixins: [AttachmentMixin],
+    mixins: [CoreMixin, AttachmentMixin],
 
     computed: {
         sticker() {
             return this.item.sticker.images[this.item.sticker.images.length - 1].url;
-        }
-    },
+        },
 
-    mounted() {
-        console.log(this.item);
+        animation() {
+            return this.item.sticker.animations[this.settings.appearance.stickersTheme].url;
+        }
     }
 };
 </script>
