@@ -78,27 +78,16 @@ export default {
     },
 
     mounted() {
-        this.$refs.textarea.focus();
-
-        document.onpaste = event => {
-            const [item] = event.clipboardData.items;
-
-            switch (item?.kind) {
-                case "file": {
-                    event.preventDefault();
-                    return this.addPhoto(item);
-                }
-
-                default: {
-                    this.message += event.clipboardData.getData("Text");
-                    break;
-                }
-            }
-        };
+        document.onpaste = event => this.onPaste(event);
+        window.addEventListener("focus", this.focus);
+        window.addEventListener("keypress", this.focus);
+        this.focus({ type: "focus" });
     },
 
     beforeDestroy() {
         document.onpaste = null;
+        window.removeEventListener("focus", this.focus);
+        window.removeEventListener("keypress", this.focus);
     },
 
     methods: {
@@ -132,6 +121,22 @@ export default {
 
             this.sending = false;
             return true;
+        },
+
+        onPaste(event) {
+            const [item] = event.clipboardData.items;
+
+            switch (item?.kind) {
+                case "file": {
+                    event.preventDefault();
+                    return this.addPhoto(item);
+                }
+
+                default: {
+                    this.message += event.clipboardData.getData("Text");
+                    break;
+                }
+            }
         },
 
         async addPhoto(item) {
@@ -168,6 +173,12 @@ export default {
             });
 
             return true;
+        },
+
+        focus(event) {
+            if (event.type === "keypress" || event.type === "focus") {
+                this.$refs.textarea.focus();
+            }
         }
     }
 };

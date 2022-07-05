@@ -136,15 +136,11 @@ export default {
 
         this.loading = false;
         document.addEventListener("keydown", this.exit);
-        window.addEventListener("focus", this.focus);
-        window.addEventListener("keypress", this.focus);
     },
 
     beforeDestroy() {
         this.setCurrent(0);
         document.removeEventListener("keydown", this.exit);
-        window.removeEventListener("focus", this.focus);
-        window.removeEventListener("keypress", this.focus);
     },
 
     methods: {
@@ -164,11 +160,7 @@ export default {
             return currentMessage.from_id === previousMessage.from_id;
         },
 
-        focus(event) {
-            if (event.type === "keypress" || event.type === "focus") {
-                this.$refs.input.$refs.textarea.focus();
-            }
-        },
+        
 
         scrollToBottom() {
             this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
