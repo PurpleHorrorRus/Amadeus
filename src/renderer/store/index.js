@@ -1,7 +1,8 @@
 import Vuex from "vuex";
 
-import settings from "~/store/settings";
+import settings from "~/store/modules/settings";
 import vk from "~/store/modules/vk";
+import audio from "~/store/modules/audio";
 
 export default () => {
     return new Vuex.Store({
@@ -24,7 +25,8 @@ export default () => {
 
         modules: {
             settings,
-            vk
+            vk,
+            audio
         }
     });
 };

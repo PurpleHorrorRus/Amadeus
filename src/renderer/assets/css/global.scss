@@ -18,7 +18,7 @@ html, body, #app, #__layout, #__layout-app, #__nuxt, .application--wrap {
 span, input, textarea, select, div {
     color: var(--text);
     font-family: Roboto;
-    font-weight: 600;
+    font-weight: 400;
 
     user-select: none;
     outline: none;
@@ -100,18 +100,6 @@ div.clickable:hover, a.clickable:hover {
     }
 }
 
-div.clickableLink {
-    &.active {
-        background: var(--secondary-opacity-half);
-    }
-
-    &:not(.active):hover {
-        cursor: pointer;
-        background: var(--secondary-hover-opacity);
-        transition: background .1s ease-in-out;
-    }
-}
-
 span.clickable:hover{
     cursor: pointer;
     color: var(--secondary) !important;
@@ -119,12 +107,6 @@ span.clickable:hover{
 
 a:not(.clickable) {
     cursor: default;
-}
-
-.animated {
-    &-color {
-        transition: color .2s;
-    }
 }
 
 .cg-5 {
@@ -201,24 +183,6 @@ a:not(.clickable) {
     }
 }
 
-.list {
-    display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    column-gap: 1.5vw;
-    row-gap: 20px;
-
-    padding: 10px;
-
-    &.inline {
-        display: flex;
-        flex-wrap: nowrap;
-        column-gap: 10px;
-        
-        overflow-x: auto;
-    }
-}
-
 @keyframes spin {
     0% {
         transform: rotate(0deg);
@@ -272,51 +236,6 @@ a:not(.clickable) {
 .component-fade-enter, .component-fade-leave-to
   /* .component-fade-leave-active до версии 2.1.8 */ {
     opacity: 0;
-}
-
-.slide-leave-active, 
-.slide-enter-active { 
-    transition: .5s; 
-}
-
-.slide-enter {
-    transform: translate(-10%, 0);
-    opacity: .5;
-}
-
-.slide-leave-to {
-  transform: translate(-5%, 0);
-  opacity: 0;
-}
-
-.slide-top-leave-active, 
-.slide-top-enter-active { 
-    transition: .5s; 
-}
-
-.slide-top-enter {
-    transform: translate(0, 10%);
-    opacity: .5;
-}
-
-.slide-top-leave-to {
-  transform: translate(0, 5%);
-  opacity: 0;
-}
-
-.slide-bottom-leave-active, 
-.slide-bottom-enter-active { 
-    transition: .5s; 
-}
-
-.slide-bottom-enter {
-    transform: translate(0, -10%);
-    opacity: .5;
-}
-
-.slide-bottom-leave-to {
-  transform: translate(0, -5%);
-  opacity: 0;
 }
 
 ::-webkit-scrollbar {
@@ -383,91 +302,5 @@ a:not(.clickable) {
         visibility: visible;
         opacity: 1;
         transition: opacity .1s;
-    }
-}
-
-.flex-spaced {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    &.center {
-        justify-content: center;
-        align-items: center;
-    }
-
-    * {
-        vertical-align: middle;
-    }
-}
-
-.json-viewer-theme {
-    width: 100%;
-
-    background: var(--item);
-    white-space: nowrap;
-    color: var(--text);
-    font-size: 11px;
-    font-family: Consolas, Menlo, Courier, monospace;
-
-    .jv-ellipsis {
-        color: var(--text);
-        background-color: var(--secondary);
-        display: inline-block;
-        line-height: 0.9;
-        font-size: 0.9em;
-        padding: 0px 4px 2px 4px;
-        border-radius: 4px;
-        vertical-align: middle;
-        cursor: pointer;
-        user-select: none;
-    }
-
-    .jv-button { color: #49b3ff }
-    .jv-key, .jv-link { color: var(--text); }
-    .jv-item {
-        margin-left: 5px;
-
-        &.jv-array { 
-            color: var(--secondary); 
-            margin-right: 5px;
-        }
-        
-        &.jv-boolean { color: #fc1e70 }
-        &.jv-function { color: #067bca }
-        &.jv-number { color: #fc1e70 }
-        &.jv-number-float { color: #fc1e70 }
-        &.jv-number-integer { color: #fc1e70 }
-
-        &.jv-object { 
-            color: var(--secondary); 
-            margin-right: 5px;
-        }
-        
-        &.jv-undefined { color: #e08331 }
-        &.jv-string {
-            color: #42b983;
-            word-break: break-word;
-            white-space: normal;
-        }
-    }
-
-    .jv-code {
-        .jv-toggle {
-            &:before {
-                padding: 0px 2px;
-                border-radius: 2px;
-            }
-            
-            &:hover {
-                &:before {
-                    background: #eee;
-                }
-            }
-        }
-
-        &.open {
-            padding-bottom: 15px;
-        }
     }
 }

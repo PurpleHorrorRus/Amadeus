@@ -1,23 +1,5 @@
 html {
-    --primary: #121212;
-    --backdrop: #19191a;
-
-    --titlebar: var(--primary);
-    --titlebar-border: #303030;
-
-    --scroll: #545454;
-    --scroll-width: 12px;
-    --scroll-radius: 8px;
-
-    --logo: #ffffff;
-
-    --left: var(--primary);
-    --left-border: #272727;
-    --left-queue: #121212;
-    --left-icons: #71aaeb;
-
-    --navigation: #121212;
-    --navigation-select: #ffffff26;
+    --primary: #131313; 
 
     --secondary: #71aaeb;
     --secondary-hover: #aeb7c21f;
@@ -25,46 +7,31 @@ html {
     --secondary-hover-opacity: #aeb7c22d;
     --secondary-disabled: #aeb7c20c;
 
-    --out: #ff2e2e;
+    --scroll: #545454;
+    --scroll-width: 12px;
+    --scroll-radius: 8px;
 
-    --border: var(--left);
-    --borderWidth: 0px;
+    --backdrop: #19191a;
+
+    --titlebar: #131313;
+
+    --navigation-select: #ffffff26;
+
+    --border: #222222;
+    --border-opacity: #22222225;
+
+    --field: #202020;
+
+    --out: #71aaeb;
+    --out-contrast: #af0000;
 
     --text: #ffffff;
     --small-text: #939393;
-
-    --song-performer: #939393;
-    --song-title: #ffffff;
-    --song-subtitle: #939393;
-    --song-playing: #4242421f;
-    --song-hover: #292c2f29;
-
-    --item: rgba(32, 32, 32, .8);
-    --item-hover: rgba(128, 128, 128, var(--alpha));
-    --item-disabled: #000000;
-
-    --field: #202020;
 
     --icons: #ffffff;
     --icons-hover: #bdbdbd;
     --icons-disabled: #4e4e4e;
 
-    --no-cover: #ffffff;
-    --no-cover-background: #2b2b2b;
-
-    --links: #ffffff;
-    --links-active: #2787f5;
-    --links-hover: #2787f5;
-
-    --buttons-text: #ffffff;
-
-    --tooltip: #2787f5;
-    --tooltip-text: #ffffff;
-
-    --settings-view: #161616;
-
-    --switch-unchecked: #545454;
-
-    --skeleton-background: rgba(34, 34, 34, .8);
-    --skeleton-highlight: rgba(25, 25, 25, .8);
+    --skeleton-background: #222222cc;
+    --skeleton-highlight: #191919cc;
 }

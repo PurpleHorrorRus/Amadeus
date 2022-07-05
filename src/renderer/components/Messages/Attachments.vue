@@ -19,6 +19,14 @@
             v-else-if="attachments[0].type === 'story'" 
             :item="attachments[0]"
         />
+
+        <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
+            <AttachmentAudio
+                v-for="item of audioItems"
+                :key="item.audio.id"
+                :item="item"
+            />
+        </div>
     </div>
 </template>
 
@@ -28,7 +36,8 @@ export default {
         AttachmentWall: () => import("~/components/Messages/Attachments/Wall"),
         Gallery: () => import("~/components/Messages/Attachments/Gallery"),
         AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker"),
-        AttachmentStory: () => import("~/components/Messages/Attachments/Story")
+        AttachmentStory: () => import("~/components/Messages/Attachments/Story"),
+        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio")
     },
 
     props: {
@@ -44,31 +53,42 @@ export default {
                 return attachment.type === "photo" 
                     || attachment.type === "video";
             });
+        },
+
+        audioItems() {
+            return this.attachments.filter(attachment => {
+                return attachment.type === "audio";
+            });
         }
     }
 };
 </script>
 
 <style lang="scss">
-.message.out:not(.noBackground) .attachments-item-title {
-    color: var(--text);
-}
+.message-content-attachments {
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
 
-.attachments-item {
-    &:hover {
-        cursor: pointer;
+    .attachments-item {
+        &:hover {
+            cursor: pointer;
 
-        .attachments-item-title {
-            text-decoration: underline;
+            .attachments-item-title {
+                text-decoration: underline;
+            }
+        }
+
+        &-title {
+            margin-left: 5px;
+
+            color: var(--secondary);
+            font-size: 12px;
         }
     }
+}
 
-    &-title {
-        margin-left: 5px;
-
-        color: var(--secondary);
-        font-size: 12px;
-        font-weight: 400;
-    }
+.message.out:not(.noBackground) .attachments-item-title {
+    color: var(--text);
 }
 </style>

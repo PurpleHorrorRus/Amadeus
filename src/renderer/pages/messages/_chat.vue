@@ -3,6 +3,8 @@
         <MessagesHeader :conversation="conversation" />
 
         <div id="chat-page-messages" ref="messages" :class="chatPageClass">
+            <MessagesPlayer v-if="song !== null" />
+
             <Skeleton 
                 v-if="loadMore"
                 id="skeleton-messages"
@@ -37,6 +39,7 @@ import common from "~/plugins/common";
 export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
+        MessagesPlayer: () => import("~/components/Messages/Player"),
         Message: () => import("~/components/Messages/Message"),
         MessageInput: () => import("~/components/Messages/Input")
     },
@@ -60,12 +63,14 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.list
+            conversations: state => state.vk.conversations.list,
+            song: state => state.audio.song
         }),
 
         chatPageClass() {
             return {
-                loading: this.loading
+                loading: this.loading,
+                player: this.song !== null
             };
         },
     
@@ -198,15 +203,32 @@ export default {
     &-messages {
         grid-area: messages;
 
-        padding: 10px;
+        position: relative;
+
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "list";
 
         overflow-x: hidden;
         overflow-y: overlay;
 
+        &.player {
+            grid-template-rows: 30px 1fr;
+            grid-template-areas: "player"
+                                "list";
+        }
+
         &-list {
+            grid-area: list;
+
             display: flex;
             flex-direction: column;
             row-gap: 10px;
+
+            height: 100%;
+
+            padding: 10px;
         }
     }
 }
