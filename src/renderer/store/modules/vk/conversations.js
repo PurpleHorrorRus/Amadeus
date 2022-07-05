@@ -102,7 +102,7 @@ export default {
             });
         },
 
-        ADD_MESSAGE: async ({ dispatch, state }, data) => {
+        ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
             data.payload.message.peer_id = Math.abs(data.payload.message.peer_id);
 
             const conversationIndex = await dispatch("GET_INDEX_BY_ID", data.payload.message.peer_id);
@@ -117,6 +117,9 @@ export default {
 
             if (!data.payload.message.out) {
                 conversation.information.unread_count++;
+            } else if (data.payload.message.peer_id === rootState.vk.user.id) {
+                conversation.information.in_read = data.payload.message.id;
+                conversation.information.out_read = data.payload.message.id;
             }
 
             dispatch("TRIGGER_TYPING", {
