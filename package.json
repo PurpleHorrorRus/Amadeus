@@ -33,6 +33,7 @@
         "webpack-node-externals": "2.5.2"
     },
     "dependencies": {
+        "@lottiefiles/vue-lottie-player": "^1.0.8",
         "@nuxtjs/style-resources": "^1.2.1",
         "@vk-io/authorization": "1.2.1",
         "bluebird": "^3.7.2",

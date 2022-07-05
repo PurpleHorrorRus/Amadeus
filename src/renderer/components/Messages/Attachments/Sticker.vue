@@ -1,6 +1,19 @@
 <template>
     <div class="attachments-item attachments-item-sticker">
-        <img :src="sticker" class="attachments-item-sticker-image">
+        <lottie-vue-player
+            v-if="item.sticker.animation_url"
+            :src="item.sticker.animation_url"
+            class="attachments-item-sticker-animation"
+            autoplay
+            loop
+            mode="normal"
+        />
+
+        <img 
+            v-else
+            :src="sticker" 
+            class="attachments-item-sticker-image"
+        >
     </div>
 </template>
 
@@ -14,6 +27,10 @@ export default {
         sticker() {
             return this.item.sticker.images[this.item.sticker.images.length - 1].url;
         }
+    },
+
+    mounted() {
+        console.log(this.item);
     }
 };
 </script>
@@ -27,8 +44,18 @@ export default {
         cursor: default;
     }
 
-    &-image {
+    &-image, &-animation {
         width: 100%;
+
+        background: none;
+    }
+
+    &-animation {
+        height: 20vw;
+
+        .lf-spinner {
+            display: none;
+        }
     }
 }
 </style>
