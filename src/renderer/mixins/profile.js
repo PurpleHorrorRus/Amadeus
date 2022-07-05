@@ -6,7 +6,7 @@ export default {
                     return profile.title;
                 }
 
-                case "group": {
+                case "group": case "page": {
                     return profile.name;
                 }
                 

@@ -108,15 +108,8 @@ export default {
             }
 
             const conversation = state.list[conversationIndex];
-            
-            const message = data.payload.message;
-            conversation.message.id = message.id;
-            conversation.message.date = message.date;
-            conversation.message.attachments = message.attachments;
-            conversation.message.text = message.text;
-            conversation.message.out = message.out;
-
-            conversation.information.last_message_id = message.id;
+            conversation.message = data.payload.message;
+            conversation.information.last_message_id = data.payload.message.id;
             conversation.information.unread_count++;
 
             dispatch("TRIGGER_TYPING", {

@@ -58,7 +58,7 @@ export default {
                     break;
                 }
 
-                case "group": {
+                case "group": case "page": {
                     id = -Math.abs(chat.id);
                     break;
                 }
