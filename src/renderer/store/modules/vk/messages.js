@@ -121,10 +121,13 @@ export default {
             };
 
             state.cache[message.peer_id].messages.push(message);
-            dispatch("vk/conversations/ADD_MESSAGE", { payload: { message: {
-                ...message,
-                peer_id: data.id
-            } } }, { root: true });
+            dispatch("vk/conversations/ADD_MESSAGE", { 
+                text: message.text,
+                payload: { message: {
+                    ...message,
+                    peer_id: data.id
+                } } 
+            }, { root: true });
 
             if (message.attachments.length > 0) {
                 const attachments = await dispatch("UPLOAD", message.attachments);

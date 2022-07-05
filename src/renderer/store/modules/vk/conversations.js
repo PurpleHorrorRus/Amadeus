@@ -112,7 +112,11 @@ export default {
             }
 
             const conversation = state.list[conversationIndex];
-            conversation.message = data.payload.message;
+            conversation.message = {
+                ...data.payload.message,
+                text: data.text // Fix unescaped characters in message
+            };
+
             conversation.information.last_message_id = data.payload.message.id;
 
             if (!data.payload.message.out) {
