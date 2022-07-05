@@ -1,6 +1,10 @@
 import { mapActions, mapState } from "vuex";
 
+import CoreMixin from "~/mixins/core";
+
 export default {
+    mixins: [CoreMixin],
+    
     computed: {
         ...mapState({
             playing: state => state.audio.playing,

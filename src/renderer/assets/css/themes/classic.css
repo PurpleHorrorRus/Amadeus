@@ -32,6 +32,9 @@ html {
     --icons-hover: #bdbdbd;
     --icons-disabled: #4e4e4e;
 
+    --player-slider: #ffffff26;
+    --player-slider-progress: #ffffff52;
+
     --skeleton-background: #222222cc;
     --skeleton-highlight: #191919cc;
 }

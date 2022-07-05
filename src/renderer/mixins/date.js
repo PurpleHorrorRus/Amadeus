@@ -17,15 +17,15 @@ export default {
             const daysDiff = Math.floor(diff.days());
             switch(daysDiff) {
                 case 0: {
-                    return common.fancyTimeFormat(date);
+                    return common.timestampFormat(date);
                 }
 
                 case 1: {
-                    return `вчера, ${common.fancyTimeFormat(date)}`;
+                    return `вчера, ${common.timestampFormat(date)}`;
                 }
             }
 
-            return `${common.formatTimeToDayAndMonth(date)}, ${common.fancyTimeFormat(date)}`;
+            return `${common.formatTimeToDayAndMonth(date)}, ${common.timestampFormat(date)}`;
         }
     }
 };

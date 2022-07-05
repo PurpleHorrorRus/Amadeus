@@ -1,22 +1,41 @@
 <template>
     <div id="messages-player">
-        <div id="messages-player-action" @click="action">
+        <div id="messages-player-play" @click="action">
             <PlayIcon v-if="!playing" class="icon vkgram clickable" />
             <PauseIcon v-else class="icon vkgram clickable" />
         </div>
 
         <span id="messages-player-song" class="nowrap" v-text="title" />
-        <XIcon class="icon clickable" @click="clear" />
+
+        <div v-if="playerInitialized" id="messages-player-actions">
+            <PlayerTime />
+            <PlayerVolume />
+            <XIcon 
+                id="messages-player-actions-remove" 
+                class="icon clickable"
+                @click="clear" 
+            />
+        </div>
+
+        <Timeline 
+            v-if="playerInitialized" 
+            id="messages-player-timeline"
+        />
     </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import AudioMixin from "~/mixins/audio";
 
 export default {
     components: {
+        Timeline: () => import("~/components/Messages/Player/Timeline"),
+
+        PlayerTime: () => import("~/components/Messages/Player/Time"),
+        PlayerVolume: () => import("~/components/Messages/Player/Volume"),
+        
         PlayIcon: () => import("~/assets/icons/play.svg"),
         PauseIcon: () => import("~/assets/icons/pause.svg"),
         XIcon: () => import("~/assets/icons/x.svg")
@@ -25,6 +44,10 @@ export default {
     mixins: [AudioMixin],
 
     computed: {
+        ...mapState({
+            playerInitialized: state => state.audio.init
+        }),
+
         title() {
             return `${this.song.artist} — ${this.song.title}`;
         }
@@ -51,7 +74,11 @@ export default {
     grid-area: player;
 
     display: grid;
-    grid-template-columns: 30px 1fr 30px;
+    grid-template-columns: 30px 1fr max-content;
+    grid-template-rows: 30px 5px;
+    grid-template-areas: "play song actions"
+                        "timeline timeline timeline";
+
     align-items: center;
     align-self: flex-start;
 
@@ -62,24 +89,58 @@ export default {
     height: 100%;
 
     background: var(--primary);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--border-opacity);
 
     z-index: 99;
 
     .icon {
         justify-self: center;
-
-        width: 14px;
     }
 
-    &-action {
+    &-play {
+        grid-area: play;
+
         display: flex;
         justify-content: center;
         align-items: center;
+
+        .icon {
+            width: 14px;
+        }
     }
 
     &-song {
+        grid-area: song;
+
+        padding-right: 10px;
+
         font-size: 12px;
+    }
+
+    &-actions {
+        grid-area: actions;
+
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+
+        padding-right: 10px;
+
+        &-volume {
+            width: 120px;
+        }
+
+        &-remove {
+            width: 20px;
+        }
+    }
+
+    &-timeline {
+        grid-area: timeline;
+
+        width: 100%;
+
+        padding: 10px;
     }
 }
 </style>

@@ -9,6 +9,8 @@
     >
         <Titlebar />
 
+        <Player v-if="showPlayer" />
+
         <Resizable
             v-if="showConversations"
             id="conversations-wrapper"
@@ -47,6 +49,7 @@ import CoreMixin from "~/mixins/core";
 export default {
     components: {
         Titlebar: () => import("~/components/Titlebar/Titlebar"),
+        Player: () => import("~/components/Messages/Player"),
         ConversationsList: () => import("~/components/Conversations/List"),
         Resizable
     },
@@ -64,15 +67,22 @@ export default {
     computed: {
         ...mapState({
             extended: state => state.extendedView,
-            current: state => state.vk.messages.current
+            current: state => state.vk.messages.current,
+
+            song: state => state.audio.song
         }),
 
         layoutClass() {
             return { 
                 extended: this.extended,
                 chat: this.isChat,
-                minimized: this.settings.appearance.minimized && this.extended
+                minimized: this.settings.appearance.minimized && this.extended,
+                player: this.showPlayer
             };
+        },
+
+        showPlayer() {
+            return this.song !== null;
         },
 
         isChat() {
@@ -153,10 +163,10 @@ export default {
     left: 0px;
 
     display: grid;
+    grid-template-columns: max-content 1fr;
     grid-template-rows: 35px 1fr;
-    grid-template-columns: 1fr;
-    grid-template-areas: "titlebar"
-                        "conversations";
+    grid-template-areas: "titlebar titlebar"
+                        "conversations page";
 
     width: 100%;
     height: 100%;
@@ -165,19 +175,33 @@ export default {
 
     background: var(--primary);
 
-    &.chat {
-        grid-template-areas: "titlebar"
-                        "page";
+    &.extended.player {
+        grid-template-rows: 35px 40px 1fr;
+
+        grid-template-areas: "titlebar titlebar"
+            "conversations player"
+            "conversations page";
     }
 
-    &.extended {
-        grid-template-columns: max-content 1fr;
-        grid-template-areas: "titlebar titlebar"
-                            "conversations page";
+    &:not(.extended) {
+        &.player {
+            grid-template-columns: 1fr;
+            grid-template-rows: 35px 40px 1fr;
 
-        &.minimized {
-            grid-template-columns: 60px 1fr;
+            grid-template-areas: "titlebar"
+                "player"
+                "conversations";
+
+            &.chat {
+                grid-template-areas: "titlebar"
+                    "player"
+                    "page";
+            }
         }
+    }
+
+    &.extended.minimized {
+        grid-template-columns: 60px 1fr;
     }
 
     #conversations-wrapper {

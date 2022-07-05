@@ -17,6 +17,10 @@ const clear = {
 
             stickersTheme: 1
         },
+
+        player: {
+            volume: 50
+        },
         
         hideOnClose: false
     },

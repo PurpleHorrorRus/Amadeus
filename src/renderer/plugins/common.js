@@ -12,7 +12,30 @@ class Common {
         return `${day} ${month}`;
     }
 
+    static formatDuration(time) {
+        if (time === null) {
+            return null;
+        }
+
+        return {
+            hours: ~~(time / 3600),
+            mins: ~~((time % 3600) / 60),
+            seconds: ~~time % 60
+        };
+    }
+
     static fancyTimeFormat(time) {
+        if (!time) {
+            return "0:00";
+        }
+
+        let ret = "";
+        const { hours, mins, seconds } = Common.formatDuration(time);
+        if (hours) ret += `${hours}:${mins < 10 ? "0" : ""}`;
+        return ret + `${mins}:${seconds < 10 ? "0" : ""}${seconds}`;
+    }
+
+    static timestampFormat(time) {
         if (!time) {
             return "00:00";
         }

@@ -44,16 +44,14 @@ export default {
                 return this.pause();
             }
 
-            if (!this.playing) {
-                if (!this.isSame) {
-                    return this.play({
-                        ...this.item.audio,
-                        full_id: this.full_id
-                    });
-                }
-
+            if (this.isSame) {
                 return this.resume();
             }
+
+            return this.play({
+                ...this.item.audio,
+                full_id: this.full_id
+            });
         }
     }
 };

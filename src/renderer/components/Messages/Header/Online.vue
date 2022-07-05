@@ -77,17 +77,17 @@ export default {
             const daysDiff = Math.ceil(dateDiff / (1000 * 3600 * 24));
             switch(daysDiff) {
                 case 0: {
-                    this.lastSeenText = `был в сети в ${common.fancyTimeFormat(date)}`;
+                    this.lastSeenText = `был в сети в ${common.timestampFormat(date)}`;
                     return true;
                 }
 
                 case 1: {
-                    this.lastSeenText = `был в сети вчера в ${common.fancyTimeFormat(date)}`;
+                    this.lastSeenText = `был в сети вчера в ${common.timestampFormat(date)}`;
                     return true;
                 }
             }
 
-            this.lastSeenText = `был в сети ${common.formatTimeToDayAndMonth(date)} ${common.fancyTimeFormat(date)}`;
+            this.lastSeenText = `был в сети ${common.formatTimeToDayAndMonth(date)} ${common.timestampFormat(date)}`;
             return true;
         }
     }

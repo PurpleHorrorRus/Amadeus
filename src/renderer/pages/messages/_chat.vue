@@ -3,8 +3,6 @@
         <MessagesHeader :conversation="conversation" />
 
         <div id="chat-page-messages" ref="messages" :class="chatPageClass">
-            <MessagesPlayer v-if="showPlayer" />
-
             <Skeleton 
                 v-if="loadMore"
                 id="skeleton-messages"
@@ -39,7 +37,6 @@ import common from "~/plugins/common";
 export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
-        MessagesPlayer: () => import("~/components/Messages/Player"),
         Message: () => import("~/components/Messages/Message"),
         MessageInput: () => import("~/components/Messages/Input")
     },
@@ -63,8 +60,7 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.list,
-            song: state => state.audio.song
+            conversations: state => state.vk.conversations.list
         }),
 
         chatPageClass() {
@@ -72,10 +68,6 @@ export default {
                 loading: this.loading,
                 player: this.song !== null
             };
-        },
-
-        showPlayer() {
-            return this.song !== null;
         },
     
         conversation() {
@@ -195,30 +187,8 @@ export default {
 
         position: relative;
 
-        display: grid;
-        grid-template-columns: 1fr;
-        grid-template-rows: 1fr;
-        grid-template-areas: "list";
-
         overflow-x: hidden;
         overflow-y: overlay;
-
-        &.loading.player {
-            display: grid;
-            grid-template-rows: 30px 1fr;
-            grid-template-areas: "player"
-                                "list";
-            
-            .loader-icon {
-                justify-self: center;
-            }
-        }
-
-        &.player {
-            grid-template-rows: 30px 1fr;
-            grid-template-areas: "player"
-                                "list";
-        }
 
         &.loading {
             display: flex;

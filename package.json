@@ -13,6 +13,9 @@
     "engines": {
         "node": ">=16.8.0"
     },
+    "resolutions": {
+        "vue-plyr/plyr": "github:sampotts/plyr#master"
+    },
     "devDependencies": {
         "@babel/eslint-parser": "^7.18.2",
         "@nuxtjs/eslint-config": "10.0.0",
@@ -42,6 +45,7 @@
         "sass": "^1.53.0",
         "vk-io": "4.3.2",
         "vue-loading-skeleton": "^1.1.9",
-        "vue-textarea-autogrow-directive": "^0.2.0"
+        "vue-textarea-autogrow-directive": "^0.2.0",
+        "vue-plyr": "^7.0.0"
     }
 }

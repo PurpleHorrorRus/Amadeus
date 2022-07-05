@@ -1,6 +1,7 @@
 const root = "~plugins";
 const plugins = [
-    "globalComponents"
+    "globalComponents",
+    "plyr"
 ];
 
 // eslint-disable-next-line no-undef
