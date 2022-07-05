@@ -9,7 +9,7 @@
         <span 
             v-if="showAttachments"
             class="conversation-message-body-attachments small-text highlight nowrap" 
-            v-text="attachments" 
+            v-text="formatAttachmentsString(message, false)" 
         />
 
         <span 
@@ -30,7 +30,11 @@ import { mapState } from "vuex";
 
 import DateDiff from "date-diff";
 
+import AttachmentsMixin from "~/mixins/attachments";
+
 export default {
+    mixins: [AttachmentsMixin],
+
     props: {
         message: {
             type: Object,
@@ -66,94 +70,6 @@ export default {
             return this.$parent.conversation.profile.users.find(user => {
                 return user.id === this.message.from_id;
             }).first_name + ":";
-        },
-
-        attachments() {
-            let atts = {};
-
-            for (const attachment of this.message.attachments) {
-                attachment.type in atts
-                    ? atts[attachment.type] += 1
-                    : atts[attachment.type] = 1;
-            }
-
-            let formatted = [];
-            if (this.message.fwd_messages?.length > 0) {
-                const fwdMessageText = this.message.fwd_messages.length > 1
-                    ? `${this.message.fwd_messages.length} пересланных сообщений`
-                    : "Пересланное сообщение";
-
-                formatted.push(fwdMessageText);
-            }
-
-            const attachments = Object.keys(atts).map(attachment => {
-                const count = atts[attachment];
-
-                switch(attachment) {
-                    case "photo": {
-                        if (count === 1) {
-                            return "Изображение";
-                        }
-
-                        const label = count < 5 
-                            ? "Изображения"
-                            : "Изображений";
-
-                        return `${count} ${label}`;
-                    }
-
-                    case "video": {
-                        if (count === 1) {
-                            return "Видеозапись";
-                        }
-
-                        const label = count < 5 
-                            ? "Видеозаписи"
-                            : "Видеозаписей";
-
-                        return `${count} ${label}`;
-                    }
-
-                    case "audio": {
-                        if (count === 1) {
-                            return "Аудиозапись";
-                        }
-
-                        const label = count < 5 
-                            ? "Аудиозаписи"
-                            : "Аудиозаписей";
-
-                        return `${count} ${label}`;
-                    }
-
-                    case "audio_playlist": {
-                        return "Плейлист";
-                    }
-
-                    case "wall": {
-                        return "Запись со стены";
-                    }
-
-                    case "sticker": {
-                        return "Стикер";
-                    }
-
-                    case "graffiti": {
-                        return "Граффити";
-                    }
-
-                    case "story": {
-                        return "История";
-                    }
-
-                    default: {
-                        return `${count} Вложение`;
-                    }
-                }
-            });
-
-            formatted = [...formatted, ...attachments];
-            return formatted.join(", ");
         }
     },
 

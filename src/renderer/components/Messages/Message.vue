@@ -7,6 +7,11 @@
         >
 
         <div class="message-content">
+            <MessageReply 
+                v-if="message.reply_message"
+                :message="message.reply_message"
+            />
+
             <span v-if="showName" class="message-content-name" v-text="name" />
             <span v-if="message.text" class="message-content-text" v-text="message.text" />
 
@@ -36,6 +41,7 @@ import DateMixin from "~/mixins/date";
 
 export default {
     components: {
+        MessageReply: () => import("~/components/Messages/Reply"),
         MessageAttachments: () => import("~/components/Messages/Attachments"),
         CheckIcon: () => import("~/assets/icons/check.svg")
     },
