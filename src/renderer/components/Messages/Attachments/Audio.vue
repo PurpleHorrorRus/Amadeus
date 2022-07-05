@@ -97,7 +97,6 @@ export default {
         }
 
         &-title {
-            color: var(--small-text);
             font-size: 12px;
         }
     }

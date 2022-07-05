@@ -52,7 +52,8 @@ export default {
 
 <style lang="scss">
 .attachments-item-wall-repost {
-    display: flex;
+    display: grid;
+    grid-template-columns: 22px 40px 1fr;
     align-items: center;
     column-gap: 5px;
 
@@ -74,6 +75,8 @@ export default {
     }
 
     &-information {
+        line-height: 13px;
+
         &-name {
             font-size: 14px;
         }
