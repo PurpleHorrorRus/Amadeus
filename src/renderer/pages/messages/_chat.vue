@@ -3,7 +3,7 @@
         <MessagesHeader :conversation="conversation" />
 
         <div id="chat-page-messages" ref="messages" :class="chatPageClass">
-            <MessagesPlayer v-if="song !== null" />
+            <MessagesPlayer v-if="showPlayer" />
 
             <Skeleton 
                 v-if="loadMore"
@@ -72,6 +72,10 @@ export default {
                 loading: this.loading,
                 player: this.song !== null
             };
+        },
+
+        showPlayer() {
+            return this.song !== null;
         },
     
         conversation() {
@@ -194,12 +198,6 @@ export default {
     width: 100%;
     height: 100%;
 
-    &.loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     &-messages {
         grid-area: messages;
 
@@ -213,10 +211,27 @@ export default {
         overflow-x: hidden;
         overflow-y: overlay;
 
+        &.loading.player {
+            display: grid;
+            grid-template-rows: 30px 1fr;
+            grid-template-areas: "player"
+                                "list";
+            
+            .loader-icon {
+                justify-self: center;
+            }
+        }
+
         &.player {
             grid-template-rows: 30px 1fr;
             grid-template-areas: "player"
                                 "list";
+        }
+
+        &.loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         &-list {

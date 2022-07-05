@@ -53,6 +53,7 @@ export default {
     display: grid;
     grid-template-columns: 30px 1fr 30px;
     align-items: center;
+    align-self: flex-start;
 
     position: sticky;
     top: 0px; left: 0px;
