@@ -170,7 +170,7 @@ export default {
     },
 
     created() {
-        this.updateInterval = setInterval(() => this.updateMessageTime(), 4 * 1000);
+        this.updateInterval = setInterval(() => this.updateMessageTime(), this.getUpdateIntrval());
         this.updateMessageTime();
     },
 
@@ -228,6 +228,34 @@ export default {
 
             this.dateText = "сейчас";
             return true;
+        },
+
+        getUpdateIntrval() {
+            const date = new Date(this.message.date * 1000);
+            const now = new Date();
+            const diff = new DateDiff(now, date);
+
+            if (diff.years() >= 1) {
+                return 1000 * 60 * 60 * 60 * 24 * 30; // one month
+            }
+
+            if (diff.months() >= 1) {
+                return 1000 * 60 * 60 * 60 * 24 * 7; // one week
+            }
+
+            if (diff.weeks() >= 1) {
+                return 1000 * 60 * 60 * 60 * 24; // one day
+            }
+
+            if (diff.days() >= 1) {
+                return 1000 * 60 * 60 * 60; // one hour
+            }
+            
+            if (diff.hours() >= 1) {
+                return 1000 * 60 * 60; // one minute
+            }
+
+            return 1000 * 4; // every 4 seconds
         }
     }
 };
