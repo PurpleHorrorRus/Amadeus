@@ -25,7 +25,29 @@ export default {
             state.song = song;
             
             audioInstance = new Audio();
+
             hls = new Hls(hlsConfig);
+            hls.on(Hls.Events.ERROR, (_event, data) => {
+                const { type, fatal } = data;
+
+                if (fatal) {
+                    switch(type) {
+                        case Hls.ErrorTypes.NETWORK_ERROR: {
+                            // eslint-disable-next-line max-len
+                            console.error("[HLS]: Fatal network error encountered, try to recover");
+                            hls.startLoad();
+                            break;
+                        }
+
+                        case Hls.ErrorTypes.MEDIA_ERROR: {
+                            console.error("[HLS]: Fatal media error encountered, try to recover");
+                            hls.recoverMediaError();
+                            break;
+                        }
+                    }
+                }
+            });
+
             hls.attachMedia(audioInstance);
             hls.loadSource(song.url);
             audioInstance.oncanplaythrough = () => audioInstance.play();
