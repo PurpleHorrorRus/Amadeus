@@ -59,8 +59,8 @@ export default {
 
 <style lang="scss">
 .attachments-item-audio {
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: 40px 1fr;
     align-items: center;
     column-gap: 10px;
 
