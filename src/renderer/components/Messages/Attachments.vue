@@ -15,6 +15,11 @@
             :item="attachments[0]"
         />
 
+        <AttachmentAudioMessage
+            v-else-if="attachments[0].type === 'audio_message'" 
+            :item="attachments[0]"
+        />
+
         <AttachmentStory
             v-else-if="attachments[0].type === 'story'" 
             :item="attachments[0]"
@@ -36,6 +41,7 @@ export default {
         AttachmentWall: () => import("~/components/Messages/Attachments/Wall"),
         Gallery: () => import("~/components/Messages/Attachments/Gallery"),
         AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker"),
+        AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage"),
         AttachmentStory: () => import("~/components/Messages/Attachments/Story"),
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio")
     },

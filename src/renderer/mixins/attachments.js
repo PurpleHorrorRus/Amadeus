@@ -34,6 +34,7 @@ const labels = {
         many: "{{ count }} пересланных сообщений"
     },
 
+    audio_message: "Голосовое сообщение",
     audio_playlist: "Плейлист",
     wall: "Запись со стены",
     sticker: "Стикер",

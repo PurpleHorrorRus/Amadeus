@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import settings from "~/store/modules/settings";
 import vk from "~/store/modules/vk";
 import audio from "~/store/modules/audio";
+import audio_message from "~/store/modules/audio_message";
 
 export default () => {
     return new Vuex.Store({
@@ -26,7 +27,8 @@ export default () => {
         modules: {
             settings,
             vk,
-            audio
+            audio,
+            audio_message
         }
     });
 };

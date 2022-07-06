@@ -155,14 +155,12 @@ export default {
         align-self: flex-end;
         flex-direction: row-reverse;
 
+        &:not(.noBackground) {
+            --secondary: var(--out-contrast);
+        }
+
         .message-content {
             background: var(--out);
-
-            span {
-                &::selection {
-                    background: var(--out-contrast);
-                }
-            }
         }
 
         span.clickable:hover, .clickable:hover span {

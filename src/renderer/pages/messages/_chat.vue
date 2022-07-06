@@ -120,7 +120,6 @@ export default {
     created() {
         this.id = Number(this.$route.params.chat);
         this.type = this.$route.query.type;
-        this.flush(this.id);
     },
 
     async mounted() {
@@ -129,6 +128,7 @@ export default {
             type: this.type
         });
 
+        this.flush(this.id);
         this.loading = false;
         document.addEventListener("keydown", this.exit);
     },
