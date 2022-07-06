@@ -50,7 +50,10 @@ export default {
         },
 
         FLUSH: ({ state }, id) => {
-            state.cache[id].messages.splice(0, state.cache[id].messages.length - fields.count - 1);
+            if (state.cache[id]?.messages.length > fields.count) {
+                state.cache[id].messages.splice(0, state.cache[id].messages.length - fields.count - 1);
+            }
+
             return true;
         },
 
