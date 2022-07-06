@@ -18,24 +18,24 @@ export default {
     }),
 
     actions: {
-        LOAD: async ({ state, rootState }, chat) => {
-            state.current = chat.id;
+        LOAD: async ({ state, rootState }, id) => {
+            state.current = id;
 
-            if (!(chat.id in state.cache)) {
+            if (!(id in state.cache)) {
                 const history = await rootState.vk.client.api.messages.getHistory({
                     offset: 0,
-                    peer_id: chat.id,
+                    peer_id: id,
                     ...fields
                 });
 
-                state.cache[chat.id] = {
-                    id: chat.id,
+                state.cache[id] = {
+                    id: id,
                     count: history.count,
                     messages: history.items.reverse()
                 };
             }
 
-            return state.cache[chat.id];
+            return state.cache[id];
         },
 
         APPEND: async ({ state, rootState  }, id) => {

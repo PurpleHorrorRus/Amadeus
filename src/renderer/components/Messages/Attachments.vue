@@ -54,8 +54,8 @@
         </div>
 
         <AttachmentsMap
-            v-if="$parent.message.geo"
-            :geo="$parent.message.geo"
+            v-if="geo"
+            :geo="geo"
         />
     </div>
 </template>

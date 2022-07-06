@@ -18,11 +18,16 @@
                 :message="message.reply_message"
             />
 
-            <span v-if="message.text" class="message-content-text" v-text="message.text" />
+            <span 
+                v-if="message.text" 
+                class="message-content-text" 
+                v-text="message.text" 
+            />
 
             <MessageAttachments 
                 v-if="showAttachments"
                 :attachments="message.attachments"
+                :geo="message.geo"
             />
 
             <div class="message-content-info">

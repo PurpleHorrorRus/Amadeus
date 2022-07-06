@@ -123,10 +123,7 @@ export default {
     },
 
     async mounted() {
-        this.chat = await this.load({
-            id: this.id,
-            type: this.type
-        });
+        this.chat = await this.load(this.id);
 
         this.flush(this.id);
         this.loading = false;
