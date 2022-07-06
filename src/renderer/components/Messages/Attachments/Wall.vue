@@ -29,7 +29,7 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        WallRepost: () => import("~/components/Messages/Attachments/Wall/Repost.vue"),
+        WallRepost: () => import("~/components/Messages/Attachments/Wall/Repost"),
         MessageAttachments: () => import("~/components/Messages/Attachments")
     },
 
@@ -49,21 +49,22 @@ export default {
             }] : this.item.wall.attachments || [];
 
         if (this.item.wall.from_id < 0) {
-            const [group] = await this.client.api.groups.getById({
+            const data = await this.client.api.groups.getById({
                 group_id: Math.abs(this.item.wall.from_id),
                 fields: "photo_100",
                 extended: 1
             });
-            
-            this.repost = group;
+
+            this.repost = data.groups[0];
             this.repost.type = "group";
         }  else {
-            const [user] = await this.client.api.users.get({
+            const data = await this.client.api.users.get({
                 user_ids: this.item.wall.from_id,
                 fields: "photo_100",
                 extended: 1
             });
             
+            const user = data.profiles[0];
             user.name = `${user.first_name} ${user.last_name}`;
             this.repost = user;
             this.repost.type = "user";
