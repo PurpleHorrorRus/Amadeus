@@ -80,6 +80,12 @@ export default {
             type: Array,
             required: false,
             default: () => ([])
+        },
+
+        geo: {
+            type: Object,
+            required: false,
+            default: undefined
         }
     },
 
