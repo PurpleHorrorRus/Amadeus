@@ -1,4 +1,4 @@
-import Promise from "bluebird";
+import { debounce } from "lodash";
 
 import common from "~/plugins/common";
 
@@ -13,7 +13,8 @@ export default {
     namespaced: true,
 
     state: () => ({
-        list: [],
+        order: [],
+        cache: {},
         count: 0
     }),
 
@@ -24,32 +25,46 @@ export default {
                 ...fields
             });
 
+            const [cache, order] = await dispatch("FORMAT", list);
             state.count = list.count;
-            state.list = await dispatch("FORMAT", list); 
-            return state.list;
+            state.cache = cache;
+            state.order = order;
+
+            return state.cache;
         },
 
         APPEND: async ({ dispatch, rootState, state }) => {
-            if (state.list.length >= state.count) {
+            if (state.order.length >= state.count) {
                 return false;
             }
 
             const list = await rootState.vk.client.api.messages.getConversations({
-                offset: state.list.length,
+                offset: state.order.length,
                 ...fields
             });
 
-            state.list = state.list.concat(await dispatch("FORMAT", list)); 
-            return state.list;
+            const [cache, order] = await dispatch("FORMAT", list);
+            state.cache = cache;
+            state.order = order;
+
+            return state.cache;
         },
 
         FORMAT: async ({ dispatch }, list) => {
+            return await Promise.all([
+                dispatch("FORMAT_CACHE", list),
+                dispatch("FORMAT_ORDER", list)
+            ]);
+        },
+
+        FORMAT_CACHE: async ({ dispatch }, list) => {
             list.items = await dispatch("GET_CHATS", list);
 
-            return await Promise.map(list.items, async item => {
+            const cache = {};
+            list.items.forEach(item => {
                 item.conversation.unread_count = item.conversation.unread_count || 0;
 
-                return {
+                cache[item.conversation.peer.id] = {
                     profile: item.profile 
                         || list.profiles.find(profile => profile.id === item.conversation.peer.id) 
                         || list.groups.find(profile => profile.id === -item.conversation.peer.id),
@@ -58,8 +73,20 @@ export default {
                     information: item.conversation,
 
                     typing: false,
-                    typingTimeout: null
+                    typingDebounce: debounce(function () {
+                        this.typing = false; 
+                    }, 4000)
                 };
+
+                return cache[item.conversation.peer.id];
+            });
+
+            return cache;
+        },
+
+        FORMAT_ORDER: (_, list) => {
+            return list.items.map(item => {
+                return item.conversation.peer.id;
             });
         },
 
@@ -88,36 +115,19 @@ export default {
             return list.items;
         },
 
-        GET_BY_ID: ({ state }, id) => {
-            id = Math.abs(id);
-            return state.list.find(item => {
-                return item.profile.id === id;
-            });
-        },
-
-        GET_INDEX_BY_ID: ({ state }, id) => {
-            id = Math.abs(id);
-            return state.list.findIndex(item => {
-                return item.profile.id === id;
-            });
-        },
-
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
-            data.payload.message.peer_id = Math.abs(data.payload.message.peer_id);
-
-            const conversationIndex = await dispatch("GET_INDEX_BY_ID", data.payload.message.peer_id);
-            if (!~conversationIndex) {
+            if (!(data.payload.message.peer_id in state.cache)) {
                 await dispatch("FETCH");
                 return false;
             }
 
-            const conversation = state.list[conversationIndex];
+            const conversation = state.cache[data.payload.message.peer_id];
+            conversation.information.last_message_id = data.payload.message.id;
             conversation.message = {
                 ...data.payload.message,
+                date: Math.floor(Date.now() / 1000),
                 text: data.text // Fix unescaped characters in message
             };
-
-            conversation.information.last_message_id = data.payload.message.id;
 
             if (!data.payload.message.out) {
                 conversation.information.unread_count++;
@@ -126,19 +136,16 @@ export default {
                 conversation.information.out_read = data.payload.message.id;
             }
 
-            dispatch("TRIGGER_TYPING", {
-                id: data.payload.message.from_id,
-                sequence: false
-            });
+            conversation.typing = false;
 
-            state.list = common.arrayMove(state.list, conversationIndex, 0);
+            const conversationIndex = state.order.indexOf(conversation.information.peer.id);
+            state.order = common.arrayMove(state.order, conversationIndex, 0);
             return true;
         },
 
-        UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => {
-            data.payload.peer_id = Math.abs(data.payload.peer_id);
+        UPDATE_LAST_MESSAGE: async ({ state }, data) => {
+            const conversation = state.cache[data.payload.peer_id];
 
-            const conversation = await dispatch("GET_BY_ID", data.payload.peer_id);
             if (data.isInbox) {
                 conversation.information.unread_count = 0;
                 conversation.information.in_read = data.payload.local_id;
@@ -147,16 +154,15 @@ export default {
             return true;
         },
 
-        TRIGGER_TYPING: async ({ dispatch }, { id, sequence }) => {
-            const conversation = await dispatch("GET_BY_ID", id);
-            conversation.typing = sequence;
-            clearTimeout(conversation.typingTimeout);
-            conversation.typingTimeout = setTimeout(() => conversation.typing = false, 6000);
+        TRIGGER_TYPING: async ({ state }, id) => {
+            const conversation = state.cache[id];
+            conversation.typing = true;
+            conversation.typingDebounce();
             return true;
         },
 
-        TRIGGER_ONLINE: async ({ dispatch }, data) => {
-            const conversation = await dispatch("GET_BY_ID", data.userId);
+        TRIGGER_ONLINE: async ({ state }, data) => {
+            const conversation = state.cache[data.userId];
             conversation.profile.online = data.isOnline;
             conversation.profile.online_mobile = Number(conversation.profile.online && data.platform < 6);
 

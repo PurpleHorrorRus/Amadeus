@@ -26,8 +26,6 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-
 import DateDiff from "date-diff";
 
 import AttachmentsMixin from "~/mixins/attachments";
@@ -48,10 +46,6 @@ export default {
     }),
 
     computed: {
-        ...mapState({
-            conversations: state => state.vk.conversations.list
-        }),
-
         showAttachments() {
             return this.message.attachments.length > 0
                 || this.message.fwd_messages?.length > 0;
@@ -74,7 +68,7 @@ export default {
     },
 
     watch: {
-        conversations: {
+        "$parent.conversation": {
             deep: true,
 
             handler() {

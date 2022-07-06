@@ -40,10 +40,7 @@ export default {
             });
 
             state.client.updates.on("message_typing_state", data => {
-                dispatch("conversations/TRIGGER_TYPING", {
-                    id: data.fromId,
-                    sequence: true
-                });
+                dispatch("conversations/TRIGGER_TYPING", data.fromId);
             });
 
             state.client.updates.on("friend_activity", data => {

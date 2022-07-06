@@ -7,12 +7,17 @@
         >
 
         <div class="message-content">
+            <span 
+                v-if="showName" 
+                class="message-content-name" 
+                v-text="name" 
+            />
+
             <MessageReply 
                 v-if="message.reply_message"
                 :message="message.reply_message"
             />
 
-            <span v-if="showName" class="message-content-name" v-text="name" />
             <span v-if="message.text" class="message-content-text" v-text="message.text" />
 
             <MessageAttachments 
@@ -27,7 +32,7 @@
                 />
 
                 <CheckIcon 
-                    v-if="message.out && !isNotRead"
+                    v-if="showCheckIcon"
                     class="icon message-content-info-read" 
                     :class="checkIconClass"
                 />
@@ -78,6 +83,12 @@ export default {
             };
         },
 
+        showCheckIcon() {
+            return this.message.out
+                && !this.message.fast 
+                && !this.isNotRead;
+        },
+
         conversation() {
             return this.$parent.conversation;
         },
@@ -91,11 +102,11 @@ export default {
         },
 
         isChat() {
-            return this.$parent.conversation.profile.type === "chat";
+            return this.conversation.profile.type === "chat";
         },
 
         chatUserProfile() {
-            return this.$parent.conversation.profile.users.find(user => {
+            return this.conversation.profile.users.find(user => {
                 return user.id === this.message.from_id;
             });
         },

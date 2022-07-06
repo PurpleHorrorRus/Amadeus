@@ -3,7 +3,8 @@ const monthsShort = [
     "марта", "апреля", "мая", 
     "июня", "июля", "августа", 
     "сентября", "октября", "ноября", 
-    "декабря"];
+    "декабря"
+];
 
 class Common {
     static formatTimeToDayAndMonth(time) {
@@ -52,7 +53,11 @@ class Common {
     static getRandom(min, max) {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
-    
+
+    static wait(timeout) {
+        return new Promise(resolve => setTimeout(resolve, timeout));    
+    }
+
     static arrayMove(arr, oldIndex, newIndex) {
         if (newIndex >= arr.length) {
             let k = newIndex - arr.length + 1;
@@ -61,10 +66,6 @@ class Common {
 
         arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
         return arr;
-    }
-
-    static wait(timeout) {
-        return new Promise(resolve => setTimeout(resolve, timeout));    
     }
 }
 

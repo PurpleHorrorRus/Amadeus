@@ -41,7 +41,8 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.list
+            conversations: state => state.vk.conversations.cache,
+            current: state => state.vk.messages.current
         }),
 
         showAttachments() {
@@ -51,17 +52,10 @@ export default {
     },
 
     created() {
-        const conversation = this.conversations.find(conversation => {
-            return conversation.profile.id === this.message.peer_id;
-        });
-
-        if (conversation.profile.type !== "chat") {
-            this.profile = conversation.profile;
-        } else {
-            this.profile = conversation.users.find(user => {
-                return user.id === this.message.from_id;
-            });
-        }
+        const conversation = this.conversations[this.current];
+        this.profile = conversation.profile.type !== "chat"
+            ? conversation.profile
+            : conversation.profile.users.find(user => user.id === this.message.from_id);
     }
 };
 </script>
@@ -86,6 +80,10 @@ export default {
     align-items: flex-start;
 
     padding-left: 10px;
+
+    span {
+        user-select: text;
+    }
 
     &-attachments, &-text {
         font-size: 12px;

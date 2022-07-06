@@ -18,25 +18,24 @@ export default {
     }),
 
     actions: {
-        LOAD: async ({ dispatch, state, rootState }, chat) => {
+        LOAD: async ({ state, rootState }, chat) => {
             state.current = chat.id;
-            const peer_id = await dispatch("FORMAT_CHAT_ID", chat);
 
-            if (!(peer_id in state.cache)) {
+            if (!(chat.id in state.cache)) {
                 const history = await rootState.vk.client.api.messages.getHistory({
                     offset: 0,
-                    peer_id: peer_id,
+                    peer_id: chat.id,
                     ...fields
                 });
 
-                state.cache[peer_id] = {
-                    id: peer_id,
+                state.cache[chat.id] = {
+                    id: chat.id,
                     count: history.count,
                     messages: history.items.reverse()
                 };
             }
 
-            return state.cache[peer_id];
+            return state.cache[chat.id];
         },
 
         APPEND: async ({ state, rootState  }, id) => {
@@ -48,29 +47,6 @@ export default {
 
             state.cache[id].messages = [...history.items.reverse(), ...state.cache[id].messages];
             return state.cache[id];
-        },
-
-        FORMAT_CHAT_ID: (_, chat) => {
-            let id = chat.id;
-
-            switch(chat.type) {
-                case "chat": {
-                    id = Number("200000000" + chat.id);
-                    break;
-                }
-
-                case "group": case "page": {
-                    id = -Math.abs(chat.id);
-                    break;
-                }
-
-                default: {
-                    id = Number(chat.id);
-                    break;
-                }
-            }
-
-            return id;
         },
 
         ADD_MESSAGE: async ({ state, rootState }, data) => {
@@ -112,12 +88,13 @@ export default {
                 attachments: data.attachments || [],
                 date: Math.floor(Date.now() / 1000),
                 id: common.getRandom(100000, 999999),
-                peer_id: await dispatch("FORMAT_CHAT_ID", data),
+                peer_id: state.current,
                 from_id: rootState.vk.user.id,
                 random_id: common.getRandom(10, 99999999),
                 message: data.message,
                 text: data.message,
-                out: 1
+                out: 1,
+                fast: 1
             };
 
             state.cache[message.peer_id].messages.push(message);

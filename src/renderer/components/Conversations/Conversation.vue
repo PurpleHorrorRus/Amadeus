@@ -1,5 +1,5 @@
 <template>
-    <div class="conversation" :class="conversationClass" @click.left="open">
+    <div class="conversation" :class="conversationClass">
         <ConversationAvatar :profile="conversation.profile" />
 
         <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">
@@ -46,7 +46,7 @@ export default {
 
         conversationClass() {
             return {
-                active: this.current === this.conversation.profile.id,
+                active: this.current === this.conversation.information.peer.id,
                 minimized: this.settings.appearance.minimized && this.extended
             };
         },
@@ -67,15 +67,6 @@ export default {
 
         inUnreadCount() {
             return this.conversation.information.unread_count;
-        }
-    },
-
-    methods: {
-        open() {
-            let { id, type } = this.conversation.profile;
-            if (!type) type = "user";
-
-            this.$router.replace(`/messages/${id}?type=${type}`).catch(() => {});
         }
     }
 };

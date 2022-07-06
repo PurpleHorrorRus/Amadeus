@@ -4,9 +4,10 @@
 
         <div id="conversations-list" ref="conversations">
             <Conversation
-                v-for="(conversation, index) of conversations"
-                :key="index"
-                :conversation="conversation"
+                v-for="id of order"
+                :key="id"
+                :conversation="conversations[id]"
+                @click.native.left="open(id)"
             />
 
             <Skeleton 
@@ -40,7 +41,8 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.list,
+            conversations: state => state.vk.conversations.cache,
+            order: state => state.vk.conversations.order,
             count: state => state.vk.conversations.count
         }),
         
@@ -57,7 +59,7 @@ export default {
     },
 
     async created() {
-        if (this.conversations.length === 0) {
+        if (this.order.length === 0) {
             await this.fetch();
         }
     },
@@ -74,7 +76,12 @@ export default {
         ...mapActions({
             fetch: "vk/conversations/FETCH",
             append: "vk/conversations/APPEND"
-        })
+        }),
+
+        open(id) {
+            const type = this.conversations[id].information.peer.type;
+            return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => {});
+        }
     }
 };
 </script>

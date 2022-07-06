@@ -1,6 +1,9 @@
 <template>
     <div id="chat-page">
-        <MessagesHeader :conversation="conversation" />
+        <MessagesHeader 
+            v-if="current !== 0" 
+            :conversation="conversation" 
+        />
 
         <div id="chat-page-messages" ref="messages" :class="chatPageClass">
             <Skeleton 
@@ -60,7 +63,8 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.list
+            conversations: state => state.vk.conversations.cache,
+            current: state => state.vk.messages.current
         }),
 
         chatPageClass() {
@@ -71,9 +75,7 @@ export default {
         },
     
         conversation() {
-            return this.conversations.find(conversation => {
-                return conversation.profile.id === this.id;
-            });
+            return this.conversations[this.current];
         },
 
         canLoadMore() {
@@ -151,8 +153,6 @@ export default {
             const previousMessage = this.chat.messages[index - 1];
             return currentMessage.from_id === previousMessage.from_id;
         },
-
-        
 
         scrollToBottom() {
             this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
