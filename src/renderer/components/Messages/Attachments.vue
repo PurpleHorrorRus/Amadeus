@@ -1,50 +1,57 @@
 <template>
     <div class="message-content-attachments">
-        <AttachmentWall
-            v-if="attachments[0].type === 'wall'" 
-            :item="attachments[0]"
-        />
-
-        <Gallery 
-            v-if="galleryItems.length > 0"
-            :data="galleryItems" 
-        />
-
-        <AttachmentSticker 
-            v-if="attachments[0].type === 'sticker'" 
-            :item="attachments[0]"
-        />
-
-        <AttachmentGraffiti
-            v-else-if="attachments[0].type === 'graffiti'" 
-            :item="attachments[0]"
-        />
-
-        <AttachmentAudioMessage
-            v-else-if="attachments[0].type === 'audio_message'" 
-            :item="attachments[0]"
-        />
-
-        <AttachmentStory
-            v-else-if="attachments[0].type === 'story'" 
-            :item="attachments[0]"
-        />
-
-        <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
-            <AttachmentAudio
-                v-for="item of audioItems"
-                :key="item.audio.id"
-                :item="item"
+        <div v-if="attachments.length > 0" class="message-content-attachments-list">
+            <AttachmentWall
+                v-if="attachments[0].type === 'wall'" 
+                :item="attachments[0]"
             />
+
+            <Gallery 
+                v-if="galleryItems.length > 0"
+                :data="galleryItems" 
+            />
+
+            <AttachmentSticker 
+                v-if="attachments[0].type === 'sticker'" 
+                :item="attachments[0]"
+            />
+
+            <AttachmentGraffiti
+                v-else-if="attachments[0].type === 'graffiti'" 
+                :item="attachments[0]"
+            />
+
+            <AttachmentAudioMessage
+                v-else-if="attachments[0].type === 'audio_message'" 
+                :item="attachments[0]"
+            />
+
+            <AttachmentStory
+                v-else-if="attachments[0].type === 'story'" 
+                :item="attachments[0]"
+            />
+
+            <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
+                <AttachmentAudio
+                    v-for="item of audioItems"
+                    :key="item.audio.id"
+                    :item="item"
+                />
+            </div>
+
+            <div v-if="docItems.length > 0" class="message-content-attachments-docs">
+                <AttachmentsDoc 
+                    v-for="item of docItems"
+                    :key="item.doc.id"
+                    :item="item"
+                />
+            </div>
         </div>
 
-        <div v-if="docItems.length > 0" class="message-content-attachments-docs">
-            <AttachmentsDoc 
-                v-for="item of docItems"
-                :key="item.doc.id"
-                :item="item"
-            />
-        </div>
+        <AttachmentsMap
+            v-if="geo"
+            :geo="geo"
+        />
     </div>
 </template>
 
@@ -58,13 +65,21 @@ export default {
         AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage"),
         AttachmentStory: () => import("~/components/Messages/Attachments/Story"),
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
-        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc")
+        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc"),
+        AttachmentsMap: () => import("~/components/Messages/Attachments/Map")
     },
 
     props: {
         attachments: {
             type: Array,
-            required: true
+            required: false,
+            default: []
+        },
+
+        geo: {
+            type: Object,
+            required: false,
+            default: undefined
         }
     },
 

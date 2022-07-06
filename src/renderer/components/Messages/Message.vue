@@ -21,8 +21,9 @@
             <span v-if="message.text" class="message-content-text" v-text="message.text" />
 
             <MessageAttachments 
-                v-if="message.attachments.length > 0"
-                :attachments="message.attachments" 
+                v-if="showAttachments"
+                :attachments="message.attachments"
+                :geo="message.geo"
             />
 
             <div class="message-content-info">
@@ -127,6 +128,11 @@ export default {
 
         name() {
             return this.chatUserProfile.first_name;
+        },
+
+        showAttachments() {
+            return this.message.attachments.length > 0
+                || this.message.geo;
         }
     }
 };

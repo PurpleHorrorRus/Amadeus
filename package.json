@@ -48,6 +48,7 @@
         "vue-loading-skeleton": "^1.1.9",
         "vue-plyr": "^7.0.0",
         "vue-scroll-outside": "^1.0.1",
-        "vue-textarea-autogrow-directive": "^0.2.0"
+        "vue-textarea-autogrow-directive": "^0.2.0",
+        "vue-yandex-maps": "^0.11.9"
     }
 }

@@ -15,6 +15,7 @@ export default {
     actions: {
         AUTH: async ({ dispatch, state, rootState }) => {
             state.client = new VK({
+                apiVersion: "5.154",
                 token: rootState.config.vk.token
             });
 
@@ -30,7 +31,16 @@ export default {
         },
 
         LISTEN: ({ dispatch, state }) => {
+            state.client.updates.on("app_payload", data => {
+                console.log(data);
+            });
+
+            state.client.updates.on("new_attachment", data => {
+                console.log(data);
+            });
+
             state.client.updates.on("message_new", data => {
+                console.log(data);
                 dispatch("messages/ADD_MESSAGE", data);
                 dispatch("conversations/ADD_MESSAGE", data);
             });
@@ -39,7 +49,8 @@ export default {
                 dispatch("conversations/UPDATE_LAST_MESSAGE", data);
             });
 
-            state.client.updates.on("message_typing_state", data => {
+            state.client.updates.on("typing", data => {
+                console.log(data);
                 dispatch("conversations/TRIGGER_TYPING", data.fromId);
             });
 
@@ -47,7 +58,7 @@ export default {
                 dispatch("conversations/TRIGGER_ONLINE", data);
             });
 
-            state.client.updates.startPolling();
+            state.client.updates.start();
         }
     },
 

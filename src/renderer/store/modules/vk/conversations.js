@@ -163,6 +163,8 @@ export default {
 
         TRIGGER_ONLINE: async ({ state }, data) => {
             const conversation = state.cache[data.userId];
+            console.log(data.userId, state.cache, conversation);
+
             conversation.profile.online = data.isOnline;
             conversation.profile.online_mobile = Number(conversation.profile.online && data.platform < 6);
 
