@@ -28,7 +28,7 @@
         "electron": "^19.0.7",
         "electron-builder": "^23.1.0",
         "eslint": "^8.19.0",
-        "eslint-plugin-vue": "^9.1.1",
+        "eslint-plugin-vue": "^9.2.0",
         "nuxt": "^2.15.8",
         "sass-loader": "10.2.1",
         "vue-svg-loader": "^0.16.0",
