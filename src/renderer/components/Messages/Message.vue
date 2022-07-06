@@ -23,7 +23,6 @@
             <MessageAttachments 
                 v-if="showAttachments"
                 :attachments="message.attachments"
-                :geo="message.geo"
             />
 
             <div class="message-content-info">

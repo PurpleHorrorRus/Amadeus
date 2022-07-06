@@ -31,6 +31,11 @@
                 :item="attachments[0]"
             />
 
+            <AttachmentPoll
+                v-if="pollItem"
+                :item="pollItem"
+            />
+
             <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
                 <AttachmentAudio
                     v-for="item of audioItems"
@@ -49,8 +54,8 @@
         </div>
 
         <AttachmentsMap
-            v-if="geo"
-            :geo="geo"
+            v-if="$parent.message.geo"
+            :geo="$parent.message.geo"
         />
     </div>
 </template>
@@ -62,6 +67,7 @@ export default {
         Gallery: () => import("~/components/Messages/Attachments/Gallery"),
         AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker"),
         AttachmentGraffiti: () => import("~/components/Messages/Attachments/Graffiti"),
+        AttachmentPoll: () => import("~/components/Messages/Attachments/Poll"),
         AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage"),
         AttachmentStory: () => import("~/components/Messages/Attachments/Story"),
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
@@ -73,13 +79,7 @@ export default {
         attachments: {
             type: Array,
             required: false,
-            default: []
-        },
-
-        geo: {
-            type: Object,
-            required: false,
-            default: undefined
+            default: () => ([])
         }
     },
 
@@ -100,6 +100,12 @@ export default {
         docItems() {
             return this.attachments.filter(attachment => {
                 return attachment.type === "doc";
+            });
+        },
+
+        pollItem() {
+            return this.attachments.find(attachment => {
+                return attachment.type === "poll";
             });
         }
     }
@@ -127,6 +133,12 @@ export default {
             color: var(--secondary);
             font-size: 12px;
         }
+    }
+
+    &-audios {
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
     }
 
     &-docs {

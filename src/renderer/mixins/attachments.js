@@ -36,6 +36,7 @@ const labels = {
 
     audio_message: "Голосовое сообщение",
     audio_playlist: "Плейлист",
+    poll: "Голосование",
     wall: "Запись со стены",
     sticker: "Стикер",
     graffiti: "Граффити",

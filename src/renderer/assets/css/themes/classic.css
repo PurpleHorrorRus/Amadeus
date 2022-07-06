@@ -32,6 +32,10 @@ html {
     --icons-hover: #bdbdbd;
     --icons-disabled: #4e4e4e;
 
+    --item: #202020;
+    --item-hover: #808080;
+    --item-disabled: #000000;
+
     --player-slider: #ffffff26;
     --player-slider-progress: #ffffff52;
 

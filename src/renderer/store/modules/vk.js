@@ -31,16 +31,7 @@ export default {
         },
 
         LISTEN: ({ dispatch, state }) => {
-            state.client.updates.on("app_payload", data => {
-                console.log(data);
-            });
-
-            state.client.updates.on("new_attachment", data => {
-                console.log(data);
-            });
-
             state.client.updates.on("message_new", data => {
-                console.log(data);
                 dispatch("messages/ADD_MESSAGE", data);
                 dispatch("conversations/ADD_MESSAGE", data);
             });
@@ -50,7 +41,6 @@ export default {
             });
 
             state.client.updates.on("typing", data => {
-                console.log(data);
                 dispatch("conversations/TRIGGER_TYPING", data.fromId);
             });
 
@@ -59,6 +49,18 @@ export default {
             });
 
             state.client.updates.start();
+        },
+
+        VOTE: async ({ state }, data) => {
+            data.poll.can_vote = false;
+            data.poll.votes++;
+
+            return await state.client.api.polls.addVote({
+                owner_id: data.poll.owner_id,
+                poll_id: data.poll.id,
+                answer_ids: data.answers.map(answer => answer.id).join(","),
+                is_board: Number(data.poll.is_board)
+            });
         }
     },
 
