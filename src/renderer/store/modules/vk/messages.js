@@ -49,6 +49,11 @@ export default {
             return state.cache[id];
         },
 
+        FLUSH: ({ state }, id) => {
+            state.cache[id].messages.splice(0, state.cache[id].messages.length - fields.count - 1);
+            return true;
+        },
+
         ADD_MESSAGE: async ({ state, rootState }, data) => {
             data.payload.message.peer_id = data.isGroup
                 ? -Math.abs(data.payload.message.peer_id)

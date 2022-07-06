@@ -120,6 +120,7 @@ export default {
     created() {
         this.id = Number(this.$route.params.chat);
         this.type = this.$route.query.type;
+        this.flush(this.id);
     },
 
     async mounted() {
@@ -133,6 +134,7 @@ export default {
     },
 
     beforeDestroy() {
+        this.flush(this.current);
         this.setCurrent(0);
         document.removeEventListener("keydown", this.exit);
     },
@@ -141,6 +143,7 @@ export default {
         ...mapActions({
             load: "vk/messages/LOAD",
             append: "vk/messages/APPEND",
+            flush: "vk/messages/FLUSH",
             setCurrent: "vk/messages/SET_CURRENT"
         }),
 
