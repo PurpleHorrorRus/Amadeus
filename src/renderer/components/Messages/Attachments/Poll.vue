@@ -2,31 +2,14 @@
     <div 
         class="attachments-item attachments-item-poll" 
         :class="pollClass" 
-        :style="pollStyle"
+        :style="style.poll"
     >
         <div 
             class="attachments-item-poll-foreground" 
-            :style="foregroundStyle" 
+            :style="style.foreground" 
         />
 
-        <div class="attachments-item-poll-information">
-            <span 
-                v-if="item.poll.closed"
-                class="attachments-item-poll-information-ended" 
-                v-text="'Голосованиез завершено'" 
-            />
-
-            <span 
-                class="attachments-item-poll-information-question" 
-                v-text="item.poll.question" 
-            />
-
-            <span 
-                v-if="item.poll.anonymous"
-                class="attachments-item-poll-information-anonymous" 
-                v-text="'Анонимное голосование'" 
-            />
-        </div>
+        <PollInformation :poll="item.poll" />
 
         <div class="attachments-item-poll-answers">
             <div class="attachments-item-poll-answers-list">
@@ -62,13 +45,19 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
+        PollInformation: () => import("~/components/Messages/Attachments/Poll/Information"),
         PollAnswer: () => import("~/components/Messages/Attachments/Poll/Answer")
     },
 
     mixins: [AttachmentMixin],
 
     data: () => ({
-        choices: []
+        choices: [],
+
+        style: {
+            poll: {},
+            foreground: {}
+        }
     }),
 
     computed: {
@@ -81,36 +70,6 @@ export default {
                 first: this.isFirst,
                 closed: this.isClosed,
                 background: !this.isPhoto
-            };
-        },
-        
-        pollStyle() {
-            if (this.isPhoto) {
-                const maxSize = this.calculateMaxSize(this.item.poll.photo.images);
-                return { 
-                    backgroundImage: `url("${maxSize}")`
-                };
-            }
-
-            return {
-                background: "lightgreen"
-            };
-        },
-
-        foregroundStyle() {
-            if (this.isPhoto) {
-                return { 
-                    background: `linear-gradient(\
-                    transparent -100%, \
-                    #${this.item.poll.photo.color} 100%)`
-                };
-            }
-
-            return {
-                background: `linear-gradient(\
-                -${this.item.poll.background.angle}deg, \
-                #${this.item.poll.background.points[0].color} 0%, \
-                #${this.item.poll.background.points[1].color} 100%)`
             };
         },
 
@@ -157,6 +116,25 @@ export default {
 
             return answer;
         });
+    },
+
+    mounted() {
+        if (this.isPhoto) {
+            const maxSize = this.calculateMaxSize(this.item.poll.photo.images);
+            this.style.poll = { backgroundImage: `url("${maxSize}")` };
+            this.style.foreground = { 
+                background: `linear-gradient(transparent -100%,  #${this.item.poll.photo.color} 100%)`
+            };
+
+            return true;
+        }
+
+        this.style.foreground = {
+            background: `linear-gradient(\
+                -${this.item.poll.background.angle}deg, \
+                #${this.item.poll.background.points[0].color} 0%, \
+             #${this.item.poll.background.points[1].color} 100%)`
+        };
     },
     
     methods: {
@@ -224,20 +202,6 @@ export default {
         border-radius: 8px;
 
         z-index: 1;
-    }
-
-    &-information {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        z-index: 2;
-
-        &-question {
-            font-size: 24px;
-            font-weight: 600;
-        }
     }
 
     &-answers {

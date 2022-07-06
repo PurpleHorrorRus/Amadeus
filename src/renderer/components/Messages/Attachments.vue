@@ -141,6 +141,12 @@ export default {
         }
     }
 
+    &-list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
     &-audios {
         display: flex;
         flex-direction: column;
