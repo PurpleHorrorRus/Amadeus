@@ -13,10 +13,10 @@ export default {
             return ipcRenderer.send("openMedia", { data, index });
         },
 
-        calculateMaxSize(images) {
+        calculateMaxSize(images, field = "url") {
             return [...images].sort((a, b) => {
                 return (b.width * b.height) - (a.width * a.height);
-            })[0].url;
+            })[0][field];
         }
     }
 };

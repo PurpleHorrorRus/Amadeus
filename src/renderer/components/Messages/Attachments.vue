@@ -15,6 +15,11 @@
             :item="attachments[0]"
         />
 
+        <AttachmentGraffiti
+            v-else-if="attachments[0].type === 'graffiti'" 
+            :item="attachments[0]"
+        />
+
         <AttachmentAudioMessage
             v-else-if="attachments[0].type === 'audio_message'" 
             :item="attachments[0]"
@@ -32,6 +37,14 @@
                 :item="item"
             />
         </div>
+
+        <div v-if="docItems.length > 0" class="message-content-attachments-docs">
+            <AttachmentsDoc 
+                v-for="item of docItems"
+                :key="item.doc.id"
+                :item="item"
+            />
+        </div>
     </div>
 </template>
 
@@ -41,9 +54,11 @@ export default {
         AttachmentWall: () => import("~/components/Messages/Attachments/Wall"),
         Gallery: () => import("~/components/Messages/Attachments/Gallery"),
         AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker"),
+        AttachmentGraffiti: () => import("~/components/Messages/Attachments/Graffiti"),
         AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage"),
         AttachmentStory: () => import("~/components/Messages/Attachments/Story"),
-        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio")
+        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
+        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc")
     },
 
     props: {
@@ -64,6 +79,12 @@ export default {
         audioItems() {
             return this.attachments.filter(attachment => {
                 return attachment.type === "audio";
+            });
+        },
+
+        docItems() {
+            return this.attachments.filter(attachment => {
+                return attachment.type === "doc";
             });
         }
     }
@@ -91,6 +112,12 @@ export default {
             color: var(--secondary);
             font-size: 12px;
         }
+    }
+
+    &-docs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
     }
 }
 
