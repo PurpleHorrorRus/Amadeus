@@ -6,6 +6,7 @@ export default {
     computed: {
         ...mapState({
             client: state => state.vk.client,
+            user: state => state.vk.user,
             settings: state => state.settings.settings
         })
     },
