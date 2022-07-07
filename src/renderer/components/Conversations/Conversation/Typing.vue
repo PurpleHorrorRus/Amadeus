@@ -1,8 +1,8 @@
 <template>
-    <div class="convermsation-message-typing">
+    <div class="convermsation-message-typing nowrap">
         <PenIcon class="icon pen" />
         <span 
-            class="convermsation-message-typing-text small-text" 
+            class="convermsation-message-typing-text small-text nowrap" 
             v-text="'набирает сообщение...'" 
         />
     </div>
@@ -28,7 +28,8 @@ export default {
 }
 
 .convermsation-message-typing {
-    display: flex;
+    display: grid;
+    grid-template-columns: 15px 1fr;
     align-items: center;
     column-gap: 5px;
 
