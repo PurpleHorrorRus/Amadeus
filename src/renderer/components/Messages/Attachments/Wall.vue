@@ -1,14 +1,6 @@
 <template>
     <div class="attachments-item attachments-item-wall">
-        <WallRepost 
-            v-if="loaded" 
-            :repost="repost" 
-        />
-
-        <LoaderIcon 
-            v-else 
-            class="icon loader-icon spin" 
-        />
+        <WallRepost :item="item.wall" />
 
         <span 
             v-if="item.wall.text"
@@ -17,14 +9,13 @@
         />
 
         <MessageAttachments
-            v-if="attachments.length > 0"
-            :attachments="attachments"
+            v-if="wall.attachments.length > 0"
+            :message="wall"
         />
     </div>
 </template>
 
 <script>
-import CoreMixin from "~/mixins/core";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
@@ -33,45 +24,21 @@ export default {
         MessageAttachments: () => import("~/components/Messages/Attachments")
     },
 
-    mixins: [CoreMixin, AttachmentMixin],
+    mixins: [AttachmentMixin],
 
     data: () => ({
         loaded: false,
-        attachments: [],
+        wall: {},
         repost: null
     }),
 
     async created() {
-        this.attachments = this.item.wall.copy_history?.length > 0
+        this.wall = this.item.wall;
+        this.wall.attachments = this.item.wall.copy_history?.length > 0
             ? [{ 
                 wall: this.item.wall.copy_history[0],
                 type: "wall"
             }] : this.item.wall.attachments || [];
-
-        if (this.item.wall.from_id < 0) {
-            const data = await this.client.api.groups.getById({
-                group_id: Math.abs(this.item.wall.from_id),
-                fields: "photo_100",
-                extended: 1
-            });
-
-            this.repost = data.groups[0];
-            this.repost.type = "group";
-        }  else {
-            const data = await this.client.api.users.get({
-                user_ids: this.item.wall.from_id,
-                fields: "photo_100",
-                extended: 1
-            });
-            
-            const user = data.profiles[0];
-            user.name = `${user.first_name} ${user.last_name}`;
-            this.repost = user;
-            this.repost.type = "user";
-        }
-
-        this.repost.date = this.item.wall.date;
-        this.loaded = true;
     }
 };
 </script>

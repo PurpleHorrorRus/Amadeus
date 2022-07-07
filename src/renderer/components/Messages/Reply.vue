@@ -61,18 +61,6 @@ export default {
 </script>
 
 <style lang="scss">
-.message {
-    .message-content-reply {
-        border-left: 4px solid var(--secondary);
-    }
-
-    &.out {
-        .message-content-reply {
-            border-left: 4px solid var(--out-contrast);
-        }
-    }
-}
-
 .message-content-reply {
     display: flex;
     flex-direction: column;
@@ -80,6 +68,8 @@ export default {
     align-items: flex-start;
 
     padding-left: 10px;
+
+    border-left: 4px solid var(--secondary);
 
     span {
         user-select: text;

@@ -53,6 +53,13 @@ export default {
         }
     },
 
+    computed: {
+        showAttachments() {
+            return this.message.attachments.length > 0
+                || this.message.geo;
+        }
+    },
+
     methods: {
         formatAttachment(attachment, count, unset = true) {
             const label = labels[attachment];

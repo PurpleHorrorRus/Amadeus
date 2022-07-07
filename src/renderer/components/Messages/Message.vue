@@ -18,6 +18,14 @@
                 :message="message.reply_message"
             />
 
+            <div v-if="message.fwd_messages" class="message-content-fwd">
+                <ForwardedMessage 
+                    v-for="fwd of message.fwd_messages"
+                    :key="fwd.id"
+                    :message="fwd"
+                />
+            </div>
+
             <span 
                 v-if="message.text" 
                 class="message-content-text" 
@@ -26,8 +34,7 @@
 
             <MessageAttachments 
                 v-if="showAttachments"
-                :attachments="message.attachments"
-                :geo="message.geo"
+                :message="message"
             />
 
             <div class="message-content-info">
@@ -47,16 +54,18 @@
 </template>
 
 <script>
+import AttachmentsMixin from "~/mixins/attachments";
 import DateMixin from "~/mixins/date";
 
 export default {
     components: {
         MessageReply: () => import("~/components/Messages/Reply"),
+        ForwardedMessage: () => import("~/components/Messages/ForwardedMessage"),
         MessageAttachments: () => import("~/components/Messages/Attachments"),
         CheckIcon: () => import("~/assets/icons/check.svg")
     },
 
-    mixins: [DateMixin],
+    mixins: [AttachmentsMixin, DateMixin],
 
     props: {
         message: {
@@ -132,11 +141,6 @@ export default {
 
         name() {
             return this.chatUserProfile.first_name;
-        },
-
-        showAttachments() {
-            return this.message.attachments.length > 0
-                || this.message.geo;
         }
     }
 };
@@ -233,6 +237,12 @@ export default {
             hyphens: auto;
             overflow-wrap: break-word;
             word-wrap: break-word;
+        }
+
+        &-fwd {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
         }
 
         &-info {

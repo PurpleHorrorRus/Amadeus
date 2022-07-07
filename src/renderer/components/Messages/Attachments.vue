@@ -1,9 +1,9 @@
 <template>
     <div class="message-content-attachments">
-        <div v-if="attachments.length > 0" class="message-content-attachments-list">
+        <div v-if="message.attachments.length > 0" class="message-content-attachments-list">
             <AttachmentWall
-                v-if="attachments[0].type === 'wall'" 
-                :item="attachments[0]"
+                v-if="message.attachments[0].type === 'wall'" 
+                :item="message.attachments[0]"
             />
 
             <Gallery 
@@ -12,23 +12,23 @@
             />
 
             <AttachmentSticker 
-                v-if="attachments[0].type === 'sticker'" 
-                :item="attachments[0]"
+                v-if="message.attachments[0].type === 'sticker'" 
+                :item="message.attachments[0]"
             />
 
             <AttachmentGraffiti
-                v-else-if="attachments[0].type === 'graffiti'" 
-                :item="attachments[0]"
+                v-else-if="message.attachments[0].type === 'graffiti'" 
+                :item="message.attachments[0]"
             />
 
             <AttachmentAudioMessage
-                v-else-if="attachments[0].type === 'audio_message'" 
-                :item="attachments[0]"
+                v-else-if="message.attachments[0].type === 'audio_message'" 
+                :item="message.attachments[0]"
             />
 
             <AttachmentStory
-                v-else-if="attachments[0].type === 'story'" 
-                :item="attachments[0]"
+                v-else-if="message.attachments[0].type === 'story'" 
+                :item="message.attachments[0]"
             />
 
             <AttachmentPoll
@@ -54,7 +54,7 @@
         </div>
 
         <AttachmentsLink v-if="linkItem" :item="linkItem" />
-        <AttachmentsMap v-if="geo" :geo="geo" />
+        <AttachmentsMap v-if="message.geo" :geo="message.geo" />
     </div>
 </template>
 
@@ -75,47 +75,40 @@ export default {
     },
 
     props: {
-        attachments: {
-            type: Array,
-            required: false,
-            default: () => ([])
-        },
-
-        geo: {
+        message: {
             type: Object,
-            required: false,
-            default: undefined
+            required: true
         }
     },
 
     computed: {
         galleryItems() {
-            return this.attachments.filter(attachment => {
+            return this.message.attachments.filter(attachment => {
                 return attachment.type === "photo" 
                     || attachment.type === "video";
             });
         },
 
         audioItems() {
-            return this.attachments.filter(attachment => {
+            return this.message.attachments.filter(attachment => {
                 return attachment.type === "audio";
             });
         },
 
         docItems() {
-            return this.attachments.filter(attachment => {
+            return this.message.attachments.filter(attachment => {
                 return attachment.type === "doc";
             });
         },
 
         pollItem() {
-            return this.attachments.find(attachment => {
+            return this.message.attachments.find(attachment => {
                 return attachment.type === "poll";
             });
         },
 
         linkItem() {
-            return this.attachments.find(attachment => {
+            return this.message.attachments.find(attachment => {
                 return attachment.type === "link";
             });
         }

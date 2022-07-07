@@ -1,48 +1,90 @@
 <template>
-    <div class="attachments-item-wall-repost">
-        <RepostIcon class="icon attachments-item-wall-repost-icon" />
+    <div class="attachments-item-repost">
+        <Component 
+            :is="icon" 
+            class="icon attachments-item-repost-icon" 
+        />
+        <div v-if="loaded" class="attachments-item-repost-block">
+            <img :src="profile.photo_100" class="attachments-item-repost-block-avatar">
 
-        <img :src="repost.photo_100" class="attachments-item-wall-repost-avatar">
+            <div class="attachments-item-repost-block-information nowrap">
+                <span 
+                    class="attachments-item-repost-block-information-name nowrap clickable" 
+                    @click="open"
+                    v-text="profile.name"
+                />
 
-        <div class="attachments-item-wall-repost-information nowrap">
-            <span 
-                class="attachments-item-wall-repost-information-name nowrap clickable" 
-                @click="open"
-                v-text="repost.name"
-            />
-
-            <span 
-                class="attachments-item-wall-repost-information-date" 
-                v-text="relativeDate(repost.date * 1000)" 
-            />
+                <span 
+                    class="attachments-item-repost-block-information-date" 
+                    v-text="profile.date" 
+                />
+            </div>
         </div>
+
+        <LoaderIcon v-else class="icon loader-icon spin" />
     </div>
 </template>
 
 <script>
-import { shell } from "electron";
-
+import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
+import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
+
+import RepostIcon from "~/assets/icons/repost.svg";
 
 export default {
-    components: {
-        RepostIcon: () => import("~/assets/icons/repost.svg")
-    },
-
-    mixins: [DateMixin],
+    mixins: [CoreMixin, DateMixin, AttachmentMixin],
 
     props: {
-        repost: {
+        item: {
             type: Object,
             required: true
+        },
+
+        icon: {
+            type: Object,
+            required: false,
+            default: RepostIcon
         }
+    },
+
+    data: () => ({
+        profile: {},
+        loaded: false
+    }),
+
+    async created() {
+        if (this.item.from_id < 0) {
+            const data = await this.client.api.groups.getById({
+                group_id: Math.abs(this.item.from_id),
+                fields: "photo_100",
+                extended: 1
+            });
+
+            this.profile = data.groups?.[0] || data[0];
+            this.profile.type = "group";
+        }  else {
+            const data = await this.client.api.users.get({
+                user_ids: this.item.from_id,
+                fields: "photo_100",
+                extended: 1
+            });
+
+            const user = data.profiles?.[0] || data[0];
+            user.name = `${user.first_name} ${user.last_name}`;
+            this.profile = user;
+            this.profile.type = "user";
+        }
+
+        this.profile.date = this.relativeDate(this.item.date * 1000);
+        this.loaded = true;
     },
 
     methods: {
         open() {
-            const url = this.repost.type === "user"
-                ? `https://vk.com/id${this.repost.id}` 
-                : `https://vk.com/public${this.repost.id}`;
+            const url = this.profile.type === "user"
+                ? `https://vk.com/id${this.profile.id}` 
+                : `https://vk.com/public${this.profile.id}`;
 
             return this.openExternal(url);
         }
@@ -51,9 +93,9 @@ export default {
 </script>
 
 <style lang="scss">
-.attachments-item-wall-repost {
+.attachments-item-repost {
     display: grid;
-    grid-template-columns: 22px 40px 1fr;
+    grid-template-columns: 22px 1fr;
     align-items: center;
     column-gap: 5px;
 
@@ -67,27 +109,34 @@ export default {
         }
     }
 
-    &-avatar {
-        width: 40px;
-        height: 40px;
+    &-block {
+        display: grid;
+        grid-template-columns: 40px 1fr;
+        align-items: center;
+        column-gap: 5px;
 
-        border-radius: 100%;
-    }
+        &-avatar {
+            width: 40px;
+            height: 40px;
 
-    &-information {
-        line-height: 13px;
-
-        &-name {
-            font-size: 14px;
+            border-radius: 100%;
         }
 
-        &-date {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        &-information {
+            line-height: 13px;
 
-            color: #ffffff;
-            font-size: 12px;
+            &-name {
+                font-size: 14px;
+            }
+
+            &-date {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                color: #ffffff;
+                font-size: 12px;
+            }
         }
     }
 }
