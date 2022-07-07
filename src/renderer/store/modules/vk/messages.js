@@ -57,7 +57,7 @@ export default {
             return true;
         },
 
-        ADD_MESSAGE: async ({ state, rootState }, data) => {
+        ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
             data.payload.message.peer_id = data.isGroup
                 ? -Math.abs(data.payload.message.peer_id)
                 : data.payload.message.peer_id;
@@ -71,54 +71,53 @@ export default {
                     message_ids: data.payload.message.id
                 });
 
-                const message = response.items[0];
+                const message = await dispatch("SYNC", response.items[0]);
                 state.cache[message.peer_id].count++;
-                if (message.out) {
-                    const messageIndex = findLastIndex(state.cache[message.peer_id].messages, msg => {
-                        return msg.random_id === message.random_id;
-                    });
-
-                    if (~messageIndex) {
-                        state.cache[message.peer_id].messages[messageIndex].id = message.id;
-                        state.cache[message.peer_id].messages[messageIndex] = message;
-                    } else state.cache[data.payload.message.peer_id].messages.push(message);
-                } else state.cache[message.peer_id].messages.push(message);
-
                 return state.cache[message.peer_id];
             }
 
             return false;
         },
+
+        SYNC: ({ state }, message) => {
+            const messageIndex = findLastIndex(state.cache[message.peer_id].messages, msg => {
+                return msg.random_id === message.random_id;
+            });
+            
+            if (~messageIndex) {
+                state.cache[message.peer_id].messages[messageIndex].id = message.id;
+                state.cache[message.peer_id].messages[messageIndex].syncing = 0;
+                return Object.assign(state.cache[message.peer_id].messages[messageIndex], message);
+            } else {
+                state.cache[message.peer_id].messages.push(message);
+                return state.cache[message.peer_id].messages[state.cache[message.peer_id].messages.length - 1];
+            }
+        },
         
-        SEND: async ({ dispatch, state, rootState }, data) => {
+        SEND: async ({ dispatch, rootState }, data) => {
             const toSend = {
                 attachment: "",
-                peer_id: state.current,
+                peer_id: data.peer_id,
                 random_id: common.getRandom(10, 99999999),
-                message: data.message,
+                message: data.text,
                 reply_to: data.reply_message?.id
             };
 
             const message = {
-                attachments: data.attachments || [],
-                date: Math.floor(Date.now() / 1000),
-                from_id: rootState.vk.user.id,
                 id: common.getRandom(100000, 999999),
+                peer_id: toSend.peer_id,
                 random_id: toSend.random_id,
-                message: data.message,
-                text: data.message,
-                reply_message: data.reply_message,
+                from_id: rootState.vk.user.id,
+                date: Math.floor(Date.now() / 1000),
                 out: 1,
-                fast: 1
+                syncing: 1,
+                ...data
             };
 
-            state.cache[toSend.peer_id].messages.push(message);
+            dispatch("SYNC", message);
             dispatch("vk/conversations/ADD_MESSAGE", { 
-                text: message.text,
-                payload: { message: {
-                    ...message,
-                    peer_id: data.id
-                } } 
+                payload: { message },
+                text: message.text
             }, { root: true });
 
             if (message.attachments.length > 0) {
@@ -130,21 +129,50 @@ export default {
             return await rootState.vk.client.api.messages.send(toSend);
         },
 
+        EDIT: async ({ dispatch, rootState }, message) => {
+            const toEdit = {
+                attachment: "",
+                peer_id: message.peer_id,
+                message: message.text,
+                message_id: message.id
+            };
+
+            message.id = common.getRandom(100000, 999999);
+            await dispatch("SYNC", message);
+            message.id = toEdit.message_id;
+
+            if (message.attachments.length > 0) {
+                const attachments = await dispatch("UPLOAD", message.attachments);
+                message.attachments = attachments.uploaded;
+                toEdit.attachment = attachments.ids;
+            }
+
+            return await rootState.vk.client.api.messages.edit(toEdit);
+        },
+
         UPLOAD: async ({ dispatch, rootState }, attachments) => {
             const { upload_url } = await rootState.vk.client.api.photos.getMessagesUploadServer();
             const uploaded = await Promise.map(attachments, async attachment => {
+                if (!("path" in attachment)) {
+                    return attachment;
+                }
+
                 attachment.uploading = true;
                 const formData = await dispatch("PREPARE_FORMDATA", attachment.path);
                 const upload = await rootState.vk.client.upload.upload(upload_url, { formData });
                 const [saved] = await rootState.vk.client.api.photos.saveMessagesPhoto(upload);
-                saved.type = attachment.type;
                 attachment.uploading = false;
-                return saved;
+
+                return {
+                    type: attachment.type,
+                    [attachment.type]: saved
+                };
             }, { concurrency: 1 });
 
             return {
                 uploaded,
-                ids: uploaded.map(attachment => {
+                ids: uploaded.map(data => {
+                    const attachment = data[data.type];
                     return `photo${attachment.owner_id}_${attachment.id}`;
                 }).join(",")
             };

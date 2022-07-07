@@ -1,5 +1,18 @@
 <template>
     <div id="message-page-input" class="nowrap" :class="inputClass">
+        <div v-if="editing.enable" id="message-page-input-edit">
+            <span 
+                id="message-page-input-edit-label"
+                class="small-text"
+                v-text="'Редактирование сообщения'" 
+            />
+
+            <XIcon 
+                class="icon clickable" 
+                @click="clearEditing" 
+            />
+        </div>
+
         <div id="message-page-input-field">
             <textarea 
                 id="message-page-input-field-textarea"
@@ -8,6 +21,7 @@
                 v-autogrow
                 placeholder="Введите сообщение..."
                 @keypress.enter="send"
+                @keydown.up="hotkeyEdit"
             />
 
             <div id="message-page-input-field-send" :class="sendIconClass" @click="send">
@@ -42,6 +56,7 @@
 import { mapActions, mapState } from "vuex";
 import fs from "fs";
 import path from "path";
+import { findLastIndex } from "lodash";
 
 import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 
@@ -49,7 +64,8 @@ export default {
     components: {
         MessageAttachmentsGallery: () => import("~/components/Messages/Input/Gallery"),
         MessageReply: () => import("~/components/Messages/Reply"),
-        SendIcon: () => import("~/assets/icons/send.svg")
+        SendIcon: () => import("~/assets/icons/send.svg"),
+        XIcon: () => import("~/assets/icons/x.svg")
     },
 
     directives: {
@@ -60,7 +76,12 @@ export default {
         sending: false,
         message: "",
         reply: null,
-        attachments: []
+        attachments: [],
+
+        editing: {
+            enable: false,
+            message: null
+        }
     }),
 
     computed: {
@@ -78,6 +99,12 @@ export default {
         canSend() {
             return this.message.length > 0
                 || this.attachments.length > 0;
+        },
+
+        canEdit() {
+            return !this.editing.enable
+                && this.message.length === 0
+                && this.attachments.length === 0;
         },
 
         sendIconClass() {
@@ -102,7 +129,8 @@ export default {
 
     methods: {
         ...mapActions({
-            sendMessage: "vk/messages/SEND"
+            sendMessage: "vk/messages/SEND",
+            editMessage: "vk/messages/EDIT"
         }),
 
         async send(event) {
@@ -115,7 +143,7 @@ export default {
                 this.sending = true;
             }
 
-            const message = this.message;
+            const text = this.message;
             const attachments = [...this.attachments];
             const reply_message = this.reply ? { ...this.reply } : undefined;
 
@@ -123,14 +151,28 @@ export default {
             this.attachments.length = 0;
             this.reply = null;
 
-            await this.sendMessage({
-                id: this.$route.params.chat,
+            const params = {
+                peer_id: this.current,
                 type: this.$route.query.type,
 
                 attachments,
-                message,
+                text,
                 reply_message
-            });
+            };
+
+            if (this.editing.enable) {
+                this.editing.message.text = params.text;
+                this.editing.message.attachments = params.attachments;
+                this.editing.message.reply_message = params.reply_message;
+            }
+
+            !this.editing.enable
+                ? await this.sendMessage(params) 
+                : await this.editMessage(this.editing.message);
+        
+            if (this.editing.enable) {
+                this.clearEditing();
+            }
 
             this.sending = false;
             return true;
@@ -188,7 +230,47 @@ export default {
             return true;
         },
 
+        hotkeyEdit() {
+            if (!this.canEdit) {
+                return false;
+            }
+
+            const latestOutMessageIndex = findLastIndex(this.$parent.chat.messages, message => {
+                return message.out;
+            });
+
+            return ~latestOutMessageIndex
+                ? this.$parent.action("edit", latestOutMessageIndex)
+                : false;
+        },
+
+        edit(message) {
+            this.editing.enable = true;
+            this.editing.message = message;
+
+            this.message = message.text;
+            this.attachments = [...message.attachments];
+            this.reply = message.reply_message;
+
+            return true;
+        },
+
+        clearEditing() {
+            this.editing.enable = false;
+            this.editing.message = null;
+
+            this.message = "";
+            this.attachments.length = 0;
+            this.reply = null;
+
+            return true;
+        },
+
         addReply(message) {
+            if (this.editing.enable) {
+                return false;
+            }
+            
             this.reply = message;
             return this.reply;
         },
@@ -216,6 +298,18 @@ export default {
     gap: 10px;
 
     padding: 10px 10px 10px 0px;
+
+    &-edit {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .icon {
+            width: 14px;
+
+            stroke: var(--small-text);
+        }
+    }
 
     &-field {
         display: flex;

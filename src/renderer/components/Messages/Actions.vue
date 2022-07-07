@@ -1,6 +1,13 @@
 <template>
     <div class="message-actions">
         <ReplyIcon class="icon vkgram" @click="action('reply')" />
+
+        <PenIcon 
+            v-if="$parent.message.out"
+            class="icon vkgram" 
+            @click="action('edit')" 
+        />
+
         <StarIcon 
             class="icon vkgram star" 
             :class="starClass"
@@ -13,6 +20,7 @@
 export default {
     components: {
         ReplyIcon: () => import("~/assets/icons/reply.svg"),
+        PenIcon: () => import("~/assets/icons/pen.svg"),
         StarIcon: () => import("~/assets/icons/star.svg")
     },
 
@@ -33,15 +41,16 @@ export default {
 <style lang="scss">
 .message-actions {
     display: flex;
-    flex-direction: column;
-    row-gap: 10px;
+    flex-direction: row;
+    align-items: flex-start;
+    column-gap: 5px;
 
     opacity: 0;
 
     transition: opacity .1s ease-in-out;
 
     .icon {
-        width: 14px;
+        width: 18px;
 
         cursor: pointer;
 

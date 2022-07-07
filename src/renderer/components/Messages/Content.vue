@@ -78,7 +78,7 @@ export default {
 
         showCheckIcon() {
             return this.message.out
-                && !this.message.fast 
+                && !this.message.syncing 
                 && !this.isNotRead;
         }
     }

@@ -151,6 +151,10 @@ export default {
                     return this.$refs.input.addReply(message);
                 }
 
+                case "edit": {
+                    return this.$refs.input.edit(message);
+                }
+
                 case "important": {
                     return await this.markImportant(message);
                 }
@@ -174,6 +178,7 @@ export default {
 
         exit(event) {
             if (event.code !== "Escape") return false;
+            if (this.$refs.input.editing.enable) return this.$refs.input.clearEditing();
             this.$router.replace("/general").catch(() => {});
             return true;
         }
