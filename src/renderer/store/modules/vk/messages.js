@@ -2,6 +2,7 @@ import Promise from "bluebird";
 import { FormData } from "formdata-node";
 import { fileFromPathSync } from "formdata-node/file-from-path";
 import { findLastIndex } from "lodash";
+import fs from "fs-extra";
 
 import common from "~/plugins/common";
 
@@ -164,6 +165,8 @@ export default {
                 const upload = await rootState.vk.client.upload.upload(upload_url, { formData });
                 const [saved] = await rootState.vk.client.api.photos.saveMessagesPhoto(upload);
                 attachment.uploading = false;
+
+                fs.remove(attachment.path);
 
                 return {
                     type: attachment.type,

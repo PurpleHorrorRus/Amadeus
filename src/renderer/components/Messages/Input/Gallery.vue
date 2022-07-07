@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import fs from "fs-extra";
+
 export default {
     components: {
         AttachmentItem: () => import("~/components/Messages/Input/Item")
@@ -24,6 +26,7 @@ export default {
 
     methods: {
         remove(index) {
+            fs.removeSync(this.attachments[index].path);
             this.$parent.attachments.splice(index, 1);
         }
     }
