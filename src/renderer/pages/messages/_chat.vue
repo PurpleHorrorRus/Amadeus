@@ -17,6 +17,7 @@
                     :key="message.id"
                     :message="message"
                     :same="same(index)"
+                    @action="action($event, index)"
                 />
             </div>
 
@@ -140,6 +141,14 @@ export default {
             flush: "vk/messages/FLUSH",
             setCurrent: "vk/messages/SET_CURRENT"
         }),
+
+        action(name, index) {
+            switch(name) {
+                case "reply": {
+                    return this.$refs.input.addReply(this.chat.messages[index]);
+                }
+            }
+        },
 
         same(index) {
             if (index === 0) {

@@ -1,28 +1,36 @@
 <template>
     <div id="message-page-input" :class="inputClass">
-        <textarea 
-            id="message-page-input-textarea"
-            ref="textarea"
-            v-model="message" 
-            v-autogrow
-            placeholder="Введите сообщение..."
-            @keypress.enter="send"
-        />
-
-        <div id="message-page-input-send" :class="sendIconClass" @click="send">
-            <SendIcon 
-                v-if="!sending"
-                id="message-page-input-send-icon" 
-                class="icon"
-                :class="sendIconClass"
+        <div id="message-page-input-field">
+            <textarea 
+                id="message-page-input-field-textarea"
+                ref="textarea"
+                v-model="message" 
+                v-autogrow
+                placeholder="Введите сообщение..."
+                @keypress.enter="send"
             />
 
-            <LoaderIcon
-                v-else
-                id="message-page-input-loader-icon"
-                class="icon loader-icon spin"
-            />
+            <div id="message-page-input-field-send" :class="sendIconClass" @click="send">
+                <SendIcon 
+                    v-if="!sending"
+                    id="message-page-input-field-send-icon" 
+                    class="icon"
+                    :class="sendIconClass"
+                />
+
+                <LoaderIcon
+                    v-else
+                    id="message-page-input-loader-icon"
+                    class="icon loader-icon spin"
+                />
+            </div>
         </div>
+
+        <MessageReply 
+            v-if="reply" 
+            :message="reply" 
+            @click.native="removeReply"
+        />
 
         <div v-if="attachments.length > 0" id="message-page-input-attachments">
             <MessageAttachmentsGallery :attachments="attachments" />
@@ -40,6 +48,7 @@ import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 export default {
     components: {
         MessageAttachmentsGallery: () => import("~/components/Messages/Input/Gallery"),
+        MessageReply: () => import("~/components/Messages/Reply"),
         SendIcon: () => import("~/assets/icons/send.svg")
     },
 
@@ -50,6 +59,7 @@ export default {
     data: () => ({
         sending: false,
         message: "",
+        reply: null,
         attachments: []
     }),
 
@@ -107,16 +117,19 @@ export default {
 
             const message = this.message;
             const attachments = [...this.attachments];
+            const reply_message = this.reply ? { ...this.reply } : undefined;
 
             this.message = "";
             this.attachments.length = 0;
+            this.reply = null;
 
             await this.sendMessage({
                 id: this.$route.params.chat,
                 type: this.$route.query.type,
 
                 attachments,
-                message
+                message,
+                reply_message
             });
 
             this.sending = false;
@@ -175,6 +188,16 @@ export default {
             return true;
         },
 
+        addReply(message) {
+            this.reply = message;
+            return this.reply;
+        },
+
+        removeReply() {
+            this.reply = null;
+            return true;
+        },
+
         focus(event) {
             if (event.type === "keypress" || event.type === "focus") {
                 this.$refs.textarea.focus();
@@ -188,71 +211,65 @@ export default {
 #message-page-input {
     grid-area: input;
 
-    display: grid;
-    grid-template-columns: 1fr 20px;
-    grid-template-rows: max-content;
-    grid-template-areas: "input send";
-    align-items: center;
-    column-gap: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 
-    height: 100%;
+    padding: 10px 10px 10px 0px;
 
-    padding: 10px 10px 10px 5px;
-
-    &.attachments {
-        display: grid;
-        grid-template-columns: 1fr 20px;
-        grid-template-rows: max-content max-content;
-        grid-template-areas: "input send"
-                            "attachments attachments";
-    }
-
-    &-textarea {
-        grid-area: input;
-
+    &-field {
         display: flex;
         align-items: center;
+        flex-direction: row;
+        column-gap: 10px;
 
-        width: 100%;
-        max-height: 160px;
-        
-        padding: 7px;
+        &-textarea {
+            display: flex;
+            align-items: center;
 
-        border: none;
-        border-radius: 4px;
-
-        background: var(--field);
-
-        font-size: 14px;
-
-        outline: none;
-        resize: none;
-    }
-    
-    &-send {
-        grid-area: send;
-
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        width: 23px;
-        height: 100%;
-        
-        cursor: pointer;
-
-        &.disabled {
-            cursor: not-allowed;
-        }
-
-        &-icon {
             width: 100%;
+            max-height: 160px;
+            
+            padding: 7px;
 
-            path {
-                stroke: none;
-                fill: var(--secondary);
+            border: none;
+            border-radius: 4px;
+
+            background: var(--field);
+
+            font-size: 14px;
+
+            outline: none;
+            resize: none;
+        }
+        
+        &-send {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 23px;
+            height: 100%;
+            
+            cursor: pointer;
+
+            &.disabled {
+                cursor: not-allowed;
+            }
+
+            &-icon {
+                width: 100%;
+
+                path {
+                    stroke: none;
+                    fill: var(--secondary);
+                }
             }
         }
+    }
+
+    .message-content-reply {
+        cursor: pointer;
     }
 
     &-attachments {

@@ -91,21 +91,28 @@ export default {
         },
         
         SEND: async ({ dispatch, state, rootState }, data) => {
-            const message = {
-                attachment: [],
-                attachments: data.attachments || [],
-                date: Math.floor(Date.now() / 1000),
-                id: common.getRandom(100000, 999999),
+            const toSend = {
+                attachment: "",
                 peer_id: state.current,
-                from_id: rootState.vk.user.id,
                 random_id: common.getRandom(10, 99999999),
                 message: data.message,
+                reply_to: data.reply_message?.id
+            };
+
+            const message = {
+                attachments: data.attachments || [],
+                date: Math.floor(Date.now() / 1000),
+                from_id: rootState.vk.user.id,
+                id: common.getRandom(100000, 999999),
+                random_id: toSend.random_id,
+                message: data.message,
                 text: data.message,
+                reply_message: data.reply_message,
                 out: 1,
                 fast: 1
             };
 
-            state.cache[message.peer_id].messages.push(message);
+            state.cache[toSend.peer_id].messages.push(message);
             dispatch("vk/conversations/ADD_MESSAGE", { 
                 text: message.text,
                 payload: { message: {
@@ -117,10 +124,10 @@ export default {
             if (message.attachments.length > 0) {
                 const attachments = await dispatch("UPLOAD", message.attachments);
                 message.attachments = attachments.uploaded;
-                message.attachment = attachments.ids;
+                toSend.attachment = attachments.ids;
             }
 
-            return await rootState.vk.client.api.messages.send(message);
+            return await rootState.vk.client.api.messages.send(toSend);
         },
 
         UPLOAD: async ({ dispatch, rootState }, attachments) => {
