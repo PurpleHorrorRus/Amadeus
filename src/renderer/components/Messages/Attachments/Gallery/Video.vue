@@ -43,7 +43,7 @@ export default {
 
     computed: {
         showTitle() {
-            return this.$parent.data.length === 1;
+            return this.$parent.data?.length === 1;
         },
 
         isRestrict() {
@@ -90,26 +90,12 @@ export default {
         background-size: cover !important;
         border-radius: 8px;
 
-        &-image {
+        &-image, &-quick, &-empty {
             width: 100%;
             height: auto;
 
             border-radius: 8px;
-        }
-
-        &-quick {
-            width: 33vw;
-            height: 19vw;
-
-            border-radius: 8px;
             border: none;
-        }
-        
-        &-empty {
-            width: 35vw;
-            height: 20vw;
-            
-            border-radius: 8px;
         }
 
         .icon {

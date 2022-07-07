@@ -236,7 +236,11 @@ export default {
             }
 
             const latestOutMessageIndex = findLastIndex(this.$parent.chat.messages, message => {
-                return message.out;
+                const firstAttachment = message.attachments[0];
+                return message.out
+                    && (firstAttachment?.type !== "sticker" 
+                    && firstAttachment?.type !== "graffiti"
+                    && firstAttachment?.type !== "audio_message");
             });
 
             return ~latestOutMessageIndex

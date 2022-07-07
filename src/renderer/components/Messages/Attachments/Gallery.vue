@@ -55,16 +55,21 @@ export default {
         gap: 5px;
     }
 
+    &.grid-1 {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "item-1";
+    }
+
     &.grid-2 {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr;
         grid-template-areas: "item-1 item-2";
     }
 
-
     &.grid-3 {
-        grid-template-columns: 10rem auto;
-        grid-template-rows: 1fr;
+        grid-template-columns: 3fr 1fr;
+        grid-template-rows: max-content max-content;
         grid-template-areas: "item-1 item-2"
                             "item-1 item-3";
     }

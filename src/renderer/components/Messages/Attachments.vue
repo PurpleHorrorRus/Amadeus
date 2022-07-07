@@ -122,7 +122,11 @@ export default {
     flex-direction: column;
     row-gap: 10px;
 
+    width: 100%;
+
     .attachments-item {
+        height: 100%;
+
         &:hover {
             cursor: pointer;
 

@@ -1,9 +1,7 @@
 <template>
     <div class="attachments-item-repost">
-        <Component 
-            :is="icon" 
-            class="icon attachments-item-repost-icon" 
-        />
+        <Component :is="icon" class="icon attachments-item-repost-icon" />
+
         <div v-if="loaded" class="attachments-item-repost-block">
             <img :src="profile.photo_100" class="attachments-item-repost-block-avatar">
 

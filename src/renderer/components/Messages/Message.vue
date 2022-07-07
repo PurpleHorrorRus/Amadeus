@@ -71,9 +71,9 @@ export default {
 
 <style lang="scss">
 #default-layout {
-    &.extended {
+    &:not(.extended) {
         .message-content {
-            max-width: 35vw;
+            max-width: 60vw;
         }
     }
 

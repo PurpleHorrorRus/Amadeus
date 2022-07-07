@@ -92,7 +92,7 @@ export default {
     align-self: center;
     row-gap: 5px;
 
-    max-width: 60vw;
+    max-width: 38vw;
 
     padding: 10px;
 

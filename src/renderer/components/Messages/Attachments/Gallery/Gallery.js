@@ -13,7 +13,7 @@ export default {
     computed: {
         itemStyle() {
             return {
-                gridArea: `item-${this.index + 1}`
+                gridArea: `item-${(this.index || 0) + 1}`
             };
         }
     }
