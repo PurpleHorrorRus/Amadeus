@@ -9,6 +9,8 @@ const fields = {
     fields: "photo_100,online,last_seen"
 };
 
+const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
+
 export default {
     namespaced: true,
 
@@ -72,6 +74,8 @@ export default {
                     message: item.last_message,
                     information: item.conversation,
 
+                    mention: mentionRegex.test(item.last_message.text),
+
                     typing: false,
                     typingDebounce: debounce(function () {
                         this.typing = false; 
@@ -126,7 +130,7 @@ export default {
             conversation.message = {
                 ...data.payload.message,
                 date: Math.floor(Date.now() / 1000),
-                text: data.text // Fix unescaped characters in message
+                text: data.text // Fix unescaped characters in message,
             };
 
             if (!data.payload.message.out) {
@@ -135,7 +139,8 @@ export default {
                 conversation.information.in_read = data.payload.message.id;
                 conversation.information.out_read = data.payload.message.id;
             }
-
+            
+            conversation.mention = conversation.mention || mentionRegex.test(data.text);
             conversation.typing = false;
 
             const conversationIndex = state.order.indexOf(conversation.information.peer.id);

@@ -8,12 +8,7 @@
             <ConversationTyping v-else />
         </div>
 
-        <div class="conversation-unread">
-            <div v-if="inUnread" class="conversation-unread-in">
-                <span class="conversation-unread-in-count" v-text="inUnreadCount" />
-            </div>
-            <div v-else-if="outUnread" class="conversation-unread-out" />
-        </div>
+        <ConversationUnread :conversation="conversation" />
     </div>
 </template>
 
@@ -27,7 +22,8 @@ export default {
     components: {
         ConversationAvatar: () => import("~/components/Conversations/Conversation/Avatar"),
         ConversationMessage: () => import("~/components/Conversations/Conversation/Message"),
-        ConversationTyping: () => import("~/components/Conversations/Conversation/Typing")
+        ConversationTyping: () => import("~/components/Conversations/Conversation/Typing"),
+        ConversationUnread: () => import("~/components/Conversations/Conversation/Unread")
     },
 
     mixins: [CoreMixin, ProfileMixin],
@@ -53,20 +49,6 @@ export default {
 
         extended() {
             return this.$parent.$parent.$parent.extended;
-        },
-
-        outUnread() {
-            return this.conversation.information.out_read < this.conversation.information.last_message_id
-                && this.conversation.message.out;
-        },
-
-        inUnread() {
-            return this.conversation.information.in_read < this.conversation.information.last_message_id
-                && !this.conversation.message.out;
-        },
-
-        inUnreadCount() {
-            return this.conversation.information.unread_count;
         }
     }
 };
@@ -134,36 +116,6 @@ export default {
             color: var(--small-text);
             font-size: 12px;
             font-weight: 300;
-        }
-    }
-
-    &-unread-out {
-        justify-self: center;
-        align-self: center;
-
-        width: 4px;
-        height: 4px;
-
-        background: var(--secondary);
-        border-radius: 100%;
-    }
-
-    &-unread-in {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        justify-self: center;
-        align-self: center;
-
-        width: 16px;
-        height: 16px;
-
-        background: var(--secondary);
-        border-radius: 100%;
-
-        &-count {
-            font-size: 11px;
-            font-weight: 500;
         }
     }
 }

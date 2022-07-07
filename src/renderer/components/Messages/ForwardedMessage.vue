@@ -8,7 +8,7 @@
         <span 
             v-if="message.text"
             class="attachments-item-fwd-text" 
-            v-text="message.text" 
+            v-text="formatText(message.text)" 
         />
 
         <div v-if="message.fwd_messages" class="message-content-fwd">

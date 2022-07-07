@@ -14,7 +14,7 @@
         <span 
             v-if="message.text"
             class="message-content-reply-text nowrap" 
-            v-text="message.text" 
+            v-text="formatText(message.text)" 
         />
     </div>
 </template>
@@ -22,11 +22,12 @@
 <script>
 import { mapState } from "vuex";
 
+import CoreMixin from "~/mixins/core";
 import ProfileMixin from "~/mixins/profile";
 import AttachmentsMixin from "~/mixins/attachments";
 
 export default {
-    mixins: [ProfileMixin, AttachmentsMixin],
+    mixins: [CoreMixin, ProfileMixin, AttachmentsMixin],
 
     props: {
         message: {

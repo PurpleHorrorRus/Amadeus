@@ -26,10 +26,9 @@
                 />
             </div>
 
-            <span 
-                v-if="message.text" 
-                class="message-content-text" 
-                v-text="message.text" 
+            <MessageText
+                v-if="message.text"
+                :message="message"
             />
 
             <MessageAttachments 
@@ -60,6 +59,7 @@ import DateMixin from "~/mixins/date";
 export default {
     components: {
         MessageReply: () => import("~/components/Messages/Reply"),
+        MessageText: () => import("~/components/Messages/Text"),
         ForwardedMessage: () => import("~/components/Messages/ForwardedMessage"),
         MessageAttachments: () => import("~/components/Messages/Attachments"),
         CheckIcon: () => import("~/assets/icons/check.svg")
@@ -227,16 +227,6 @@ export default {
         &-name {
             color: #0099ff;
             font-size: 12px;
-        }
-
-        &-text {
-            font-size: 14px;
-
-            user-select: text;
-
-            hyphens: auto;
-            overflow-wrap: break-word;
-            word-wrap: break-word;
         }
 
         &-fwd {

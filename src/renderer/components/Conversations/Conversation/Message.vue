@@ -15,7 +15,7 @@
         <span 
             v-if="message.text" 
             class="conversation-message-body-text small-text nowrap" 
-            v-text="message.text" 
+            v-text="formatText(message.text)" 
         />
 
         <span 
@@ -28,10 +28,11 @@
 <script>
 import DateDiff from "date-diff";
 
+import CoreMixin from "~/mixins/core";
 import AttachmentsMixin from "~/mixins/attachments";
 
 export default {
-    mixins: [AttachmentsMixin],
+    mixins: [CoreMixin, AttachmentsMixin],
 
     props: {
         message: {
