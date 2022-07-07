@@ -1,5 +1,5 @@
 <template>
-    <div id="message-page-input" :class="inputClass">
+    <div id="message-page-input" class="nowrap" :class="inputClass">
         <div id="message-page-input-field">
             <textarea 
                 id="message-page-input-field-textarea"
