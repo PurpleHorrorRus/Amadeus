@@ -79,7 +79,7 @@ export default {
                     typing: false,
                     typingDebounce: debounce(function () {
                         this.typing = false; 
-                    }, 4000)
+                    }, 6000)
                 };
 
                 return cache[item.conversation.peer.id];
