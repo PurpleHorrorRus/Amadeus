@@ -44,7 +44,7 @@ export default {
                 ? `https://vk.com/id${this.repost.id}` 
                 : `https://vk.com/public${this.repost.id}`;
 
-            return shell.openExternal(url);
+            return this.openExternal(url);
         }
     }
 };

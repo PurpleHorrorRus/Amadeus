@@ -1,4 +1,4 @@
-import { ipcRenderer } from "electron";
+import { ipcRenderer, shell } from "electron";
 
 export default {
     props: {
@@ -17,6 +17,10 @@ export default {
             return [...images].sort((a, b) => {
                 return (b.width * b.height) - (a.width * a.height);
             })[0][field];
+        },
+
+        openExternal(url) {
+            return shell.openExternal(url);
         }
     }
 };

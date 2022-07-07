@@ -53,10 +53,8 @@
             </div>
         </div>
 
-        <AttachmentsMap
-            v-if="geo"
-            :geo="geo"
-        />
+        <AttachmentsLink v-if="linkItem" :item="linkItem" />
+        <AttachmentsMap v-if="geo" :geo="geo" />
     </div>
 </template>
 
@@ -72,6 +70,7 @@ export default {
         AttachmentStory: () => import("~/components/Messages/Attachments/Story"),
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
         AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc"),
+        AttachmentsLink: () => import("~/components/Messages/Attachments/Link"),
         AttachmentsMap: () => import("~/components/Messages/Attachments/Map")
     },
 
@@ -112,6 +111,12 @@ export default {
         pollItem() {
             return this.attachments.find(attachment => {
                 return attachment.type === "poll";
+            });
+        },
+
+        linkItem() {
+            return this.attachments.find(attachment => {
+                return attachment.type === "link";
             });
         }
     }

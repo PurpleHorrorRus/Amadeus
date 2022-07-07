@@ -34,6 +34,7 @@ const labels = {
         many: "{{ count }} пересланных сообщений"
     },
 
+    link: "Ссылка",
     audio_message: "Голосовое сообщение",
     audio_playlist: "Плейлист",
     poll: "Голосование",

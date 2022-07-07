@@ -1,5 +1,5 @@
 <template>
-    <div class="attachments-item-doc-file" @click="open">
+    <div class="attachments-item-doc-file" @click="openExternal(item.doc.url)">
         <div class="attachments-item-doc-file-download">
             <FileIcon class="icon" />
         </div>
@@ -23,13 +23,7 @@ export default {
         FileIcon: () => import("~/assets/icons/document.svg")
     },
 
-    mixins: [DocMixin],
-
-    methods: {
-        open() {
-            return shell.openExternal(this.item.doc.url);
-        }
-    }
+    mixins: [DocMixin]
 };
 </script>
 
