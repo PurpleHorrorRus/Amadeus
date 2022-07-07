@@ -7,7 +7,7 @@
         <div v-else-if="inUnread" class="conversation-unread-in">
             <span 
                 class="conversation-unread-in-count" 
-                v-text="inUnreadCount" 
+                v-text="conversation.information.unread_count" 
             />
         </div>
     
@@ -45,10 +45,6 @@ export default {
         inUnread() {
             return this.conversation.information.in_read < this.conversation.information.last_message_id
                 && !this.conversation.message.out;
-        },
-
-        inUnreadCount() {
-            return this.conversation.information.unread_count > 0;
         }
     }
 };
