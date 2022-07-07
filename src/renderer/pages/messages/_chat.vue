@@ -1,9 +1,6 @@
 <template>
     <div id="chat-page">
-        <MessagesHeader 
-            v-if="current !== 0" 
-            :conversation="conversation" 
-        />
+        <MessagesHeader v-if="current !== 0" :conversation="conversation" />
 
         <div id="chat-page-messages" ref="messages" :class="chatPageClass">
             <Skeleton 
@@ -190,6 +187,16 @@ export default {
         overflow-x: hidden;
         overflow-y: overlay;
 
+        &::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        &:hover {
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+        }
+
         &.loading {
             display: flex;
             justify-content: center;
@@ -202,8 +209,6 @@ export default {
             display: flex;
             flex-direction: column;
             row-gap: 10px;
-
-            height: 100%;
 
             padding: 10px;
         }

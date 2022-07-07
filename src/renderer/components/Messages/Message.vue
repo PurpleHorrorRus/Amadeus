@@ -1,17 +1,9 @@
 <template>
     <div class="message" :class="messageClass">
-        <img 
-            v-if="showAvatar" 
-            :src="avatar" 
-            class="message-avatar"
-        >
+        <img v-if="showAvatar" :src="avatar" class="message-avatar">
 
         <div class="message-content">
-            <span 
-                v-if="showName" 
-                class="message-content-name" 
-                v-text="name" 
-            />
+            <span v-if="showName" class="message-content-name" v-text="name" />
 
             <MessageReply 
                 v-if="message.reply_message"

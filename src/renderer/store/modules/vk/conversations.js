@@ -150,6 +150,9 @@ export default {
 
         UPDATE_LAST_MESSAGE: async ({ state }, data) => {
             const conversation = state.cache[data.payload.peer_id];
+            if (!conversation) {
+                return false;
+            }
 
             if (data.isInbox) {
                 conversation.information.unread_count = 0;
