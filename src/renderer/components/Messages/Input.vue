@@ -188,8 +188,7 @@ export default {
                 }
 
                 default: {
-                    this.message += event.clipboardData.getData("Text");
-                    break;
+                    return;
                 }
             }
         },
