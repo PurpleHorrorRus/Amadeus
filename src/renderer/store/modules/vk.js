@@ -1,5 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
+// vk.updates.on("message_flags")
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
@@ -46,6 +47,25 @@ export default {
 
             state.client.updates.on("friend_activity", data => {
                 dispatch("conversations/TRIGGER_ONLINE", data);
+            });
+
+            state.client.updates.on("message_flags", data => {
+                if (!(data.peerId in state.messages.cache)) {
+                    return false;
+                }
+
+                const message = state.messages.cache[data.peerId].messages.find(message => {
+                    return message.id === data.id;
+                });
+
+                if (!message) {
+                    return false;
+                }
+
+                const enabled = data.subTypes[0] === "message_flags_add";
+                if (data.isImportant) {
+                    message.important = enabled;
+                }
             });
 
             state.client.updates.start();

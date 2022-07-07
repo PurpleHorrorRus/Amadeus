@@ -78,21 +78,21 @@ export default {
 
     &.grid-5 {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: max-content 1fr;
+        grid-template-rows: 1fr 120px;
         grid-template-areas: "item-1 item-1 item-1 item-1"
                             "item-2 item-3 item-4 item-5";
     }
 
     &.grid-6 {
         grid-template-columns: repeat(5, 1fr);
-        grid-template-rows: max-content 1fr;
+        grid-template-rows: 1fr 120px;
         grid-template-areas: "item-1 item-1 item-1 item-1 item-1"
                             "item-2 item-3 item-4 item-5 item-6";
     }
 
     &.grid-7 {
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: max-content 1fr 1fr;
+        grid-template-rows: 1fr 120px 120px;
         grid-template-areas: "item-1 item-1 item-1"
                             "item-2 item-3 item-4"
                             "item-5 item-6 item-7";

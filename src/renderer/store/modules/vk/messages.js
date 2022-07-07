@@ -159,6 +159,13 @@ export default {
         SET_CURRENT: ({ state }, current) => {
             state.current = current;
             return state.current;
+        },
+
+        MARK_IMPORTANT: async ({ rootState }, message) => {
+            return await rootState.vk.client.api.messages.markAsImportant({
+                message_ids: message.id,
+                important: Number(!message.important)
+            });
         }
     }
 };

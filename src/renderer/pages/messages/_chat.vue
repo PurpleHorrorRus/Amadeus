@@ -139,13 +139,20 @@ export default {
             load: "vk/messages/LOAD",
             append: "vk/messages/APPEND",
             flush: "vk/messages/FLUSH",
-            setCurrent: "vk/messages/SET_CURRENT"
+            setCurrent: "vk/messages/SET_CURRENT",
+            markImportant: "vk/messages/MARK_IMPORTANT"
         }),
 
-        action(name, index) {
+        async action(name, index) {
+            const message = this.chat.messages[index];
+
             switch(name) {
                 case "reply": {
-                    return this.$refs.input.addReply(this.chat.messages[index]);
+                    return this.$refs.input.addReply(message);
+                }
+
+                case "important": {
+                    return await this.markImportant(message);
                 }
             }
         },
