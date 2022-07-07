@@ -80,17 +80,19 @@ export default {
         },
 
         SYNC: ({ state }, message) => {
-            const messageIndex = findLastIndex(state.cache[message.peer_id].messages, msg => {
+            const messages = state.cache[message.peer_id].messages;
+            const messageIndex = message.random_id > 0 ? findLastIndex(messages, msg => {
                 return msg.random_id === message.random_id;
-            });
+            }) : -1;
             
             if (~messageIndex) {
-                state.cache[message.peer_id].messages[messageIndex].id = message.id;
-                state.cache[message.peer_id].messages[messageIndex].syncing = 0;
-                return Object.assign(state.cache[message.peer_id].messages[messageIndex], message);
+                const cacheMessage = messages[messageIndex];
+                cacheMessage.id = message.id;
+                cacheMessage.syncing = 0;
+                return Object.assign(cacheMessage, message);
             } else {
-                state.cache[message.peer_id].messages.push(message);
-                return state.cache[message.peer_id].messages[state.cache[message.peer_id].messages.length - 1];
+                messages.push(message);
+                return message;
             }
         },
         
