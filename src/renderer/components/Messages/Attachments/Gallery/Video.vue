@@ -5,17 +5,22 @@
         @click="openVideo"
     >
         <div class="attachments-item-video-preview" :style="previewStyle">
-            <img v-if="preview" :src="preview" class="attachments-item-video-preview-image">
+            <img v-if="!quick && preview" :src="preview" class="attachments-item-video-preview-image">
+            <iframe 
+                v-else-if="quick" 
+                :src="item.video.player" 
+                class="attachments-item-video-preview-quick"
+            />
             <div v-else class="attachments-item-video-preview-empty" />
 
-            <PlayIcon v-if="!isRestrict" class="icon" />
-            <BlockIcon v-else class="icon block" />
+            <PlayIcon v-if="!quick && !isRestrict" class="icon" @click.stop="quickPlay" />
+            <BlockIcon v-else-if="isRestrict" class="icon block" />
         </div>
 
         <div 
             v-if="showTitle"
             class="attachments-item-title attachments-item-video-title nowrap" 
-            v-text="item.video.title" 
+            v-text="item.video.title"
         />
     </div>
 </template>
@@ -32,7 +37,8 @@ export default {
     mixins: [GalleryMixin],
 
     data: () => ({
-        preview: ""
+        preview: "",
+        quick: false
     }),
 
     computed: {
@@ -58,6 +64,11 @@ export default {
             }
 
             return this.openMedia(this.$parent.data, this.index);
+        },
+
+        quickPlay() {
+            this.quick = true;
+            console.log("quick");
         }
     }
 };
@@ -85,6 +96,14 @@ export default {
 
             border-radius: 8px;
         }
+
+        &-quick {
+            width: 33vw;
+            height: 19vw;
+
+            border-radius: 8px;
+            border: none;
+        }
         
         &-empty {
             width: 35vw;
@@ -100,9 +119,17 @@ export default {
             min-width: 30px;
 
             path {
-                fill: var(--secondary);
+                fill: var(--icons);
                 stroke: #000000;
                 stroke-width: 1px;
+            }
+
+            &:not(.block) {
+                &:hover {
+                    path {
+                        fill: var(--icons-hover);
+                    }
+                }
             }
 
             &.block {
