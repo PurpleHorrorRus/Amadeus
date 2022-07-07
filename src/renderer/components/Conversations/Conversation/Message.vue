@@ -42,7 +42,7 @@ export default {
     },
 
     data: () => ({
-        updateInterval: null,
+        updateTimeout: null,
         dateText: ""
     }),
 
@@ -73,22 +73,27 @@ export default {
             deep: true,
 
             handler() {
-                this.updateMessageTime();
+                this.updateMessageTime(false);
             }
         }
     },
 
     created() {
-        this.updateInterval = setInterval(() => this.updateMessageTime(), this.getUpdateIntrval());
         this.updateMessageTime();
     },
 
     beforeDestroy() {
-        clearInterval(this.updateInterval);
+        clearTimeout(this.updateTimeout);
     },
 
     methods: {
-        updateMessageTime() {
+        updateMessageTime(fireTimeout = true) {
+            if (fireTimeout) {
+                this.updateTimeout = setTimeout(() => {
+                    this.updateMessageTime();
+                }, this.getUpdateTimeout());
+            }
+
             const date = new Date(this.message.date * 1000);
             const now = new Date();
             const diff = new DateDiff(now, date);
@@ -139,7 +144,7 @@ export default {
             return true;
         },
 
-        getUpdateIntrval() {
+        getUpdateTimeout() {
             const date = new Date(this.message.date * 1000);
             const now = new Date();
             const diff = new DateDiff(now, date);
