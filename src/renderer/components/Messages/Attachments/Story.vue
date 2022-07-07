@@ -75,14 +75,15 @@ export default {
     }
 
     &-preview {
-        width: 100%;
-        height: 100%;
+        width: 30vw;
+        height: 45vw;
 
         &-image {
             width: 100%;
             height: 100%;
 
             border-radius: 4px;
+            object-fit: cover;
         }
 
         &-expired {

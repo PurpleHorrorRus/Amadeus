@@ -8,11 +8,9 @@
                 :src="item.video.player" 
             />
 
-            <iframe 
-                v-else-if="item.type === 'story'"
-                id="story"
-                class="media-page-item-frame"
-                :src="item.story.video.player"
+            <MediaPageStory 
+                v-else-if="item.type === 'story'" 
+                :story="item.story"
             />
 
             <img
@@ -29,6 +27,10 @@
 import { ipcRenderer } from "electron";
 
 export default {
+    components: {
+        MediaPageStory: () => import("~/components/Media/Story")
+    },
+
     layout: "empty",
 
     data: () => ({
@@ -46,6 +48,7 @@ export default {
 
     async created() {
         this.media = await ipcRenderer.invoke("requestMedia");
+        console.log(this.media);
     },
 
     mounted() {
@@ -97,11 +100,6 @@ export default {
             &#video {
                 width: 60vw;
                 height: 60vh;
-            }
-
-            &#story {
-                width: 22rem;
-                height: 40rem;
             }
 
             &#photo {
