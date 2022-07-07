@@ -11,7 +11,7 @@
             v-text="formatText(message.text)" 
         />
 
-        <div v-if="message.fwd_messages" class="message-content-fwd">
+        <div v-if="showForwardedMessages" class="message-content-fwd">
             <ForwardedMessage 
                 v-for="fwd of message.fwd_messages"
                 :key="fwd.id"

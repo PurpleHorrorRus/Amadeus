@@ -57,6 +57,10 @@ export default {
         showAttachments() {
             return this.message.attachments.length > 0
                 || this.message.geo;
+        },
+
+        showForwardedMessages() {
+            return this.message.fwd_messages?.length > 0;
         }
     },
 
