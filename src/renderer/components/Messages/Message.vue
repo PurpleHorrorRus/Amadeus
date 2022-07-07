@@ -229,6 +229,10 @@ export default {
             font-size: 14px;
 
             user-select: text;
+
+            hyphens: auto;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
 
         &-info {
