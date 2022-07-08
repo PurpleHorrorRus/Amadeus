@@ -1,6 +1,6 @@
 <template>
     <div id="chat-page">
-        <MessagesHeader v-if="current !== 0" :conversation="conversation" />
+        <MessagesHeader v-if="current" :conversation="current" />
 
         <div id="chat-page-messages" ref="messages" :class="chatPageClass">
             <Skeleton 
@@ -61,7 +61,6 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.cache,
             current: state => state.vk.messages.current
         }),
 
@@ -70,10 +69,6 @@ export default {
                 loading: this.loading,
                 player: this.song !== null
             };
-        },
-    
-        conversation() {
-            return this.conversations[this.current];
         },
 
         canLoadMore() {
@@ -123,14 +118,14 @@ export default {
     async mounted() {
         this.chat = await this.load(this.id);
 
-        this.flush(this.id);
+        this.flush(this.current);
         this.loading = false;
         document.addEventListener("keydown", this.exit);
     },
 
     beforeDestroy() {
         this.flush(this.current);
-        this.setCurrent(0);
+        // this.setCurrent(null);
         document.removeEventListener("keydown", this.exit);
     },
 

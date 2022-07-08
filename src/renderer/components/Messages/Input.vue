@@ -152,7 +152,7 @@ export default {
             this.reply = null;
 
             const params = {
-                peer_id: this.current,
+                peer_id: this.current.information.peer.id,
                 type: this.$route.query.type,
 
                 attachments,

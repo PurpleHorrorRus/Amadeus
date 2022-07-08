@@ -40,7 +40,7 @@ export default {
         },
 
         conversation() {
-            return this.$parent.conversation;
+            return this.$parent.current;
         },
 
         chatUserProfile() {

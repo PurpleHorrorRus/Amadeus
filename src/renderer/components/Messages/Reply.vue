@@ -42,7 +42,6 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.cache,
             current: state => state.vk.messages.current
         }),
 
@@ -53,10 +52,9 @@ export default {
     },
 
     created() {
-        const conversation = this.conversations[this.current];
-        this.profile = conversation.profile.type !== "chat"
-            ? conversation.profile
-            : conversation.profile.users.find(user => user.id === this.message.from_id);
+        this.profile = this.current.profile.type !== "chat"
+            ? this.current.profile
+            : this.current.profile.users.find(user => user.id === this.message.from_id);
     }
 };
 </script>

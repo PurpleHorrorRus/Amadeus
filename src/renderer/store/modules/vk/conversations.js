@@ -15,8 +15,16 @@ export default {
     namespaced: true,
 
     state: () => ({
-        order: [],
-        cache: {},
+        pinned: {
+            order: [],
+            conversations: {}
+        },
+
+        cache: {
+            order: [],
+            conversations: {}
+        },
+       
         count: 0
     }),
 
@@ -26,72 +34,62 @@ export default {
                 offset,
                 ...fields
             });
-
-            const [cache, order] = await dispatch("FORMAT", list);
+            
             state.count = list.count;
-            state.cache = cache;
-            state.order = order;
-
-            return state.cache;
+            return await dispatch("FORMAT", list);
         },
 
         APPEND: async ({ dispatch, rootState, state }) => {
-            if (state.order.length >= state.count) {
+            const total = state.cache.order.length + state.pinned.order.length;
+            if (total >= state.count) {
                 return false;
             }
 
             const list = await rootState.vk.client.api.messages.getConversations({
-                offset: state.order.length,
+                offset: total,
                 ...fields
             });
 
-            const [cache, order] = await dispatch("FORMAT", list);
-            state.cache = cache;
-            state.order = order;
-
-            return state.cache;
+            return await dispatch("FORMAT", list);
         },
 
-        FORMAT: async ({ dispatch }, list) => {
-            return await Promise.all([
-                dispatch("FORMAT_CACHE", list),
-                dispatch("FORMAT_ORDER", list)
-            ]);
-        },
-
-        FORMAT_CACHE: async ({ dispatch }, list) => {
+        FORMAT: async ({ dispatch, state }, list) => {
             list.items = await dispatch("GET_CHATS", list);
 
-            const cache = {};
-            list.items.forEach(item => {
-                item.conversation.unread_count = item.conversation.unread_count || 0;
+            for (let item of list.items) {
+                item = await dispatch("FORMAT_ITEM", {
+                    item,
+                    profiles: list.profiles,
+                    groups: list.groups
+                });
 
-                cache[item.conversation.peer.id] = {
-                    profile: item.profile 
-                        || list.profiles.find(profile => profile.id === item.conversation.peer.id) 
-                        || list.groups.find(profile => profile.id === -item.conversation.peer.id),
-                    
-                    message: item.last_message,
-                    information: item.conversation,
+                const pushObject = !item.pinned ? state.cache : state.pinned;
+                pushObject.conversations[item.information.peer.id] = item;
+                pushObject.order.push(item.information.peer.id);
+            }
 
-                    mention: mentionRegex.test(item.last_message.text),
-
-                    typing: false,
-                    typingDebounce: debounce(function () {
-                        this.typing = false; 
-                    }, 6000)
-                };
-
-                return cache[item.conversation.peer.id];
-            });
-
-            return cache;
+            return true;
         },
 
-        FORMAT_ORDER: (_, list) => {
-            return list.items.map(item => {
-                return item.conversation.peer.id;
-            });
+        FORMAT_ITEM: (_, { item, profiles, groups }) => {
+            item.conversation.unread_count = item.conversation.unread_count || 0;
+
+            return {
+                profile: item.profile 
+                        || profiles.find(profile => profile.id === item.conversation.peer.id) 
+                        || groups.find(profile => profile.id === -item.conversation.peer.id),
+                    
+                message: item.last_message,
+                information: item.conversation,
+
+                pinned: item.conversation.sort_id.major_id !== 0,
+                mention: mentionRegex.test(item.last_message.text),
+
+                typing: false,
+                typingDebounce: debounce(function () {
+                    this.typing = false; 
+                }, 6000)
+            };
         },
 
         GET_CHATS: async ({ rootState }, list) => {
@@ -119,13 +117,18 @@ export default {
             return list.items;
         },
 
+        GET_CONVERSATION_CACHE: ({ state }, id) => {
+            return state.cache.conversations[id] 
+                || state.pinned.conversations[id];
+        },
+
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
-            if (!(data.payload.message.peer_id in state.cache)) {
-                await dispatch("FETCH");
-                return false;
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
+            if (!conversation) {
+                return await dispatch("FETCH");
             }
 
-            const conversation = state.cache[data.payload.message.peer_id];
+            console.log(conversation.pinned);
             conversation.information.last_message_id = data.payload.message.id;
             conversation.message = {
                 ...data.payload.message,
@@ -143,13 +146,19 @@ export default {
             conversation.mention = conversation.mention || mentionRegex.test(data.text);
             conversation.typing = false;
 
-            const conversationIndex = state.order.indexOf(conversation.information.peer.id);
-            state.order = common.arrayMove(state.order, conversationIndex, 0);
-            return true;
+            if (!conversation.pinned) {
+                const conversationIndex = state.cache.order.indexOf(conversation.information.peer.id);
+                if (conversationIndex !== 0) {
+                    state.cache.order = common.arrayMove(state.cache.order, conversationIndex, 0);
+                }
+            } else state.pinned.order = [...state.pinned.order]; // Trigger render
+
+            return conversation;
         },
 
-        UPDATE_LAST_MESSAGE: async ({ state }, data) => {
-            const conversation = state.cache[data.payload.peer_id];
+        UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => {
+            const peer_id = data.payload.peer_id;
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", peer_id);
             if (!conversation) {
                 return false;
             }
@@ -162,15 +171,15 @@ export default {
             return true;
         },
 
-        TRIGGER_TYPING: async ({ state }, id) => {
-            const conversation = state.cache[id];
+        TRIGGER_TYPING: async ({ dispatch }, id) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", id);
             conversation.typing = true;
             conversation.typingDebounce();
             return true;
         },
 
-        TRIGGER_ONLINE: async ({ state }, data) => {
-            const conversation = state.cache[data.userId];
+        TRIGGER_ONLINE: async ({ dispatch }, data) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", data.userId);
             if (!conversation) {
                 return false;
             }

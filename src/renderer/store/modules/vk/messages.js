@@ -15,13 +15,11 @@ export default {
 
     state: () => ({
         cache: {},
-        current: 0
+        current: null
     }),
 
     actions: {
         LOAD: async ({ state, rootState }, id) => {
-            state.current = id;
-
             if (!(id in state.cache)) {
                 const history = await rootState.vk.client.api.messages.getHistory({
                     offset: 0,
@@ -46,13 +44,16 @@ export default {
                 ...fields
             });
 
-            state.cache[id].messages = [...history.items.reverse(), ...state.cache[id].messages];
+            state.cache[id].messages = history.items.reverse().concat(state.cache[id].messages);
             return state.cache[id];
         },
 
-        FLUSH: ({ state }, id) => {
-            if (state.cache[id]?.messages.length > fields.count) {
-                state.cache[id].messages.splice(0, state.cache[id].messages.length - fields.count - 1);
+        FLUSH: ({ state }, conversation) => {
+            const messages = state.cache[conversation.id]?.messages;
+            if (!messages) return false;
+
+            if (messages.length > fields.count) {
+                messages.splice(0, messages.length - fields.count - 1);
             }
 
             return true;
@@ -81,7 +82,11 @@ export default {
         },
 
         SYNC: ({ state }, message) => {
-            const messages = state.cache[message.peer_id].messages;
+            const messages = state.cache[message.peer_id]?.messages;
+            if (!messages) {
+                return false;
+            }
+
             const messageIndex = message.random_id > 0 ? findLastIndex(messages, msg => {
                 return msg.random_id === message.random_id;
             }) : -1;

@@ -3,11 +3,27 @@
         <ConversationsHeader v-if="!settings.appearance.minimized" />
 
         <div id="conversations-list" ref="conversations">
+            <div v-if="pinned.order.length > 0" id="conversations-list-pinned">
+                <span 
+                    v-if="!settings.appearance.minimized"
+                    id="conversations-list-pinned-label" 
+                    class="small-text"
+                    v-text="'Закрепленные чаты'" 
+                />
+
+                <Conversation
+                    v-for="id in pinned.order"
+                    :key="pinned.conversations[id].message.id"
+                    :conversation="pinned.conversations[id]"
+                    @click.native.left="open(pinned.conversations[id])"
+                />
+            </div>
+
             <Conversation
-                v-for="id of order"
-                :key="id"
-                :conversation="conversations[id]"
-                @click.native.left="open(id)"
+                v-for="id of cache.order"
+                :key="cache.conversations[id].message.id"
+                :conversation="cache.conversations[id]"
+                @click.native.left="open(cache.conversations[id])"
             />
 
             <Skeleton 
@@ -41,8 +57,8 @@ export default {
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.cache,
-            order: state => state.vk.conversations.order,
+            pinned: state => state.vk.conversations.pinned,
+            cache: state => state.vk.conversations.cache,
             count: state => state.vk.conversations.count
         }),
         
@@ -54,12 +70,12 @@ export default {
 
         canScroll() {
             return !this.load 
-                && this.conversations.length < this.count;
+                && (this.cache.order.length + this.pinned.order.length) < this.count;
         }
     },
 
     async created() {
-        if (this.order.length === 0) {
+        if (this.count === 0) {
             await this.fetch();
         }
     },
@@ -75,11 +91,13 @@ export default {
     methods: {
         ...mapActions({
             fetch: "vk/conversations/FETCH",
-            append: "vk/conversations/APPEND"
+            append: "vk/conversations/APPEND",
+            setCurrent: "vk/messages/SET_CURRENT"
         }),
 
-        open(id) {
-            const type = this.conversations[id].information.peer.type;
+        async open(conversation) {
+            this.setCurrent(conversation);
+            const { id, type } = conversation.information.peer;
             return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => {});
         }
     }
@@ -113,6 +131,16 @@ export default {
 
         overflow-x: hidden;
         overflow-y: auto;
+
+        &-pinned {
+            border-bottom: 1px solid var(--border);
+
+            &-label {
+                display: block;
+
+                padding: 10px;
+            }
+        }
     }
 
     .skeleton-list {
