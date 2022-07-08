@@ -42,7 +42,8 @@ export default {
 
     computed: {
         ...mapState({
-            current: state => state.vk.messages.current
+            current: state => state.vk.messages.current,
+            user: state => state.vk.user
         }),
 
         showAttachments() {
@@ -52,9 +53,14 @@ export default {
     },
 
     created() {
-        this.profile = this.current.profile.type !== "chat"
+        if (this.current.profile.type === "chat") {
+            this.profile = this.current.profile.users.find(user => user.id === this.message.from_id);
+            return this.profile;
+        }
+
+        this.profile = this.message.from_id !== this.user.id
             ? this.current.profile
-            : this.current.profile.users.find(user => user.id === this.message.from_id);
+            : this.user;
     }
 };
 </script>
