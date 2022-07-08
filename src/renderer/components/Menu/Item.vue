@@ -24,7 +24,7 @@ export default {
     padding: 10px;
 
     border-radius: 4px;
-    transition: background .2s ease-in;
+    transition: background .08s ease-in-out;
 
     cursor: pointer;
 

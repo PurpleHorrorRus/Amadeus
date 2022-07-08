@@ -55,12 +55,16 @@ export default {
             const width = this.$refs.menu.clientWidth;
             const height = this.$refs.menu.clientHeight;
 
-            const left = this.position[3] + width > window.innerWidth
+            const top = this.position[0] + height >= window.innerHeight
+                ? window.innerHeight - height - this.padding
+                : this.position[0] - this.padding;
+
+            const left = this.position[3] + width >= window.innerWidth
                 ? window.innerWidth - width - this.padding
-                : this.position[3];
+                : this.position[3] - this.padding;
 
             this.positioning = {
-                top: this.position[0],
+                top,
                 right: Math.max(this.position[1], this.padding),
                 bottom: this.position[2],
                 left
