@@ -5,8 +5,18 @@
 </template>
 
 <script>
-export default {
+import { mapActions } from "vuex";
 
+export default {
+    mounted() {
+        this.setCurrent(null);
+    },
+
+    methods: {
+        ...mapActions({
+            setCurrent: "vk/messages/SET_CURRENT"
+        })
+    }
 };
 </script>
 

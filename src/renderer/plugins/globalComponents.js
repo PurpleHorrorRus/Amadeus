@@ -6,6 +6,8 @@ const components = {
     LoaderIcon: () => import("~/assets/icons/loader.svg"),
     SolidButton: () => import("~/components/Global/SolidButton"),
     SingleInput: () => import("~/components/Global/SingleInput"),
+    ContextMenu: () => import("~/components/Global/ContextMenu"),
+    ContextMenuItem: () => import("~/components/Menu/Item"),
     Skeleton: () => import("~/components/Global/Skeleton")
 };
 

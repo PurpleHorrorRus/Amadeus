@@ -18,7 +18,12 @@
                     :message="message"
                     :same="same(index)"
                     @action="action($event, index)"
+                    @click.right.native="openMenu(index, $event, true)"
                 />
+
+                <ContextMenu v-if="menu.show" :position="menu.position">
+                    <MessageMenu :message="chat.messages[menu.target]" />
+                </ContextMenu>
             </div>
 
             <LoaderIcon v-else class="icon loader-icon spin" />
@@ -32,6 +37,7 @@
 import { mapActions, mapState } from "vuex";
 
 import ScrollMixin from "~/mixins/scroll";
+import MenuMixin from "~/mixins/menu";
 
 import common from "~/plugins/common";
 
@@ -39,10 +45,12 @@ export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
         Message: () => import("~/components/Messages/Message"),
-        MessageInput: () => import("~/components/Messages/Input")
+        MessageInput: () => import("~/components/Messages/Input"),
+
+        MessageMenu: () => import("~/components/Menu/Views/Chat")
     },
 
-    mixins: [ScrollMixin],
+    mixins: [ScrollMixin, MenuMixin],
 
     data: () => ({
         loading: true,
@@ -61,7 +69,8 @@ export default {
 
     computed: {
         ...mapState({
-            current: state => state.vk.messages.current
+            current: state => state.vk.messages.current,
+            song: state => state.audio.song
         }),
 
         chatPageClass() {
@@ -110,27 +119,27 @@ export default {
         }
     },
 
-    created() {
+    async created() {
         this.id = Number(this.$route.params.chat);
         this.type = this.$route.query.type;
+        this.setCurrent(await this.getConversationCache(this.id));
+        this.chat = await this.load(this.id);
+        this.loading = false;
     },
 
-    async mounted() {
-        this.chat = await this.load(this.id);
-
-        this.flush(this.current);
-        this.loading = false;
+    mounted() {
         document.addEventListener("keydown", this.exit);
     },
 
     beforeDestroy() {
         this.flush(this.current);
-        // this.setCurrent(null);
         document.removeEventListener("keydown", this.exit);
     },
 
     methods: {
         ...mapActions({
+            getConversationCache: "vk/conversations/GET_CONVERSATION_CACHE",
+
             load: "vk/messages/LOAD",
             append: "vk/messages/APPEND",
             flush: "vk/messages/FLUSH",
@@ -139,6 +148,11 @@ export default {
         }),
 
         async action(name, index) {
+            if (this.menu.show) {
+                index = this.menu.target;
+                this.closeMenu();
+            }
+
             const message = this.chat.messages[index];
 
             switch(name) {

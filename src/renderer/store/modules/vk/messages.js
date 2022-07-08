@@ -49,6 +49,7 @@ export default {
         },
 
         FLUSH: ({ state }, conversation) => {
+            if (!conversation) return false;
             const messages = state.cache[conversation.id]?.messages;
             if (!messages) return false;
 

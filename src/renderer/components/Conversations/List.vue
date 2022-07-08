@@ -91,12 +91,10 @@ export default {
     methods: {
         ...mapActions({
             fetch: "vk/conversations/FETCH",
-            append: "vk/conversations/APPEND",
-            setCurrent: "vk/messages/SET_CURRENT"
+            append: "vk/conversations/APPEND"
         }),
 
         async open(conversation) {
-            this.setCurrent(conversation);
             const { id, type } = conversation.information.peer;
             return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => {});
         }
