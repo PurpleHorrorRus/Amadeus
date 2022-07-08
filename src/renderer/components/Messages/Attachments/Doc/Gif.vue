@@ -5,7 +5,7 @@
                 <span class="attachments-item-doc-gif-preview-size-label" v-text="size" />
             </div>
 
-            <img :src="preview" class="attachments-item-doc-gif-preview-image">
+            <img :src="preview.src" class="attachments-item-doc-gif-preview-image">
         </div>
 
         <div v-else class="attachments-item-doc-gif-playing">
@@ -39,7 +39,7 @@ export default {
     }),
 
     created() {
-        this.preview = this.calculateMaxSize(this.item.doc.preview.photo.sizes, "src");
+        this.preview = this.calculateMaxSize(this.item.doc.preview.photo.sizes);
     },
 
     methods: {

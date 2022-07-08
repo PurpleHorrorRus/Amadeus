@@ -3,7 +3,7 @@
         <div class="attachments-item-story-preview">
             <img 
                 v-if="!isExpired" 
-                :src="preview" 
+                :src="preview.url" 
                 class="attachments-item-story-preview-image"
             >
 

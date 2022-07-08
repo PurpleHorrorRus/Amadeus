@@ -1,6 +1,6 @@
 <template>
     <div class="attachments-item attachments-item-link" @click="openExternal(item.link.url)">
-        <img :src="preview" class="attachments-item-link-image">
+        <img :src="preview.url" class="attachments-item-link-image">
 
         <div class="attachments-item-link-information nowrap">
             <span 

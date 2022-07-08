@@ -1,6 +1,6 @@
 <template>
     <img 
-        :src="maxSize" 
+        :src="maxSize.url" 
         class="attachments-item attachments-item-photo"
         :style="itemStyle"
         @click="openMedia($parent.data, index)"

@@ -121,7 +121,7 @@ export default {
     mounted() {
         if (this.isPhoto) {
             const maxSize = this.calculateMaxSize(this.item.poll.photo.images);
-            this.style.poll = { backgroundImage: `url("${maxSize}")` };
+            this.style.poll = { backgroundImage: `url("${maxSize.url}")` };
             this.style.foreground = { 
                 background: `linear-gradient(transparent -100%,  #${this.item.poll.photo.color} 100%)`
             };

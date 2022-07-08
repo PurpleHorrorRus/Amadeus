@@ -5,16 +5,26 @@
         @click="openVideo"
     >
         <div class="attachments-item-video-preview" :style="previewStyle">
-            <img v-if="!quick && preview" :src="preview" class="attachments-item-video-preview-image">
+            <img 
+                v-if="!quick && preview.url" 
+                :src="preview.url" 
+                class="attachments-item-video-preview-image"
+            >
+            
             <iframe 
                 v-else-if="quick" 
                 :src="item.video.player" 
                 class="attachments-item-video-preview-quick"
             />
-            <div v-else class="attachments-item-video-preview-empty" />
+            
+            <div v-else class="attachments-item-video-preview-empty">
+                <BlockIcon class="icon block" />
+            </div>
 
-            <PlayIcon v-if="!quick && !isRestrict" class="icon" @click.stop="quickPlay" />
-            <BlockIcon v-else-if="isRestrict" class="icon block" />
+            <PlayIcon 
+                v-if="!quick && !isRestrict" 
+                class="icon" @click.stop="quickPlay" 
+            />
         </div>
 
         <div 
@@ -37,7 +47,7 @@ export default {
     mixins: [GalleryMixin],
 
     data: () => ({
-        preview: "",
+        preview: {},
         quick: false
     }),
 
@@ -52,9 +62,9 @@ export default {
     },
 
     created() {
-        this.preview = this.item.video.image
-            ? this.calculateMaxSize(this.item.video.image)
-            : "";
+        if (this.item.video.image) {
+            this.preview = this.calculateMaxSize(this.item.video.image);
+        }
     },
 
     methods: {
@@ -68,7 +78,6 @@ export default {
 
         quickPlay() {
             this.quick = true;
-            console.log("quick");
         }
     }
 };
@@ -96,6 +105,15 @@ export default {
 
             border-radius: 8px;
             border: none;
+        }
+
+        &-empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 30vw;
+            height: 15vw;
         }
 
         .icon {
