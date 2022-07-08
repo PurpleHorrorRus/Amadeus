@@ -29,7 +29,7 @@
             <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
 
-        <MessageInput ref="input" />
+        <MessageInput v-if="!chat.search" ref="input" />
     </div>
 </template>
 
@@ -80,7 +80,7 @@ export default {
             };
         },
 
-        canLoadMore() {
+        canScroll() {
             return this.chat.messages.length < this.chat.count;
         }
     },
@@ -89,24 +89,10 @@ export default {
         loading: {
             handler: function() {
                 this.$nextTick(async () => {
-                    this.registerScroll(this.$refs.messages);
-
                     this.scrollToBottom();
                     await common.wait(80);
                     this.scrollToBottom();
                 });
-            }
-        },
-
-        scrollPercent: {
-            handler: async function(scrollPercent) {
-                this.autoScroll = scrollPercent >= 80;
-
-                if (this.canLoadMore && !this.loadMore && scrollPercent <= 20) {
-                    this.loadMore = true;
-                    await this.append(this.chat.id);
-                    this.loadMore = false;
-                }
             }
         },
 
@@ -123,17 +109,40 @@ export default {
         this.id = Number(this.$route.params.chat);
         this.type = this.$route.query.type;
         this.setCurrent(await this.getConversationCache(this.id));
-        this.chat = await this.load(this.id);
-        this.loading = false;
     },
 
-    mounted() {
+    async mounted() {
+        this.chat = await this.load({
+            id: this.id,
+            start_message_id: Number(this.$route.query.start_message_id) || undefined
+        });
+
+        this.loading = false;
         document.addEventListener("keydown", this.exit);
+
+        this.registerScroll(this.$refs.messages, async () => {
+            if (this.loadMore) {
+                return false;
+            }
+
+            this.loadMore = true;
+            await this.append(this.id);
+            this.loadMore = false;
+        }, percent => percent <= 30);
     },
 
     beforeDestroy() {
-        this.flush(this.current);
         document.removeEventListener("keydown", this.exit);
+
+        if (!this.loading) {
+            return !this.chat.search
+                ? this.flush(this.current) 
+                : this.clear(this.current);
+        } 
+    },
+
+    destroyed() {
+        this.setCurrent(null);
     },
 
     methods: {
@@ -143,17 +152,13 @@ export default {
             load: "vk/messages/LOAD",
             append: "vk/messages/APPEND",
             flush: "vk/messages/FLUSH",
+            clear: "vk/messages/CLEAR",
             delete: "vk/messages/DELETE",
             setCurrent: "vk/messages/SET_CURRENT",
             markImportant: "vk/messages/MARK_IMPORTANT"
         }),
 
         async action(name, index, event) {
-            if (this.menu.show) {
-                index = this.menu.target;
-                this.closeMenu();
-            }
-
             const message = this.chat.messages[index];
 
             switch(name) {
@@ -189,13 +194,13 @@ export default {
         },
 
         scrollToBottom() {
-            this.$refs.messages.scrollTop = this.$refs.messages.scrollHeight;
+            this.$refs.messages.scrollTop = this.$refs.messages?.scrollHeight;
             return true;
         },
 
         exit(event) {
             if (event.code !== "Escape") return false;
-            if (this.$refs.input.editing.enable) return this.$refs.input.clearEditing();
+            if (this.$refs.input?.editing.enable) return this.$refs.input.clearEditing();
             this.$router.replace("/general").catch(() => {});
             return true;
         }

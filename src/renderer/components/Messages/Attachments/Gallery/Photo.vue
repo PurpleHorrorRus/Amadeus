@@ -19,7 +19,7 @@ export default {
 
     created() {
         this.maxSize = this.calculateMaxSize(this.item.photo.sizes);
-        this.$set(this.item.photo, "maxSize", this.maxSize);
+        this.$set(this.item.photo, "maxSize", this.maxSize.url);
     }
 };
 </script>
@@ -27,7 +27,6 @@ export default {
 <style lang="scss">
 .attachments-item-photo {
     width: 100%;
-    height: auto !important;
 
     border-radius: 8px;
 }

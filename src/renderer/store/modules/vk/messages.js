@@ -19,22 +19,32 @@ export default {
     }),
 
     actions: {
-        LOAD: async ({ state, rootState }, id) => {
-            if (!(id in state.cache)) {
-                const history = await rootState.vk.client.api.messages.getHistory({
-                    offset: 0,
-                    peer_id: id,
-                    ...fields
-                });
+        LOAD: async ({ state, rootState }, data) => {
+            const isSearch = Boolean(data.start_message_id);
 
-                state.cache[id] = {
-                    id: id,
-                    count: history.count,
-                    messages: history.items.reverse()
-                };
+            if (data.id in state.cache) {
+                if (!isSearch) {
+                    return state.cache[data.id];
+                }
+
+                state.cache[data.id].messages = [];
             }
 
-            return state.cache[id];
+            const history = await rootState.vk.client.api.messages.getHistory({
+                offset: isSearch ? undefined : (data.offset || 0),
+                start_message_id: data.start_message_id,
+                peer_id: data.id,
+                ...fields
+            });
+
+            state.cache[data.id] = {
+                id: data.id,
+                count: history.count,
+                search: isSearch,
+                messages: history.items.reverse()
+            };
+
+            return state.cache[data.id];
         },
 
         APPEND: async ({ state, rootState  }, id) => {
@@ -54,6 +64,11 @@ export default {
                 messages.splice(0, messages.length - fields.count - 1);
             }
 
+            return true;
+        },
+
+        CLEAR: ({ state }, conversation) => {
+            delete state.cache[conversation.information.peer.id];
             return true;
         },
 

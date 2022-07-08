@@ -75,28 +75,28 @@ export default {
     }
 
     &.grid-4 {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 10vw);
         grid-template-rows: max-content 1fr;
         grid-template-areas: "item-1 item-1 item-1"
                             "item-2 item-3 item-4";
     }
 
     &.grid-5 {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 9vw);
         grid-template-rows: 1fr 120px;
         grid-template-areas: "item-1 item-1 item-1 item-1"
                             "item-2 item-3 item-4 item-5";
     }
 
     &.grid-6 {
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: repeat(5, 10vw);
         grid-template-rows: 1fr 120px;
         grid-template-areas: "item-1 item-1 item-1 item-1 item-1"
                             "item-2 item-3 item-4 item-5 item-6";
     }
 
     &.grid-7 {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 10vw);
         grid-template-rows: 1fr 120px 120px;
         grid-template-areas: "item-1 item-1 item-1"
                             "item-2 item-3 item-4"
@@ -104,14 +104,14 @@ export default {
     }
 
     &.grid-8 {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, 10vw);
         grid-template-rows: 1fr 1fr;
         grid-template-areas: "item-1 item-2 item-3 item-4"
                             "item-5 item-6 item-7 item-8";
     }
 
     &.grid-9 {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 10vw);
         grid-template-rows: 1fr;
         grid-template-areas: "item-1 item-2 item-3"
                             "item-4 item-5 item-6"
@@ -119,7 +119,7 @@ export default {
     }
 
     &.grid-10 {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 10vw);
         grid-template-rows: max-content repeat(3, 1fr);
         grid-template-areas: "item-1 item-1 item-1"
                             "item-2 item-3 item-4"

@@ -5,7 +5,7 @@ import common from "~/plugins/common";
 export default {
     methods: {
         relativeDate(date) {
-            date = new Date(date);
+            date = new Date(date * 1000);
             const now = new Date();
             const diff = new DateDiff(now, date);
 

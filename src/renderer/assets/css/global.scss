@@ -6,6 +6,12 @@ html {
         background: var(--primary);
 
         overflow-y: auto;
+
+        &.first {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
 

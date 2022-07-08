@@ -4,6 +4,7 @@ import { VK } from "vk-io";
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
+import important from "~/store/modules/vk/important";
 
 export default {
     namespaced: true,
@@ -98,6 +99,7 @@ export default {
 
     modules: {
         conversations,
-        messages
+        messages,
+        important
     }
 };

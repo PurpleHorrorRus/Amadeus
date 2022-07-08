@@ -86,7 +86,7 @@ export default {
         },
 
         isChat() {
-            return this.$route.name === "messages-chat";
+            return this.$route.name !== "general";
         },
 
         showConversations() {
@@ -184,8 +184,19 @@ export default {
     }
 
     &:not(.extended) {
+        grid-template-columns: 1fr;
+        
+        &.chat {
+            grid-template-areas: "titlebar"
+                    "page";
+        }
+
+        &:not(.chat) {
+            grid-template-areas: "titlebar"
+                    "conversations";
+        }
+
         &.player {
-            grid-template-columns: 1fr;
             grid-template-rows: 35px 40px 1fr;
 
             grid-template-areas: "titlebar"

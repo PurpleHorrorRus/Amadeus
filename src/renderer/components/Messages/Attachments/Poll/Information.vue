@@ -40,7 +40,9 @@ export default {
     z-index: 2;
 
     &-question {
-        font-size: 24px;
+        padding: 0px 10px;
+
+        font-size: 15px;
         font-weight: 600;
     }
 }

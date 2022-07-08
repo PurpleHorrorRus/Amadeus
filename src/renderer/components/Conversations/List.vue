@@ -85,7 +85,7 @@ export default {
             this.load = true;
             await this.append();
             this.load = false;
-        });
+        }, percent => percent >= 70);
     },
 
     methods: {

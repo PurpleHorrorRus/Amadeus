@@ -1,5 +1,5 @@
 <template>
-    <div class="context-menu-item">
+    <div class="context-menu-item" @click="$parent.$parent.closeMenu">
         <span class="context-menu-item-label" v-text="label" />
     </div>
 </template>

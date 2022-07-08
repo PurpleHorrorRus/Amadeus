@@ -1,8 +1,6 @@
 <template>
     <div id="messages-header">
-        <div v-if="!extended" id="messages-header-back" @click="back">
-            <ArrowLeftIcon class="icon" />
-        </div>
+        <MessagesHeaderBack v-if="!extended" />
 
         <div id="messages-header-profile">
             <img id="messages-header-profile-avatar" :src="conversation.profile.photo_100">
@@ -16,7 +14,7 @@ import { mapState } from "vuex";
 
 export default {
     components: {
-        ArrowLeftIcon: () => import("~/assets/icons/arrow-left.svg"),
+        MessagesHeaderBack: () => import("~/components/Messages/Header/Back"),
         MessagesHeaderInformation: () => import("~/components/Messages/Header/Information")
     },
 
@@ -31,13 +29,6 @@ export default {
         ...mapState({
             extended: state => state.extendedView
         })
-    },
-
-    methods: {
-        back() {
-            this.$router.replace("/general").catch(() => {});
-            return true;
-        }
     }
 };
 </script>
@@ -54,18 +45,6 @@ export default {
 
     > * {
         cursor: pointer;
-    }
-
-    &-back {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
-        width: 20px;
-
-        .icon {
-            width: 14px;
-        }
     }
 
     &-profile {

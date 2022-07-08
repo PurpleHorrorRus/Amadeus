@@ -48,7 +48,6 @@ export default {
 
     async created() {
         this.media = await ipcRenderer.invoke("requestMedia");
-        console.log(this.media);
     },
 
     mounted() {

@@ -1,27 +1,17 @@
 <template>
     <div class="message-content">
-        <span v-if="showName" class="message-content-name" v-text="name" />
-
-        <MessageReply 
-            v-if="message.reply_message"
-            :message="message.reply_message"
+        <span 
+            v-if="showName" 
+            class="message-content-name" 
+            v-text="name" 
         />
 
-        <div v-if="showForwardedMessages" class="message-content-fwd">
-            <ForwardedMessage 
-                v-for="fwd of message.fwd_messages"
-                :key="fwd.id"
-                :message="fwd"
-            />
-        </div>
-
-        <MessageText v-if="message.text" :message="message" />
-        <MessageAttachments v-if="showAttachments" :message="message" />
+        <AllAttachments :message="message" />
 
         <div class="message-content-info">
             <span 
                 class="message-content-info-date" 
-                v-text="relativeDate(message.date * 1000)" 
+                v-text="relativeDate(message.date)" 
             />
 
             <CheckIcon 
@@ -34,19 +24,15 @@
 </template>
 
 <script>
-import AttachmentsMixin from "~/mixins/attachments";
 import DateMixin from "~/mixins/date";
 
 export default {
     components: {
-        MessageReply: () => import("~/components/Messages/Reply"),
-        MessageText: () => import("~/components/Messages/Text"),
-        ForwardedMessage: () => import("~/components/Messages/ForwardedMessage"),
-        MessageAttachments: () => import("~/components/Messages/Attachments"),
+        AllAttachments: () => import("~/components/Messages/AllAttachments"),
         CheckIcon: () => import("~/assets/icons/check.svg")
     },
 
-    mixins: [AttachmentsMixin, DateMixin],
+    mixins: [DateMixin],
 
     props: {
         message: {

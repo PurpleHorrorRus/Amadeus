@@ -74,7 +74,7 @@ export default {
             this.profile.type = "user";
         }
 
-        this.profile.date = this.relativeDate(this.item.date * 1000);
+        this.profile.date = this.relativeDate(this.item.date);
         this.loaded = true;
     },
 

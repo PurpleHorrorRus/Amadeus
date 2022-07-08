@@ -89,5 +89,7 @@ export default {
 
     background: var(--backdrop);
     border-radius: 4px;
+
+    z-index: 1000;
 }
 </style>
