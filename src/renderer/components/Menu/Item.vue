@@ -31,5 +31,9 @@ export default {
     &:hover {
         background: var(--item-hover);
     }
+
+    span {
+        font-size: 12px;
+    }
 }
 </style>
