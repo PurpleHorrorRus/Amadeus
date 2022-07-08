@@ -59,13 +59,8 @@ import path from "path";
 
 import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 
+import AttachmentsMixin from "~/mixins/attachments";
 import DateMixin from "~/mixins/date";
-
-const blockedAttachments = [
-    "sticker", 
-    "graffiti", 
-    "audio_message"
-];
 
 export default {
     components: {
@@ -79,7 +74,7 @@ export default {
         autogrow: TextareaAutogrowDirective
     },
 
-    mixins: [DateMixin],
+    mixins: [AttachmentsMixin, DateMixin],
 
     data: () => ({
         sending: false,
@@ -245,13 +240,12 @@ export default {
 
             for (let i = this.$parent.chat.messages.length - 1; i > 0; i--) {
                 const message = this.$parent.chat.messages[i];
-                const firstAttachment = message.attachments[0]?.type;
 
                 if (this.dateDiff(message).hours() >= 24) {
                     return false;
                 }
 
-                if (message.out && !blockedAttachments.includes(firstAttachment)) {
+                if (message.out && !this.checkBlockedAttachments(message)) {
                     return this.$parent.action("edit", i);
                 }
             }

@@ -200,7 +200,7 @@ export default {
         },
 
         DELETE: async ({ dispatch, rootState }, data) => {
-            data.delete_for_all = Number(data.delete_for_all && data.message.peer_id !== rootState.vk.user.id) || 0;
+            data.delete_for_all = Number(data.delete_for_all) || 0;
             data.spam = Number(data.spam) || 0;
             dispatch("SYNC_DELETE", data.message);
             return await rootState.vk.client.api.messages.delete({

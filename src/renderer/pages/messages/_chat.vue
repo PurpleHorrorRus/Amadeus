@@ -159,8 +159,9 @@ export default {
             markImportant: "vk/messages/MARK_IMPORTANT"
         }),
 
-        async action(name, index, event) {
-            const message = this.chat.messages[index];
+        async action(name, index) {
+            const message = this.chat.messages[index || this.menu.target];
+            this.closeMenu();
 
             switch(name) {
                 case "reply": {
@@ -172,8 +173,12 @@ export default {
                 }
 
                 case "delete": {
+                    return await this.delete({ message });
+                }
+
+                case "delete-for-all": {
                     return await this.delete({ 
-                        delete_for_all: event?.shiftKey && this.dateDiff(message).hours() < 24,
+                        delete_for_all: true,
                         message 
                     });
                 }

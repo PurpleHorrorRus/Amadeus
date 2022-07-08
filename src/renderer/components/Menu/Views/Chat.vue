@@ -13,17 +13,24 @@
 
         <ContextMenuItem 
             label="Удалить" 
-            @click.native="parent.action('delete', -1, $event)" 
+            @click.native="parent.action('delete')" 
+        />
+
+        <ContextMenuItem 
+            v-if="canDeleteForAll"
+            label="Удалить для всех" 
+            @click.native="parent.action('delete-for-all')" 
         />
     </div>
 </template>
 
 <script>
+import AttachmentsMixin from "~/mixins/attachments";
 import DateMixin from "~/mixins/date";
 
 export default {
+    mixins: [AttachmentsMixin, DateMixin],
 
-    mixins: [DateMixin],
     props: {
         message: {
             type: Object,
@@ -34,7 +41,13 @@ export default {
     computed: {
         canEdit() {
             return this.message.out
-                && this.dateDiff(this.message).hours < 24;
+                && this.dateDiff(this.message).hours() < 24
+                && !this.checkBlockedAttachments(this.message);
+        },
+
+        canDeleteForAll() {
+            return this.message.out
+                && this.dateDiff(this.message).hours() < 24;
         },
 
         parent() {

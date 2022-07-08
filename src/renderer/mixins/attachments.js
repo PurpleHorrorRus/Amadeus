@@ -53,6 +53,10 @@ export default {
         }
     },
 
+    data: () => ({
+        blockedAttachments: ["sticker", "graffiti", "audio_message"]
+    }),
+
     computed: {
         showAttachments() {
             return this.message.attachments.length > 0
@@ -108,6 +112,10 @@ export default {
 
             formatted = [...formatted, ...attachments];
             return formatted.join(", ");
+        },
+
+        checkBlockedAttachments(message) {
+            return this.blockedAttachments.includes(message.attachments[0]?.type);
         }
     }
 };
