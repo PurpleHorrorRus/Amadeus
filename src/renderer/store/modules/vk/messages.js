@@ -49,10 +49,7 @@ export default {
         },
 
         FLUSH: ({ state }, conversation) => {
-            if (!conversation) return false;
-            const messages = state.cache[conversation.id]?.messages;
-            if (!messages) return false;
-
+            const messages = state.cache[conversation.information.peer.id].messages;
             if (messages.length > fields.count) {
                 messages.splice(0, messages.length - fields.count - 1);
             }
