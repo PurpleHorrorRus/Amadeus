@@ -13,7 +13,7 @@
 
         <ContextMenuItem 
             label="Удалить" 
-            @click.native="parent.action('delete')" 
+            @click.native="parent.action('delete', -1, $event)" 
         />
     </div>
 </template>

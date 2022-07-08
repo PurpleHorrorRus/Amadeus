@@ -1,6 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("message_flags")
+// vk.updates.on("dialog_messages_delete")
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
@@ -31,7 +31,7 @@ export default {
             return state.client;
         },
 
-        LISTEN: ({ dispatch, state }) => {
+        LISTEN: ({ dispatch, state, rootState }) => {
             state.client.updates.on("message_new", data => {
                 dispatch("messages/ADD_MESSAGE", data);
                 dispatch("conversations/ADD_MESSAGE", data);
@@ -49,14 +49,23 @@ export default {
                 dispatch("conversations/TRIGGER_ONLINE", data);
             });
 
-            state.client.updates.on("message_flags", data => {
-                if (!(data.peerId in state.messages.cache)) {
-                    return false;
-                }
+            state.client.updates.on("message_edit", async data => {
+                data = await dispatch("messages/PREPARE_DATA", data);
+                dispatch("conversations/UPDATE_ONE", data);
+                return dispatch("messages/SYNC", data.payload.message);
+            });
 
-                const message = state.messages.cache[data.peerId].messages.find(message => {
-                    return message.id === data.id;
-                });
+            state.client.updates.on("message_flags", async data => {
+                const message = await dispatch("messages/FIND_MESSAGE", data);
+
+                if (data.isDeleted) {
+                    if (message && (data.isDeletedForAll || message.peer_id === rootState.vk.user.id)) {
+                        await dispatch("messages/SYNC_DELETE", message);
+                    }
+
+                    const updated = await dispatch("conversations/UPDATE_ONE", data);
+                    return updated ? dispatch("conversations/REORDER") : true;
+                }
 
                 if (!message) {
                     return false;
@@ -65,7 +74,10 @@ export default {
                 const enabled = data.subTypes[0] === "message_flags_add";
                 if (data.isImportant) {
                     message.important = enabled;
+                    return true;
                 }
+
+                return enabled;
             });
 
             state.client.updates.start();

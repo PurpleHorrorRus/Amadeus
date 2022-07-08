@@ -14,7 +14,7 @@
             <div v-if="!loading" id="chat-page-messages-list">
                 <Message
                     v-for="(message, index) of chat.messages"
-                    :key="message.id"
+                    :key="message.id + message.text"
                     :message="message"
                     :same="same(index)"
                     @action="action($event, index)"
@@ -143,11 +143,12 @@ export default {
             load: "vk/messages/LOAD",
             append: "vk/messages/APPEND",
             flush: "vk/messages/FLUSH",
+            delete: "vk/messages/DELETE",
             setCurrent: "vk/messages/SET_CURRENT",
             markImportant: "vk/messages/MARK_IMPORTANT"
         }),
 
-        async action(name, index) {
+        async action(name, index, event) {
             if (this.menu.show) {
                 index = this.menu.target;
                 this.closeMenu();
@@ -162,6 +163,13 @@ export default {
 
                 case "edit": {
                     return this.$refs.input.edit(message);
+                }
+
+                case "delete": {
+                    return await this.delete({ 
+                        delete_for_all: event?.shiftKey,
+                        message 
+                    });
                 }
 
                 case "important": {

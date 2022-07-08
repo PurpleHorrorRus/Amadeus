@@ -68,6 +68,18 @@ export default {
                 pushObject.order.push(item.information.peer.id);
             }
 
+            return await dispatch("REORDER");
+        },
+
+        REORDER: ({ state }) => {
+            [state.pinned, state.cache].forEach(pushObject => {
+                return pushObject.order.sort((a, b) => {
+                    const next = pushObject.conversations[b];
+                    const prev = pushObject.conversations[a];
+                    return next.message.date - prev.message.date;
+                });
+            });
+
             return true;
         },
 
@@ -90,6 +102,23 @@ export default {
                     this.typing = false; 
                 }, 6000)
             };
+        },
+
+        UPDATE_ONE: async ({ dispatch, rootState }, data) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
+            if (!conversation || conversation.message.id !== data.id) {
+                return false;
+            }
+
+            const list = await rootState.vk.client.api.messages.getHistory({ 
+                peer_id: data.peerId,
+                count: 1,
+                extended: 1
+            });
+
+            conversation.message = list.items[0];
+            conversation.information = list.conversations[0];
+            return true;
         },
 
         GET_CHATS: async ({ rootState }, list) => {
@@ -128,7 +157,6 @@ export default {
                 return await dispatch("FETCH");
             }
 
-            console.log(conversation.pinned);
             conversation.information.last_message_id = data.payload.message.id;
             conversation.message = {
                 ...data.payload.message,

@@ -2,12 +2,6 @@
     <div class="message-actions">
         <ReplyIcon class="icon vkgram" @click="action('reply')" />
 
-        <PenIcon 
-            v-if="$parent.message.out"
-            class="icon vkgram" 
-            @click="action('edit')" 
-        />
-
         <StarIcon 
             class="icon vkgram star" 
             :class="starClass"
@@ -20,7 +14,6 @@
 export default {
     components: {
         ReplyIcon: () => import("~/assets/icons/reply.svg"),
-        PenIcon: () => import("~/assets/icons/pen.svg"),
         StarIcon: () => import("~/assets/icons/star.svg")
     },
 

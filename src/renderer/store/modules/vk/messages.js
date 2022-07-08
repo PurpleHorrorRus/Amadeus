@@ -61,13 +61,7 @@ export default {
         },
 
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
-            data.payload.message.peer_id = data.isGroup
-                ? -Math.abs(data.payload.message.peer_id)
-                : data.payload.message.peer_id;
-
-            data.payload.message.random_id = data.payload.message.random_id || common.getRandom(10, 99999999);
-            data.payload.message.out = Number(data.payload.message.out 
-                || data.payload.message.from_id === rootState.vk.user.id);
+            data = await dispatch("PREPARE_DATA", data);
 
             if (data.payload.message.peer_id in state.cache) {
                 const response = await rootState.vk.client.api.messages.getById({
@@ -80,6 +74,18 @@ export default {
             }
 
             return false;
+        },
+
+        PREPARE_DATA: ({ rootState }, data) => {
+            data.payload.message.peer_id = data.isGroup
+                ? -Math.abs(data.payload.message.peer_id)
+                : data.payload.message.peer_id;
+
+            data.payload.message.random_id = data.payload.message.random_id || common.getRandom(10, 99999999);
+            data.payload.message.out = Number(data.payload.message.out 
+                || data.payload.message.from_id === rootState.vk.user.id);
+
+            return data;
         },
 
         SYNC: ({ state }, message) => {
@@ -101,6 +107,28 @@ export default {
                 messages.push(message);
                 return message;
             }
+        },
+
+        SYNC_DELETE: ({ state }, message) => {
+            if (!(message.peer_id in state.cache)) {
+                return false;
+            }
+
+            state.cache[message.peer_id].count--;
+            const cachedMessages = state.cache[message.peer_id].messages;
+            if (!cachedMessages) {
+                return false;
+            }
+
+            const messageIndex = cachedMessages.findIndex(msg => {
+                return msg.id === message.id;
+            });
+
+            if (~messageIndex) {
+                cachedMessages.splice(messageIndex, 1);
+            }
+
+            return Boolean(~messageIndex);
         },
         
         SEND: async ({ dispatch, rootState }, data) => {
@@ -159,6 +187,17 @@ export default {
             return await rootState.vk.client.api.messages.edit(toEdit);
         },
 
+        DELETE: async ({ dispatch, rootState }, data) => {
+            data.delete_for_all = Number(data.delete_for_all && data.message.peer_id !== rootState.vk.user.id) || 0;
+            data.spam = Number(data.spam) || 0;
+            dispatch("SYNC_DELETE", data.message);
+            return await rootState.vk.client.api.messages.delete({
+                message_ids: data.message.id,
+                peer_id: data.message.peer_id,
+                ...data
+            });
+        }, 
+
         UPLOAD: async ({ dispatch, rootState }, attachments) => {
             const { upload_url } = await rootState.vk.client.api.photos.getMessagesUploadServer();
             const uploaded = await Promise.map(attachments, async attachment => {
@@ -187,6 +226,19 @@ export default {
                     return `photo${attachment.owner_id}_${attachment.id}`;
                 }).join(",")
             };
+        },
+
+        FIND_MESSAGE: ({ state }, data) => {
+            if (!(data.peerId in state.cache)) {
+                return {
+                    index: -1,
+                    message: null
+                };
+            }
+
+            return state.cache[data.peerId].messages.find(message => {
+                return message.id === data.id;
+            });
         },
 
         PREPARE_FORMDATA: (_, file) => {
