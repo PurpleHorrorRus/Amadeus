@@ -106,9 +106,15 @@ export default {
                 return false;
             }
 
-            const messageIndex = message.random_id > 0 ? findLastIndex(messages, msg => {
+            let messageIndex = message.random_id > 0 ? findLastIndex(messages, msg => {
                 return msg.random_id === message.random_id;
             }) : -1;
+
+            if (!~messageIndex) {
+                messageIndex = findLastIndex(messages, msg => {
+                    return msg.id === message.id;
+                });
+            }
             
             if (~messageIndex) {
                 const cacheMessage = messages[messageIndex];
