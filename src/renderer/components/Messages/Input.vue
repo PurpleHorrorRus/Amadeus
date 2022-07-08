@@ -56,9 +56,16 @@
 import { mapActions, mapState } from "vuex";
 import fs from "fs";
 import path from "path";
-import { findLastIndex } from "lodash";
 
 import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
+
+import DateMixin from "~/mixins/date";
+
+const blockedAttachments = [
+    "sticker", 
+    "graffiti", 
+    "audio_message"
+];
 
 export default {
     components: {
@@ -71,6 +78,8 @@ export default {
     directives: {
         autogrow: TextareaAutogrowDirective
     },
+
+    mixins: [DateMixin],
 
     data: () => ({
         sending: false,
@@ -234,17 +243,18 @@ export default {
                 return false;
             }
 
-            const latestOutMessageIndex = findLastIndex(this.$parent.chat.messages, message => {
-                const firstAttachment = message.attachments[0];
-                return message.out
-                    && (firstAttachment?.type !== "sticker" 
-                    && firstAttachment?.type !== "graffiti"
-                    && firstAttachment?.type !== "audio_message");
-            });
+            for (let i = this.$parent.chat.messages.length - 1; i > 0; i--) {
+                const message = this.$parent.chat.messages[i];
+                const firstAttachment = message.attachments[0]?.type;
 
-            return ~latestOutMessageIndex
-                ? this.$parent.action("edit", latestOutMessageIndex)
-                : false;
+                if (this.dateDiff(message).hours() >= 24) {
+                    return false;
+                }
+
+                if (message.out && !blockedAttachments.includes(firstAttachment)) {
+                    return this.$parent.action("edit", i);
+                }
+            }
         },
 
         edit(message) {

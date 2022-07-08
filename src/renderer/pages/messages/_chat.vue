@@ -37,6 +37,7 @@
 import { mapActions, mapState } from "vuex";
 
 import ScrollMixin from "~/mixins/scroll";
+import DateMixin from "~/mixins/date";
 import MenuMixin from "~/mixins/menu";
 
 import common from "~/plugins/common";
@@ -50,7 +51,7 @@ export default {
         MessageMenu: () => import("~/components/Menu/Views/Chat")
     },
 
-    mixins: [ScrollMixin, MenuMixin],
+    mixins: [ScrollMixin, DateMixin, MenuMixin],
 
     data: () => ({
         loading: true,
@@ -172,7 +173,7 @@ export default {
 
                 case "delete": {
                     return await this.delete({ 
-                        delete_for_all: event?.shiftKey,
+                        delete_for_all: event?.shiftKey && this.dateDiff(message).hours() < 24,
                         message 
                     });
                 }

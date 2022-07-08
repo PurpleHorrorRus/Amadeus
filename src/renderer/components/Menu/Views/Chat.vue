@@ -6,7 +6,7 @@
         />
 
         <ContextMenuItem 
-            v-if="message.out" 
+            v-if="canEdit" 
             label="Редактировать" 
             @click.native="parent.action('edit')" 
         />
@@ -19,7 +19,11 @@
 </template>
 
 <script>
+import DateMixin from "~/mixins/date";
+
 export default {
+
+    mixins: [DateMixin],
     props: {
         message: {
             type: Object,
@@ -28,6 +32,11 @@ export default {
     },
 
     computed: {
+        canEdit() {
+            return this.message.out
+                && this.dateDiff(this.message).hours < 24;
+        },
+
         parent() {
             return this.$parent.$parent;
         }

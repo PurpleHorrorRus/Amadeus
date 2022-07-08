@@ -26,13 +26,12 @@
 </template>
 
 <script>
-import DateDiff from "date-diff";
-
 import CoreMixin from "~/mixins/core";
+import DateMixin from "~/mixins/date";
 import AttachmentsMixin from "~/mixins/attachments";
 
 export default {
-    mixins: [CoreMixin, AttachmentsMixin],
+    mixins: [CoreMixin, DateMixin, AttachmentsMixin],
 
     props: {
         message: {
@@ -94,9 +93,7 @@ export default {
                 }, this.getUpdateTimeout());
             }
 
-            const date = new Date(this.message.date * 1000);
-            const now = new Date();
-            const diff = new DateDiff(now, date);
+            const diff = this.dateDiff(this.message);
 
             const yearsDiff = Math.floor(diff.years());
             if (yearsDiff > 0) {
@@ -145,9 +142,7 @@ export default {
         },
 
         getUpdateTimeout() {
-            const date = new Date(this.message.date * 1000);
-            const now = new Date();
-            const diff = new DateDiff(now, date);
+            const diff = this.dateDiff(this.message);
 
             if (diff.years() >= 1) {
                 return 1000 * 60 * 60 * 60 * 24 * 30; // one month

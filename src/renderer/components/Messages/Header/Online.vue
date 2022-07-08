@@ -14,12 +14,16 @@
 </template>
 
 <script>
+import DateMixin from "~/mixins/date";
+
 import common from "~/plugins/common";
 
 export default {
     components: {
         PhoneIcon: () => import("~/assets/icons/phone.svg")
     },
+
+    mixins: [DateMixin],
 
     props: {
         profile: {
@@ -65,17 +69,14 @@ export default {
             }
 
             const date = new Date(this.profile.last_seen.time * 1000);
-            const now = new Date();
+            const diff = this.dateDiff({ date: this.profile.last_seen.time });
 
-            const yearsDiff = now.getFullYear() - date.getFullYear();
-            if (yearsDiff > 0) {
+            if (Math.floor(diff.years()) > 0) {
                 this.lastSeenText = `был в сети ${common.formatTimeToDayAndMonth(date)} ${date.getFullYear()} г.`;
                 return true;
             }
-            
-            const dateDiff = date.getTime() - now.getTime();
-            const daysDiff = Math.ceil(dateDiff / (1000 * 3600 * 24));
-            switch(daysDiff) {
+
+            switch(Math.round(diff.days())) {
                 case 0: {
                     this.lastSeenText = `был в сети в ${common.timestampFormat(date)}`;
                     return true;

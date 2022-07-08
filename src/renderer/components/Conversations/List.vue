@@ -52,7 +52,7 @@ export default {
     mixins: [CoreMixin, ScrollMixin],
 
     data: () => ({
-        load: false
+        loadMore: false
     }),
 
     computed: {
@@ -82,9 +82,9 @@ export default {
 
     mounted() {
         this.registerScroll(this.$refs.conversations, async () => {
-            this.load = true;
+            this.loadMore = true;
             await this.append();
-            this.load = false;
+            this.loadMore = false;
         }, percent => percent >= 70);
     },
 
