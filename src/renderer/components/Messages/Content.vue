@@ -14,6 +14,11 @@
                 v-text="relativeDate(message.date)" 
             />
 
+            <LoaderIcon
+                v-if="message.syncing === 1"
+                class="icon loader-icon spin message-content-info-syncing"
+            />
+
             <CheckIcon 
                 v-if="showCheckIcon"
                 class="icon message-content-info-read" 
@@ -108,10 +113,10 @@ export default {
             font-size: 10px;
         }
 
-        &-read {
+        .icon {
             width: 14px;
 
-            &.read path {
+            &.message-content-info-read path {
                 stroke: var(--out-contrast);
             }
         }

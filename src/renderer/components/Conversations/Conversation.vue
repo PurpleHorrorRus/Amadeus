@@ -8,6 +8,11 @@
             <ConversationTyping v-else />
         </div>
 
+        <LoaderIcon
+            v-if="conversation.message.syncing === 1"
+            class="icon spin loader-icon conversation-message-syncing"
+        />
+
         <ConversationUnread :conversation="conversation" />
     </div>
 </template>
@@ -116,6 +121,14 @@ export default {
             color: var(--small-text);
             font-size: 12px;
             font-weight: 300;
+        }
+
+        &-syncing {
+            width: 14px;
+
+            path {
+                stroke: var(--small-text);
+            }
         }
     }
 }

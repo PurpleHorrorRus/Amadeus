@@ -18,18 +18,19 @@
                     :message="message"
                     :same="same(index)"
                     @action="action($event, index)"
-                    @click.right.native="openMenu(index, $event, true)"
+                    @click.right.native="openMenu(message, $event, true)"
                 />
 
                 <ContextMenu v-if="menu.show" :position="menu.position">
-                    <MessageMenu :message="chat.messages[menu.target]" />
+                    <MessageMenu :message="menu.target" />
                 </ContextMenu>
             </div>
 
             <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
 
-        <MessageInput v-if="!chat.search" ref="input" />
+        <MessageInput v-if="canWrite" ref="input" />
+        <MessageNotAllowed v-else-if="showBlocked" />
     </div>
 </template>
 
@@ -47,6 +48,7 @@ export default {
         MessagesHeader: () => import("~/components/Messages/Header"),
         Message: () => import("~/components/Messages/Message"),
         MessageInput: () => import("~/components/Messages/Input"),
+        MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed"),
 
         MessageMenu: () => import("~/components/Menu/Views/Chat")
     },
@@ -71,6 +73,7 @@ export default {
     computed: {
         ...mapState({
             current: state => state.vk.messages.current,
+            user: state => state.vk.user,
             song: state => state.audio.song
         }),
 
@@ -81,8 +84,22 @@ export default {
             };
         },
 
+        canWrite() {
+            return !this.chat.search
+                && this.current?.information.can_write.allowed;
+        },
+
+        showBlocked() {
+            return !this.loading
+                && !this.canWrite;
+        },
+
         canScroll() {
             return this.chat.messages.length < this.chat.count;
+        },
+
+        itsMe() {
+            return this.user.id === this.id;
         }
     },
 
@@ -160,7 +177,7 @@ export default {
         }),
 
         async action(name, index) {
-            const message = this.chat.messages[index || this.menu.target];
+            const message = this.chat.messages[index] || this.menu.target;
             this.closeMenu();
 
             switch(name) {

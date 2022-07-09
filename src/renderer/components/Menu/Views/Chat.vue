@@ -1,6 +1,7 @@
 <template>
     <div id="chat-message-view" class="menu-view">
         <ContextMenuItem 
+            v-if="canReply"
             label="Ответить" 
             @click.native="parent.action('reply')" 
         />
@@ -38,21 +39,34 @@ export default {
         }
     },
 
+    data: () => ({
+        hours: 0
+    }),
+
     computed: {
+        canReply() {
+            return this.parent.current.information.can_write.allowed;
+        },
+
         canEdit() {
             return this.message.out
-                && this.dateDiff(this.message).hours() < 24
+                && this.hours < 24
                 && !this.checkBlockedAttachments(this.message);
         },
 
         canDeleteForAll() {
             return this.message.out
-                && this.dateDiff(this.message).hours() < 24;
+                && this.hours < 24
+                && !this.parent.itsMe;
         },
 
         parent() {
             return this.$parent.$parent;
         }
+    },
+
+    created() {
+        this.hours = this.dateDiff(this.message).hours();
     }
 };
 </script>

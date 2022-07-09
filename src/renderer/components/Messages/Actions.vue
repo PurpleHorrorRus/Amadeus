@@ -1,6 +1,10 @@
 <template>
     <div class="message-actions">
-        <ReplyIcon class="icon vkgram" @click="action('reply')" />
+        <ReplyIcon 
+            v-if="parent.conversation.information.can_write.allowed"
+            class="icon vkgram" 
+            @click="action('reply')" 
+        />
 
         <StarIcon 
             class="icon vkgram star" 
@@ -18,14 +22,20 @@ export default {
     },
 
     computed: {
+        parent() {
+            return this.$parent;
+        },
+
         starClass() {
-            return { filled: this.$parent.message.important };
+            return { 
+                filled: this.parent.message.important 
+            };
         }
     },
 
     methods: {
         action(name) {
-            return this.$parent.$emit("action", name);
+            return this.parent.$emit("action", name);
         }
     }
 };

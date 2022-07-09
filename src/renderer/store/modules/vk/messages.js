@@ -107,12 +107,12 @@ export default {
             }
 
             let messageIndex = message.random_id > 0 ? findLastIndex(messages, msg => {
-                return msg.random_id === message.random_id;
+                return msg.id === message.id;
             }) : -1;
 
             if (!~messageIndex) {
                 messageIndex = findLastIndex(messages, msg => {
-                    return msg.id === message.id;
+                    return msg.random_id === message.random_id;
                 });
             }
             
@@ -181,7 +181,10 @@ export default {
                 toSend.attachment = attachments.ids;
             }
 
-            return await rootState.vk.client.api.messages.send(toSend);
+            return await rootState.vk.client.api.messages.send(toSend).catch(e => {
+                console.warn(e);
+                dispatch("UPDATE_CURRENT");
+            });
         },
 
         EDIT: async ({ dispatch, rootState }, message) => {
@@ -244,6 +247,20 @@ export default {
                     return `photo${attachment.owner_id}_${attachment.id}`;
                 }).join(",")
             };
+        },
+
+        UPDATE_CURRENT: async ({ state, rootState }) => {
+            const list = await rootState.vk.client.api.messages.getConversationsById({
+                peer_ids: state.current.information.peer.id,
+                extended: 1
+            });
+
+            const conversation = list.items[0];
+            if (conversation.peer.id === state.current.information.peer.id) {
+                state.current.information = conversation;
+            }
+
+            return true;
         },
 
         FIND_MESSAGE: ({ state }, data) => {
