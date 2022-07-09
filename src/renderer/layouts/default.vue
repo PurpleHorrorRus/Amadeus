@@ -116,12 +116,13 @@ export default {
     created() {
         this.detectView();
 
-        Object.keys(this.settings.appearance.colors).forEach(key => {
-            this.setStyleVariable({ 
-                variable: key,
-                value: this.settings.appearance.colors[key]
+        for (const variable of Object.keys(this.settings.appearance.colors)) {
+            console.log(variable);
+            this.calculateContrasts({ 
+                variable,
+                value: this.settings.appearance.colors[variable]
             });
-        });
+        }
     },
 
     mounted() {

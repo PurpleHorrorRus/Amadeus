@@ -36,9 +36,7 @@ const clear = {
 
             colors: {
                 message: "#242424",
-                "message-contrast": "#71aaeb",
-                out: "#71aaeb",
-                "out-contrast": "#ff4040"
+                out: "#71aaeb"
             }
         },
 

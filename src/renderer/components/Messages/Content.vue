@@ -89,6 +89,10 @@ export default {
 
     background: var(--message);
     border-radius: 8px;
+
+    span {
+        color: var(--contrast) !important;
+    }
         
     &-name {
         color: var(--contrast);

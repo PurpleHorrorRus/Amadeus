@@ -46,23 +46,9 @@
             />
 
             <ColorPicker 
-                text="Контрастный цвет для входящих сообщений"
-                :variable="'message-contrast'"
-                :value="settings.appearance.colors['message-contrast']"
-                @input="saveColor"
-            />
-
-            <ColorPicker 
                 text="Цвет фона исходящих сообщений"
                 :variable="'out'"
                 :value="settings.appearance.colors.out"
-                @input="saveColor"
-            />
-
-            <ColorPicker 
-                text="Контрастный цвет для исходящих сообщений"
-                :variable="'out-contrast'"
-                :value="settings.appearance.colors['out-contrast']"
                 @input="saveColor"
             />
         </div>
@@ -110,7 +96,7 @@ export default {
         },
 
         saveColor(data) {
-            this.setStyleVariable(data);
+            this.calculateContrasts(data);
             this.deepChange(this.settings.appearance.colors, data.variable, data.value);
             return true;
         }

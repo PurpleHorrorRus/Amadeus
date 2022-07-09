@@ -96,9 +96,11 @@ export default {
 
     &:not(.noBackground) {
         --contrast: var(--message-contrast);
+        --message-bg: var(--message);
 
         &.out {
             --contrast: var(--out-contrast);
+            --message-bg: var(--out);
         }
     }
 

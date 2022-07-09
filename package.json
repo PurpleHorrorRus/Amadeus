@@ -41,6 +41,7 @@
         "@uscreen-video/v-color": "^1.0.0",
         "@vk-io/authorization": "1.2.1",
         "bluebird": "^3.7.2",
+        "contrast-color": "^1.0.1",
         "date-diff": "^1.0.2",
         "formdata-node": "^4.3.3",
         "sass": "^1.53.0",
