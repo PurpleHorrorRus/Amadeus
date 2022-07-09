@@ -94,13 +94,17 @@ export default {
         }
     }
 
+    &:not(.noBackground) {
+        --contrast: var(--message-contrast);
+
+        &.out {
+            --contrast: var(--out-contrast);
+        }
+    }
+
     &.out {
         align-self: flex-end;
         flex-direction: row-reverse;
-
-        &:not(.noBackground) {
-            --secondary: var(--out-contrast);
-        }
 
         .message-content {
             background: var(--out);

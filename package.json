@@ -38,6 +38,7 @@
     "dependencies": {
         "@lottiefiles/vue-lottie-player": "^1.0.8",
         "@nuxtjs/style-resources": "^1.2.1",
+        "@uscreen-video/v-color": "^1.0.0",
         "@vk-io/authorization": "1.2.1",
         "bluebird": "^3.7.2",
         "date-diff": "^1.0.2",
@@ -45,8 +46,10 @@
         "sass": "^1.53.0",
         "vk-io": "4.3.2",
         "vue-clickaway": "^2.2.2",
+        "vue-js-toggle-button": "^1.3.3",
         "vue-loading-skeleton": "^1.1.9",
         "vue-plyr": "^7.0.0",
+        "vue-range-component": "https://github.com/xwpongithub/vue-range-slider",
         "vue-scroll-outside": "^1.0.1",
         "vue-textarea-autogrow-directive": "^0.2.0",
         "vue-yandex-maps": "^0.11.9"

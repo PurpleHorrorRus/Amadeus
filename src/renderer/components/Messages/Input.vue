@@ -56,6 +56,7 @@
 import { mapActions, mapState } from "vuex";
 import fs from "fs";
 import path from "path";
+import { throttle } from "lodash";
 
 import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 
@@ -81,6 +82,7 @@ export default {
         message: "",
         reply: null,
         attachments: [],
+        typingThrottle: null,
 
         editing: {
             enable: false,
@@ -118,7 +120,23 @@ export default {
         }
     },
 
+    watch: {
+        message: {
+            handler: function(message) {
+                if (message.length === 0) {
+                    return false;
+                }
+
+                return this.typingThrottle();
+            }
+        }
+    },
+
     mounted() {
+        this.typingThrottle = throttle(() => {
+            this.sendTyping(this.current.information.peer.id);
+        }, 6 * 1000);
+
         document.onpaste = event => this.onPaste(event);
         window.addEventListener("focus", this.focus);
         window.addEventListener("keypress", this.focus);
@@ -134,7 +152,8 @@ export default {
     methods: {
         ...mapActions({
             sendMessage: "vk/messages/SEND",
-            editMessage: "vk/messages/EDIT"
+            editMessage: "vk/messages/EDIT",
+            sendTyping: "vk/messages/SEND_TYPING"
         }),
 
         async send(event) {

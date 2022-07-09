@@ -87,11 +87,11 @@ export default {
 
     padding: 10px;
 
-    background: #242424;
+    background: var(--message);
     border-radius: 8px;
         
     &-name {
-        color: #0099ff;
+        color: var(--contrast);
         font-size: 12px;
     }
 
@@ -110,6 +110,7 @@ export default {
         height: 15px;
 
         &-date {
+            color: var(--contrast);
             font-size: 10px;
         }
 

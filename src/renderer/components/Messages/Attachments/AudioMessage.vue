@@ -127,7 +127,7 @@ export default {
         width: 30px;
         height: 30px;
 
-        background: var(--secondary);
+        background: var(--contrast);
         border-radius: 100%;
 
         cursor: pointer;
@@ -153,7 +153,7 @@ export default {
             pointer-events: none;
 
             &.played {
-                background: var(--secondary);
+                background: var(--contrast);
             }
         }
     }

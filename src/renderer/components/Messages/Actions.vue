@@ -58,12 +58,12 @@ export default {
         cursor: pointer;
 
         path {
-            fill: var(--secondary);
+            fill: var(--contrast);
         }
     }
 
     .star {
-        stroke: var(--secondary);
+        stroke: var(--contrast);
         stroke-width: 2px;
 
         path {
@@ -71,7 +71,7 @@ export default {
         }
 
         &.filled path {
-            fill: var(--secondary);
+            fill: var(--contrast);
         }
     }
 }

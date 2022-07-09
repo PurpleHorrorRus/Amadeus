@@ -27,7 +27,7 @@
             />
         </div>
 
-        <div 
+        <span 
             v-if="showTitle"
             class="attachments-item-title attachments-item-video-title nowrap" 
             v-text="item.video.title"

@@ -1,6 +1,11 @@
 <template>
     <div class="conversation-unread">
-        <div v-if="showMention" class="conversation-unread-mention">
+        <LoaderIcon
+            v-if="isSyncing"
+            class="icon spin loader-icon conversation-message-syncing"
+        />
+
+        <div v-else-if="showMention" class="conversation-unread-mention">
             <MentionIcon class="icon vkgram" />
         </div>
 
@@ -32,6 +37,10 @@ export default {
     },
 
     computed: {
+        isSyncing() {
+            return this.conversation.message.syncing === 1;
+        },
+
         isMention() {
             return this.conversation.mention
                 && this.inUnread;

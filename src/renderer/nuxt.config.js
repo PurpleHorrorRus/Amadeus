@@ -54,6 +54,7 @@ module.exports = {
         "~assets/css/global.scss",
 
         "vue-plyr/dist/vue-plyr.css",
+        "vue-range-component/dist/vue-range-slider.css",
         "vue-loading-skeleton/dist/vue-loading-skeleton.css",
 
         ...themesList

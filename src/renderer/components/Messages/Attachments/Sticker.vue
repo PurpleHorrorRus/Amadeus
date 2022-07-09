@@ -2,7 +2,8 @@
     <div class="attachments-item attachments-item-sticker">
         <lottie-vue-player
             v-if="item.sticker.animation_url"
-            :src="animation"
+            :key="settings.appearance.stickersTheme"
+            :src="item.sticker.animations[settings.appearance.stickersTheme].url"
             class="attachments-item-sticker-animation"
             autoplay
             loop
@@ -27,10 +28,6 @@ export default {
     computed: {
         sticker() {
             return this.item.sticker.images[this.item.sticker.images.length - 1].url;
-        },
-
-        animation() {
-            return this.item.sticker.animations[this.settings.appearance.stickersTheme].url;
         }
     }
 };

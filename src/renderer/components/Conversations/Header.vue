@@ -12,13 +12,14 @@
 
         <ContextMenu v-if="menu.show" :position="menu.position">
             <ContextMenuItem label="Важные сообщения" @click.native="openImportant" />
-            <ContextMenuItem label="Настройки" />
+            <ContextMenuItem label="Настройки" @click.native="openSettings" />
             <ContextMenuItem label="О приложении" />
         </ContextMenu>
     </div>
 </template>
 
 <script>
+import ModalMixin from "~/mixins/modal";
 import MenuMixin from "~/mixins/menu";
 
 export default {
@@ -26,7 +27,7 @@ export default {
         DotsHorizontal: () => import("~/assets/icons/dots-horizontal.svg")
     },
 
-    mixins: [MenuMixin],
+    mixins: [ModalMixin, MenuMixin],
 
     data: () => ({
         search: ""
@@ -35,6 +36,12 @@ export default {
     methods: {
         openImportant() {
             return this.$router.replace("/important").catch(() => {});
+        },
+
+        openSettings() {
+            return this.open({
+                layout: "settings"                
+            });
         }
     }
 };

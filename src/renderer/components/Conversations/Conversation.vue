@@ -8,11 +8,6 @@
             <ConversationTyping v-else />
         </div>
 
-        <LoaderIcon
-            v-if="conversation.message.syncing === 1"
-            class="icon spin loader-icon conversation-message-syncing"
-        />
-
         <ConversationUnread :conversation="conversation" />
     </div>
 </template>
@@ -42,7 +37,8 @@ export default {
 
     computed: {
         ...mapState({
-            current: state => state.vk.messages.current
+            current: state => state.vk.messages.current,
+            extended: state => state.extendedView
         }),
 
         conversationClass() {
@@ -50,10 +46,6 @@ export default {
                 active: this.current?.information.peer.id === this.conversation.information.peer.id,
                 minimized: this.settings.appearance.minimized && this.extended
             };
-        },
-
-        extended() {
-            return this.$parent.$parent.$parent.extended;
         }
     }
 };

@@ -7,6 +7,8 @@ html {
     --secondary-hover-opacity: #aeb7c22d;
     --secondary-disabled: #aeb7c20c;
 
+    --contrast: #71aaeb;
+
     --scroll: #545454;
     --scroll-width: 12px;
     --scroll-radius: 8px;
@@ -21,9 +23,6 @@ html {
     --border-opacity: #22222225;
 
     --field: #202020;
-
-    --out: #71aaeb;
-    --out-contrast: #ff4040;
 
     --text: #ffffff;
     --small-text: #939393;
@@ -41,4 +40,6 @@ html {
 
     --skeleton-background: #222222cc;
     --skeleton-highlight: #191919cc;
+
+    --switch-unchecked: #545454;
 }

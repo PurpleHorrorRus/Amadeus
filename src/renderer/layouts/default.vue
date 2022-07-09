@@ -34,8 +34,9 @@
             />
         </Resizable>
 
-        
         <nuxt v-if="showPage" class="page" />
+
+        <ModalWindow v-if="modalShow" />
     </div>
 </template>
 
@@ -45,16 +46,18 @@ import { mapActions, mapState } from "vuex";
 import Resizable from "~/components/Global/Resizable";
 
 import CoreMixin from "~/mixins/core";
+import AppearanceMixin from "~/mixins/appearance";
 
 export default {
     components: {
         Titlebar: () => import("~/components/Titlebar/Titlebar"),
         Player: () => import("~/components/Messages/Player"),
         ConversationsList: () => import("~/components/Conversations/List"),
+        ModalWindow: () => import("~/components/Modal/Window"),
         Resizable
     },
 
-    mixins: [CoreMixin],
+    mixins: [CoreMixin, AppearanceMixin],
 
     data: () => ({
         windowWidth: 0,
@@ -69,7 +72,9 @@ export default {
             extended: state => state.extendedView,
             current: state => state.vk.messages.current,
 
-            song: state => state.audio.song
+            song: state => state.audio.song,
+
+            modalShow: state => state.modal.show
         }),
 
         layoutClass() {
@@ -110,6 +115,13 @@ export default {
 
     created() {
         this.detectView();
+
+        Object.keys(this.settings.appearance.colors).forEach(key => {
+            this.setStyleVariable({ 
+                variable: key,
+                value: this.settings.appearance.colors[key]
+            });
+        });
     },
 
     mounted() {

@@ -1,6 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("dialog_messages_delete")
+// vk.updates.on("message_deny")
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
@@ -43,6 +43,7 @@ export default {
             });
 
             state.client.updates.on("typing", data => {
+                console.log("TYPING", data);
                 dispatch("conversations/TRIGGER_TYPING", data.fromId);
             });
 
@@ -54,6 +55,10 @@ export default {
                 data = await dispatch("messages/PREPARE_DATA", data);
                 dispatch("conversations/UPDATE_ONE", data);
                 return dispatch("messages/SYNC", data.payload.message);
+            });
+
+            state.client.updates.on("message_deny", data => {
+                console.log("message_deny", data);
             });
 
             state.client.updates.on("message_flags", async data => {

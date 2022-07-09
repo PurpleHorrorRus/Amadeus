@@ -110,7 +110,7 @@ export default {
         word-break: break-word;
 
         &.mention {
-            color: var(--secondary);
+            color: var(--contrast);
             
             &:hover {
                 cursor: pointer;

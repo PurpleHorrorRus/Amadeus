@@ -11,11 +11,35 @@ const clear = {
         width: 380,
         height: 530,
 
+        vk: {
+            disable_read: false,
+            disable_write: false,
+            send_offline: false
+        },
+
         appearance: {
             conversationsWidth: 300,
             minimized: false,
 
-            stickersTheme: 1
+            stickersTheme: 1,
+
+            messages: {
+                background: {
+                    url: "",
+                    base64: "",
+                    width: 100,
+                    height: 100,
+                    x: 0,
+                    y: 0
+                }
+            },
+
+            colors: {
+                message: "#242424",
+                "message-contrast": "#71aaeb",
+                out: "#71aaeb",
+                "out-contrast": "#ff4040"
+            }
         },
 
         player: {

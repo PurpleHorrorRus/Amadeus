@@ -74,7 +74,7 @@ export default {
 
     padding-left: 10px;
 
-    border-left: 4px solid var(--secondary);
+    border-left: 4px solid var(--contrast);
 
     span {
         user-select: text;

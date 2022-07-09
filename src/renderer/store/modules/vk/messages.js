@@ -1,3 +1,4 @@
+import { ipcRenderer } from "electron";
 import Promise from "bluebird";
 import { FormData } from "formdata-node";
 import { fileFromPathSync } from "formdata-node/file-from-path";
@@ -19,7 +20,7 @@ export default {
     }),
 
     actions: {
-        LOAD: async ({ state, rootState }, data) => {
+        LOAD: async ({ dispatch, state, rootState }, data) => {
             const isSearch = Boolean(data.start_message_id);
 
             if (data.id in state.cache) {
@@ -41,7 +42,8 @@ export default {
                 id: data.id,
                 count: history.count,
                 search: isSearch,
-                messages: history.items.reverse()
+                messages: history.items.reverse(),
+                conversation: await dispatch("vk/conversations/GET_CONVERSATION_CACHE", data.id, { root: true })
             };
 
             return state.cache[data.id];
@@ -110,7 +112,7 @@ export default {
                 return msg.id === message.id;
             }) : -1;
 
-            if (!~messageIndex) {
+            if (!~messageIndex && message.random_id > 0) {
                 messageIndex = findLastIndex(messages, msg => {
                     return msg.random_id === message.random_id;
                 });
@@ -181,10 +183,12 @@ export default {
                 toSend.attachment = attachments.ids;
             }
 
-            return await rootState.vk.client.api.messages.send(toSend).catch(e => {
-                console.warn(e);
-                dispatch("UPDATE_CURRENT");
-            });
+            return await rootState.vk.client.api.messages.send(toSend)
+                .then(() => dispatch("SEND_OFFLINE"))
+                .catch(e => {
+                    console.warn(e);
+                    dispatch("UPDATE_CURRENT");
+                });
         },
 
         EDIT: async ({ dispatch, rootState }, message) => {
@@ -217,7 +221,7 @@ export default {
                 peer_id: data.message.peer_id,
                 ...data
             });
-        }, 
+        },
 
         UPLOAD: async ({ dispatch, rootState }, attachments) => {
             const { upload_url } = await rootState.vk.client.api.photos.getMessagesUploadServer();
@@ -247,6 +251,47 @@ export default {
                     return `photo${attachment.owner_id}_${attachment.id}`;
                 }).join(",")
             };
+        },
+
+        READ: async ({ rootState }, chat) => {
+            const canRead = !rootState.settings.settings.vk.disable_read 
+                && !chat.search 
+                && chat.messages.length > 0
+                && chat.conversation.information.unread_count > 0
+                && await ipcRenderer.invoke("focused");
+
+            if (!canRead) {
+                return false;
+            }
+
+            const message = chat.messages[chat.messages.length - 1];
+            if (message.out) {
+                return false;
+            }
+
+            return await rootState.vk.client.api.messages.markAsRead({
+                peer_id: message.peer_id,
+                start_message_id: message.id
+            });
+        },
+
+        SEND_TYPING: async ({ rootState }, id) => {
+            if (rootState.settings.settings.vk.disable_write) {
+                return false;
+            }
+
+            return await rootState.vk.client.api.messages.setActivity({
+                peer_id: id,
+                type: "typing"
+            });
+        },
+
+        SEND_OFFLINE: async ({ rootState }) => {
+            if (!rootState.settings.settings.vk.send_offline) {
+                return false;
+            }
+
+            return await rootState.vk.client.api.account.setOffline();
         },
 
         UPDATE_CURRENT: async ({ state, rootState }) => {
@@ -292,6 +337,7 @@ export default {
                 message_ids: message.id,
                 important: Number(!message.important)
             });
+
         }
     }
 };

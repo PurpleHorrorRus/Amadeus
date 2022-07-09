@@ -25,6 +25,10 @@ class IPC {
             save: async options => {
                 const { canceled, filePath } = await dialog.showSaveDialog(options);
                 return !canceled ? filePath : false;
+            },
+
+            focused: () => {
+                return this.window.isFocused();
             }
         };
 

@@ -14,8 +14,6 @@
 </template>
 
 <script>
-import { shell } from "electron";
-
 import DocMixin from "~/components/Messages/Attachments/Doc/Mixin";
 
 export default {
@@ -42,7 +40,7 @@ export default {
         width: 40px;
         height: 40px;
 
-        background: var(--secondary);
+        background: var(--contrast);
         border-radius: 100%;
 
         .icon {

@@ -2,7 +2,12 @@
     <div id="chat-page">
         <MessagesHeader v-if="current" :conversation="current" />
 
-        <div id="chat-page-messages" ref="messages" :class="chatPageClass">
+        <div 
+            id="chat-page-messages" 
+            ref="messages" 
+            :class="chatPageClass"
+            :style="chatPageStyle"
+        >
             <Skeleton 
                 v-if="loadMore"
                 id="skeleton-messages"
@@ -37,6 +42,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 import DateMixin from "~/mixins/date";
 import MenuMixin from "~/mixins/menu";
@@ -53,7 +59,7 @@ export default {
         MessageMenu: () => import("~/components/Menu/Views/Chat")
     },
 
-    mixins: [ScrollMixin, DateMixin, MenuMixin],
+    mixins: [CoreMixin, ScrollMixin, DateMixin, MenuMixin],
 
     data: () => ({
         loading: true,
@@ -62,7 +68,7 @@ export default {
         id: 0,
         type: "user",
 
-        autoScroll: false,
+        percentToRead: 80,
 
         chat: {
             count: 0,
@@ -81,6 +87,21 @@ export default {
             return {
                 loading: this.loading,
                 player: this.song !== null
+            };
+        },
+        
+        chatPageStyle() {
+            const background = this.settings.appearance.messages.background;
+            
+            return {
+                backgroundSize: `${background.width}vw ${background.height}vw`,
+                backgroundPositionX: background.x + "%",
+                backgroundPositionY: background.y + "%",
+
+                backgroundImage: background.base64 
+                    // eslint-disable-next-line max-len
+                    ? `url("${background.base64}")`
+                    : "var(--primary)"
             };
         },
 
@@ -114,9 +135,25 @@ export default {
             }
         },
 
+        scrollPercent: {
+            handler: function(percent) {
+                if (percent > this.percentToRead && this.chat.conversation.information.unread_count > 0) {
+                    this.readOnBottom();
+                }
+            }
+        },
+
+        "settings.vk.disable_read": {
+            handler: function(disable_read) {
+                if (!disable_read) {
+                    this.readOnBottom();
+                }
+            }
+        },
+
         "chat.messages": {
             handler: function() {
-                if (this.autoScroll) {
+                if (this.scrollPercent > this.percentToRead) {
                     this.$nextTick(() => this.scrollToBottom());
                 }
             }
@@ -136,6 +173,8 @@ export default {
         });
 
         this.loading = false;
+
+        window.addEventListener("focus", this.readOnBottom);
         document.addEventListener("keydown", this.exit);
 
         this.registerScroll(this.$refs.messages, async () => {
@@ -150,6 +189,7 @@ export default {
     },
 
     beforeDestroy() {
+        window.removeEventListener("focus", this.readOnBottom);
         document.removeEventListener("keydown", this.exit);
 
         if (!this.loading) {
@@ -173,7 +213,8 @@ export default {
             clear: "vk/messages/CLEAR",
             delete: "vk/messages/DELETE",
             setCurrent: "vk/messages/SET_CURRENT",
-            markImportant: "vk/messages/MARK_IMPORTANT"
+            markImportant: "vk/messages/MARK_IMPORTANT",
+            read: "vk/messages/READ"
         }),
 
         async action(name, index) {
@@ -216,8 +257,17 @@ export default {
             return currentMessage.from_id === previousMessage.from_id;
         },
 
+        readOnBottom() {
+            if (this.scrollPercent < this.percentToRead) {
+                return false;
+            }
+
+            return this.read(this.chat);
+        },
+
         scrollToBottom() {
             this.$refs.messages.scrollTop = this.$refs.messages?.scrollHeight;
+            this.readOnBottom();
             return true;
         },
 
@@ -249,6 +299,9 @@ export default {
         grid-area: messages;
 
         position: relative;
+
+        background-size: auto;
+        background-repeat: no-repeat;
 
         overflow-x: hidden;
         overflow-y: overlay;

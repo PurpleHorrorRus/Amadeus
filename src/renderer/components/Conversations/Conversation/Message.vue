@@ -182,7 +182,7 @@ export default {
 
             margin-right: 4px;
 
-            color: var(--secondary);
+            color: var(--contrast);
         }
     }
 }

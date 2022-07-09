@@ -4,6 +4,7 @@ import settings from "~/store/modules/settings";
 import vk from "~/store/modules/vk";
 import audio from "~/store/modules/audio";
 import audio_message from "~/store/modules/audio_message";
+import modal from "~/store/modules/modal";
 
 export default () => {
     return new Vuex.Store({
@@ -28,7 +29,8 @@ export default () => {
             settings,
             vk,
             audio,
-            audio_message
+            audio_message,
+            modal
         }
     });
 };

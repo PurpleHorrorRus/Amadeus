@@ -138,8 +138,9 @@ export default {
         &-title {
             margin-left: 5px;
 
-            color: var(--secondary);
+            color: var(--contrast);
             font-size: 12px;
+
         }
     }
 
