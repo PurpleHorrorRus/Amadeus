@@ -1,6 +1,6 @@
 <template>
     <div id="conversations" class="page" :class="conversationClass">
-        <ConversationsHeader v-if="!settings.appearance.minimized" />
+        <ConversationsHeader v-if="showHeader" />
 
         <div id="conversations-list" ref="conversations">
             <div v-if="pinned.order.length > 0" id="conversations-list-pinned">
@@ -57,6 +57,7 @@ export default {
 
     computed: {
         ...mapState({
+            extended: state => state.extendedView,
             pinned: state => state.vk.conversations.pinned,
             cache: state => state.vk.conversations.cache,
             count: state => state.vk.conversations.count
@@ -66,6 +67,11 @@ export default {
             return {
                 minimized: this.settings.appearance.minimized
             };
+        },
+
+        showHeader() {
+            return (this.extended && !this.settings.appearance.minimized)
+                || !this.extended;
         },
 
         canScroll() {
