@@ -1,0 +1,43 @@
+html.meridius-mode {
+    --primary: #131313;
+
+    --secondary: #9c3536;
+    --secondary-hover: #d1484a;
+    --secondary-opacity-half: #9c353680;
+    --secondary-hover-opacity: #9c353640;
+    --secondary-disabled: #491819;
+
+    --scroll: #545454;
+    --scroll-width: 12px;
+    --scroll-radius: 8px;
+
+    --backdrop: #141414;
+
+    --titlebar: var(--primary);
+
+    --navigation-select: #ffffff26;
+
+    --border: #202020;
+    --border-opacity: #20202025;
+
+    --field: #1a1a1a;
+
+    --text: #ffffff;
+    --small-text: #aaaeb4;
+
+    --icons: #ffffff;
+    --icons-hover: #bdbdbd;
+    --icons-disabled: #303030;
+
+    --item: #1a1a1a;
+    --item-hover: #2f2f2f;
+    --item-disabled: #000000;
+
+    --player-slider: #ffffff26;
+    --player-slider-progress: #ffffff52;
+
+    --switch-unchecked: #545454;
+
+    --skeleton-background: #101010cc;
+    --skeleton-highlight: #161616cc;
+}

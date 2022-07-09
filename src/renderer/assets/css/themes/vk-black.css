@@ -1,4 +1,4 @@
-html {
+html.vk-black-mode {
     --primary: #131313; 
 
     --secondary: #71aaeb;
@@ -6,8 +6,6 @@ html {
     --secondary-opacity-half: #aeb7c22d;
     --secondary-hover-opacity: #aeb7c22d;
     --secondary-disabled: #aeb7c20c;
-
-    --contrast: #71aaeb;
 
     --scroll: #545454;
     --scroll-width: 12px;

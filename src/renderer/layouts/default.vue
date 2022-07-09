@@ -114,10 +114,10 @@ export default {
     },
 
     created() {
+        this.setTheme(this.settings.appearance.theme);
         this.detectView();
 
         for (const variable of Object.keys(this.settings.appearance.colors)) {
-            console.log(variable);
             this.calculateContrasts({ 
                 variable,
                 value: this.settings.appearance.colors[variable]

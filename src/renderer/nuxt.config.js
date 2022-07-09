@@ -50,6 +50,10 @@ module.exports = {
     plugins: webpackPlugins(),
     router: routerConfig,
 
+    buildModules: [
+        "@nuxtjs/color-mode"
+    ],
+
     css: [
         "~assets/css/global.scss",
 

@@ -38,6 +38,13 @@
         </div>
 
         <div id="settings-view-appearance-colors" class="settings-view-category">
+            <Dropdown 
+                text="Цветовая схема"
+                :options="themeNames"
+                :selected="choosedThemeIndex"
+                @change="changeTheme"
+            />
+
             <ColorPicker 
                 text="Цвет фона входящих сообщений"
                 :variable="'message'"
@@ -78,6 +85,16 @@ export default {
         messagesBackground() {
             return this.settings.appearance.messages.background.url 
                 || "Не задано";
+        },
+
+        themeNames() {
+            return this.themes.map(theme => theme.name);
+        },
+
+        choosedThemeIndex() {
+            return this.themes
+                .map(theme => theme.id)
+                .indexOf(this.settings.appearance.theme);
         }
     },
 
@@ -92,6 +109,12 @@ export default {
             const base64 = "data:image/png;base64," + fs.readFileSync(path, "base64");
             this.deepChange(this.settings.appearance.messages.background, "url", path);
             this.deepChange(this.settings.appearance.messages.background, "base64", base64);
+            return true;
+        },
+
+        changeTheme(index) {
+            this.setTheme(this.themes[index].id);
+            this.deepChange(this.settings.appearance, "theme", this.themes[index].id);
             return true;
         },
 

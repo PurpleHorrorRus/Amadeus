@@ -18,6 +18,8 @@ const clear = {
         },
 
         appearance: {
+            theme: "vk-black",
+
             conversationsWidth: 300,
             minimized: false,
 

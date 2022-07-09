@@ -1,7 +1,25 @@
 import { contrastColor } from "contrast-color";
 
 export default {
+    data: () => ({
+        themes: [
+            {
+                id: "vk-black",
+                name: "VK Black"
+            },
+
+            {
+                id: "meridius",
+                name: "Meridius"
+            }
+        ]
+    }),
+
     methods: {
+        setTheme(name) {
+            this.$nuxt.$colorMode.preference = name;
+        },
+
         setStyleVariable(variable, value) {
             document.documentElement.style.setProperty(`--${variable}`, value);
         },
