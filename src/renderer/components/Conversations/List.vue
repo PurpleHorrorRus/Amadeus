@@ -21,7 +21,7 @@
 
             <Conversation
                 v-for="id of cache.order"
-                :key="cache.conversations[id].message.id"
+                :key="cache.conversations[id].message.id + cache.conversations[id].message.text"
                 :conversation="cache.conversations[id]"
                 @click.native.left="open(cache.conversations[id])"
             />
@@ -80,12 +80,6 @@ export default {
         }
     },
 
-    async created() {
-        if (this.count === 0) {
-            await this.fetch();
-        }
-    },
-
     mounted() {
         this.registerScroll(this.$refs.conversations, async () => {
             this.loadMore = true;
@@ -96,7 +90,6 @@ export default {
 
     methods: {
         ...mapActions({
-            fetch: "vk/conversations/FETCH",
             append: "vk/conversations/APPEND"
         }),
 

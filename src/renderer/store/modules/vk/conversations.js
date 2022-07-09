@@ -104,21 +104,15 @@ export default {
             };
         },
 
-        UPDATE_ONE: async ({ dispatch, rootState }, data) => {
+        UPDATE_ONE: async ({ dispatch }, data) => {
             const conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
-            if (!conversation || conversation.message.id !== data.id) {
+            if (conversation.message.id !== data.id) {
                 return false;
             }
 
-            const list = await rootState.vk.client.api.messages.getHistory({ 
-                peer_id: data.peerId,
-                count: 1,
-                extended: 1
-            });
-
-            conversation.message = list.items[0];
-            conversation.information = list.conversations[0];
-            return true;
+            conversation.message.text = data.payload.message.text;
+            conversation.message.update_time = data.payload.message.update_time;
+            return conversation;
         },
 
         GET_CHATS: async ({ rootState }, list) => {
@@ -176,9 +170,9 @@ export default {
 
             if (!conversation.pinned) {
                 const conversationIndex = state.cache.order.indexOf(conversation.information.peer.id);
-                if (conversationIndex !== 0) {
-                    state.cache.order = common.arrayMove(state.cache.order, conversationIndex, 0);
-                }
+                state.cache.order = conversationIndex !== 0 
+                    ? common.arrayMove(state.cache.order, conversationIndex, 0)
+                    : [...state.cache.order];
             } else state.pinned.order = [...state.pinned.order]; // Trigger render
 
             return conversation;
@@ -187,9 +181,6 @@ export default {
         UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => {
             const peer_id = data.payload.peer_id;
             const conversation = await dispatch("GET_CONVERSATION_CACHE", peer_id);
-            if (!conversation) {
-                return false;
-            }
 
             if (data.isInbox) {
                 conversation.information.unread_count = 0;
@@ -208,17 +199,8 @@ export default {
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
             const conversation = await dispatch("GET_CONVERSATION_CACHE", data.userId);
-            if (!conversation) {
-                return false;
-            }
-
             conversation.profile.online = data.isOnline;
             conversation.profile.online_mobile = Number(conversation.profile.online && data.platform < 6);
-
-            if (!conversation.profile.online) {
-                conversation.profile.last_seen.time = data.payload.date;
-            }
-
             return true;
             
         }

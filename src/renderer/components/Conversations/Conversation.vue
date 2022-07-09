@@ -1,5 +1,5 @@
 <template>
-    <div class="conversation" :class="conversationClass">
+    <div :key="conversation" class="conversation" :class="conversationClass">
         <ConversationAvatar :profile="conversation.profile" />
 
         <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">

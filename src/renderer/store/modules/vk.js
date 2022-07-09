@@ -27,6 +27,8 @@ export default {
             });
 
             state.user = user;
+
+            await dispatch("conversations/FETCH");
             dispatch("LISTEN");
 
             return state.client;

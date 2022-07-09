@@ -110,6 +110,7 @@ export default {
                 });
 
                 const message = await dispatch("SYNC", response.items[0]);
+                Object.assign(message, additional);
                 state.cache[message.peer_id].count++;
                 return state.cache[message.peer_id];
             }
@@ -134,7 +135,8 @@ export default {
             if (!messages) {
                 return false;
             }
-
+            
+            Object.assign(message, additional);
             let messageIndex = message.random_id > 0 ? findLastIndex(messages, msg => {
                 return msg.id === message.id;
             }) : -1;
@@ -184,10 +186,7 @@ export default {
                 peer_id: data.peer_id,
                 random_id: common.getRandom(10, 99999999),
                 message: data.text,
-                reply_to: data.reply_message?.id,
-                forward_messages: data.forward_messages?.map(message => {
-                    return message.id;
-                }).join(",") || ""
+                reply_to: data.reply_message?.id
             };
 
             const message = {
@@ -201,6 +200,12 @@ export default {
                 syncing: 1,
                 ...data
             };
+
+            if (!toSend.reply_to && data.forward_messages) {
+                toSend.forward_messages = data.forward_messages.map(message => {
+                    return message.id;
+                }).join(",") || "";
+            }
 
             dispatch("SYNC", message);
             dispatch("vk/conversations/ADD_MESSAGE", { 
@@ -230,9 +235,7 @@ export default {
                 message_id: message.id
             };
 
-            message.id = common.getRandom(100000, 999999);
-            await dispatch("SYNC", message);
-            message.id = toEdit.message_id;
+            dispatch("SYNC", message);
 
             if (message.attachments.length > 0) {
                 const attachments = await dispatch("UPLOAD", message.attachments);

@@ -14,6 +14,7 @@
 
         <span 
             v-if="message.text" 
+            :key="message.text"
             class="conversation-message-body-text small-text nowrap" 
             v-text="formatText(message.text)" 
         />

@@ -426,6 +426,7 @@ export default {
     }
 
     .message-content-reply {
+        border-left: 4px solid var(--secondary);
         cursor: pointer;
     }
 

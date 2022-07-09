@@ -59,8 +59,6 @@ export default {
                 return message.selected;
             });
 
-            console.log(fwd_messages);
-
             this.open({
                 view: "forward",
                 target: [...fwd_messages]
