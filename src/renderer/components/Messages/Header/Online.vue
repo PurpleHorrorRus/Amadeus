@@ -1,7 +1,7 @@
 <template>
-    <div id="messages-header-profile-information-online">
+    <div id="messages-header-main-profile-information-online">
         <span 
-            id="messages-header-profile-information-online-text" 
+            id="messages-header-main-profile-information-online-text" 
             class="small-text"
             v-text="lastSeenText" 
         />
@@ -96,7 +96,7 @@ export default {
 </script>
 
 <style lang="scss">
-#messages-header-profile-information-online {
+#messages-header-main-profile-information-online {
     display: flex;
     align-items: flex-start;
     column-gap: 2px;

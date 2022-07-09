@@ -25,6 +25,14 @@
             />
 
             <RangeItem 
+                text="Приближение фона"
+                :value="settings.appearance.messages.background.zoom"
+                :min="1"
+                :max="10"
+                @change="deepChange(settings.appearance.messages.background, 'zoom', $event)"
+            />
+
+            <RangeItem 
                 text="Позиция фона по горизонтали"
                 :value="settings.appearance.messages.background.x"
                 @change="deepChange(settings.appearance.messages.background, 'x', $event)"

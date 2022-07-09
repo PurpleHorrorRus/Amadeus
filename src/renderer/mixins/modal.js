@@ -10,7 +10,8 @@ export default {
     methods: {
         ...mapActions({
             open: "modal/OPEN",
-            close: "modal/CLOSE"
+            close: "modal/CLOSE",
+            fire: "modal/FIRE"
         })
     }
 };

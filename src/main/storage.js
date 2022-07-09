@@ -31,6 +31,7 @@ const clear = {
                     base64: "",
                     width: 100,
                     height: 100,
+                    zoom: 1,
                     x: 0,
                     y: 0
                 }

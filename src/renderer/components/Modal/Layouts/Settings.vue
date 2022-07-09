@@ -28,8 +28,6 @@ export default {
 
     methods: {
         nav(id) {
-            console.log(id);
-
             if (id === this.view) {
                 return false;
             }

@@ -5,6 +5,7 @@ export default {
         show: false,
         layout: "none",
         view: "none",
+        fire: "none",
         target: null
     }),
 
@@ -27,6 +28,11 @@ export default {
             state.view = "none";
             state.target = null;
             return true;
+        },
+
+        FIRE: ({ state }, fire) => {
+            state.fire = fire;
+            return state.fire;
         }
     }
 };

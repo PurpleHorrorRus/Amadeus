@@ -33,6 +33,7 @@ export default {
             return {
                 out: this.message.out,
                 same: this.same && this.isChat,
+                selected: this.message.selected,
                 noBackground: this.message.attachments.length >= 1 
                     && !this.message.text 
                     && !this.isWallAttachment
@@ -88,7 +89,17 @@ export default {
     align-self: flex-start;
     column-gap: 8px;
 
+    border-radius: 8px;
+
+    &.selected {
+        .message-content {
+            border: 1px solid var(--contrast);
+        }
+    }
+
     &:hover {
+        cursor: pointer;
+
         .message-actions {
             opacity: 1;
         }

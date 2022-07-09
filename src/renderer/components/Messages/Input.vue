@@ -45,6 +45,14 @@
             :message="reply" 
             @click.native="removeReply"
         />
+        
+        <div v-if="fwd_messages.length > 0" id="message-page-input-fwd" @click="removeFwd">
+            <ForwardedMessage 
+                v-for="fwd of fwd_messages"
+                :key="fwd.id"
+                :message="fwd"
+            />
+        </div>
 
         <div v-if="attachments.length > 0" id="message-page-input-attachments">
             <MessageAttachmentsGallery :attachments="attachments" />
@@ -62,11 +70,13 @@ import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 
 import AttachmentsMixin from "~/mixins/attachments";
 import DateMixin from "~/mixins/date";
+import ModalMixin from "~/mixins/modal";
 
 export default {
     components: {
         MessageAttachmentsGallery: () => import("~/components/Messages/Input/Gallery"),
         MessageReply: () => import("~/components/Messages/Reply"),
+        ForwardedMessage: () => import("~/components/Messages/ForwardedMessage"),
         SendIcon: () => import("~/assets/icons/send.svg"),
         XIcon: () => import("~/assets/icons/x.svg")
     },
@@ -75,12 +85,13 @@ export default {
         autogrow: TextareaAutogrowDirective
     },
 
-    mixins: [AttachmentsMixin, DateMixin],
+    mixins: [AttachmentsMixin, DateMixin, ModalMixin],
 
     data: () => ({
         sending: false,
         message: "",
         reply: null,
+        fwd_messages: [],
         attachments: [],
         typingThrottle: null,
 
@@ -104,7 +115,8 @@ export default {
 
         canSend() {
             return this.message.length > 0
-                || this.attachments.length > 0;
+                || this.attachments.length > 0
+                || this.fwd_messages.length > 0;
         },
 
         canEdit() {
@@ -129,6 +141,19 @@ export default {
 
                 return this.typingThrottle();
             }
+        },
+
+        "modal.fire": function(fire) {
+            if (fire === "forward") {
+                this.fire("none");
+                this.addForward();
+            }
+        }
+    },
+
+    created() {
+        if (this.modal.view === "forward" && this.modal.target) {
+            this.addForward();
         }
     },
 
@@ -169,9 +194,11 @@ export default {
             const text = this.message;
             const attachments = [...this.attachments];
             const reply_message = this.reply ? { ...this.reply } : undefined;
+            const forward_messages = [...this.fwd_messages];
 
             this.message = "";
             this.attachments.length = 0;
+            this.removeFwd();
             this.reply = null;
 
             const params = {
@@ -180,7 +207,8 @@ export default {
 
                 attachments,
                 text,
-                reply_message
+                reply_message,
+                forward_messages
             };
 
             if (this.editing.enable) {
@@ -306,6 +334,15 @@ export default {
             return true;
         },
 
+        addForward() {
+            this.fwd_messages = this.modal.target;
+            this.close();
+        },
+
+        removeFwd() {
+            this.fwd_messages = [];
+        },
+
         focus(event) {
             if (event.type === "keypress" || event.type === "focus") {
                 this.$refs.textarea.focus();
@@ -390,6 +427,18 @@ export default {
 
     .message-content-reply {
         cursor: pointer;
+    }
+
+    &-fwd {
+        max-height: 30vh;
+
+        overflow-y: auto;
+
+        cursor: pointer;
+
+        * {
+            cursor: pointer !important;
+        }
     }
 
     &-attachments {

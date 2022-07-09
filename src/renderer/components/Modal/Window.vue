@@ -1,21 +1,26 @@
 <template>
     <div id="modal-window" @mousedown.self="close">
-        <SettingsLayout />
+        <Component 
+            :is="renderLayout" 
+            :view="modal.view" 
+        />
     </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import ModalMixin from "~/mixins/modal";
 
 export default {
-    components: {
-        SettingsLayout: () => import("~/components/Modal/Layouts/Settings")
-    },
+    mixins: [ModalMixin],
 
-    methods: {
-        ...mapActions({
-            close: "modal/CLOSE"
-        })
+    computed: {
+        renderLayout() {
+            switch (this.modal.layout) {
+                case "settings": return () => import("~/components/Modal/Layouts/Settings");
+            }
+
+            return () => import("~/components/Modal/Layouts/Default");
+        }
     }
 };
 </script>
@@ -40,6 +45,18 @@ export default {
 
         background: var(--backdrop);
         border-radius: 8px;
+
+        .modal-view {
+            display: flex;
+            flex-direction: column;
+            row-gap: 5px;
+
+            &-title {
+                margin: 5px;
+
+                font-size: 14px;
+            }
+        }
     }
 }
 </style>

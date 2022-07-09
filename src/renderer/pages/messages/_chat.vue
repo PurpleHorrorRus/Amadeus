@@ -23,6 +23,7 @@
                     :message="message"
                     :same="same(index)"
                     @action="action($event, index)"
+                    @click.left.native="select(message)"
                     @click.right.native="openMenu(message, $event, true)"
                 />
 
@@ -94,7 +95,7 @@ export default {
             const background = this.settings.appearance.messages.background;
             
             return {
-                backgroundSize: `${background.width}vw ${background.height}vw`,
+                backgroundSize: `${background.width * background.zoom}vw ${background.height * background.zoom}vh`,
                 backgroundPositionX: background.x + "%",
                 backgroundPositionY: background.y + "%",
 
@@ -257,6 +258,10 @@ export default {
             return currentMessage.from_id === previousMessage.from_id;
         },
 
+        select(message) {
+            message.selected = !message.selected;
+        },
+
         readOnBottom() {
             if (this.scrollPercent < this.percentToRead) {
                 return false;
@@ -266,6 +271,7 @@ export default {
         },
 
         scrollToBottom() {
+            if (!this.$refs.messages) return false;
             this.$refs.messages.scrollTop = this.$refs.messages?.scrollHeight;
             this.readOnBottom();
             return true;

@@ -11,6 +11,10 @@ const fields = {
     count: 20
 };
 
+const additional = {
+    selected: false
+};
+
 export default {
     namespaced: true,
 
@@ -42,29 +46,52 @@ export default {
                 id: data.id,
                 count: history.count,
                 search: isSearch,
-                messages: history.items.reverse(),
+                messages: await dispatch("FORMAT_MESSAGES", history.items),
                 conversation: await dispatch("vk/conversations/GET_CONVERSATION_CACHE", data.id, { root: true })
             };
 
             return state.cache[data.id];
         },
 
-        APPEND: async ({ state, rootState  }, id) => {
+        APPEND: async ({ dispatch, state, rootState  }, id) => {
             const history = await rootState.vk.client.api.messages.getHistory({
                 offset: state.cache[id].messages.length,
                 peer_id: id,
                 ...fields
             });
 
-            state.cache[id].messages = history.items.reverse().concat(state.cache[id].messages);
+            state.cache[id].messages = [
+                ...await dispatch("FORMAT_MESSAGES", history.items),
+                state.cache[id].messages
+            ];
+
             return state.cache[id];
         },
 
-        FLUSH: ({ state }, conversation) => {
+        FORMAT_MESSAGES: (_, items) => {
+            return items.map(item => Object.assign(item, additional)).reverse();
+        },
+
+        FLUSH: ({ dispatch, state }, conversation) => {
             const messages = state.cache[conversation.information.peer.id].messages;
             if (messages.length > fields.count) {
                 messages.splice(0, messages.length - fields.count - 1);
             }
+
+            if (messages.length > 0) {
+                dispatch("UNSELECT_ALL", conversation.information.peer.id);
+            }
+
+            return true;
+        },
+
+        UNSELECT_ALL: ({ state }, id) => {
+            state.cache[id].messages.filter(message => {
+                return message.selected;
+            }).forEach(message => {
+                message.selected = false;
+                return message;
+            });
 
             return true;
         },
@@ -157,7 +184,10 @@ export default {
                 peer_id: data.peer_id,
                 random_id: common.getRandom(10, 99999999),
                 message: data.text,
-                reply_to: data.reply_message?.id
+                reply_to: data.reply_message?.id,
+                forward_messages: data.forward_messages?.map(message => {
+                    return message.id;
+                }).join(",") || ""
             };
 
             const message = {
@@ -165,6 +195,7 @@ export default {
                 peer_id: toSend.peer_id,
                 random_id: toSend.random_id,
                 from_id: rootState.vk.user.id,
+                fwd_messages: data.forward_messages || [],
                 date: Math.floor(Date.now() / 1000),
                 out: 1,
                 syncing: 1,

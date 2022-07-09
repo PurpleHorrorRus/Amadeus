@@ -1,7 +1,7 @@
 <template>
-    <div id="messages-header-profile-information">
+    <div id="messages-header-main-profile-information">
         <span 
-            id="messages-header-profile-information-name" 
+            id="messages-header-main-profile-information-name" 
             class="nowrap"
             v-text="name(profile)" 
         />
@@ -40,6 +40,14 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+#messages-header-main-profile-information {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
 
+    &-name {
+        font-size: 12px;
+    }
+}
 </style>

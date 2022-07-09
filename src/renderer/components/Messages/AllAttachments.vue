@@ -4,6 +4,8 @@
             v-if="message.reply_message"
             :message="message.reply_message"
         />
+        
+        <MessageText v-if="message.text" :message="message" />
 
         <div v-if="showForwardedMessages" class="message-content-fwd">
             <ForwardedMessage 
@@ -13,7 +15,6 @@
             />
         </div>
 
-        <MessageText v-if="message.text" :message="message" />
         <MessageAttachments v-if="showAttachments" :message="message" />
     </div>
 </template>

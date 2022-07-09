@@ -88,6 +88,7 @@ export default {
     padding: 10px;
 
     background: var(--message);
+    border: 1px solid var(--message-bg);
     border-radius: 8px;
 
     span {
