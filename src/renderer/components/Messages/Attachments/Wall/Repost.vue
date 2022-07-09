@@ -24,6 +24,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
@@ -52,33 +54,19 @@ export default {
     }),
 
     async created() {
-        if (this.item.from_id < 0) {
-            const data = await this.client.api.groups.getById({
-                group_id: Math.abs(this.item.from_id),
-                fields: "photo_100",
-                extended: 1
-            });
+        const { profile } = await this.getProfile(this.item.from_id);
+        this.profile = Object.assign(profile, {
+            date: this.relativeDate(this.item.date)
+        });
 
-            this.profile = data.groups?.[0] || data[0];
-            this.profile.type = "group";
-        }  else {
-            const data = await this.client.api.users.get({
-                user_ids: this.item.from_id,
-                fields: "photo_100",
-                extended: 1
-            });
-
-            const user = data.profiles?.[0] || data[0];
-            user.name = `${user.first_name} ${user.last_name}`;
-            this.profile = user;
-            this.profile.type = "user";
-        }
-
-        this.profile.date = this.relativeDate(this.item.date);
         this.loaded = true;
     },
 
     methods: {
+        ...mapActions({
+            getProfile: "vk/GET_PROFILE"
+        }),
+
         open() {
             const url = this.profile.type === "user"
                 ? `https://vk.com/id${this.profile.id}` 

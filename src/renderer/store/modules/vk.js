@@ -84,6 +84,34 @@ export default {
             state.client.updates.start();
         },
 
+        GET_PROFILE: async ({ state }, id) => {
+            if (id < 0) {
+                const data = await state.client.api.groups.getById({
+                    group_id: Math.abs(id),
+                    fields: "photo_100",
+                    extended: 1
+                });
+    
+                return {
+                    type: "group",
+                    profile: data.groups?.[0] || data[0]
+                };
+            }
+
+            const data = await state.client.api.users.get({
+                user_ids: id,
+                fields: "photo_100",
+                extended: 1
+            });
+
+            const user = data.profiles?.[0] || data[0];
+            user.name = `${user.first_name} ${user.last_name}`;
+            return {
+                type: "user",
+                profile: user
+            };
+        },
+
         VOTE: async ({ state }, data) => {
             data.poll.can_vote = false;
             data.poll.votes++;
