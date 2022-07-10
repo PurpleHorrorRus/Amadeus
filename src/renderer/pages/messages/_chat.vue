@@ -238,6 +238,10 @@ export default {
         } 
     },
 
+    destroyed() {
+        this.setCurrent(null);
+    },
+
     methods: {
         ...mapActions({
             getConversationCache: "vk/conversations/GET_CONVERSATION_CACHE",
