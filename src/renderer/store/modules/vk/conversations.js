@@ -66,6 +66,12 @@ export default {
             item.conversation.unread_count = item.conversation.unread_count || 0;
 
             return {
+                ...item.conversation.peer,
+
+                isUser: item.conversation.peer.type === "user",
+                isGroup: item.conversation.peer.type === "group" || item.conversation.peer.type === "page",
+                isChat: item.conversation.peer.type === "chat", 
+
                 profile: item.profile 
                         || profiles.find(profile => profile.id === item.conversation.peer.id) 
                         || groups.find(profile => profile.id === -item.conversation.peer.id),
@@ -148,7 +154,7 @@ export default {
 
         DELETE_SYNC: ({ state }, peer_id) => {
             const index = state.cache.findIndex(chat => {
-                return chat.information.peer.id === peer_id;
+                return chat.id === peer_id;
             });
             
             if (~index) {
@@ -166,7 +172,7 @@ export default {
             }
 
             const muted = rootState.settings.settings.vk.mute.some(id => {
-                return id === conversation.information.peer.id;
+                return id === conversation.id;
             });
 
             if (muted) {
@@ -180,8 +186,8 @@ export default {
         GET_CONVERSATION_CACHE: ({ state }, id) => {
             const middle = Math.floor(state.cache.length / 2);
             for (let i = 0, j = state.cache.length - 1; i < middle && j > middle; i++, j--) {
-                if (state.cache[i].information.peer.id === id) return state.cache[i];
-                if (state.cache[j].information.peer.id === id) return state.cache[j];
+                if (state.cache[i].id === id) return state.cache[i];
+                if (state.cache[j].id === id) return state.cache[j];
             }
 
             return null;
@@ -209,7 +215,7 @@ export default {
             }
             
             conversation.mention = conversation.mention || mentionRegex.test(data.text);
-            if (conversation.information.peer.type === "chat") {
+            if (conversation.isChat) {
                 const typingUserIndex = conversation.typing.names.findIndex(typingUser => {
                     return typingUser.id === conversation.message.from_id;
                 });
@@ -223,7 +229,7 @@ export default {
             dispatch("PLAY_NOTIFICATION", conversation);
 
             const conversationIndex = state.cache.findIndex(conversation => {
-                return conversation.information.peer.id === data.peerId;
+                return conversation.id === data.peerId;
             });
 
             if (conversationIndex > 0) {

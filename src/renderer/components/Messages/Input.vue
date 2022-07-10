@@ -71,7 +71,7 @@ export default {
             this.clearInput();
 
             const params = {
-                peer_id: this.current.information.peer.id,
+                peer_id: this.current.id,
                 type: this.$route.query.type,
 
                 attachments,

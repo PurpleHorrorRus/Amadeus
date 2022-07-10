@@ -82,13 +82,13 @@ export default {
         },
 
         FLUSH: ({ dispatch, state }, conversation) => {
-            const messages = state.cache[conversation.information.peer.id].messages;
+            const messages = state.cache[conversation.id].messages;
             if (messages.length > fields.count) {
                 messages.splice(0, messages.length - fields.count - 1);
             }
 
             if (messages.length > 0) {
-                dispatch("UNSELECT_ALL", conversation.information.peer.id);
+                dispatch("UNSELECT_ALL", conversation.id);
             }
 
             return true;
@@ -106,7 +106,7 @@ export default {
         },
 
         CLEAR: ({ state }, conversation) => {
-            delete state.cache[conversation.information.peer.id];
+            delete state.cache[conversation.id];
             return true;
         },
 
@@ -352,12 +352,12 @@ export default {
 
         UPDATE_CURRENT: async ({ state, rootState }) => {
             const list = await rootState.vk.client.api.messages.getConversationsById({
-                peer_ids: state.current.information.peer.id,
+                peer_ids: state.current.id,
                 extended: 1
             });
 
             const conversation = list.items[0];
-            if (conversation.peer.id === state.current.information.peer.id) {
+            if (conversation.peer.id === state.current.id) {
                 state.current.information = conversation;
             }
 

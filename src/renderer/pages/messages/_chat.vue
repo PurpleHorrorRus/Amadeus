@@ -61,11 +61,6 @@ export default {
     provide() {
         const provideData = {};
 
-        Object.defineProperty(provideData, "isChat", {
-            enumerable: true,
-            get: () => this.isChat
-        });
-
         Object.defineProperty(provideData, "conversation", {
             enumerable: true,
             get: () => this.chat.conversation
@@ -104,7 +99,7 @@ export default {
             return {
                 extended: this.extended,
                 loading: this.loading,
-                chat: this.isChat,
+                chat: this.chat.isChat,
                 player: this.song !== null
             };
         },
@@ -159,10 +154,6 @@ export default {
 
         canScroll() {
             return this.chat.messages.length < this.chat.count;
-        },
-
-        isChat() {
-            return this.chat.conversation?.profile.type === "chat";
         },
 
         itsMe() {

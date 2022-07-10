@@ -45,7 +45,7 @@ export default {
         showName() {
             return !this.$parent.last
                 && !this.message.out 
-                && this.provideData.isChat;
+                && this.provideData.conversation.isChat;
         },
 
         name() {

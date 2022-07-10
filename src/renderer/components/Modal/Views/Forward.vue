@@ -5,7 +5,7 @@
         <div id="modal-view-forward-list">
             <ForwardProfile
                 v-for="conversation of conversations"
-                :key="conversation.information.peer.id"
+                :key="conversation.id"
                 :profile="conversation.profile"
                 @click.native="open(conversation)"
             />
@@ -41,12 +41,12 @@ export default {
         open(conversation) {
             this.addForwardModal();
 
-            if (this.current.information.peer.id !== conversation.information.peer.id) {
+            if (this.current.id !== conversation.id) {
                 const { id, type } = conversation.information.peer;
                 return this.$router.replace(`/messages/${id}?type=${type}`);
             }
 
-            return this.unselectAll(this.current.information.peer.id);
+            return this.unselectAll(this.current.id);
         }
     }
 };

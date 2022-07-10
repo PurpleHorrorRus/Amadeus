@@ -43,7 +43,7 @@ export default {
 
         conversationClass() {
             return {
-                active: this.current?.information.peer.id === this.conversation.information.peer.id,
+                active: this.current?.id === this.conversation.id,
                 minimized: this.settings.appearance.minimized && this.extended
             };
         }

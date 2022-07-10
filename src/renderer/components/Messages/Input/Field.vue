@@ -84,7 +84,7 @@ export default {
 
     mounted() {
         this.typingThrottle = throttle(() => {
-            this.sendTyping(this.current.information.peer.id);
+            this.sendTyping(this.current.id);
         }, 6 * 1000);
 
         document.onpaste = event => this.onPaste(event);
@@ -143,7 +143,7 @@ export default {
                 return false;
             }
 
-            const messages = this.cache[this.current.information.peer.id].messages;
+            const messages = this.cache[this.current.id].messages;
             for (let i = messages.length - 1; i > 0; i--) {
                 const message = messages[i];
 
