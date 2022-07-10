@@ -51,8 +51,8 @@ const clear = {
     },
 
     vk: {
-        token: "",
-        user: 0
+        active: -1,
+        accounts: []
     }
 };
 

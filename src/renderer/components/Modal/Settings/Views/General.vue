@@ -1,13 +1,13 @@
 <template>
     <div id="settings-view-general" class="settings-view">
         <ToggleButton 
-            text="Не прочитывать сообщения чата при открытии диалога" 
+            text="Не прочитывать сообщения при открытии чата" 
             :value="settings.vk.disable_read"
             @change="deepChange(settings.vk, 'disable_read')"
         />
 
         <ToggleButton 
-            text="Не отправлять запрос о наборе текста в чат" 
+            text="Не отправлять статус о наборе текста в чат" 
             :value="settings.vk.disable_write"
             @change="deepChange(settings.vk, 'disable_write')"
         />

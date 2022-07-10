@@ -1,8 +1,11 @@
 <template>
     <div id="login-page" class="page">
         <div id="login-page-logo">
-            <img id="login-page-logo-image" src="logo.png">
-            <span id="login-page-logo-label" v-text="'VKGram'" />
+            <VKIcon id="login-page-logo-icon" />
+            <span id="login-page-logo-description">
+                VKGram - бесплатный мессенджер для социальной сети ВКонтакте
+                с открытым исходным кодом
+            </span>
         </div>
 
         <div id="login-page-form">
@@ -12,23 +15,7 @@
                 v-text="loginError" 
             />
 
-            <div v-if="type === 'credits'" id="login-page-form-credits">
-                <SingleInput 
-                    placeholder="Логин"
-                    type="password"
-                    :disabled="loading"
-                    @input="username = $event"
-                    @keypress.enter.native="auth"
-                />
-
-                <SingleInput 
-                    placeholder="Пароль" 
-                    type="password" 
-                    :disabled="loading"
-                    @input="password = $event"
-                    @keypress.enter.native="auth"
-                />
-            </div>
+            <LoginCredits v-if="type === 'credits'" />
 
             <SingleInput
                 v-else-if="type === 'tfa'"
@@ -39,12 +26,9 @@
                 @keypress.enter.native="auth"
             />
 
-            <SingleInput
+            <LoginCaptcha
                 v-else-if="type === 'captcha'"
-                placeholder="Решение"
-                :disabled="loading" 
-                @input="captcha = $event"
-                @keypress.enter.native="auth"
+                :src="captcha.src"
             />
         </div>
 
@@ -61,9 +45,20 @@ import { ipcRenderer } from "electron";
 import { CallbackService } from "vk-io";
 import { DirectAuthorization, officialAppCredentials } from "@vk-io/authorization";
 
+import common from "~/plugins/common";
+
 const callbackService = new CallbackService();
 
 export default {
+    components: {
+        VKIcon: () => import("~/assets/icons/brands/vk.svg"),
+
+        LoginCredits: () => import("~/components/Login/Credits"),
+        LoginCaptcha: () => import("~/components/Login/Captcha")
+    },
+
+    layout: "login",
+
     data: () => ({
         username: "",
         password: "",
@@ -74,9 +69,13 @@ export default {
             retry: null
         },
 
-        captcha: { 
+        captcha: {
             enable: false,
-            solution: ""
+            retry: null,
+            params: {},
+            url: "",
+            sid: "",
+            value: ""
         },
 
         loginError: "",
@@ -114,6 +113,23 @@ export default {
                 this.tfa.enable = true;
             }
         });
+
+        callbackService.onCaptcha(async (payload, retry) => {
+            if (this.captcha.enable) {
+                this.loading = true;
+                await this.captcha.retry(this.captcha.value).catch(e => {
+                    this.loginError = e;
+                    this.resetCaptcha();
+                    this.setCaptcha(payload, retry);
+                });
+            } else {
+                this.loginError = "Необходимо решить капчу";
+                this.setCaptcha(payload, retry);
+            }
+
+            this.type = "captcha";
+            this.loading = false;
+        });
     },
 
     methods: {
@@ -128,11 +144,16 @@ export default {
                 case "credits": {
                     this.username = this.username.trim();
                     this.password = this.password.trim();
-
                     return await this.authVK();
                 }
 
                 case "tfa": {
+                    this.tfa.code = this.tfa.code.trim();
+                    return await this.authVK();
+                }
+
+                case "captcha": {
+                    this.captcha.value = this.captcha.value.trim();
                     return await this.authVK();
                 }
             }
@@ -154,7 +175,7 @@ export default {
                 this.loginError = e;
 
                 e = e.toLowerCase();
-                if (/invalid client/.test(e) || /password/.test(e) || /username/.test(e)) {
+                if (/invalid client/.test(e) || /password/.test(e) || /Username/.test(e)) {
                     this.reset();
                 }
 
@@ -167,20 +188,61 @@ export default {
             }
         },
 
-        success() {
+        async success() {
+            const { config } = await ipcRenderer.invoke("config");
+            const accountExist = config.vk.accounts.some(account => account.user === this.DirectData.user);
+            
+            if (accountExist) {
+                this.loginError = "Этот аккаунт уже добавлен";
+                return this.reset();
+            }
+
+            config.vk.accounts.push({
+                token: this.DirectData.token,
+                user: this.DirectData.user
+            });
+
             ipcRenderer.send("save", {
                 type: "vk",
                 content: {
-                    token: this.DirectData.token,
-                    user: this.DirectData.user
+                    ...config.vk,
+                    active: config.vk.accounts.length - 1
                 }
             });
 
-            return true;
+            await common.wait(1000);
+            return this.$router.replace("/").catch(() => {});
         },
-        
+
+        setCaptcha(payload, retry) {
+            this.captcha.enable = true;
+            this.captcha.sid = payload.sid;
+            this.captcha.src = payload.src;
+            this.captcha.retry = retry;
+        },
+
         reset() {
+            this.type = "credits";
+            this.DirectData = {};
+
+            this.resetTFA();
+            this.resetCaptcha();
+
+            this.loading = false;
+        },
+
+        resetTFA() {
             this.tfa.enable = false;
+            this.tfa.code = "";
+            this.tfa.retry = null;
+        },
+
+        resetCaptcha() {
+            this.captcha.enable = false;
+            this.captcha.value = "";
+            this.captcha.sid = "";
+            this.captcha.src = "";
+            this.captcha.retry = null;
         }
     }
 };
@@ -203,18 +265,22 @@ export default {
 
     &-logo {
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        column-gap: 10px;
+        row-gap: 10px;
 
-        &-image {
-            width: 40px;
-            height: 40px;
-        }
+        justify-self: flex-start;
+        align-self: flex-start;
 
-        &-label {
-            font-family: "Fira Sans";
-            font-size: 24px;
+        padding: 0px 10px;
+
+        &-icon {
+            width: 20vw;
+
+            path {
+                fill: var(--text);
+            }
         }
     }
 

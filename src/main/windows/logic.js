@@ -9,7 +9,7 @@ class WindowLogic {
 
     load(window, type) {
         return new Promise(resolve => {
-            ipcMain.once("dom-ready", () => {
+            ipcMain.on("dom-ready", () => {
                 if (this.isWindowAlive(window)) {
                     this.send(window, type);
                     return resolve();

@@ -20,6 +20,7 @@ export default {
             switch(this.view) {
                 case "general": return () => import("~/components/Modal/Settings/Views/General");
                 case "appearance": return () => import("~/components/Modal/Settings/Views/Appearance");
+                case "accounts": return () => import("~/components/Modal/Settings/Views/Accounts");
             }
 
             return () => import("~/components/Modal/Settings/Views/General");

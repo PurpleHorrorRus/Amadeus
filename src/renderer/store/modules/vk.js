@@ -15,7 +15,7 @@ export default {
     }),
 
     actions: {
-        AUTH: async ({ dispatch, state, rootState }, account) => {
+        AUTH: async ({ dispatch, state }, account) => {
             state.client = new VK({
                 apiVersion: "5.154",
                 token: account.token
@@ -46,7 +46,7 @@ export default {
 
             state.client.updates.on("typing", data => {
                 console.log("TYPING", data);
-                dispatch("conversations/TRIGGER_TYPING", data.fromId);
+                dispatch("conversations/TRIGGER_TYPING", data);
             });
 
             state.client.updates.on("friend_activity", data => {

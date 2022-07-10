@@ -31,9 +31,7 @@ export default {
             this.$router.replace("/media").catch(() => {});
             return true;
         });
-    },
 
-    mounted() {
         ipcRenderer.send("dom-ready");
     },
     
@@ -50,5 +48,7 @@ export default {
 <style lang="scss">
 #index-page {
     grid-area: page;
+
+    background: #131313;
 }
 </style>

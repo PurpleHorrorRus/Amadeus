@@ -3,7 +3,7 @@
         :src="maxSize.url" 
         class="attachments-item attachments-item-photo"
         :style="itemStyle"
-        @click="openMedia($parent.data, index)"
+        @click.stop="openMedia($parent.data, index)"
     >
 </template>
 
