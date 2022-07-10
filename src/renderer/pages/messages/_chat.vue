@@ -89,6 +89,7 @@ export default {
     computed: {
         ...mapState({
             extended: state => state.extendedView,
+            background: state => state.background,
             current: state => state.vk.messages.current,
             user: state => state.vk.user,
             song: state => state.audio.song,
@@ -112,9 +113,9 @@ export default {
                 backgroundPositionX: background.x + "vw",
                 backgroundPositionY: -background.y + "vh",
 
-                backgroundImage: background.base64 
+                backgroundImage: this.background 
                     // eslint-disable-next-line max-len
-                    ? `url("${background.base64}")`
+                    ? `url("${this.background}")`
                     : "var(--primary)"
             };
         },

@@ -33,7 +33,6 @@ const clear = {
             messages: {
                 background: {
                     url: "",
-                    base64: "",
                     width: 100,
                     height: 100,
                     zoom: 1,
@@ -117,11 +116,16 @@ const paths = {
     rootPath,
     vk: path.join(rootPath, "vk.json"),
     settings: path.join(rootPath, "settings.json"),
-    temp: path.join(app.getPath("temp"), "vkgram")
+    temp: path.join(app.getPath("temp"), "vkgram"),
+    background: path.join(rootPath, "background")
 };
 
 if (!fs.existsSync(paths.temp)) {
     fs.mkdirSync(paths.temp);
+}
+
+if (!fs.existsSync(paths.background)) {
+    fs.writeFileSync(paths.background, "");
 }
 
 Object.keys(clear).map(key => {
@@ -131,7 +135,8 @@ Object.keys(clear).map(key => {
 const config = {
     vk: dataNested(paths.vk, clear.vk),
     settings: dataNested(paths.settings, clear.settings),
-    paths
+    paths,
+    background: fs.readFileSync(paths.background, "utf-8")
 };
 
 export default {

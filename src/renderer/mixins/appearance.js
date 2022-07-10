@@ -1,3 +1,4 @@
+import { mapActions } from "vuex";
 import { contrastColor } from "contrast-color";
 
 export default {
@@ -16,16 +17,16 @@ export default {
     }),
 
     methods: {
+        ...mapActions({
+            setBackground: "SET_BACKGROUND"
+        }),
+
         setTheme(name) {
             this.$nuxt.$colorMode.preference = name;
         },
 
         setStyleVariable(variable, value) {
             document.documentElement.style.setProperty(`--${variable}`, value);
-        },
-
-        generateTransparecy(color, transparency = 100) {
-            return `${color}${transparency}`;
         },
 
         generateContrast(color) {

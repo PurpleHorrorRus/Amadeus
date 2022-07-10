@@ -5,6 +5,8 @@ const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 export default {
     computed: {
         ...mapState({
+            config: state => state.config,
+            paths: state => state.paths,
             client: state => state.vk.client,
             user: state => state.vk.user,
             settings: state => state.settings.settings

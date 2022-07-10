@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import fs from "fs";
+import fs from "fs-extra";
 
 import CoreMixin from "~/mixins/core";
 import AppearanceMixin from "~/mixins/appearance";
@@ -118,9 +118,12 @@ export default {
                 return false;
             }
 
-            const base64 = "data:image/png;base64," + fs.readFileSync(path, "base64");
             this.deepChange(this.settings.appearance.messages.background, "url", path);
-            this.deepChange(this.settings.appearance.messages.background, "base64", base64);
+
+            const base64 = "data:image/png;base64," + fs.readFileSync(path, "base64");
+            fs.writeFileSync(this.paths.background, base64);
+            this.setBackground(base64);
+
             return true;
         },
 
