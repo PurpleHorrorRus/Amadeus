@@ -56,7 +56,12 @@ export default {
             state.client.updates.on("message_edit", async data => {
                 data = await dispatch("messages/PREPARE_DATA", data);
                 dispatch("conversations/UPDATE_ONE", data);
-                return dispatch("messages/SYNC", data.payload.message);
+
+                const response = await state.client.api.messages.getById({
+                    message_ids: data.payload.message.id
+                });
+
+                return dispatch("messages/SYNC", response.items[0]);
             });
 
             state.client.updates.on("chat_invite_user", async data => {
@@ -81,8 +86,7 @@ export default {
                         await dispatch("messages/SYNC_DELETE", message);
                     }
 
-                    const updated = await dispatch("conversations/UPDATE_ONE", data);
-                    return updated ? dispatch("conversations/REORDER") : true;
+                    return await dispatch("conversations/UPDATE_ONE", data);
                 }
 
                 if (!message) {

@@ -96,7 +96,8 @@ export default {
             extended: state => state.extendedView,
             current: state => state.vk.messages.current,
             user: state => state.vk.user,
-            song: state => state.audio.song
+            song: state => state.audio.song,
+            input: state => state.input
         }),
 
         chatPageClass() {
@@ -113,7 +114,7 @@ export default {
             
             return {
                 backgroundSize: `${background.width * background.zoom}vw ${background.height * background.zoom}vh`,
-                backgroundPositionX: -background.x + "vw",
+                backgroundPositionX: background.x + "vw",
                 backgroundPositionY: -background.y + "vh",
 
                 backgroundImage: background.base64 
@@ -234,6 +235,8 @@ export default {
     },
 
     beforeDestroy() {
+        this.clearInput();
+
         window.removeEventListener("focus", this.readOnBottom);
         document.removeEventListener("keydown", this.exit);
 
@@ -242,10 +245,6 @@ export default {
                 ? this.flush(this.current) 
                 : this.clear(this.current);
         } 
-    },
-
-    destroyed() {
-        this.setCurrent(null);
     },
 
     methods: {
@@ -259,7 +258,12 @@ export default {
             delete: "vk/messages/DELETE",
             setCurrent: "vk/messages/SET_CURRENT",
             markImportant: "vk/messages/MARK_IMPORTANT",
-            read: "vk/messages/READ"
+            read: "vk/messages/READ",
+
+            addReply: "input/ADD_REPLY",
+            edit: "input/EDIT",
+            clearEdit: "input/CLEAR_EDIT",
+            clearInput: "input/CLEAR"
         }),
 
         async action(name, message) {
@@ -268,11 +272,11 @@ export default {
 
             switch(name) {
                 case "reply": {
-                    return this.$refs.input.addReply(message);
+                    return this.addReply(message);
                 }
 
                 case "edit": {
-                    return this.$refs.input.edit(message);
+                    return this.edit(message);
                 }
 
                 case "delete": {
@@ -292,18 +296,9 @@ export default {
             }
         },
 
-        same(index) {
-            if (index === 0) {
-                return false;
-            }
-
-            const currentMessage = this.chat.messages[index];
-            const previousMessage = this.chat.messages[index - 1];
-            return currentMessage.from_id === previousMessage.from_id;
-        },
-
         select(message) {
             message.selected = !message.selected;
+            return message;
         },
 
         readOnBottom() {
@@ -323,7 +318,7 @@ export default {
 
         exit(event) {
             if (event.code !== "Escape") return false;
-            if (this.$refs.input?.editing.enable) return this.$refs.input.clearEditing();
+            if (this.input.editing.enable) return this.clearEdit();
             this.$router.replace("/general").catch(() => {});
             return true;
         }

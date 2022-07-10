@@ -1,7 +1,8 @@
 import Vuex from "vuex";
 
-import settings from "~/store/modules/settings";
 import vk from "~/store/modules/vk";
+import settings from "~/store/modules/settings";
+import input from "~/store/modules/input";
 import audio from "~/store/modules/audio";
 import audio_message from "~/store/modules/audio_message";
 import modal from "~/store/modules/modal";
@@ -26,8 +27,9 @@ export default () => {
         },
 
         modules: {
-            settings,
             vk,
+            settings,
+            input,
             audio,
             audio_message,
             modal

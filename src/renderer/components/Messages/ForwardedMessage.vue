@@ -5,24 +5,7 @@
             :icon="icon"
         />
 
-        <span 
-            v-if="message.text"
-            class="attachments-item-fwd-text" 
-            v-text="formatText(message.text)" 
-        />
-
-        <div v-if="showForwardedMessages" class="message-content-fwd">
-            <ForwardedMessage 
-                v-for="fwd of message.fwd_messages"
-                :key="fwd.id"
-                :message="fwd"
-            />
-        </div>
-
-        <MessageAttachments 
-            v-if="showAttachments"
-            :message="message"
-        />
+        <AllAttachments :message="message" />
     </div>
 </template>
 
@@ -34,8 +17,7 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 export default {
     components: {
         FwdRepost: () => import("~/components/Messages/Attachments/Wall/Repost"),
-        ForwardedMessage: () => import("~/components/Messages/ForwardedMessage"),
-        MessageAttachments: () => import("~/components/Messages/Attachments")
+        AllAttachments: () => import("~/components/Messages/AllAttachments")
     },
 
     mixins: [CoreMixin, AttachmentsMixin, AttachmentMixin],

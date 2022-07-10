@@ -4,10 +4,10 @@
 
         <div id="modal-view-forward-list">
             <ForwardProfile
-                v-for="id of order"
-                :key="id"
-                :profile="conversations[id].profile"
-                @click.native="open(conversations[id])"
+                v-for="conversation of conversations"
+                :key="conversation.information.peer.id"
+                :profile="conversation.profile"
+                @click.native="open(conversation)"
             />
         </div>
     </div>
@@ -27,26 +27,26 @@ export default {
 
     computed: {
         ...mapState({
-            // eslint-disable-next-line max-len
-            conversations: state => ({ ...state.vk.conversations.pinned.conversations, ...state.vk.conversations.cache.conversations }),
-            order: state => ([...state.vk.conversations.pinned.order, ...state.vk.conversations.cache.order]),
+            conversations: state => state.vk.conversations.cache,
             current: state => state.vk.messages.current
         })
     },
 
     methods: {
         ...mapActions({
+            addForwardModal: "input/ADD_FORWARD_MODAL",
             unselectAll: "vk/messages/UNSELECT_ALL"
         }),
 
         open(conversation) {
+            this.addForwardModal();
+
             if (this.current.information.peer.id !== conversation.information.peer.id) {
                 const { id, type } = conversation.information.peer;
-                return this.$router.replace(`/messages/${id}?type=${type}&action=fwd`);
+                return this.$router.replace(`/messages/${id}?type=${type}`);
             }
 
-            this.unselectAll(this.current.information.peer.id);
-            return this.fire("forward");
+            return this.unselectAll(this.current.information.peer.id);
         }
     }
 };

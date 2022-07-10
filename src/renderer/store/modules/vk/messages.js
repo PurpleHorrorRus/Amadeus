@@ -142,7 +142,7 @@ export default {
             if (!messages) {
                 return false;
             }
-            
+
             const formatted = await dispatch("FORMAT_MESSAGES", [message]); 
             message = formatted[0];
 
@@ -241,7 +241,9 @@ export default {
                 attachment: "",
                 peer_id: message.peer_id,
                 message: message.text,
-                message_id: message.id
+                message_id: message.id,
+                keep_forward_messages: 1,
+                keep_snippets: 1
             };
 
             dispatch("SYNC", message);

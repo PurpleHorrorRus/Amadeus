@@ -4,13 +4,13 @@
             v-for="(item, index) of attachments"
             :key="item.id"
             :item="item"
-            @remove="remove(index)"
+            @remove="removeAttachment(index)"
         />
     </div>
 </template>
 
 <script>
-import fs from "fs-extra";
+import { mapActions } from "vuex";
 
 export default {
     components: {
@@ -25,10 +25,9 @@ export default {
     },
 
     methods: {
-        remove(index) {
-            fs.removeSync(this.attachments[index].path);
-            this.$parent.attachments.splice(index, 1);
-        }
+        ...mapActions({
+            removeAttachment: "input/REMOVE_ATTACHMENT"
+        })
     }
 };
 </script>

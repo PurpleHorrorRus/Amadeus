@@ -1,6 +1,12 @@
 <template>
     <div class="attachments-item attachments-item-map">
-        <YandexMap :settings="settings" :coords="coords" :zoom="16">
+        <YandexMap 
+            ymap-class 
+            :settings="settings" 
+            :coords="coords" 
+            :zoom="16" 
+            @click.native.stop="{}"
+        >
             <YandexMapMarker
                 marker-id="1" 
                 :coords="coords"
@@ -58,12 +64,13 @@ export default {
 
 <style lang="scss">
 .attachments-item-map {
-    width: 30vw;
-    height: 30vw;
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
 
     .ymap-container {
-        width: 100%;
-        height: 100%;
+        width: 30vw;
+        height: 30vw;
     }
 
     &-title {

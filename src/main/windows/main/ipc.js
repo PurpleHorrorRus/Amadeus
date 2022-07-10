@@ -1,5 +1,4 @@
 import { app, dialog } from "electron";
-import fs from "fs-extra";
 
 import MediaWindow from "../media";
 
@@ -62,11 +61,6 @@ class IPC {
                 !this.window.isMaximized()
                     ? this.window.maximize()
                     : this.window.unmaximize(); 
-            },
-
-            clearAuthData: () => {
-                fs.removeSync(common.storage.paths.cookies);
-                common.storage.clear("vk");
             },
 
             restoreConnection: async () => {

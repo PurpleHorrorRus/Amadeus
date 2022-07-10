@@ -7,13 +7,11 @@
         
         <MessageText v-if="message.text" :message="message" />
 
-        <div v-if="showForwardedMessages" class="message-content-fwd">
-            <ForwardedMessage 
-                v-for="fwd of message.fwd_messages"
-                :key="fwd.id"
-                :message="fwd"
-            />
-        </div>
+        <MessageForwardedMessages 
+            v-if="showForwardedMessages"
+            :messages="message.fwd_messages"
+            @click.native="removeForwad"
+        />
 
         <MessageAttachments v-if="showAttachments" :message="message" />
     </div>
@@ -26,7 +24,7 @@ export default {
     components: {
         MessageReply: () => import("~/components/Messages/Reply"),
         MessageText: () => import("~/components/Messages/Text"),
-        ForwardedMessage: () => import("~/components/Messages/ForwardedMessage"),
+        MessageForwardedMessages: () => import("~/components/Messages/ForwardedMessages"),
         MessageAttachments: () => import("~/components/Messages/Attachments")
     },
 
