@@ -13,7 +13,6 @@
         <ContextMenu v-if="menu.show" :position="menu.position">
             <ContextMenuItem label="Важные сообщения" @click.native="openImportant" />
             <ContextMenuItem label="Настройки" @click.native="openSettings" />
-            <ContextMenuItem label="О приложении" />
         </ContextMenu>
     </div>
 </template>
