@@ -12,7 +12,9 @@ const fields = {
 };
 
 const additional = {
-    selected: false
+    deleted: false,
+    selected: false,
+    formatted: true
 };
 
 export default {
@@ -75,8 +77,7 @@ export default {
 
             return items.map(item => ({
                 ...item,
-                ...additional,
-                formatted: true
+                ...additional
             })).reverse();
         },
 
@@ -167,26 +168,36 @@ export default {
             }
         },
 
-        SYNC_DELETE: ({ state }, message) => {
+        SYNC_VISIBLE: ({ state }, { message, deleted }) => {
             if (!(message.peer_id in state.cache)) {
                 return false;
             }
 
             state.cache[message.peer_id].count--;
-            const cachedMessages = state.cache[message.peer_id].messages;
-            if (!cachedMessages) {
+            if (!state.cache[message.peer_id].messages) {
                 return false;
             }
 
-            const messageIndex = cachedMessages.findIndex(msg => {
+            const cached = state.cache[message.peer_id].messages.find(msg => {
                 return msg.id === message.id;
             });
 
-            if (~messageIndex) {
-                cachedMessages.splice(messageIndex, 1);
-            }
+            cached.deleted = deleted;
+            return Boolean(cached);
+        },
 
-            return Boolean(~messageIndex);
+        SYNC_DELETE: async ({ dispatch }, message) => {
+            return await dispatch("SYNC_VISIBLE", { 
+                message,
+                deleted: true
+            });
+        },
+
+        SYNC_RESTORE: async ({ dispatch }, message) => {
+            return await dispatch("SYNC_VISIBLE", { 
+                message,
+                deleted: false
+            });
         },
         
         SEND: async ({ dispatch, rootState }, data) => {

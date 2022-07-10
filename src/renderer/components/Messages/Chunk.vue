@@ -2,7 +2,7 @@
     <div class="chat-page-messages-list-chunk">
         <Component
             :is="MessageComponent(message)"
-            v-for="(message, index) of chunk"
+            v-for="(message, index) of visibleMessages"
             :key="message.id + message.text"
             :message="message"
             :last="index === chunk.length - 1"
@@ -21,6 +21,14 @@ export default {
         chunk: {
             type: Array,
             required: true
+        }
+    },
+
+    computed: {
+        visibleMessages() {
+            return this.chunk.filter(message => {
+                return !message.deleted;
+            });
         }
     },
 

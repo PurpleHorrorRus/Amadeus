@@ -96,15 +96,21 @@ export default {
             return message;
         },
 
-        UPDATE_ONE: async ({ dispatch }, data) => {
+        UPDATE_ONE: async ({ dispatch, rootState }, data) => {
             const conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
-            if (conversation.message.id !== data.id) {
+            if (!conversation || conversation.message.id !== data.id) {
                 return false;
             }
 
-            conversation.message.text = data.payload.message.text;
-            conversation.message.update_time = data.payload.message.update_time;
-            return conversation;
+            const list = await rootState.vk.client.api.messages.getHistory({ 
+                peer_id: data.peerId,
+                count: 1,
+                extended: 1
+            });
+
+            conversation.message = list.items[0];
+            conversation.information = list.conversations[0];
+            return true;
         },
 
         GET_CHATS: async ({ rootState }, list) => {

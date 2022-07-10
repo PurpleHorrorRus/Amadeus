@@ -82,8 +82,12 @@ export default {
                 const message = await dispatch("messages/FIND_MESSAGE", data);
 
                 if (data.isDeleted) {
-                    if (message && (data.isDeletedForAll || message.peer_id === rootState.vk.user.id)) {
-                        await dispatch("messages/SYNC_DELETE", message);
+                    if (message) {
+                        if (data.message?.subTypes[0] === "message_new") { // Restoring
+                            await dispatch("messages/SYNC_RESTORE", message);
+                        } else if (data.isDeletedForAll || message.peer_id === rootState.vk.user.id) {
+                            await dispatch("messages/SYNC_DELETE", message);
+                        }
                     }
 
                     return await dispatch("conversations/UPDATE_ONE", data);
