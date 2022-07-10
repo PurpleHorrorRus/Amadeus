@@ -138,6 +138,28 @@ export default {
             return list.items;
         },
 
+        DELETE: async ({ dispatch, rootState }, peer_id) => {
+            dispatch("DELETE_SYNC", peer_id);
+
+            return await rootState.vk.client.api.messages.deleteConversation({
+                peer_id
+            });
+        },
+
+        DELETE_SYNC: ({ state }, peer_id) => {
+            const index = state.cache.findIndex(chat => {
+                return chat.information.peer.id === peer_id;
+            });
+            
+            if (~index) {
+                state.count--;
+                state.cache.splice(index, 1);
+                return true;
+            }
+            
+            return false;
+        },
+
         PLAY_NOTIFICATION: ({ rootState }, conversation) => {
             if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
                 return false;
