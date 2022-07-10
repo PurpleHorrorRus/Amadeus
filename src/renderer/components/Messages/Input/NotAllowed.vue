@@ -14,7 +14,7 @@ export default {};
     justify-content: center;
     align-items: center;
 
-    height: 50px;
+    height: 70px;
 
     &-label {
         color: var(--small-text);

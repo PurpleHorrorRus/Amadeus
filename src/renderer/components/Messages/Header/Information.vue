@@ -6,10 +6,7 @@
             v-text="name(profile)" 
         />
 
-        <MessagesHeaderOnline 
-            v-if="showLastSeen"
-            :profile="profile"
-        />
+        <MessagesHeaderOnline v-if="showLastSeen" :profile="profile" />
     </div>
 </template>
 
@@ -27,14 +24,6 @@ export default {
         profile: {
             type: Object,
             required: true
-        }
-    },
-
-    computed: {
-        showLastSeen() {
-            return (this.profile.last_seen || this.profile.online)
-                && this.profile.type !== "group"
-                && this.profile.type !== "chat";
         }
     }
 };

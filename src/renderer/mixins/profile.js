@@ -1,4 +1,12 @@
 export default {
+    computed: {
+        showLastSeen() {
+            return (this.profile.last_seen || this.profile.online)
+                && this.profile.type !== "group"
+                && this.profile.type !== "chat";
+        }
+    },
+
     methods: {
         name(profile) {
             switch(profile.type) {
