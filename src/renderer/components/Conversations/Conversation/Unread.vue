@@ -9,8 +9,9 @@
             <MentionIcon class="icon vkgram" />
         </div>
 
-        <div v-else-if="inUnread" class="conversation-unread-in">
+        <div v-else-if="inUnread" :key="conversation.information.unread_count" class="conversation-unread-in">
             <span 
+                :key="conversation.information.unread_count"
                 class="conversation-unread-in-count" 
                 v-text="conversation.information.unread_count" 
             />

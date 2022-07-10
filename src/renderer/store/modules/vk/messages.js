@@ -62,7 +62,7 @@ export default {
 
             state.cache[id].messages = [
                 ...await dispatch("FORMAT_MESSAGES", history.items),
-                state.cache[id].messages
+                ...state.cache[id].messages
             ];
 
             return state.cache[id];

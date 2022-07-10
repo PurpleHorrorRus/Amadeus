@@ -3,7 +3,7 @@
         <ConversationsHeader v-if="showHeader" />
 
         <div id="conversations-list" ref="conversations">
-            <div v-if="pinned.order.length > 0" id="conversations-list-pinned">
+            <div v-if="pinned.length > 0" id="conversations-list-pinned">
                 <span 
                     v-if="!settings.appearance.minimized"
                     id="conversations-list-pinned-label" 
@@ -12,18 +12,18 @@
                 />
 
                 <Conversation
-                    v-for="id in pinned.order"
-                    :key="pinned.conversations[id].message.id"
-                    :conversation="pinned.conversations[id]"
-                    @click.native.left="open(pinned.conversations[id])"
+                    v-for="conversation of pinned"
+                    :key="conversation.message.id"
+                    :conversation="conversation"
+                    @click.native.left="open(conversation)"
                 />
             </div>
 
             <Conversation
-                v-for="id of cache.order"
-                :key="cache.conversations[id].message.id + cache.conversations[id].message.text"
-                :conversation="cache.conversations[id]"
-                @click.native.left="open(cache.conversations[id])"
+                v-for="conversation of notPinned"
+                :key="conversation.message.id"
+                :conversation="conversation"
+                @click.native.left="open(conversation)"
             />
 
             <Skeleton 
@@ -58,8 +58,7 @@ export default {
     computed: {
         ...mapState({
             extended: state => state.extendedView,
-            pinned: state => state.vk.conversations.pinned,
-            cache: state => state.vk.conversations.cache,
+            conversations: state => state.vk.conversations.cache,
             count: state => state.vk.conversations.count
         }),
         
@@ -74,9 +73,21 @@ export default {
                 || !this.extended;
         },
 
+        pinned() {
+            return this.conversations.filter(conversation => {
+                return conversation.pinned;
+            });
+        },
+
+        notPinned() {
+            return this.conversations.filter(conversation => {
+                return !conversation.pinned;
+            });
+        },
+
         canScroll() {
             return !this.load 
-                && (this.cache.order.length + this.pinned.order.length) < this.count;
+                && this.conversations.length < this.count;
         }
     },
 

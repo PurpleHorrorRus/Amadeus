@@ -29,7 +29,7 @@ export default {
             state.user = user;
 
             await dispatch("conversations/FETCH");
-            dispatch("LISTEN");
+            await dispatch("LISTEN");
 
             return state.client;
         },
@@ -89,6 +89,7 @@ export default {
             });
 
             state.client.updates.start();
+            return state.client;
         },
 
         GET_PROFILE: async ({ state }, id) => {

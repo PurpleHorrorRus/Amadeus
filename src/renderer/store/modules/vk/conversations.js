@@ -1,3 +1,4 @@
+import Promise from "bluebird";
 import { debounce } from "lodash";
 
 import common from "~/plugins/common";
@@ -15,16 +16,7 @@ export default {
     namespaced: true,
 
     state: () => ({
-        pinned: {
-            order: [],
-            conversations: {}
-        },
-
-        cache: {
-            order: [],
-            conversations: {}
-        },
-       
+        cache: [],
         count: 0
     }),
 
@@ -34,53 +26,36 @@ export default {
                 offset,
                 ...fields
             });
-            
+
             state.count = list.count;
-            return await dispatch("FORMAT", list);
+            state.cache = await dispatch("FORMAT", list);
+            return state.cache;
         },
 
         APPEND: async ({ dispatch, rootState, state }) => {
-            const total = state.cache.order.length + state.pinned.order.length;
-            if (total >= state.count) {
+            if (state.cache.length >= state.count) {
                 return false;
             }
 
             const list = await rootState.vk.client.api.messages.getConversations({
-                offset: total,
+                offset: state.cache.length,
                 ...fields
             });
 
-            return await dispatch("FORMAT", list);
+            state.cache = [...state.cache, await dispatch("FORMAT", list)];
+            return state.cache;
         },
 
-        FORMAT: async ({ dispatch, state }, list) => {
+        FORMAT: async ({ dispatch }, list) => {
             list.items = await dispatch("GET_CHATS", list);
 
-            for (let item of list.items) {
-                item = await dispatch("FORMAT_ITEM", {
+            return await Promise.map(list.items, async item => {
+                return await dispatch("FORMAT_ITEM", {
                     item,
                     profiles: list.profiles,
                     groups: list.groups
                 });
-
-                const pushObject = !item.pinned ? state.cache : state.pinned;
-                pushObject.conversations[item.information.peer.id] = item;
-                pushObject.order.push(item.information.peer.id);
-            }
-
-            return await dispatch("REORDER");
-        },
-
-        REORDER: ({ state }) => {
-            [state.pinned, state.cache].forEach(pushObject => {
-                return pushObject.order.sort((a, b) => {
-                    const next = pushObject.conversations[b];
-                    const prev = pushObject.conversations[a];
-                    return next.message.date - prev.message.date;
-                });
             });
-
-            return true;
         },
 
         FORMAT_ITEM: (_, { item, profiles, groups }) => {
@@ -141,8 +116,14 @@ export default {
         },
 
         GET_CONVERSATION_CACHE: ({ state }, id) => {
-            return state.cache.conversations[id] 
-                || state.pinned.conversations[id];
+            const middle = Math.floor(state.cache.length / 2);
+            for (let i = 0, j = state.cache.length - 1; i < middle && j > middle; i++, j--) {
+                console.log(i, j);
+                if (state.cache[i].information.peer.id === id) return state.cache[i];
+                if (state.cache[j].information.peer.id === id) return state.cache[j];
+            }
+
+            return null;
         },
 
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
@@ -168,19 +149,19 @@ export default {
             conversation.mention = conversation.mention || mentionRegex.test(data.text);
             conversation.typing = false;
 
-            if (!conversation.pinned) {
-                const conversationIndex = state.cache.order.indexOf(conversation.information.peer.id);
-                state.cache.order = conversationIndex !== 0 
-                    ? common.arrayMove(state.cache.order, conversationIndex, 0)
-                    : [...state.cache.order];
-            } else state.pinned.order = [...state.pinned.order]; // Trigger render
+            const conversationIndex = state.cache.findIndex(conversation => {
+                return conversation.information.peer.id === data.peerId;
+            });
+
+            if (conversationIndex > 0) {
+                state.cache = common.arrayMove(state.cache, conversationIndex, 0);
+            }
 
             return conversation;
         },
 
         UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => {
-            const peer_id = data.payload.peer_id;
-            const conversation = await dispatch("GET_CONVERSATION_CACHE", peer_id);
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
 
             if (data.isInbox) {
                 conversation.information.unread_count = 0;
