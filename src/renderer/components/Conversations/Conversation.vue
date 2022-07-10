@@ -4,8 +4,8 @@
 
         <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">
             <span class="conversation-message-name nowrap" v-text="name(conversation.profile)" />
-            <ConversationMessage v-if="!conversation.typing" :message="conversation.message" />
-            <ConversationTyping v-else />
+            <ConversationMessage v-if="!conversation.typing.enable" :message="conversation.message" />
+            <ConversationTyping v-else :typing="conversation.typing" />
         </div>
 
         <ConversationUnread :conversation="conversation" />

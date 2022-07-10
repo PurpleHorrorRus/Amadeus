@@ -76,10 +76,14 @@ export default {
                 pinned: item.conversation.sort_id.major_id !== 0,
                 mention: mentionRegex.test(item.last_message.text),
 
-                typing: false,
-                typingDebounce: debounce(function () {
-                    this.typing = false; 
-                }, 6000)
+                typing: {
+                    enable: false,
+                    names: [],
+                    debounce: debounce(function () {
+                        this.enable = false;
+                        this.names = [];
+                    }, 6000)
+                }
             };
         },
 
@@ -159,7 +163,16 @@ export default {
             }
             
             conversation.mention = conversation.mention || mentionRegex.test(data.text);
-            conversation.typing = false;
+            if (conversation.information.peer.type === "chat") {
+                const typingUserIndex = conversation.typing.names.findIndex(typingUser => {
+                    return typingUser.id === conversation.message.from_id;
+                });
+
+                conversation.typing.names.splice(typingUserIndex, 1);
+                if (conversation.typing.names.length === 0) {
+                    conversation.typing.enable = false;
+                }
+            }
 
             const conversationIndex = state.cache.findIndex(conversation => {
                 return conversation.information.peer.id === data.peerId;
@@ -183,11 +196,41 @@ export default {
             return true;
         },
 
-        TRIGGER_TYPING: async ({ dispatch }, id) => {
-            const conversation = await dispatch("GET_CONVERSATION_CACHE", id);
-            conversation.typing = true;
-            conversation.typingDebounce();
+        TRIGGER_TYPING: async ({ dispatch }, data) => {
+            const conversation = data.isChat
+                ? await dispatch("TRIGGER_TYPING_CHAT", data)
+                : await dispatch("GET_CONVERSATION_CACHE", data.payload.to_id);
+
+            conversation.typing.enable = true;
+            conversation.typing.debounce();
             return true;
+        },
+
+        TRIGGER_TYPING_CHAT: async ({ dispatch }, data) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.to_id);
+
+            const user = conversation.profile.users.find(user => {
+                return user.id === data.payload.from_id;
+            });
+
+            const isUserTyping = conversation.typing.names.some(typingUser => {
+                return typingUser.id === user.id;
+            });
+
+            if (!isUserTyping) {
+                user.debounce = debounce(() => {
+                    const typingUserIndex = conversation.typing.names.findIndex(typingUser => {
+                        return typingUser.id === user.id;
+                    });
+
+                    conversation.typing.names.splice(typingUserIndex, 1);
+                }, 6000);
+
+                conversation.typing.names.push(user);
+                user.debounce();
+            } else user.debounce();
+
+            return conversation;
         },
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {

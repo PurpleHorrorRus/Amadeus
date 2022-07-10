@@ -3,7 +3,7 @@
         <PenIcon class="icon pen" />
         <span 
             class="convermsation-message-typing-text small-text nowrap" 
-            v-text="'набирает сообщение...'" 
+            v-text="text" 
         />
     </div>
 </template>
@@ -12,6 +12,23 @@
 export default {
     components: {
         PenIcon: () => import("~/assets/icons/pen.svg")
+    },
+
+    props: {
+        typing: {
+            type: Object,
+            required: true
+        }
+    },
+
+    computed: {
+        text() {
+            return this.typing.names.length > 0
+                ? this.typing.names.length === 1 
+                    ? this.typing.names[0].first_name + " набирает сообщение"
+                    : this.typing.names.map(user => user.first_name).join(", ") + " набирают сообщение"
+                : "набирает сообщение";
+        }
     }
 };
 </script>
