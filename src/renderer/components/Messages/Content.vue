@@ -39,18 +39,13 @@ export default {
 
     mixins: [DateMixin],
 
-    props: {
-        message: {
-            type: Object,
-            required: true
-        }
-    },
+    inject: ["provideData", "message"],
 
     computed: {
         showName() {
-            return !this.$parent.same
+            return !this.$parent.last
                 && !this.message.out 
-                && this.$parent.isChat;
+                && this.provideData.isChat;
         },
 
         name() {
@@ -58,7 +53,7 @@ export default {
         },
 
         isNotRead() {
-            return this.$parent.conversation.information.out_read < this.message.id;
+            return this.provideData.conversation.information.out_read < this.message.id;
         },
 
         checkIconClass() {

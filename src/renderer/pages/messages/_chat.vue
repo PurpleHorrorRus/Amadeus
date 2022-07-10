@@ -17,14 +17,10 @@
             />
 
             <div v-if="!loading" id="chat-page-messages-list">
-                <Message
-                    v-for="(message, index) of chat.messages"
-                    :key="message.id + message.text"
-                    :message="message"
-                    :same="same(index)"
-                    @action="action($event, index)"
-                    @click.left.native="select(message)"
-                    @click.right.native="openMenu(message, $event, true)"
+                <MessagesChunk
+                    v-for="(chunk, index) of chunks"
+                    :key="index" 
+                    :chunk="chunk"
                 />
 
                 <ContextMenu v-if="menu.show" :position="menu.position">
@@ -53,7 +49,7 @@ import common from "~/plugins/common";
 export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
-        Message: () => import("~/components/Messages/Message"),
+        MessagesChunk: () => import("~/components/Messages/Chunk"),
         MessageInput: () => import("~/components/Messages/Input"),
         MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed"),
 
@@ -61,6 +57,24 @@ export default {
     },
 
     mixins: [CoreMixin, ScrollMixin, DateMixin, MenuMixin],
+
+    provide() {
+        const provideData = {};
+
+        Object.defineProperty(provideData, "isChat", {
+            enumerable: true,
+            get: () => this.isChat
+        });
+
+        Object.defineProperty(provideData, "conversation", {
+            enumerable: true,
+            get: () => this.chat.conversation
+        });
+
+        return {
+            provideData
+        };
+    },
 
     data: () => ({
         loading: true,
@@ -87,6 +101,7 @@ export default {
         chatPageClass() {
             return {
                 loading: this.loading,
+                chat: this.isChat,
                 player: this.song !== null
             };
         },
@@ -96,8 +111,8 @@ export default {
             
             return {
                 backgroundSize: `${background.width * background.zoom}vw ${background.height * background.zoom}vh`,
-                backgroundPositionX: background.x + "%",
-                backgroundPositionY: background.y + "%",
+                backgroundPositionX: -background.x + "vw",
+                backgroundPositionY: -background.y + "vh",
 
                 backgroundImage: background.base64 
                     // eslint-disable-next-line max-len
@@ -116,8 +131,35 @@ export default {
                 && !this.canWrite;
         },
 
+        chunks() {
+            const chunks = [];
+            let current = [];
+
+            for (const message of this.chat.messages) {
+                if (current.length === 0) {
+                    current.push(message);
+                    continue;
+                } 
+                
+                if (current[current.length - 1].from_id !== message.from_id) {
+                    chunks.push(current);
+                    current = [message];
+                } else current.push(message);
+            }
+
+            if (current.length > 0) {
+                chunks.push(current);
+            }
+
+            return chunks;
+        },
+
         canScroll() {
             return this.chat.messages.length < this.chat.count;
+        },
+
+        isChat() {
+            return this.chat.conversation?.profile.type === "chat";
         },
 
         itsMe() {
@@ -218,8 +260,8 @@ export default {
             read: "vk/messages/READ"
         }),
 
-        async action(name, index) {
-            const message = this.chat.messages[index] || this.menu.target;
+        async action(name, message) {
+            message = message || this.menu.target;
             this.closeMenu();
 
             switch(name) {
@@ -326,6 +368,20 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        &.chat {
+            .message {
+                &:not(.last) {
+                    &.out {
+                        padding-right: 48px;
+                    }
+
+                    &:not(.out) {
+                        padding-left: 47px;
+                    }
+                }
+            }
         }
 
         &-list {

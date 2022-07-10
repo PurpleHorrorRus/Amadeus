@@ -118,7 +118,6 @@ export default {
         GET_CONVERSATION_CACHE: ({ state }, id) => {
             const middle = Math.floor(state.cache.length / 2);
             for (let i = 0, j = state.cache.length - 1; i < middle && j > middle; i++, j--) {
-                console.log(i, j);
                 if (state.cache[i].information.peer.id === id) return state.cache[i];
                 if (state.cache[j].information.peer.id === id) return state.cache[j];
             }

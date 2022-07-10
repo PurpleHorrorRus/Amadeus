@@ -35,12 +35,16 @@
             <RangeItem 
                 text="Позиция фона по горизонтали"
                 :value="settings.appearance.messages.background.x"
+                :max="100"
+                :min="-100"
                 @change="deepChange(settings.appearance.messages.background, 'x', $event)"
             />
 
             <RangeItem 
                 text="Позиция фона по вертикали"
                 :value="settings.appearance.messages.background.y"
+                :max="100"
+                :min="-100"
                 @change="deepChange(settings.appearance.messages.background, 'y', $event)"
             />
         </div>

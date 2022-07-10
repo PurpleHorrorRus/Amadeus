@@ -1,7 +1,7 @@
 <template>
     <div class="message" :class="messageClass">
         <img v-if="showAvatar" :src="avatar" class="message-avatar">
-        <MessageContent :message="message" />
+        <MessageContent />
         <MessageActions />
     </div>
 </template>
@@ -15,13 +15,19 @@ export default {
         MessageActions: () => import("~/components/Messages/Actions")
     },
 
+    provide() {
+        return {
+            message: this.message
+        };
+    },
+
     props: {
         message: {
             type: Object,
             required: true
         },
 
-        same: {
+        last: {
             type: Boolean,
             required: false,
             default: false
@@ -32,7 +38,7 @@ export default {
         messageClass() {
             return {
                 out: this.message.out,
-                same: this.same && this.isChat,
+                last: this.last,
                 selected: this.message.selected,
                 noBackground: this.message.attachments.length >= 1 
                     && !this.message.text 
@@ -41,7 +47,7 @@ export default {
         },
 
         conversation() {
-            return this.$parent.current;
+            return this.$parent.$parent.current;
         },
 
         chatUserProfile() {
@@ -51,16 +57,12 @@ export default {
         },
 
         showAvatar() {
-            return !this.same 
-                && this.isChat;
+            return this.last 
+                && this.conversation.profile.type === "chat";
         },
 
         avatar() {
             return this.chatUserProfile.photo_100;
-        },
-        
-        isChat() {
-            return this.conversation.profile.type === "chat";
         },
 
         isWallAttachment() {
@@ -132,16 +134,6 @@ export default {
         }
     }
 
-    &.same {
-        &.out {
-            padding-right: 48px;
-        }
-
-        &:not(.out) {
-            padding-left: 47px;
-        }
-    }
-
     &.noBackground {
         .message-content {
             padding: 0px 0px 10px 0px;
@@ -151,6 +143,8 @@ export default {
     }
 
     &-avatar {
+        align-self: flex-end;
+
         width: 40px;
         height: 40px;
 

@@ -59,10 +59,6 @@ export default {
                 return dispatch("messages/SYNC", data.payload.message);
             });
 
-            state.client.updates.on("message_deny", data => {
-                console.log("message_deny", data);
-            });
-
             state.client.updates.on("message_flags", async data => {
                 const message = await dispatch("messages/FIND_MESSAGE", data);
 

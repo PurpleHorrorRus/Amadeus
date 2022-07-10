@@ -34,7 +34,7 @@ export default {
     align-items: center;
 
     width: 100%;
-    height: 40px;
+    height: max-content;
 
     padding: 10px;
 

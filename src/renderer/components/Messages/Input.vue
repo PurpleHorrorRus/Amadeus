@@ -135,7 +135,7 @@ export default {
     watch: {
         message: {
             handler: function(message) {
-                if (message.length === 0) {
+                if (message.length === 0 || this.editing.enable) {
                     return false;
                 }
 
@@ -293,7 +293,7 @@ export default {
                 }
 
                 if (message.out && !this.checkBlockedAttachments(message)) {
-                    return this.$parent.action("edit", i);
+                    return this.$parent.action("edit", message);
                 }
             }
         },

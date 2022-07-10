@@ -1,15 +1,15 @@
 <template>
     <div class="message-actions">
         <ReplyIcon 
-            v-if="parent.conversation.information.can_write.allowed"
+            v-if="canReply"
             class="icon vkgram" 
-            @click="action('reply')" 
+            @click.prevent="action('reply')" 
         />
 
         <StarIcon 
             class="icon vkgram star" 
             :class="starClass"
-            @click="action('important')" 
+            @click.prevent="action('important')" 
         />
     </div>
 </template>
@@ -21,21 +21,23 @@ export default {
         StarIcon: () => import("~/assets/icons/star.svg")
     },
 
-    computed: {
-        parent() {
-            return this.$parent;
-        },
+    inject: ["provideData", "message"],
 
+    computed: {
         starClass() {
             return { 
-                filled: this.parent.message.important 
+                filled: this.message.important 
             };
+        },
+
+        canReply() {
+            return this.provideData.conversation.information.can_write.allowed;
         }
     },
 
     methods: {
         action(name) {
-            return this.parent.$emit("action", name);
+            return this.$parent.$parent.$parent.action(name, this.message);
         }
     }
 };
