@@ -1,6 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("message_deny")
+// vk.updates.on("chat_kick_user");
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
@@ -15,14 +15,14 @@ export default {
     }),
 
     actions: {
-        AUTH: async ({ dispatch, state, rootState }) => {
+        AUTH: async ({ dispatch, state, rootState }, account) => {
             state.client = new VK({
                 apiVersion: "5.154",
-                token: rootState.config.vk.token
+                token: account.token
             });
 
             const [user] =  await state.client.api.users.get({
-                user_ids: [rootState.config.vk.user],
+                user_ids: [account.user],
                 fields: "photo_max"
             });
 
@@ -56,6 +56,20 @@ export default {
             state.client.updates.on("message_edit", async data => {
                 data = await dispatch("messages/PREPARE_DATA", data);
                 dispatch("conversations/UPDATE_ONE", data);
+                return dispatch("messages/SYNC", data.payload.message);
+            });
+
+            state.client.updates.on("chat_invite_user", async data => {
+                console.log("chat_invite_user", data);
+                dispatch("conversations/ADD_USER", data.payload.message);
+                dispatch("conversations/ADD_MESSAGE", data.payload.message);
+                return dispatch("messages/SYNC", data.payload.message);
+            });
+
+            state.client.updates.on("chat_kick_user", data => {
+                console.log("chat_kick_user", data);
+                dispatch("conversations/REMOVE_USER", data.payload.message);
+                dispatch("conversations/ADD_MESSAGE", data.payload.message);
                 return dispatch("messages/SYNC", data.payload.message);
             });
 
@@ -114,6 +128,29 @@ export default {
                 type: "user",
                 profile: user
             };
+        },
+
+        GET_ACTION_MESSAGE: async ({ dispatch }, message) => {
+            const [conversation, newUser] = await Promise.all([
+                dispatch("conversations/GET_CONVERSATION_CACHE", message.peer_id),
+                dispatch("GET_PROFILE", message.action.member_id)
+            ]);
+
+            const invited = conversation.profile.users.find(user => {
+                return user.id === message.from_id;
+            });
+
+            let actionText = "(not set)";
+            switch(message.action.type) {
+                case "chat_invite_user": actionText = "добавил в беседу"; break;
+                case "chat_kick_user": actionText = "исключил из беседы"; break;
+            }
+
+            return [
+                `${invited.first_name} ${invited.last_name}`,
+                actionText,
+                newUser.profile.name
+            ];
         },
 
         VOTE: async ({ state }, data) => {

@@ -136,11 +136,15 @@ export default {
         }
 
         &-title {
-            margin-left: 5px;
+            width: fit-content;
 
-            color: var(--contrast);
+            padding: 10px;
+
+            background: var(--backdrop);
+            border-radius: 24px;
+
+            color: var(--contrast) !important;
             font-size: 12px;
-
         }
     }
 

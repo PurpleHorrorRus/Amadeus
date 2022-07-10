@@ -13,7 +13,13 @@
         />
 
         <span 
-            v-if="message.text" 
+            v-if="message.action"
+            class="conversation-message-body-action small-text highlight nowrap" 
+            v-text="message.text" 
+        />
+
+        <span 
+            v-else-if="message.text" 
             :key="message.text"
             class="conversation-message-body-text small-text nowrap" 
             v-text="formatText(message.text)" 
@@ -43,7 +49,8 @@ export default {
 
     data: () => ({
         updateTimeout: null,
-        dateText: ""
+        dateText: "",
+        action: ""
     }),
 
     computed: {
@@ -53,8 +60,8 @@ export default {
         },
 
         showSender() {
-            return this.message.out 
-                || this.$parent.conversation.profile.type === "chat";
+            return !("action" in this.message) 
+                && (this.message.out || this.$parent.conversation.profile.type === "chat");
         },
 
         sender() {
@@ -78,7 +85,7 @@ export default {
         }
     },
 
-    created() {
+    async created() {
         this.updateMessageTime();
     },
 

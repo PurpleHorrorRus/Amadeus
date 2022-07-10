@@ -94,7 +94,12 @@ export default {
     border-radius: 8px;
 
     &.selected {
-        .message-content {
+        &.noBackground .message-content-all-attachments {
+            border: 4px solid var(--secondary);
+            border-radius: 12px;
+        }
+
+        &:not(.noBackground) .message-content {
             border: 1px solid var(--contrast);
         }
     }

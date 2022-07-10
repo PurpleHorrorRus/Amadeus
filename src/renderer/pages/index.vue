@@ -12,15 +12,16 @@ export default {
     created() {
         ipcRenderer.once("normal", async () => {
             const { config } = await ipcRenderer.invoke("config");
-        
-            if (!config.vk.token || !config.vk.user) {
+
+            if (!~config.vk.active || config.vk.accounts.length === 0) {
                 this.$router.replace("/login").catch(() => {});
                 ipcRenderer.send("dom-ready");
                 return false;
             }
 
+            const account = config.vk.accounts[config.vk.active];
             await this.setConfig(config);
-            await this.auth();
+            await this.auth(account);
 
             this.$router.replace("/general").catch(() => {});
             return true;

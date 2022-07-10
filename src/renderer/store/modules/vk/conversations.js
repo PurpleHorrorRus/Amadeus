@@ -29,6 +29,10 @@ export default {
 
             state.count = list.count;
             state.cache = await dispatch("FORMAT", list);
+            state.cache.forEach(async conversation => {
+                conversation.message = await dispatch("FORMAT_MESSAGE", conversation.message);
+            });
+
             return state.cache;
         },
 
@@ -77,6 +81,15 @@ export default {
                     this.typing = false; 
                 }, 6000)
             };
+        },
+
+        FORMAT_MESSAGE: async ({ dispatch }, message) => {
+            if (message.action) {
+                const action = await dispatch("vk/GET_ACTION_MESSAGE", message, { root: true });
+                message.text = action.join(" ");
+            }
+
+            return message;
         },
 
         UPDATE_ONE: async ({ dispatch }, data) => {
@@ -132,11 +145,11 @@ export default {
             }
 
             conversation.information.last_message_id = data.payload.message.id;
-            conversation.message = {
+            conversation.message = await dispatch("FORMAT_MESSAGE", {
                 ...data.payload.message,
                 date: Math.floor(Date.now() / 1000),
                 text: data.text // Fix unescaped characters in message,
-            };
+            });
 
             if (!data.payload.message.out) {
                 conversation.information.unread_count++;
@@ -182,7 +195,20 @@ export default {
             conversation.profile.online = data.isOnline;
             conversation.profile.online_mobile = Number(conversation.profile.online && data.platform < 6);
             return true;
-            
+        },
+
+        ADD_USER: async ({ dispatch }, message) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
+            const user = await dispatch("vk/GET_PROFILE", message.action.member_id, { root: true });
+            conversation.profile.users.push(user.profile);
+            return true;
+        },
+
+        REMOVE_USER: async ({ dispatch }, message) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
+            const userIndex = conversation.profile.users.findIndex(user => user.id === message.action.member_id);
+            conversation.profile.users.splice(userIndex, 1);
+            return true;
         }
     }
 };

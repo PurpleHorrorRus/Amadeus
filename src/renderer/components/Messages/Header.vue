@@ -1,6 +1,6 @@
 <template>
     <div id="messages-header">
-        <div id="message-header-main">
+        <div id="messages-header-main">
             <MessagesHeaderBack v-if="!extended" />
 
             <div id="messages-header-main-profile">
@@ -9,7 +9,7 @@
             </div>
         </div>
         
-        <div id="message-header-profile-actions">
+        <div id="messages-header-profile-actions">
             <ForwardIcon 
                 v-if="isSelectedMessages" 
                 class="icon vkgram clickable" 
@@ -75,7 +75,9 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     column-gap: 5px;
+    flex-wrap: nowrap;
 
     padding: 0px 10px;
 
@@ -86,6 +88,7 @@ export default {
     &-main {
         display: flex;
         flex-direction: row;
+        align-items: center;
         column-gap: 5px;
 
         &-profile {

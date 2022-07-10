@@ -93,6 +93,7 @@ export default {
 
     computed: {
         ...mapState({
+            extended: state => state.extendedView,
             current: state => state.vk.messages.current,
             user: state => state.vk.user,
             song: state => state.audio.song
@@ -100,6 +101,7 @@ export default {
 
         chatPageClass() {
             return {
+                extended: this.extended,
                 loading: this.loading,
                 chat: this.isChat,
                 player: this.song !== null
@@ -348,7 +350,6 @@ export default {
 
         position: relative;
 
-        background-size: auto;
         background-repeat: no-repeat;
 
         overflow-x: hidden;
@@ -368,6 +369,10 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        &:not(.extended) {
+            background-size: cover !important;
         }
 
         &.chat {

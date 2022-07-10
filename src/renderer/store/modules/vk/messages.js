@@ -69,7 +69,15 @@ export default {
         },
 
         FORMAT_MESSAGES: (_, items) => {
-            return items.map(item => Object.assign(item, additional)).reverse();
+            if (items.length === 1 && items[0].formatted) {
+                return items;
+            } 
+
+            return items.map(item => ({
+                ...item,
+                ...additional,
+                formatted: true
+            })).reverse();
         },
 
         FLUSH: ({ dispatch, state }, conversation) => {
@@ -110,7 +118,6 @@ export default {
                 });
 
                 const message = await dispatch("SYNC", response.items[0]);
-                Object.assign(message, additional);
                 state.cache[message.peer_id].count++;
                 return state.cache[message.peer_id];
             }
@@ -130,13 +137,15 @@ export default {
             return data;
         },
 
-        SYNC: ({ state }, message) => {
+        SYNC: async ({ dispatch, state }, message) => {
             const messages = state.cache[message.peer_id]?.messages;
             if (!messages) {
                 return false;
             }
             
-            Object.assign(message, additional);
+            const formatted = await dispatch("FORMAT_MESSAGES", [message]); 
+            message = formatted[0];
+
             let messageIndex = message.random_id > 0 ? findLastIndex(messages, msg => {
                 return msg.id === message.id;
             }) : -1;

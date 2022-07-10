@@ -1,26 +1,34 @@
 <template>
     <div class="chat-page-messages-list-chunk">
-        <Message
+        <Component
+            :is="MessageComponent(message)"
             v-for="(message, index) of chunk"
             :key="message.id + message.text"
             :message="message"
             :last="index === chunk.length - 1"
-            @click.native.self="$parent.select(message)"
+            @click.left.native="$parent.select(message)"
             @click.right.native="$parent.openMenu(message, $event, true)"
         />
     </div>
 </template>
 
 <script>
-export default {
-    components: {
-        Message: () => import("~/components/Messages/Message")
-    },
+import Message from "~/components/Messages/Message";
+import System from "~/components/Messages/System";
 
+export default {
     props: {
         chunk: {
             type: Array,
             required: true
+        }
+    },
+
+    methods: {
+        MessageComponent(message) {
+            return !("action" in message) 
+                ? Message 
+                : System;
         }
     }
 };
