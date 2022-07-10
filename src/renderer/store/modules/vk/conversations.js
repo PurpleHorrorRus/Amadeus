@@ -132,6 +132,23 @@ export default {
             return list.items;
         },
 
+        PLAY_NOTIFICATION: ({ rootState }, conversation) => {
+            if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
+                return false;
+            }
+
+            const muted = rootState.settings.settings.vk.mute.some(id => {
+                return id === conversation.information.peer.id;
+            });
+
+            if (muted) {
+                return false;
+            }
+
+            const notification = new Audio("./message.mp3");
+            return notification.play();
+        },
+
         GET_CONVERSATION_CACHE: ({ state }, id) => {
             const middle = Math.floor(state.cache.length / 2);
             for (let i = 0, j = state.cache.length - 1; i < middle && j > middle; i++, j--) {
@@ -145,6 +162,7 @@ export default {
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
             const conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
             if (!conversation) {
+                dispatch("PLAY_NOTIFICATION");
                 return await dispatch("FETCH");
             }
 
@@ -172,7 +190,9 @@ export default {
                 if (conversation.typing.names.length === 0) {
                     conversation.typing.enable = false;
                 }
-            }
+            } else conversation.typing.enable = false;
+
+            dispatch("PLAY_NOTIFICATION", conversation);
 
             const conversationIndex = state.cache.findIndex(conversation => {
                 return conversation.information.peer.id === data.peerId;
@@ -200,6 +220,10 @@ export default {
             const conversation = data.isChat
                 ? await dispatch("TRIGGER_TYPING_CHAT", data)
                 : await dispatch("GET_CONVERSATION_CACHE", data.payload.to_id);
+
+            if (!conversation) {
+                return false;
+            }
 
             conversation.typing.enable = true;
             conversation.typing.debounce();

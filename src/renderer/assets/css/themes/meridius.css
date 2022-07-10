@@ -40,4 +40,7 @@ html.meridius-mode {
 
     --skeleton-background: #101010cc;
     --skeleton-highlight: #161616cc;
+
+    --tooltip: var(--secondary);
+    --tooltip-text: var(--text);
 }

@@ -36,8 +36,11 @@ html.vk-black-mode {
     --player-slider: #ffffff26;
     --player-slider-progress: #ffffff52;
 
+    --switch-unchecked: #545454;
+
     --skeleton-background: #222222cc;
     --skeleton-highlight: #191919cc;
 
-    --switch-unchecked: #545454;
+    --tooltip: #2787f5;
+    --tooltip-text: #ffffff;
 }

@@ -27,7 +27,6 @@ span, input, textarea, select, div {
     font-weight: 400;
 
     user-select: none;
-    outline: none;
     -webkit-font-smoothing: subpixel-antialiased;
     text-rendering: optimizeSpeed;
 
@@ -39,6 +38,7 @@ span, input, textarea, select, div {
 *, *:before, *:after {
 	box-sizing: border-box;
 	margin: 0;
+    outline: none;
 }
 
 .switchable {

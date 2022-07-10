@@ -12,6 +12,11 @@ const clear = {
         height: 530,
 
         vk: {
+            mute: [],
+            disable_write_whitelist: [],
+            disable_read_whitelist: [],
+
+            disable_notifications: false,
             disable_read: false,
             disable_write: false,
             send_offline: false
