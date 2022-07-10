@@ -64,7 +64,7 @@ export default {
             }
 
             if (this.profile.online) {
-                this.lastSeenText = "в сети";
+                this.lastSeenText = "онлайн";
                 return true;
             }
 
