@@ -74,6 +74,10 @@ export default {
         },
 
         REMOVE_FORWARD: ({ state }) => {
+            if (state.fwd_messages.length === 0) {
+                return false;
+            }
+
             state.fwd_messages = [];
             return state.fwd_messages;
         },

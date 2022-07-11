@@ -1,6 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("chat_photo_update");
+// vk.updates.on("chat_photo_remove");
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
@@ -11,7 +11,11 @@ export default {
 
     state: () => ({
         client: null,
-        user: null
+        user: null,
+
+        defaults: {
+            photo_100: "https://vk.com/images/camera_100.png"
+        }
     }),
 
     actions: {
@@ -45,7 +49,6 @@ export default {
             });
 
             state.client.updates.on("typing", data => {
-                console.log("TYPING", data);
                 dispatch("conversations/TRIGGER_TYPING", data);
             });
 
@@ -70,7 +73,11 @@ export default {
             });
 
             state.client.updates.on("chat_photo_update", data => {
-                console.log(data);
+                dispatch("conversations/UPDATE_ONE", data);
+            });
+
+            state.client.updates.on("chat_photo_remove", data => {
+                dispatch("conversations/UPDATE_ONE", data);
             });
 
             state.client.updates.on("chat_invite_user", async data => {
@@ -148,26 +155,44 @@ export default {
         },
 
         GET_ACTION_MESSAGE: async ({ dispatch }, message) => {
-            const [conversation, newUser] = await Promise.all([
-                dispatch("conversations/GET_CONVERSATION_CACHE", message.peer_id),
-                dispatch("GET_PROFILE", message.action.member_id)
-            ]);
-
-            const invited = conversation.profile.users.find(user => {
+            const conversation = await dispatch("conversations/GET_CONVERSATION_CACHE", message.peer_id);
+            const user = conversation.profile.users.find(user => {
                 return user.id === message.from_id;
             });
 
-            let actionText = "(not set)";
             switch(message.action.type) {
-                case "chat_invite_user": actionText = "добавил в беседу"; break;
-                case "chat_kick_user": actionText = "исключил из беседы"; break;
+                case "chat_photo_update": {
+                    return [
+                        `${user.first_name} ${user.last_name}`,
+                        "обновил фотографию беседы"
+                    ];
+                }
+
+                case "chat_photo_remove": {
+                    return [
+                        `${user.first_name} ${user.last_name}`,
+                        "удалил фотографию беседы"
+                    ];
+                }
+
+                case "chat_invite_user": case "chat_kick_user": {
+                    const newUser = await dispatch("GET_PROFILE", message.action.member_id);
+
+                    let actionText = "(not set)";
+                    switch(message.action.type) {
+                        case "chat_invite_user": actionText = "добавил в беседу"; break;
+                        case "chat_kick_user": actionText = "исключил из беседы"; break;
+                    }
+
+                    return [
+                        `${user.first_name} ${user.last_name}`,
+                        actionText,
+                        newUser.profile.name
+                    ];
+                }
             }
 
-            return [
-                `${invited.first_name} ${invited.last_name}`,
-                actionText,
-                newUser.profile.name
-            ];
+            return [`${user.first_name} ${user.last_name}`];
         },
 
         VOTE: async ({ state }, data) => {

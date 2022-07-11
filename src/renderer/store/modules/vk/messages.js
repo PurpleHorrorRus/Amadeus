@@ -62,11 +62,8 @@ export default {
                 ...fields
             });
 
-            state.cache[id].messages = [
-                ...await dispatch("FORMAT_MESSAGES", history.items),
-                ...state.cache[id].messages
-            ];
-
+            const formatted = await dispatch("FORMAT_MESSAGES", history.items);
+            state.cache[id].messages = formatted.concat(state.cache[id].messages);
             return state.cache[id];
         },
 
@@ -280,16 +277,20 @@ export default {
         },
 
         UPLOAD: async ({ dispatch, rootState }, attachments) => {
-            const { upload_url } = await rootState.vk.client.api.photos.getMessagesUploadServer();
+            const server = await rootState.vk.client.api.photos.getMessagesUploadServer();
             const uploaded = await Promise.map(attachments, async attachment => {
                 if (!("path" in attachment)) {
                     return attachment;
                 }
 
                 attachment.uploading = true;
-                const formData = await dispatch("PREPARE_FORMDATA", attachment.path);
-                const upload = await rootState.vk.client.upload.upload(upload_url, { formData });
-                const [saved] = await rootState.vk.client.api.photos.saveMessagesPhoto(upload);
+
+                const saved = await dispatch("UPLOAD_ON_SERVER", {
+                    path: attachment.path,
+                    server,
+                    save: upload => rootState.vk.client.api.photos.saveMessagesPhoto(upload)
+                });
+
                 attachment.uploading = false;
 
                 fs.remove(attachment.path);
@@ -307,6 +308,14 @@ export default {
                     return `photo${attachment.owner_id}_${attachment.id}`;
                 }).join(",")
             };
+        },
+
+        UPLOAD_ON_SERVER: async ({ dispatch, rootState }, data) => {
+            const upload = await rootState.vk.client.upload.upload(data.server.upload_url, { 
+                formData: await dispatch("PREPARE_FORMDATA", data.path)
+            });
+
+            return await data.save(upload);
         },
 
         READ: async ({ rootState }, chat) => {

@@ -49,11 +49,6 @@ export default {
             sendMessage: "vk/messages/SEND",
             editMessage: "vk/messages/EDIT",
 
-            addReply: "input/ADD_REPLY",
-            removeReply: "input/REMOVE_REPLY",
-
-            removeForwad: "input/REMOVE_FORWARD",
-
             edit: "input/EDIT",
             clearEdit: "input/CLEAR_EDIT",
 

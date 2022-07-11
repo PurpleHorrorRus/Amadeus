@@ -10,7 +10,6 @@
         <MessageForwardedMessages 
             v-if="showForwardedMessages"
             :messages="message.fwd_messages"
-            @click.native="removeForwad"
         />
 
         <MessageAttachments v-if="showAttachments" :message="message" />

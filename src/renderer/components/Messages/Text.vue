@@ -5,7 +5,7 @@
             :key="index"
             class="message-content-text-item"
             :class="itemClass(item)"
-            @click="openMention(item)" 
+            @click.stop="openItem(item)" 
             v-text="itemText(item)"
         />
     </div>
@@ -14,10 +14,13 @@
 <script>
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
+// eslint-disable-next-line max-len
+const linkRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
 const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 const types = {
     text: "text",
-    mention: "mention"
+    mention: "mention",
+    link: "link"
 };
 
 export default {
@@ -55,6 +58,15 @@ export default {
                 });
                 
                 return mention;
+            } 
+            
+            if (linkRegex.test(word)) {
+                this.formatted.push({
+                    type: types.link,
+                    data: word
+                });
+
+                return word;
             }
 
             text += " " + word;
@@ -70,12 +82,12 @@ export default {
     },
 
     methods: {
-        openMention(item) {
-            if (item.type !== types.mention) {
-                return false;
+        openItem(item) {
+            switch(item.type) {
+                case types.link: return this.openExternal(item.data);
+                case types.mention: return this.openExternal(`https://vk.com/id${item.data.id}`);
+                default: return false;
             }
-
-            return this.openExternal(`https://vk.com/id${item.data.id}`);
         },
 
         itemClass(item) {
@@ -85,9 +97,10 @@ export default {
         },
 
         itemText(item) {
-            return item.type === types.text
-                ? item.data 
-                : "@" + item.data.mention;
+            switch(item.type) {
+                case types.text: case types.link: return item.data;
+                case types.mention: return item.data.mention;
+            }
         }
     }
 };
@@ -109,7 +122,7 @@ export default {
         word-wrap: break-word;
         word-break: break-word;
 
-        &.mention {
+        &.mention, &.link {
             color: var(--contrast);
             
             &:hover {

@@ -19,7 +19,6 @@ export default {
         OPEN: ({ dispatch, state }, data) => {
             if (data.function) {
                 state.function = async (...args) => {
-                    console.log(...args);
                     dispatch("CLOSE");
                     return await data.function(...args);
                 };

@@ -62,8 +62,15 @@ export default {
             });
         },
 
-        FORMAT_ITEM: (_, { item, profiles, groups }) => {
+        FORMAT_ITEM: async ({ rootState }, { item, profiles, groups }) => {
             item.conversation.unread_count = item.conversation.unread_count || 0;
+
+            const profile = item.profile 
+                || profiles.find(profile => profile.id === item.conversation.peer.id) 
+                || groups.find(profile => profile.id === -item.conversation.peer.id);
+
+            profile.photo_100 = profile.photo_100 ||
+                rootState.vk.defaults.photo_100;
 
             return {
                 ...item.conversation.peer,
@@ -72,9 +79,7 @@ export default {
                 isGroup: item.conversation.peer.type === "group" || item.conversation.peer.type === "page",
                 isChat: item.conversation.peer.type === "chat", 
 
-                profile: item.profile 
-                        || profiles.find(profile => profile.id === item.conversation.peer.id) 
-                        || groups.find(profile => profile.id === -item.conversation.peer.id),
+                profile,
                     
                 message: item.last_message,
                 information: item.conversation,
@@ -104,7 +109,12 @@ export default {
 
         UPDATE_ONE: async ({ dispatch, rootState }, data) => {
             const conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
-            if (!conversation || conversation.message.id !== data.id) {
+
+            if (!conversation) {
+                return false;
+            }
+
+            if (!data.payload.message.action && conversation.message.id !== data.id) {
                 return false;
             }
 
@@ -114,8 +124,20 @@ export default {
                 extended: 1
             });
 
-            conversation.message = list.items[0];
-            conversation.information = list.conversations[0];
+            if (conversation.isChat) {
+                list.items[0] = {
+                    conversation:list.conversations.find(conversation => {
+                        return conversation.peer.id === list.items[0].peer_id;
+                    }),
+
+                    last_message: list.items[0]
+                };
+
+                const [updated] = await dispatch("FORMAT", list);
+                Object.assign(conversation, updated);
+            }
+
+            conversation.message = await dispatch("FORMAT_MESSAGE", list.items[0].last_message);
             return true;
         },
 

@@ -6,7 +6,7 @@
             <transition name="slide-right">
                 <Profile 
                     v-if="$parent.opened" 
-                    v-click-away="() => $parent.turnProfile()"
+                    v-click-away="closeProfile"
                     :conversation="chat.conversation" 
                 />
             </transition>
@@ -122,6 +122,10 @@ export default {
             }
 
             return this.read(this.chat);
+        },
+        
+        closeProfile() {
+            this.$parent.turnProfile();
         }
     }
 };
