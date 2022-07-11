@@ -48,6 +48,11 @@ export default {
 
     mounted() {
         this.updatePosition();
+        window.addEventListener("blur", this.$parent.closeMenu);
+    },
+
+    beforeDestroy() {
+        window.removeEventListener("blur", this.$parent.closeMenu);
     },
 
     methods: {
