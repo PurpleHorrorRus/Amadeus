@@ -27,9 +27,9 @@
             @click="openMenu(null, $event, false)" 
         />
 
-        <ContextMenu v-if="menu.show" :position="menu.position">
-            <ContextMenuItem label="Важные сообщения" @click.native="openImportant" />
-            <ContextMenuItem label="Настройки" @click.native="openSettings" />
+        <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
+            <ContextMenuItem label="Важные сообщения" @select="openImportant" />
+            <ContextMenuItem label="Настройки" @select="openSettings" />
         </ContextMenu>
     </div>
 </template>

@@ -3,34 +3,37 @@
         <ContextMenuItem 
             v-if="canReply"
             label="Ответить" 
-            @click.native="parent.action('reply')" 
+            @select="action('reply')" 
         />
 
         <ContextMenuItem 
             v-if="canEdit" 
             label="Редактировать" 
-            @click.native="parent.action('edit')" 
+            @select="action('edit')" 
         />
 
         <ContextMenuItem 
             label="Удалить" 
-            @click.native="parent.action('delete')" 
+            @select="action('delete')" 
         />
 
         <ContextMenuItem 
             v-if="canDeleteForAll"
             label="Удалить для всех" 
-            @click.native="parent.action('delete-for-all')" 
+            @select="action('delete-for-all')" 
         />
     </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 import AttachmentsMixin from "~/mixins/attachments";
+import ActionsMixin from "~/mixins/actions";
 import DateMixin from "~/mixins/date";
 
 export default {
-    mixins: [AttachmentsMixin, DateMixin],
+    mixins: [AttachmentsMixin, ActionsMixin, DateMixin],
 
     props: {
         message: {
@@ -44,8 +47,13 @@ export default {
     }),
 
     computed: {
+        ...mapState({
+            current: state => state.vk.messages.current,
+            user: state => state.vk.user
+        }),
+
         canReply() {
-            return this.parent.current.information.can_write.allowed;
+            return this.current.information.can_write.allowed;
         },
 
         canEdit() {
@@ -57,11 +65,7 @@ export default {
         canDeleteForAll() {
             return this.message.out
                 && this.hours < 24
-                && !this.parent.itsMe;
-        },
-
-        parent() {
-            return this.$parent.$parent;
+                && this.current.id !== this.user.id;
         }
     },
 

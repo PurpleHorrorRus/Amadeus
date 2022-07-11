@@ -53,7 +53,7 @@ export default {
     },
 
     created() {
-        if (this.current.profile.type === "chat") {
+        if (this.current.isChat) {
             this.profile = this.current.profile.users.find(user => user.id === this.message.from_id);
             return this.profile;
         }

@@ -6,7 +6,7 @@
             :key="message.id + message.text"
             :message="message"
             :last="index === chunk.length - 1"
-            @click.left.native="$parent.select(message)"
+            @click.left.native="select(message)"
             @click.right.native="$parent.openMenu(message, $event, true)"
         />
     </div>
@@ -37,6 +37,11 @@ export default {
             return !("action" in message) 
                 ? Message 
                 : System;
+        },
+
+        select(message) {
+            message.selected = !message.selected;
+            return true;
         }
     }
 };

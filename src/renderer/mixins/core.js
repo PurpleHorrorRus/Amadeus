@@ -7,9 +7,11 @@ export default {
         ...mapState({
             config: state => state.config,
             paths: state => state.paths,
+            extended: state => state.extendedView,
             client: state => state.vk.client,
             user: state => state.vk.user,
-            settings: state => state.settings.settings
+            settings: state => state.settings.settings,
+            current: state => state.vk.messages.current
         })
     },
 

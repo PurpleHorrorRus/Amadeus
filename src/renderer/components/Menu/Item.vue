@@ -1,5 +1,5 @@
 <template>
-    <div class="context-menu-item" @click="$parent.$parent.closeMenu">
+    <div class="context-menu-item" @click="select">
         <span class="context-menu-item-label" v-text="label" />
     </div>
 </template>
@@ -11,6 +11,12 @@ export default {
             type: String,
             required: false,
             default: "(not set)"
+        }
+    },
+
+    methods: {
+        select() {
+            this.$emit("select");
         }
     }
 };

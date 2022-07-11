@@ -15,13 +15,18 @@
 </template>
 
 <script>
+import CoreMixin from "~/mixins/core";
+import ActionsMixin from "~/mixins/actions";
+
 export default {
     components: {
         ReplyIcon: () => import("~/assets/icons/reply.svg"),
         StarIcon: () => import("~/assets/icons/star.svg")
     },
 
-    inject: ["provideData", "message"],
+    mixins: [CoreMixin, ActionsMixin],
+
+    inject: ["message"],
 
     computed: {
         starClass() {
@@ -31,13 +36,7 @@ export default {
         },
 
         canReply() {
-            return this.provideData.conversation.information.can_write.allowed;
-        }
-    },
-
-    methods: {
-        action(name) {
-            return this.$parent.$parent.$parent.action(name, this.message);
+            return this.current.information.can_write.allowed;
         }
     }
 };

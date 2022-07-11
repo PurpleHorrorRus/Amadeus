@@ -8,26 +8,7 @@
             :class="chatPageClass"
             :style="chatPageStyle"
         >
-            <Skeleton 
-                v-if="loadMore"
-                id="skeleton-messages"
-                :count="5"
-                :width="'100%'"
-                :height="'40px'" 
-            />
-
-            <div v-if="!loading" id="chat-page-messages-list">
-                <MessagesChunk
-                    v-for="(chunk, index) of chunks"
-                    :key="index" 
-                    :chunk="chunk"
-                />
-
-                <ContextMenu v-if="menu.show" :position="menu.position">
-                    <MessageMenu :message="menu.target" />
-                </ContextMenu>
-            </div>
-
+            <MessagesList v-if="!loading" :messages="chat.messages" />
             <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
 
@@ -42,21 +23,19 @@ import { mapActions, mapState } from "vuex";
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 import DateMixin from "~/mixins/date";
-import MenuMixin from "~/mixins/menu";
+
 
 import common from "~/plugins/common";
 
 export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
-        MessagesChunk: () => import("~/components/Messages/Chunk"),
+        MessagesList: () => import("~/components/Messages/List"),
         MessageInput: () => import("~/components/Messages/Input"),
-        MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed"),
-
-        MessageMenu: () => import("~/components/Menu/Views/Chat")
+        MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed")
     },
 
-    mixins: [CoreMixin, ScrollMixin, DateMixin, MenuMixin],
+    mixins: [CoreMixin, ScrollMixin, DateMixin],
 
     provide() {
         const provideData = {};
@@ -88,10 +67,7 @@ export default {
 
     computed: {
         ...mapState({
-            extended: state => state.extendedView,
             background: state => state.background,
-            current: state => state.vk.messages.current,
-            user: state => state.vk.user,
             song: state => state.audio.song,
             input: state => state.input
         }),
@@ -128,29 +104,6 @@ export default {
         showBlocked() {
             return !this.loading
                 && !this.canWrite;
-        },
-
-        chunks() {
-            const chunks = [];
-            let current = [];
-
-            for (const message of this.chat.messages) {
-                if (current.length === 0) {
-                    current.push(message);
-                    continue;
-                } 
-                
-                if (current[current.length - 1].from_id !== message.from_id) {
-                    chunks.push(current);
-                    current = [message];
-                } else current.push(message);
-            }
-
-            if (current.length > 0) {
-                chunks.push(current);
-            }
-
-            return chunks;
         },
 
         canScroll() {
@@ -223,7 +176,7 @@ export default {
             this.loadMore = true;
             await this.append(this.id);
             this.loadMore = false;
-        }, percent => percent <= 30);
+        }, percent => percent <= 15);
     },
 
     beforeDestroy() {
@@ -261,36 +214,6 @@ export default {
             clearEdit: "input/CLEAR_EDIT",
             clearInput: "input/CLEAR"
         }),
-
-        async action(name, message) {
-            message = message || this.menu.target;
-            this.closeMenu();
-
-            switch(name) {
-                case "reply": {
-                    return this.addReply(message);
-                }
-
-                case "edit": {
-                    return this.edit(message);
-                }
-
-                case "delete": {
-                    return await this.delete({ message });
-                }
-
-                case "delete-for-all": {
-                    return await this.delete({ 
-                        delete_for_all: true,
-                        message 
-                    });
-                }
-
-                case "important": {
-                    return await this.markImportant(message);
-                }
-            }
-        },
 
         select(message) {
             message.selected = !message.selected;
@@ -380,15 +303,7 @@ export default {
             }
         }
 
-        &-list {
-            grid-area: list;
-
-            display: flex;
-            flex-direction: column;
-            row-gap: 10px;
-
-            padding: 10px;
-        }
+        
     }
 }
 </style>

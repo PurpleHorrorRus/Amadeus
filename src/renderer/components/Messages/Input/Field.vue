@@ -24,6 +24,7 @@ import { throttle } from "lodash";
 import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 
 import AttachmentsMixin from "~/mixins/attachments";
+import ActionsMixin from "~/mixins/actions";
 import DateMixin from "~/mixins/date";
 
 export default {
@@ -35,7 +36,7 @@ export default {
         autogrow: TextareaAutogrowDirective
     },
 
-    mixins: [AttachmentsMixin, DateMixin],
+    mixins: [AttachmentsMixin, ActionsMixin, DateMixin],
 
     data: () => ({
         message: "",
@@ -103,8 +104,7 @@ export default {
         ...mapActions({
             sendTyping: "vk/messages/SEND_TYPING",
 
-            addPhoto: "input/ADD_PHOTO",
-            edit: "input/EDIT"
+            addPhoto: "input/ADD_PHOTO"
         }),
 
         send(event) {
@@ -152,7 +152,7 @@ export default {
                 }
 
                 if (message.out && !this.checkBlockedAttachments(message)) {
-                    return this.edit(message);
+                    return this.action("edit", message);
                 }
             }
 

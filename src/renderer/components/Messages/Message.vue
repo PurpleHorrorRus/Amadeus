@@ -7,8 +7,6 @@
 </template>
 
 <script>
-
-
 export default {
     components: {
         MessageContent: () => import("~/components/Messages/Content"),
@@ -20,6 +18,8 @@ export default {
             message: this.message
         };
     },
+
+    inject: ["provideData"],
 
     props: {
         message: {
@@ -46,19 +46,15 @@ export default {
             };
         },
 
-        conversation() {
-            return this.$parent.$parent.current;
-        },
-
         chatUserProfile() {
-            return this.conversation.profile.users.find(user => {
+            return this.provideData.conversation.profile.users.find(user => {
                 return user.id === this.message.from_id;
             });
         },
 
         showAvatar() {
             return this.last 
-                && this.conversation.profile.type === "chat";
+                && this.provideData.conversation.isChat;
         },
 
         avatar() {

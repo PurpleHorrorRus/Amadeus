@@ -61,7 +61,7 @@ export default {
 
         showSender() {
             return !("action" in this.message) 
-                && (this.message.out || this.$parent.conversation.profile.type === "chat");
+                && (this.message.out || this.$parent.conversation.isChat);
         },
 
         sender() {

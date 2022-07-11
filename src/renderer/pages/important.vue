@@ -68,11 +68,11 @@ export default {
 
         open(conversation) {
             const query = new URLSearchParams({
-                type: conversation.type,
+                type: conversation.information.peer.type,
                 start_message_id: conversation.message.id
             }).toString();
 
-            return this.$router.replace(`/messages/${conversation.id}?${query}`);
+            return this.$router.replace(`/messages/${conversation.information.peer.id}?${query}`);
         }
     }
 };

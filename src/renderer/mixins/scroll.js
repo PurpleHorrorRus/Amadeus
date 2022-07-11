@@ -35,7 +35,7 @@ export default {
                     }
 
                     await this.handler();
-                    this.$nextTick(() => refComponent.scrollTop = refComponent.scrollTop + 20);
+                    this.$nextTick(() => refComponent.scrollTop = refComponent.scrollTop + 300);
                     return true;
                 }
 
