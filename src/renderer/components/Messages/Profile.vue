@@ -1,6 +1,7 @@
 <template>
     <div id="chat-page-viewport-profile">
         <ProfileInformation :conversation="conversation" />
+        <ProfileUsers v-if="conversation.isChat" :conversation="conversation" />
         <ProfileAttachments :conversation="conversation" />
     </div>
 </template>
@@ -9,6 +10,7 @@
 export default {
     components: {
         ProfileInformation: () => import("~/components/Messages/Profile/Information"),
+        ProfileUsers: () => import("~/components/Messages/Profile/Users"),
         ProfileAttachments: () => import("~/components/Messages/Profile/Attachments")
     },
 

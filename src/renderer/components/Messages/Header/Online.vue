@@ -48,6 +48,14 @@ export default {
     },
 
     watch: {
+        "profile.users": {
+            deep: true,
+
+            handler: function() { 
+                this.updateLastSeen(); 
+            }
+        },
+
         "profile.online": {
             deep: true,
 

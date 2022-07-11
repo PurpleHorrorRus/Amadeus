@@ -1,10 +1,6 @@
 <template>
     <div id="chat-page" :class="chatClass">
-        <MessagesHeader 
-            v-if="current" 
-            :conversation="current"
-            @click.native="turnProfile" 
-        />
+        <MessagesHeader v-if="current" :conversation="current" />
 
         <div id="chat-page-container" :style="chatViewportStyle">
             <MessagesViewport v-if="!first" :chat="chat" />
@@ -163,6 +159,7 @@ export default {
 
         exit(event) {
             if (event.code !== "Escape") return false;
+            if (this.opened) return this.turnProfile();
             if (this.input.editing.enable) return this.clearEdit();
             this.$router.replace("/general").catch(() => {});
             return true;

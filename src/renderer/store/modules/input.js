@@ -68,14 +68,8 @@ export default {
             });            
         },
 
-        ADD_FORWARD: ({ state }, messages) => {
+        SET_FORWARD: ({ state }, messages) => {
             state.fwd_messages = messages;
-            return state.fwd_messages;
-        },
-
-        ADD_FORWARD_MODAL: ({ dispatch, state, rootState }) => {
-            state.fwd_messages = rootState.modal.target;
-            dispatch("modal/CLOSE", null, { root: true });
             return state.fwd_messages;
         },
 

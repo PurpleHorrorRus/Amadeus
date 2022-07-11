@@ -1,6 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("");
+// vk.updates.on("chat_photo_update");
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
@@ -69,17 +69,21 @@ export default {
                 dispatch("messages/CLEAR", { id: data.payload.peer_id });
             });
 
+            state.client.updates.on("chat_photo_update", data => {
+                console.log(data);
+            });
+
             state.client.updates.on("chat_invite_user", async data => {
                 console.log("chat_invite_user", data);
                 dispatch("conversations/ADD_USER", data.payload.message);
-                dispatch("conversations/ADD_MESSAGE", data.payload.message);
+                dispatch("conversations/ADD_MESSAGE", data);
                 return dispatch("messages/SYNC", data.payload.message);
             });
 
             state.client.updates.on("chat_kick_user", data => {
                 console.log("chat_kick_user", data);
                 dispatch("conversations/REMOVE_USER", data.payload.message);
-                dispatch("conversations/ADD_MESSAGE", data.payload.message);
+                dispatch("conversations/ADD_MESSAGE", data);
                 return dispatch("messages/SYNC", data.payload.message);
             });
 

@@ -16,7 +16,7 @@ export default {
     computed: {
         renderView() {
             switch(this.view) {
-                case "forward": return () => import("~/components/Modal/Views/Forward");
+                case "choose-user": return () => import("~/components/Modal/Views/ChooseUser");
                 case "confirmation": return () => import("~/components/Modal/Views/Confirmation");
             }
 

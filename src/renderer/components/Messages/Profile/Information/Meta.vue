@@ -2,12 +2,13 @@
     <div id="profile-information-meta">
         <span 
             id="profile-information-meta-name"
-            class="clickable" 
+            :class="nameClass"
             @click.stop="openInBrowser"
             v-text="name(conversation.profile)"
         />
 
         <span 
+            v-if="conversation.profile.status"
             id="profile-information-meta-status" 
             class="small-text" 
             v-text="conversation.profile.status" 
@@ -42,8 +43,20 @@ export default {
         }
     },
 
+    computed: {
+        nameClass() {
+            return {
+                clickable: !this.conversation.isChat
+            };
+        }
+    },
+
     methods: {
         openInBrowser() {
+            if (this.conversation.isChat) {
+                return false;
+            }
+
             const link = this.externalLink(this.conversation);
             return shell.openExternal(link);
         }

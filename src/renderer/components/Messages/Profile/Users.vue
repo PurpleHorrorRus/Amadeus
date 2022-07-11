@@ -1,0 +1,92 @@
+<template>
+    <div id="profile-users">
+        <div id="profile-users-list">
+            <ChatUser 
+                v-for="user of conversation.profile.users"
+                :key="user.id"
+                :profile="user"
+            />
+            
+            <div id="profile-users-list-add">
+                <AddIcon class="icon vkgram clickable" @click="add" />
+                <span id="profile-users-list-add-label" v-text="'Добавить пользователя'" />
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import CoreMixin from "~/mixins/core";
+import ModalMixin from "~/mixins/modal";
+
+export default {
+    components: {
+        ChatUser: () => import("~/components/Messages/Profile/Users/ChatUser"),
+        AddIcon: () => import("~/assets/icons/add.svg")
+    },
+
+    mixins: [CoreMixin, ModalMixin],
+
+    props: {
+        conversation: {
+            type: Object,
+            required: true
+        }
+    },
+
+    computed: {
+        isAdmin() {
+            return this.conversation.profile.admin_id === this.user.id;
+        }
+    },
+
+    methods: {
+        add() {
+            this.open({
+                view: "choose-user",
+                title: "Выбрать пользователя",
+
+                function: conversation => {
+                    this.client.api.messages.addChatUser({
+                        chat_id: this.current.local_id,
+                        user_id: conversation.id
+                    });
+                }
+            });
+        }
+    }
+};
+</script>
+
+<style lang="scss">
+#profile-users {
+    border-bottom: 1px solid var(--border);
+    
+    &-list {
+        display: flex;
+        flex-direction: column;
+        row-gap: 5px;
+
+        padding: 0px 0px 10px 0px;
+
+        &-add {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            column-gap: 20px;
+
+            margin-left: 8px;
+
+            padding: 5px;
+
+            .icon {
+                width: 14px;
+            }
+
+            &-label {
+                font-size: 14px;
+            }
+        }
+    }
+}
+</style>

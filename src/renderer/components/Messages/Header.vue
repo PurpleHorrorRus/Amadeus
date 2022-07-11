@@ -3,7 +3,7 @@
         <div id="messages-header-main">
             <MessagesHeaderBack v-if="!extended" />
 
-            <div id="messages-header-main-profile">
+            <div id="messages-header-main-profile" @click="$parent.turnProfile">
                 <img id="messages-header-main-profile-avatar" :src="conversation.profile.photo_100">
                 <MessagesHeaderInformation :conversation="conversation" />
             </div>
@@ -20,7 +20,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
+
+import ModalMixin from "~/mixins/modal";
 
 export default {
     components: {
@@ -29,6 +31,8 @@ export default {
     
         ForwardIcon: () => import("~/assets/icons/forward.svg")
     },
+
+    mixins: [ModalMixin],
 
     props: {
         conversation: {
@@ -50,14 +54,24 @@ export default {
     },
 
     methods: {
-        forwardMessages() {
-            const fwd_messages = this.$parent.chat.messages.filter(message => {
-                return message.selected;
-            });
+        ...mapActions({
+            setForward: "input/SET_FORWARD"
+        }),
 
+        forwardMessages() {
             this.open({
-                view: "forward",
-                target: [...fwd_messages]
+                view: "choose-user",
+                title: "Переслать сообщения",
+                function: async conversation => {
+                    const fwd_messages = [...this.$parent.chat.messages.filter(message => {
+                        return message.selected;
+                    })];
+
+                    await this.$router.replace(`/messages/${conversation.id}?type=${conversation.type}`)
+                        .catch(() => {});
+
+                    this.setForward(fwd_messages);
+                }
             });
         }
     }

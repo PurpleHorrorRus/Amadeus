@@ -5,7 +5,9 @@ export default {
         show: false,
         layout: "none",
         view: "none",
-        target: null,
+        label: "",
+
+        function: () => {},
 
         confirmation: {
             text: "Окно подтверждения",
@@ -14,11 +16,16 @@ export default {
     }),
 
     actions: {
-        OPEN: ({ state }, data) => {
-            if (data.target) {
-                state.target = data.target;
+        OPEN: ({ dispatch, state }, data) => {
+            if (data.function) {
+                state.function = async (...args) => {
+                    console.log(...args);
+                    dispatch("CLOSE");
+                    return await data.function(...args);
+                };
             }
-            
+
+            state.title = data.title || "";
             state.layout = data.layout || "default";
             state.view = data.view;
             state.show = true;
@@ -43,7 +50,6 @@ export default {
             state.show = false;
             state.layout = "none";
             state.view = "none";
-            state.target = null;
             return true;
         }
     }
