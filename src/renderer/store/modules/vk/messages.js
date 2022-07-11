@@ -70,7 +70,7 @@ export default {
         FORMAT_MESSAGES: (_, items) => {
             if (items.length === 1 && items[0].formatted) {
                 return items;
-            } 
+            }
 
             return items.map(item => ({
                 ...item,
@@ -255,6 +255,7 @@ export default {
             };
 
             dispatch("SYNC", message);
+            dispatch("vk/conversations/EDIT_SYNC", message, { root: true });
 
             if (message.attachments.length > 0) {
                 const attachments = await dispatch("UPLOAD", message.attachments);

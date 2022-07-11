@@ -63,7 +63,7 @@ export default {
 
             state.client.updates.on("message_edit", async data => {
                 data = await dispatch("messages/PREPARE_DATA", data);
-                dispatch("conversations/UPDATE_ONE", data);
+                dispatch("conversations/EDIT_SYNC", data.payload.message);
 
                 const response = await state.client.api.messages.getById({
                     message_ids: data.payload.message.id

@@ -19,6 +19,12 @@
                 class="icon loader-icon spin message-content-info-syncing"
             />
 
+            <PenIcon
+                v-if="message.update_time"
+                v-tooltip.left="`Отредактировано ${relativeDate(message.update_time)}`"
+                class="icon vkgram message-content-info-edit"
+            />
+
             <CheckIcon 
                 v-if="showCheckIcon"
                 class="icon message-content-info-read" 
@@ -34,6 +40,7 @@ import DateMixin from "~/mixins/date";
 export default {
     components: {
         AllAttachments: () => import("~/components/Messages/AllAttachments"),
+        PenIcon: () => import("~/assets/icons/pen.svg"),
         CheckIcon: () => import("~/assets/icons/check.svg")
     },
 

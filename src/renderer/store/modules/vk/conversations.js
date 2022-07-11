@@ -168,6 +168,12 @@ export default {
             return list.items;
         },
 
+        EDIT_SYNC: async ({ dispatch }, message) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
+            conversation.message = await dispatch("FORMAT_MESSAGE", message);
+            return conversation;
+        },
+
         DELETE: async ({ dispatch, rootState }, peer_id) => {
             dispatch("DELETE_SYNC", peer_id);
 
