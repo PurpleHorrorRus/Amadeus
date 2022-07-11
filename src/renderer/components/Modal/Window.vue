@@ -33,9 +33,11 @@ export default {
 
     display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: flex-start;
 
-    background: #ffffff30;
+    padding: 30px;
+
+    background: #2c2c2cb6;
 
     z-index: 999;
 

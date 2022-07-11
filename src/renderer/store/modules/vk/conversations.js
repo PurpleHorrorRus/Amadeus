@@ -167,16 +167,18 @@ export default {
         },
 
         PLAY_NOTIFICATION: ({ rootState }, conversation) => {
-            if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
-                return false;
-            }
+            if (conversation) {
+                if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
+                    return false;
+                }
 
-            const muted = rootState.settings.settings.vk.mute.some(id => {
-                return id === conversation.id;
-            });
+                const muted = rootState.settings.settings.vk.mute.some(id => {
+                    return id === conversation.id;
+                });
 
-            if (muted) {
-                return false;
+                if (muted) {
+                    return false;
+                }
             }
 
             const notification = new Audio("./message.mp3");

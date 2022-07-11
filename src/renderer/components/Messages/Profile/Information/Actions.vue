@@ -17,7 +17,7 @@
         <TrashIcon 
             v-tooltip.left="'Очистить историю'" 
             class="icon vkgram clickable"
-            @click="deleteConversation(conversation.id)"
+            @click="openDeleteConfirmation"
         />
     </div>
 </template>
@@ -27,6 +27,7 @@ import { mapActions } from "vuex";
 
 import CoreMixin from "~/mixins/core";
 import ProfileMixin from "~/mixins/profile";
+import ModalMixin from "~/mixins/modal";
 
 export default {
     components: {
@@ -35,7 +36,7 @@ export default {
         TrashIcon: () => import("~/assets/icons/trash.svg")
     },
 
-    mixins: [CoreMixin, ProfileMixin],
+    mixins: [CoreMixin, ProfileMixin, ModalMixin],
 
     props: {
         conversation: {
@@ -71,6 +72,16 @@ export default {
                 : this.settings.vk.mute.splice(muteIndex, 1);
 
             this.saveSettings(this.settings);
+        },
+
+        openDeleteConfirmation() {
+            this.confirmation({
+                text: "Вы действительно хотите удалить историю сообщений?",
+                accept: () => {
+                    this.$router.replace("/general").catch(() => {});
+                    this.deleteConversation(this.conversation.id);
+                }
+            });
         }
     }
 };

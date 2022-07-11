@@ -66,6 +66,7 @@ export default {
 
             state.client.updates.on("dialog_messages_delete", data => {
                 dispatch("conversations/DELETE_SYNC", data.payload.peer_id);
+                dispatch("messages/CLEAR", { id: data.payload.peer_id });
             });
 
             state.client.updates.on("chat_invite_user", async data => {

@@ -10,6 +10,7 @@ export default {
     methods: {
         ...mapActions({
             open: "modal/OPEN",
+            confirmation: "modal/CONFIRMATION",
             close: "modal/CLOSE"
         })
     }

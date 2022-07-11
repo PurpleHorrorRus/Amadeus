@@ -5,7 +5,12 @@ export default {
         show: false,
         layout: "none",
         view: "none",
-        target: null
+        target: null,
+
+        confirmation: {
+            text: "Окно подтверждения",
+            accept: () => {}
+        }
     }),
 
     actions: {
@@ -19,6 +24,19 @@ export default {
             state.show = true;
 
             return true;
+        },
+
+        CONFIRMATION: async ({ dispatch, state }, data) => {
+            state.confirmation.text = data.text;
+            state.confirmation.accept = async () => {
+                dispatch("CLOSE");
+                return await data.accept();
+            };
+            
+            return await dispatch("OPEN", {
+                layout: "default",
+                view: "confirmation"
+            });
         },
 
         CLOSE: ({ state }) => {

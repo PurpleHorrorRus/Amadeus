@@ -17,6 +17,7 @@ export default {
         renderView() {
             switch(this.view) {
                 case "forward": return () => import("~/components/Modal/Views/Forward");
+                case "confirmation": return () => import("~/components/Modal/Views/Confirmation");
             }
 
             return null;
