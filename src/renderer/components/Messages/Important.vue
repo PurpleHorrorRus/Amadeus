@@ -59,6 +59,8 @@ export default {
 
     cursor: pointer;
 
+    --contrast: var(--secondary);
+
     &-avatar {
         width: 40px;
         height: 40px;
