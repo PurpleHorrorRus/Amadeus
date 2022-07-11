@@ -36,10 +36,12 @@ export default {
                     
                     const oldHeight = refComponent.scrollHeight;
                     await this.handler();
+
                     this.$nextTick(() => {
-                        const diff = this.scrollPercent < 50 ? refComponent.scrollHeight - oldHeight : 0;
+                        const diff = this.scrollPercent < 20 ? refComponent.scrollHeight - oldHeight : 0;
                         refComponent.scrollTop = refComponent.scrollTop + diff;
                     });
+
                     return true;
                 }
 
