@@ -41,6 +41,10 @@ export default {
         },
 
         select(message) {
+            if ("action" in message) {
+                return false;
+            }
+
             message.selected = !message.selected;
             return true;
         }

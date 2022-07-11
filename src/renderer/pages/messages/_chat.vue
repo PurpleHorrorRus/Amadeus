@@ -152,11 +152,6 @@ export default {
             this.opened = !this.opened;
         },
 
-        select(message) {
-            message.selected = !message.selected;
-            return message;
-        },
-
         exit(event) {
             if (event.code !== "Escape") return false;
             if (this.opened) return this.turnProfile();
