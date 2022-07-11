@@ -190,6 +190,7 @@ export default {
     &:not(.extended) {
         #chat-page-container {
             background-size: cover !important;
+            background-position: center !important;
         }
     }
 

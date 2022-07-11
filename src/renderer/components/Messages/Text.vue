@@ -5,7 +5,7 @@
             :key="index"
             class="message-content-text-item"
             :class="itemClass(item)"
-            @click.stop="openItem(item)" 
+            @click.prevent="openItem(item)" 
             v-text="itemText(item)"
         />
     </div>

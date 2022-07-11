@@ -2,6 +2,7 @@
     <div id="chat-page-viewport" :class="chatViewportClass">
         <div id="chat-page-viewport-messages">
             <MessagesList ref="messages" :messages="chat.messages" />
+            <ScrollArrow v-if="scrollPercent < 90" @click.native="scrollToBottom" />
 
             <transition name="slide-right">
                 <Profile 
@@ -27,7 +28,8 @@ import common from "~/plugins/common";
 export default {
     components: {
         MessagesList,
-        Profile: () => import("~/components/Messages/Profile")
+        Profile: () => import("~/components/Messages/Profile"),
+        ScrollArrow: () => import("~/components/Messages/ScrollArrow")
     },
 
     mixins: [CoreMixin, ScrollMixin],
@@ -153,7 +155,10 @@ export default {
 
         overflow-x: hidden;
 
-        
+        .scroll-arrow {
+            position: absolute;
+            bottom: 10px; right: 10px;
+        }
     }
 }
 </style>

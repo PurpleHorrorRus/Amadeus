@@ -39,9 +39,13 @@ export default {
         },
 
         LISTEN: ({ dispatch, state, rootState }) => {
-            state.client.updates.on("message_new", data => {
-                dispatch("messages/ADD_MESSAGE", data);
-                dispatch("conversations/ADD_MESSAGE", data);
+            state.client.updates.on("message_new",async data => {
+                await Promise.all([
+                    dispatch("messages/ADD_MESSAGE", data),
+                    dispatch("conversations/ADD_MESSAGE", data)
+                ]);
+                
+                dispatch("conversations/PLAY_NOTIFICATION", data.payload.message.peer_id);
             });
 
             state.client.updates.on("messages_read", data => {

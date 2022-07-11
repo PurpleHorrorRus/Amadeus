@@ -1,3 +1,4 @@
+import { ipcRenderer  } from "electron";
 import Promise from "bluebird";
 import { debounce } from "lodash";
 
@@ -188,7 +189,9 @@ export default {
             return false;
         },
 
-        PLAY_NOTIFICATION: ({ rootState }, conversation) => {
+        PLAY_NOTIFICATION: async ({ dispatch, rootState }, id) => {
+            const conversation = await dispatch("GET_CONVERSATION_CACHE", id);
+
             if (conversation) {
                 if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
                     return false;
@@ -201,6 +204,10 @@ export default {
                 if (muted) {
                     return false;
                 }
+            }
+
+            if (rootState.vk.messages.current.id === conversation.id) {
+                if (await ipcRenderer.invoke("focused")) return false;
             }
 
             const notification = new Audio("./message.mp3");
@@ -220,7 +227,6 @@ export default {
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
             const conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
             if (!conversation) {
-                dispatch("PLAY_NOTIFICATION");
                 return await dispatch("FETCH");
             }
 
@@ -249,8 +255,6 @@ export default {
                     conversation.typing.enable = false;
                 }
             } else conversation.typing.enable = false;
-
-            dispatch("PLAY_NOTIFICATION", conversation);
 
             const conversationIndex = state.cache.findIndex(conversation => {
                 return conversation.id === data.peerId;
