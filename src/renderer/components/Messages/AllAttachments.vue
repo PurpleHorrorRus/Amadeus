@@ -1,7 +1,7 @@
 <template>
     <div class="message-content-all-attachments">
         <MessageReply 
-            v-if="message.reply_message"
+            v-if="showReply"
             :message="message.reply_message"
         />
         
@@ -33,6 +33,19 @@ export default {
         message: {
             type: Object,
             required: true
+        },
+
+        exclude: {
+            type: Array,
+            required: false,
+            default: () => ([])
+        }
+    },
+
+    computed: {
+        showReply() {
+            return this.message.reply_message
+                && !this.exclude.some(attachment => attachment === "reply");
         }
     }
 };

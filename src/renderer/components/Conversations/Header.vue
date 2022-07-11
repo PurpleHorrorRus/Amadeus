@@ -2,7 +2,8 @@
     <div id="conversations-header">
         <SingleInput 
             placeholder="Поиск" 
-            @input="search = $event" 
+            @input="query = $event" 
+            @keydown.enter.native="search"
         />
 
         <div 
@@ -11,13 +12,13 @@
         >
             <AlertIcon 
                 v-if="!settings.vk.disable_notifications"
-                v-tooltip.bottom="'Уведомления включены'"
+                v-tooltip.left="'Уведомления включены'"
                 class="icon vkgram clickable"
             />
 
             <AlertOffIcon 
                 v-else
-                v-tooltip.bottom="'Уведомления отключены'"
+                v-tooltip.left="'Уведомления отключены'"
                 class="icon vkgram clickable"
             />
         </div>
@@ -49,7 +50,7 @@ export default {
     mixins: [CoreMixin, ModalMixin, MenuMixin],
 
     data: () => ({
-        search: ""
+        query: ""
     }),
 
     methods: {
@@ -61,6 +62,15 @@ export default {
             return this.open({
                 layout: "settings"                
             });
+        },
+
+        search() {
+            this.query = this.query.trim();
+            if (this.query.length === 0) {
+                return false;
+            }
+            
+            return this.$router.replace(`/search?q=${this.query}`);
         }
     }
 };

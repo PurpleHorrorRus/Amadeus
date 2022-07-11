@@ -14,7 +14,10 @@
                 />
             </div>
 
-            <AllAttachments :message="message" />
+            <AllAttachments 
+                :message="message" 
+                :exclude="['reply']"    
+            />
         </div>
     </div>
 </template>
