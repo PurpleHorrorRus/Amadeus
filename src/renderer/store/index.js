@@ -1,6 +1,7 @@
 import Vuex from "vuex";
 
 import vk from "~/store/modules/vk";
+import ipc from "~/store/modules/ipc";
 import settings from "~/store/modules/settings";
 import input from "~/store/modules/input";
 import audio from "~/store/modules/audio";
@@ -46,6 +47,7 @@ export default () => {
 
         modules: {
             vk,
+            ipc,
             settings,
             input,
             audio,

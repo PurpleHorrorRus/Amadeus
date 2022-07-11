@@ -6,7 +6,11 @@
 import { ipcRenderer } from "electron";
 import { mapActions } from "vuex";
 
+import ModalMixin from "~/mixins/modal";
+
 export default {
+    mixins: [ModalMixin],
+
     layout: "empty",
 
     created() {
@@ -23,6 +27,7 @@ export default {
             await this.setConfig(config);
             await this.setPaths(paths);
             await this.auth(account);
+            this.ipc();
 
             this.$router.replace("/general").catch(() => {});
             return true;
@@ -41,7 +46,8 @@ export default {
             setConfig: "SET_CONFIG",
             setPaths: "SET_PATHS",
 
-            auth: "vk/AUTH"
+            auth: "vk/AUTH",
+            ipc: "ipc/REGISTER"
         })
     }
 };

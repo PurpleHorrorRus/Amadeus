@@ -1,6 +1,6 @@
 <template>
     <div id="media-page" @click.self="close">
-        <div v-if="~media.index" id="media-page-item">
+        <div v-if="~media.index" id="media-page-item" @click.right="openMenu(item, $event, true)">
             <iframe 
                 v-if="item.type === 'video'"
                 id="video"
@@ -19,6 +19,35 @@
                 class="media-page-item-frame"
                 :src="item.photo.maxSize"
             >
+
+            <ContextMenu v-if="menu.show" :position="menu.position">
+                <ContextMenuItem 
+                    label="Поделиться" 
+                    @select="share"
+                />
+
+                <ContextMenuItem 
+                    v-if="item.type === 'photo'" 
+                    label="Скопировать ссылку" 
+                    @select="copy('copyImageURL')"
+                />
+
+                <ContextMenuItem 
+                    v-if="item.type === 'photo'" 
+                    label="Скопировать изображение" 
+                    @select="copy('copyImage')"
+                />
+            </ContextMenu>
+
+            <div id="media-page-item-buttons">
+                <MediaPageButton 
+                    v-for="button of buttons"
+                    :key="button.id"
+                    :icon="button.icon"
+                    :tooltip="button.tooltip"
+                    @click.native="button.action"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -26,10 +55,15 @@
 <script>
 import { ipcRenderer } from "electron";
 
+import MenuMixin from "~/mixins/menu";
+
 export default {
     components: {
-        MediaPageStory: () => import("~/components/Media/Story")
+        MediaPageStory: () => import("~/components/Media/Story"),
+        MediaPageButton: () => import("~/components/Media/Button")
     },
+
+    mixins: [MenuMixin],
 
     layout: "empty",
 
@@ -37,7 +71,9 @@ export default {
         media: {
             data: [],
             index: -1
-        }
+        },
+
+        buttons: []
     }),
 
     computed: {
@@ -47,6 +83,13 @@ export default {
     },
 
     async created() {
+        this.buttons = [{
+            id: "share",
+            icon: () => import("~/assets/icons/reply.svg"),
+            tooltip: "Поделиться",
+            action: this.share
+        }];
+
         this.media = await ipcRenderer.invoke("requestMedia");
     },
 
@@ -62,6 +105,15 @@ export default {
     methods: {
         close() {
             ipcRenderer.send("close");
+        },
+
+        share() {
+            ipcRenderer.send("share", this.item);
+            this.close();
+        },
+
+        copy(event) {
+            ipcRenderer.send(event, this.item.photo.maxSize);
         }
     }
 };
@@ -74,6 +126,8 @@ export default {
     width: 100%; height: 100%;
 
     display: flex;
+    flex-direction: column;
+    row-gap: 10px;
     align-items: center;
     justify-content: center;
 
@@ -81,8 +135,10 @@ export default {
 
     &-item {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        row-gap: 10px;
 
         width: max-content;
         height: max-content;
@@ -105,6 +161,13 @@ export default {
                 width: auto;
                 max-height: 80vh;
             }
+        }
+
+        &-buttons {
+            display: flex;
+            align-items: center;
+            align-self: flex-end;
+            column-gap: 10px;
         }
     }
 }

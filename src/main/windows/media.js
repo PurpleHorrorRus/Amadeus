@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
-import { BrowserWindow, ipcMain, nativeTheme, shell } from "electron";
+import { BrowserWindow, clipboard, ipcMain, nativeImage, nativeTheme, shell } from "electron";
+import fetch from "node-fetch";
 
 import common from "../common";
 
@@ -16,6 +17,12 @@ const params = {
     show: false,
 
     webPreferences: common.webPreferences
+};
+
+const nativeImageFromURL = async url => {
+    const data = await fetch(url);
+    const buffer = await data.buffer();
+    return nativeImage.createFromDataURL(`data:image/jpeg;base64,${buffer.toString("base64")}`);
 };
 
 class MeridiusWindow {
@@ -37,6 +44,18 @@ class MeridiusWindow {
 
         ipcMain.once("close", () => {
             return this.close();
+        });
+
+        ipcMain.on("share", (_, attachment) => {
+            common.windows.send(this.mainWindow, "share", attachment);
+        });
+
+        ipcMain.on("copyImageURL", async (_, image) => {
+            clipboard.writeText(image);
+        });
+
+        ipcMain.on("copyImage", async (_, image) => {
+            clipboard.writeImage(await nativeImageFromURL(image));
         });
 
         this.window.webContents.setWindowOpenHandler(({ url }) => {
