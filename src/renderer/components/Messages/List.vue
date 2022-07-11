@@ -59,12 +59,18 @@ export default {
 
 <style lang="scss">
 #chat-page-messages-list {
-    grid-area: list;
+    position: absolute;
+    inset: 0px;
 
     display: flex;
     flex-direction: column;
     row-gap: 10px;
 
+    width: 100%;
+    height: 100%;
+
     padding: 10px;
+
+    overflow-y: auto;
 }
 </style>

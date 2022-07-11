@@ -3,10 +3,13 @@
         <span 
             id="messages-header-main-profile-information-name" 
             class="nowrap"
-            v-text="name(profile)" 
+            v-text="name(conversation.profile)" 
         />
 
-        <MessagesHeaderOnline v-if="showLastSeen" :profile="profile" />
+        <MessagesHeaderOnline 
+            v-if="showLastSeen" 
+            :profile="conversation.profile" 
+        />
     </div>
 </template>
 
@@ -21,7 +24,7 @@ export default {
     mixins: [ProfileMixin],
 
     props: {
-        profile: {
+        conversation: {
             type: Object,
             required: true
         }

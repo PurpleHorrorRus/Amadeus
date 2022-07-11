@@ -1,5 +1,5 @@
 <template>
-    <div class="attachments-item-doc-gif" @click="turnPlaying">
+    <div class="attachments-item attachments-item-doc-gif" @click.stop="turnPlaying">
         <div v-if="!playing" class="attachments-item-doc-gif-preview">
             <div class="attachments-item-doc-gif-preview-size">
                 <span class="attachments-item-doc-gif-preview-size-label" v-text="size" />

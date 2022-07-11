@@ -5,7 +5,7 @@
 
             <div id="messages-header-main-profile">
                 <img id="messages-header-main-profile-avatar" :src="conversation.profile.photo_100">
-                <MessagesHeaderInformation :profile="conversation.profile" />
+                <MessagesHeaderInformation :conversation="conversation" />
             </div>
         </div>
         
@@ -22,8 +22,6 @@
 <script>
 import { mapState } from "vuex";
 
-import ModalMixin from "~/mixins/modal";
-
 export default {
     components: {
         MessagesHeaderBack: () => import("~/components/Messages/Header/Back"),
@@ -31,8 +29,6 @@ export default {
     
         ForwardIcon: () => import("~/assets/icons/forward.svg")
     },
-
-    mixins: [ModalMixin],
 
     props: {
         conversation: {

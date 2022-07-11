@@ -54,7 +54,7 @@ export default {
 
         padding: 0px 10px;
 
-        background-color: var(--backdrop);
+        background-color: #00000000;
 
         color: var(--text);
 
@@ -64,13 +64,16 @@ export default {
         text-align: right;
         text-align-last: right;
 
-        border: 3px solid var(--border);
+        border: 1px solid #00000000;
         border-radius: 20px;
 
         outline: none;
+        cursor: pointer;
 
         option {
             direction: rtl;
+
+            background: var(--backdrop);
         }
     }
 }

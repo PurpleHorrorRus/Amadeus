@@ -1,6 +1,6 @@
 <template>
     <div class="attachments-item attachments-item-audio">
-        <div class="attachments-item-audio-play" @click="action">
+        <div class="attachments-item-audio-play" @click.stop="action">
             <PlayIcon v-if="!isPlaying" class="icon attachments-item-audio-play-icon" />
             <PauseIcon v-else class="icon attachments-item-audio-play-icon" />
         </div>

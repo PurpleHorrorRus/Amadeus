@@ -9,13 +9,10 @@
             <MentionIcon class="icon vkgram" />
         </div>
 
-        <div v-else-if="inUnread" :key="conversation.information.unread_count" class="conversation-unread-in">
-            <span 
-                :key="conversation.information.unread_count"
-                class="conversation-unread-in-count" 
-                v-text="conversation.information.unread_count" 
-            />
-        </div>
+        <UnreadCounter 
+            v-else-if="inUnread"
+            :count="conversation.information.unread_count"
+        />
     
         <div 
             v-else-if="outUnread" 
@@ -27,6 +24,7 @@
 <script>
 export default {
     components: {
+        UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter"),
         MentionIcon: () => import("~/assets/icons/mention.svg")
     },
 

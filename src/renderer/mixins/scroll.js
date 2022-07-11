@@ -33,9 +33,13 @@ export default {
                         this.handleNext = true;
                         return false;
                     }
-
+                    
+                    const oldHeight = refComponent.scrollHeight;
                     await this.handler();
-                    this.$nextTick(() => refComponent.scrollTop = refComponent.scrollTop + 300);
+                    this.$nextTick(() => {
+                        const diff = this.scrollPercent < 50 ? refComponent.scrollHeight - oldHeight : 0;
+                        refComponent.scrollTop = refComponent.scrollTop + diff;
+                    });
                     return true;
                 }
 

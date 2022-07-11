@@ -27,6 +27,12 @@ export default {
             required: true
         },
 
+        first: {
+            type: Boolean,
+            required: false,
+            default: false
+        },
+
         last: {
             type: Boolean,
             required: false,
@@ -76,8 +82,11 @@ export default {
         }
     }
 
-    .message.same:not(.out) {
-        padding-left: 48px;
+    #chat-page.chat {
+        .message:not(.last) {
+            &.out { padding-right: 48px; }
+            &:not(.out) { padding-left: 48px; }
+        }
     }
 }
 

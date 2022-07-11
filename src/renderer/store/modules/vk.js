@@ -1,6 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("chat_kick_user");
+// vk.updates.on("");
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";

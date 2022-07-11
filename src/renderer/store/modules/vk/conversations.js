@@ -7,7 +7,7 @@ const fields = {
     count: 100,
     filter: "all",
     extended: true,
-    fields: "photo_100,online,last_seen"
+    fields: "photo_100,online,status,last_seen"
 };
 
 const mentionRegex = /\[id(.*?)\|@(.*?)\]/;

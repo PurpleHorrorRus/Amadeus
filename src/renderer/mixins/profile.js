@@ -1,9 +1,8 @@
 export default {
     computed: {
         showLastSeen() {
-            return (this.profile.last_seen || this.profile.online)
-                && this.profile.type !== "group"
-                && this.profile.type !== "chat";
+            return (this.conversation.profile.last_seen || this.conversation.profile.online)
+                || this.conversation.isChat;
         }
     },
 
@@ -22,6 +21,12 @@ export default {
                     return `${profile.first_name} ${profile.last_name}`;
                 }
             }
+        },
+
+        externalLink(conversation) {
+            return conversation.isUser
+                ? `https://vk.com/id${conversation.id}`
+                : `https://vk.com/public${Math.abs(conversation.id)}`;
         }
     }
 };

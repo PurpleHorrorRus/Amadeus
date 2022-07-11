@@ -2,7 +2,7 @@
     <div 
         class="attachments-item attachments-item-video" 
         :style="itemStyle" 
-        @click="openVideo"
+        @click.stop="openVideo"
     >
         <div class="attachments-item-video-preview" :style="previewStyle">
             <img 
@@ -22,7 +22,7 @@
             </div>
 
             <PlayIcon 
-                v-if="!quick && !isRestrict" 
+                v-if="canQuick" 
                 class="icon" @click.stop="quickPlay" 
             />
         </div>
@@ -46,12 +46,26 @@ export default {
 
     mixins: [GalleryMixin],
 
+    props: {
+        canQuickPlay: {
+            type: Boolean,
+            required: false,
+            default: true
+        }
+    },
+
     data: () => ({
         preview: {},
         quick: false
     }),
 
     computed: {
+        canQuick() {
+            return this.canQuickPlay 
+                && !this.quick 
+                && !this.isRestrict;
+        },
+
         showTitle() {
             return this.$parent.data?.length === 1;
         },
@@ -97,6 +111,7 @@ export default {
 
         background: var(--backdrop);
         background-size: cover !important;
+        background-position: center center !important;
         border-radius: 8px;
 
         &-image, &-quick, &-empty {

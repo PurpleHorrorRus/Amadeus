@@ -38,7 +38,12 @@ export default {
 
     computed: {
         onlineMobile() {
-            return this.profile.online_mobile || this.profile.last_seen.platform < 6;
+            if (this.profile.type === "chat") {
+                return false;
+            }
+
+            return this.profile.online_mobile 
+                || this.profile.last_seen.platform < 6;
         }
     },
 
@@ -58,6 +63,11 @@ export default {
 
     methods: {
         updateLastSeen() {
+            if (this.profile.type === "chat") {
+                this.lastSeenText = `${this.profile.users.length} участников`;
+                return false;
+            }
+
             if (!this.profile.last_seen) {
                 this.lastSeenText = "";
                 return false;

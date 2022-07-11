@@ -1,5 +1,5 @@
 <template>
-    <div class="attachments-item attachments-item-story" :class="storyClass" @click="open">
+    <div class="attachments-item attachments-item-story" :class="storyClass" @click.stop="open">
         <div class="attachments-item-story-preview">
             <img 
                 v-if="!isExpired" 
@@ -70,6 +70,10 @@ export default {
 
 <style lang="scss">
 .attachments-item-story {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+
     &.expired {
         width: 30vw;
     }

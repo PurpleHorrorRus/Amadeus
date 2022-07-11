@@ -262,40 +262,20 @@ a:not(.clickable) {
 .tooltip {
     display: block !important;
     z-index: 10000;
-    border-radius: 8px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, .19), 0 6px 6px rgba(0, 0, 0, .23);
+    box-shadow: 0 10px 20px #00000030, 0 6px 6px #0000003b;
   
     .tooltip-inner {
+        padding: 5px;
+
         background: var(--tooltip);
+        border-radius: 4px;
+        
         color: var(--tooltip-text);
-        border-radius: 8px;
-        padding: 10px;
+        font-size: 12px;
     }
   
     .tooltip-arrow {
-        width: 0;
-        height: 0;
-        border-style: solid;
-        position: absolute;
-        margin: 5px;
-        margin-right: 15px;
         border-color: var(--tooltip);
-        z-index: 1;
-    }
-  
-    &[x-placement^="top"] {
-        margin-bottom: 20px;
-  
-        .tooltip-arrow {
-            border-width: 5px 5px 0 5px;
-            border-left-color: transparent !important;
-            border-right-color: transparent !important;
-            border-bottom-color: transparent !important;
-            bottom: -5px;
-            left: calc(50% - 10px) !important;
-            margin-top: 0;
-            margin-bottom: 0;
-        }
     }
   
     &[aria-hidden='true'] {

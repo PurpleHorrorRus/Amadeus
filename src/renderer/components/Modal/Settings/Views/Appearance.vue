@@ -112,13 +112,13 @@ export default {
 
     methods: {
         changeMessagesBackground(path) {
+            this.deepChange(this.settings.appearance.messages.background, "url", path);
+
             if (!path) {
-                this.deepChange(this.settings.appearance.messages.background, "url", "");
-                this.deepChange(this.settings.appearance.messages.background, "base64", "");
+                fs.writeFileSync(this.paths.background, "");
+                this.setBackground("");
                 return false;
             }
-
-            this.deepChange(this.settings.appearance.messages.background, "url", path);
 
             const base64 = "data:image/png;base64," + fs.readFileSync(path, "base64");
             fs.writeFileSync(this.paths.background, base64);

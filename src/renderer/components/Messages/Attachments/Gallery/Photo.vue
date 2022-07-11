@@ -27,7 +27,9 @@ export default {
 <style lang="scss">
 .attachments-item-photo {
     width: 100%;
+    height: 100%;
 
     border-radius: 8px;
+    object-fit: cover;
 }
 </style>

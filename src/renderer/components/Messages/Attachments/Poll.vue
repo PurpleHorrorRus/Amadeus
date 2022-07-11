@@ -17,7 +17,7 @@
                     v-for="answer of choices"
                     :key="answer.id"
                     :answer="answer"
-                    @click.native="addChoice(answer)"
+                    @click.native.stop="addChoice(answer)"
                 />
             </div>
 
@@ -172,7 +172,7 @@ export default {
     grid-template-rows: 120px 1fr;
     grid-template-columns: 1fr;
 
-    width: 35vw;
+    width: 100%;
     height: max-content;
 
     border-radius: 8px;

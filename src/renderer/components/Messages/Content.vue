@@ -43,7 +43,7 @@ export default {
 
     computed: {
         showName() {
-            return !this.$parent.last
+            return this.$parent.first 
                 && !this.message.out 
                 && this.provideData.conversation.isChat;
         },

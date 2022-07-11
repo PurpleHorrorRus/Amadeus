@@ -1,6 +1,6 @@
 <template>
     <div class="attachments-item attachments-item-audiomessage">
-        <div class="attachments-item-audiomessage-play" @click="action">
+        <div class="attachments-item-audiomessage-play" @click.stop="action">
             <PlayIcon v-if="!isPlaying" class="icon vkgram" />
             <PauseIcon v-else class="icon vkgram" />
         </div>
@@ -8,7 +8,7 @@
         <div 
             ref="waveform" 
             class="attachments-item-audiomessage-waveform"
-            @click="seekTo"
+            @click.stop="seekTo"
         >
             <div 
                 v-for="(peak, index) of waveform"

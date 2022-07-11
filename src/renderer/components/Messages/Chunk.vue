@@ -5,7 +5,8 @@
             v-for="(message, index) of visibleMessages"
             :key="message.id + message.text"
             :message="message"
-            :last="index === chunk.length - 1"
+            :first="index === 0"
+            :last="index === visibleMessages.length - 1"
             @click.left.native="select(message)"
             @click.right.native="$parent.openMenu(message, $event, true)"
         />

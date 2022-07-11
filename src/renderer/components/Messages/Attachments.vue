@@ -125,8 +125,6 @@ export default {
     width: 100%;
 
     .attachments-item {
-        height: 100%;
-
         &:hover {
             cursor: pointer;
 

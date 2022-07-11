@@ -83,7 +83,7 @@ export default {
 
     &.grid-5 {
         grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: 1fr 120px;
+        grid-template-rows: 160px;
         grid-template-areas: "item-1 item-1 item-1 item-1"
                             "item-2 item-3 item-4 item-5";
     }

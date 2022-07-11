@@ -8,7 +8,7 @@
             <div class="attachments-item-repost-block-information nowrap">
                 <span 
                     class="attachments-item-repost-block-information-name nowrap clickable" 
-                    @click="open"
+                    @click.stop="open"
                     v-text="profile.name"
                 />
 

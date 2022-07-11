@@ -1,14 +1,13 @@
 <template>
-    <div id="chat-page">
-        <MessagesHeader v-if="current" :conversation="current" />
+    <div id="chat-page" :class="chatClass">
+        <MessagesHeader 
+            v-if="current" 
+            :conversation="current"
+            @click.native="turnProfile" 
+        />
 
-        <div 
-            id="chat-page-messages" 
-            ref="messages" 
-            :class="chatPageClass"
-            :style="chatPageStyle"
-        >
-            <MessagesList v-if="!loading" :messages="chat.messages" />
+        <div id="chat-page-container" :style="chatViewportStyle">
+            <MessagesViewport v-if="!first" :chat="chat" />
             <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
 
@@ -21,21 +20,18 @@
 import { mapActions, mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";
-import ScrollMixin from "~/mixins/scroll";
 import DateMixin from "~/mixins/date";
-
-
-import common from "~/plugins/common";
 
 export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header"),
-        MessagesList: () => import("~/components/Messages/List"),
+        MessagesViewport: () => import("~/components/Messages/Viewport"),
+        
         MessageInput: () => import("~/components/Messages/Input"),
         MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed")
     },
 
-    mixins: [CoreMixin, ScrollMixin, DateMixin],
+    mixins: [CoreMixin, DateMixin],
 
     provide() {
         const provideData = {};
@@ -51,13 +47,11 @@ export default {
     },
 
     data: () => ({
-        loading: true,
-        loadMore: false,
+        first: true,
 
         id: 0,
         type: "user",
-
-        percentToRead: 80,
+        opened: false,
 
         chat: {
             count: 0,
@@ -68,26 +62,24 @@ export default {
     computed: {
         ...mapState({
             background: state => state.background,
-            song: state => state.audio.song,
             input: state => state.input
         }),
 
-        chatPageClass() {
+        chatClass() {
             return {
                 extended: this.extended,
-                loading: this.loading,
-                chat: this.chat.isChat,
-                player: this.song !== null
+                first: this.first,
+                chat: this.chat.conversation?.isChat
             };
         },
-        
-        chatPageStyle() {
+
+        chatViewportStyle() {
             const background = this.settings.appearance.messages.background;
             
             return {
                 backgroundSize: `${background.width * background.zoom}vw ${background.height * background.zoom}vh`,
-                backgroundPositionX: background.x + "vw",
-                backgroundPositionY: -background.y + "vh",
+                backgroundPositionX: -background.x + "vw",
+                backgroundPositionY: background.y + "vh",
 
                 backgroundImage: this.background 
                     // eslint-disable-next-line max-len
@@ -102,52 +94,12 @@ export default {
         },
 
         showBlocked() {
-            return !this.loading
+            return !this.first
                 && !this.canWrite;
-        },
-
-        canScroll() {
-            return this.chat.messages.length < this.chat.count;
         },
 
         itsMe() {
             return this.user.id === this.id;
-        }
-    },
-
-    watch: {
-        loading: {
-            handler: function() {
-                this.$nextTick(async () => {
-                    this.scrollToBottom();
-                    await common.wait(80);
-                    this.scrollToBottom();
-                });
-            }
-        },
-
-        scrollPercent: {
-            handler: function(percent) {
-                if (percent > this.percentToRead && this.chat.conversation.information.unread_count > 0) {
-                    this.readOnBottom();
-                }
-            }
-        },
-
-        "settings.vk.disable_read": {
-            handler: function(disable_read) {
-                if (!disable_read) {
-                    this.readOnBottom();
-                }
-            }
-        },
-
-        "chat.messages": {
-            handler: function() {
-                if (this.scrollPercent > this.percentToRead) {
-                    this.$nextTick(() => this.scrollToBottom());
-                }
-            }
         }
     },
 
@@ -163,29 +115,15 @@ export default {
             start_message_id: Number(this.$route.query.start_message_id) || undefined
         });
 
-        this.loading = false;
-
-        window.addEventListener("focus", this.readOnBottom);
         document.addEventListener("keydown", this.exit);
-
-        this.registerScroll(this.$refs.messages, async () => {
-            if (this.loadMore) {
-                return false;
-            }
-
-            this.loadMore = true;
-            await this.append(this.id);
-            this.loadMore = false;
-        }, percent => percent <= 15);
+        this.first = false;
     },
 
     beforeDestroy() {
         this.clearInput();
-
-        window.removeEventListener("focus", this.readOnBottom);
         document.removeEventListener("keydown", this.exit);
 
-        if (!this.loading) {
+        if (!this.first) {
             return !this.chat.search
                 ? this.flush(this.current) 
                 : this.clear(this.current);
@@ -207,7 +145,6 @@ export default {
             delete: "vk/messages/DELETE",
             setCurrent: "vk/messages/SET_CURRENT",
             markImportant: "vk/messages/MARK_IMPORTANT",
-            read: "vk/messages/READ",
 
             addReply: "input/ADD_REPLY",
             edit: "input/EDIT",
@@ -215,24 +152,13 @@ export default {
             clearInput: "input/CLEAR"
         }),
 
+        turnProfile() {
+            this.opened = !this.opened;
+        },
+
         select(message) {
             message.selected = !message.selected;
             return message;
-        },
-
-        readOnBottom() {
-            if (this.scrollPercent < this.percentToRead) {
-                return false;
-            }
-
-            return this.read(this.chat);
-        },
-
-        scrollToBottom() {
-            if (!this.$refs.messages) return false;
-            this.$refs.messages.scrollTop = this.$refs.messages?.scrollHeight;
-            this.readOnBottom();
-            return true;
         },
 
         exit(event) {
@@ -253,57 +179,30 @@ export default {
     grid-template-columns: 1fr;
     grid-template-rows: 40px 1fr max-content;
     grid-template-areas: "header"
-                        "messages"
+                        "container"
                         "input";
-    
-    width: 100%;
-    height: 100%;
-
-    &-messages {
-        grid-area: messages;
-
-        position: relative;
-
-        background-repeat: no-repeat;
-
-        overflow-x: hidden;
-        overflow-y: overlay;
-
-        &::-webkit-scrollbar {
-            width: 0px;
-        }
-
-        &:hover {
-            &::-webkit-scrollbar {
-                width: 4px;
-            }
-        }
-
-        &.loading {
+                
+    &.first {
+        #chat-page-container {
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
-        &:not(.extended) {
+    }
+    
+    &:not(.extended) {
+        #chat-page-container {
             background-size: cover !important;
         }
+    }
 
-        &.chat {
-            .message {
-                &:not(.last) {
-                    &.out {
-                        padding-right: 48px;
-                    }
+    &-container {
+        grid-area: container;
 
-                    &:not(.out) {
-                        padding-left: 47px;
-                    }
-                }
-            }
-        }
+        width: 100%;
+        height: 100%;
 
-        
+        background-repeat: no-repeat;
     }
 }
 </style>
