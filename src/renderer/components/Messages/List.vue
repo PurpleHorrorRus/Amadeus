@@ -6,7 +6,7 @@
             :chunk="chunk"
         />
 
-        <ContextMenu v-if="menu.show" :position="menu.position">
+        <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
             <MessageMenu :message="menu.target" @click.native="closeMenu" />
         </ContextMenu>
     </div>

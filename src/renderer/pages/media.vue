@@ -20,7 +20,7 @@
                 :src="item.photo.maxSize"
             >
 
-            <ContextMenu v-if="menu.show" :position="menu.position">
+            <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
                 <ContextMenuItem 
                     label="Поделиться" 
                     @select="share"

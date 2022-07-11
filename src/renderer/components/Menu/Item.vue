@@ -17,7 +17,6 @@ export default {
     methods: {
         select() {
             this.$emit("select");
-            this.$parent.$parent.closeMenu();
         }
     }
 };

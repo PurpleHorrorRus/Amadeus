@@ -9,8 +9,8 @@ export default {
         ...mapActions({
             addReply: "input/ADD_REPLY",
             edit: "input/EDIT",
-            delete: "messages/DELETE",
-            markImportant: "messages/MARK_IMPORTANT"
+            delete: "vk/messages/DELETE",
+            markImportant: "vk/messages/MARK_IMPORTANT"
         }),
 
         async action(name, message) {

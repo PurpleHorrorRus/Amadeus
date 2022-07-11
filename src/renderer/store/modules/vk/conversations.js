@@ -108,14 +108,14 @@ export default {
             return message;
         },
 
-        UPDATE_ONE: async ({ dispatch, rootState }, data) => {
+        UPDATE_ONE: async ({ dispatch, state, rootState }, data) => {
             const conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
 
             if (!conversation) {
                 return false;
             }
 
-            if (!data.payload.message.action && conversation.message.id !== data.id) {
+            if (!data.payload.message?.action && conversation.message.id !== data.id) {
                 return false;
             }
 
@@ -138,7 +138,8 @@ export default {
                 Object.assign(conversation, updated);
             }
 
-            conversation.message = await dispatch("FORMAT_MESSAGE", list.items[0].last_message);
+            conversation.message = await dispatch("FORMAT_MESSAGE", list.items[0]);
+            state.cache.sort((a, b) => b.message.date - a.message.date);
             return true;
         },
 
