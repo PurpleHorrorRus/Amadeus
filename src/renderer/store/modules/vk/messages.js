@@ -293,12 +293,11 @@ export default {
                 });
 
                 attachment.uploading = false;
-
                 fs.remove(attachment.path);
 
                 return {
                     type: attachment.type,
-                    [attachment.type]: saved
+                    [attachment.type]: saved[0]
                 };
             }, { concurrency: 1 });
 

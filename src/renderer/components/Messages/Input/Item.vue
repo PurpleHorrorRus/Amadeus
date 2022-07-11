@@ -3,14 +3,16 @@
         <XIcon class="icon remove-icon" @click="$emit('remove')" />
 
         <WallRepost v-if="item.type === 'wall'" :item="item.wall" />
-        <GalleryPhoto v-else-if="item.type === 'photo'" :item="item" />
-        <GalleryVideo v-else-if="item.type === 'video'" :item="item" />
+        <GalleryPhoto v-else-if="item.type === 'photo'" :item="item" :index="index" />
+        <GalleryVideo v-else-if="item.type === 'video'" :item="item" :index="index" />
         <AttachmentAudio v-else-if="item.type === 'audio'" :item="item" />
         <AttachmentsDoc v-else-if="item.type === 'doc'" :item="item" />
     </div>
 </template>
 
 <script>
+import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
+
 export default {
     components: {
         WallRepost: () => import("~/components/Messages/Attachments/Wall/Repost"),
@@ -22,10 +24,11 @@ export default {
         XIcon: () => import("~/assets/icons/x.svg")
     },
 
-    props: {
-        item: {
-            type: Object,
-            required: true
+    mixins: [AttachmentMixin],
+
+    computed: {
+        data() {
+            return this.$parent.attachments;
         }
     }
 };

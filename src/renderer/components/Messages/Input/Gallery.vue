@@ -4,6 +4,7 @@
             v-for="(item, index) of attachments"
             :key="item.id"
             :item="item"
+            :index="index"
             @remove="removeAttachment(index)"
         />
     </div>

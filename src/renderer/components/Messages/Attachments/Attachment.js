@@ -5,11 +5,21 @@ export default {
         item: {
             type: Object,
             required: true
+        },
+
+        index: {
+            type: Number,
+            required: true
         }
     },
 
     methods: {
         openMedia(data, index) {
+            if (!data || index === undefined) {
+                console.log("MEDIA: no data requirements", data, index);
+                return false;
+            }
+
             return ipcRenderer.send("openMedia", { data, index });
         },
 
