@@ -1,79 +1,68 @@
 <template>
-    <div
-        ref="menu"
-        v-click-away="$parent.closeMenu"
+    <div 
+        ref="menu" 
         v-scroll-outside="$parent.closeMenu" 
-        class="context-menu" 
+        v-click-away="$parent.closeMenu" 
+        class="context-menu"
         :style="contextMenuStyle"
+        @click="$parent.closeMenu"
     >
-        <slot />
+        <ContextMenuItem 
+            v-for="item of validItems"
+            :key="item.id"
+            :label="item.label"
+            @select="action(item)"
+        />
     </div>
 </template>
 
 <script>
 export default {
     props: {
-        position: {
+        menu: {
+            type: Object,
+            required: true
+        },
+
+        margins: {
             type: Array,
             required: false,
-            default: () => ([0, 0, 0, 0])
+            default: () => ([0, 0])
         }
     },
 
     data: () => ({
-        padding: 5,
-
-        positioning: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0
-        }
+        position: [0, 0],
+        margin: 5
     }),
 
     computed: {
         contextMenuStyle() {
             return {
-                top: this.positioning.top + "px",
-                right: this.positioning.right + "px",
-                bottom: this.positioning.bottom + "px",
-                left: this.positioning.left + "px"
+                left: this.position[0] + this.margins[0] + "px",
+                top: this.position[1] + this.margins[1] + "px"
             };
+        },
+
+        validItems() {
+            return this.menu.items.filter(item => {
+                return item.show === undefined || item.show;
+            });
         }
     },
 
-    watch: {
-        position: function() { this.updatePosition(); }
-    },
-
     mounted() {
-        this.updatePosition();
-        window.addEventListener("blur", this.$parent.closeMenu);
-    },
+        const { width, height } = this.$refs.menu.getBoundingClientRect();
 
-    beforeDestroy() {
-        window.removeEventListener("blur", this.$parent.closeMenu);
+        this.position = [
+            Math.max(Math.min(this.menu.position[0] - width, window.innerWidth), this.margin),
+            Math.min(this.menu.position[1] - height, window.innerHeight)
+        ];
     },
 
     methods: {
-        updatePosition() {
-            const width = this.$refs.menu.clientWidth;
-            const height = this.$refs.menu.clientHeight;
-
-            const top = this.position[0] + height >= window.innerHeight
-                ? window.innerHeight - height - this.padding
-                : this.position[0] - this.padding;
-
-            const left = this.position[3] + width >= window.innerWidth
-                ? window.innerWidth - width - this.padding
-                : this.position[3] - this.padding;
-
-            this.positioning = {
-                top,
-                right: Math.max(this.position[1], this.padding),
-                bottom: this.position[2],
-                left
-            };
+        action(item) {
+            return item.function();
         }
     }
 };
@@ -83,18 +72,13 @@ export default {
 .context-menu {
     position: fixed;
 
-    display: flex;
-    flex-direction: column;
-    row-gap: 5px;
-
-    width: max-content;
-    height: max-content;
-
     padding: 5px;
 
-    background: var(--backdrop);
-    border-radius: 4px;
+    width: max-content;
 
-    z-index: 1000;
+    background: var(--backdrop);
+    border-radius: 8px;;
+
+    z-index: 1001;
 }
 </style>

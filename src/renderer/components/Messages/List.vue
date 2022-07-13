@@ -6,22 +6,24 @@
             :chunk="chunk"
         />
 
-        <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
-            <MessageMenu :message="menu.target" @click.native="closeMenu" />
-        </ContextMenu>
+        <ContextMenu v-if="menu.show" :menu="menu" />
     </div>
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+import AttachmentsMixin from "~/mixins/attachments";
 import MenuMixin from "~/mixins/menu";
+import DateMixin from "~/mixins/date";
+import ActionsMixin from "~/mixins/actions";
 
 export default {
     components: {
-        MessagesChunk: () => import("~/components/Messages/Chunk"),
-        MessageMenu: () => import("~/components/Menu/Views/Chat")
+        MessagesChunk: () => import("~/components/Messages/Chunk")
     },
 
-    mixins: [MenuMixin],
+    mixins: [AttachmentsMixin, MenuMixin, DateMixin, ActionsMixin],
 
     props: {
         messages: {
@@ -31,6 +33,11 @@ export default {
     },
 
     computed: {
+        ...mapState({
+            current: state => state.vk.messages.current,
+            user: state => state.vk.user
+        }),
+
         chunks() {
             const chunks = [];
             let current = [];
@@ -52,6 +59,49 @@ export default {
             }
 
             return chunks;
+        }
+    },
+
+    methods: {
+        setMenuItems(message) {
+            if ("action" in this.menu.target) {
+                return false;
+            }
+
+            const hours = this.dateDiff(this.menu.target).hours();
+
+            this.menu.items = [{
+                id: "reply",
+                label: "Ответить",
+                show: this.current.information.can_write.allowed,
+                function: () => this.action("reply", message)
+            },
+            
+            {
+                id: "edit",
+                label: "Редактировать",
+                show: this.menu.target
+                    && hours < 24
+                    && !this.checkBlockedAttachments(this.menu.target),
+
+                function: () => this.action("edit", message)
+            },
+            
+            {
+                id: "delete",
+                label: "Удалить",
+                function: () => this.action("delete", message)
+            },
+            
+            {
+                id: "delete-for-all",
+                label: "Удалить для всех",
+                show: message.out
+                    && hours < 24
+                    && this.current.id !== this.user.id,
+
+                function: () => this.action("delete-for-all", message)
+            }];
         }
     }
 };

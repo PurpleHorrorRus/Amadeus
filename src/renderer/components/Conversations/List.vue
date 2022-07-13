@@ -13,27 +13,11 @@
                 :key="conversation.message.id"
                 :conversation="conversation"
                 @click.native.left="open(conversation)"
-                @click.native.right="openMenu(conversation, $event, true)"
+                @click.native.right="openMenu($event, conversation)"
             />
         </div>
 
-        <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
-            <ContextMenuItem 
-                v-if="menu.target.information.unread_count > 0" 
-                label="Прочитать" 
-                @select="readConversation(menu.target)"
-            />
-
-            <ContextMenuItem 
-                :label="muteLabel" 
-                @select="turnMute(menu.target)"
-            />
-
-            <ContextMenuItem 
-                label="Удалить" 
-                @select="openDeleteConfirmation(menu.target)" 
-            />
-        </ContextMenu>
+        <ContextMenu v-if="menu.show" :menu="menu" />
     </div>
 </template>
 
@@ -94,7 +78,7 @@ export default {
         },
 
         muteLabel() {
-            return this.menu.target.muted
+            return this.menu.target?.muted
                 ? "Включить уведомления" 
                 : "Отключить уведомления";
         }
@@ -117,6 +101,27 @@ export default {
         async open(conversation) {
             const { id, type } = conversation.information.peer;
             return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => {});
+        },
+
+        setMenuItems() {
+            this.menu.items = [{
+                id: "read",
+                label: "Прочитать",
+                show: this.menu.target.information.unread_count > 0,
+                function: () => this.readConversation(this.menu.target)
+            },
+        
+            {
+                id: "mute",
+                label: this.muteLabel,
+                function: () => this.turnMute(this.menu.target)
+            },
+        
+            {
+                id: "delete",
+                label: "Удалить чат",
+                function: () => this.openDeleteConfirmation(this.menu.target)
+            }];
         }
     }
 };

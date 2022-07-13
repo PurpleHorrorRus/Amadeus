@@ -20,7 +20,6 @@ export default {
         },
 
         turnMute(conversation) {
-            console.log(1);
             conversation.muted = !conversation.muted; 
 
             if (conversation.muted) {

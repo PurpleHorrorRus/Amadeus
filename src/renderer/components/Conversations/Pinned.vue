@@ -12,7 +12,7 @@
             :key="conversation.message.id"
             :conversation="conversation"
             @click.native.left="$parent.open(conversation)"
-            @click.native.right="$parent.openMenu(conversation, $event, true)"
+            @click.native.right="$parent.openMenu($event, conversation)"
         />
     </div>
 </template>

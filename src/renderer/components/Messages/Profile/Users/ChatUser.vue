@@ -5,12 +5,10 @@
         <MoreHorizontalIcon 
             v-if="showActions" 
             class="icon vkgram clickable" 
-            @click="openMenu(profile, $event, true)" 
+            @click="openMenu($event, profile)" 
         />
 
-        <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
-            <ContextMenuItem label="Исключить пользователя" @select="kick" />
-        </ContextMenu>
+        <ContextMenu v-if="menu.show" :menu="menu" />
     </div>
 </template>
 
@@ -48,16 +46,22 @@ export default {
             removeUser: "vk/conversations/REMOVE_USER"
         }),
 
-        kick() {
-            this.confirmation({
-                text: `Исключить пользователя ${this.name(this.profile)} из беседы?`,
-                accept: () => {
-                    this.client.api.messages.removeChatUser({
-                        chat_id: this.$parent.conversation.local_id,
-                        user_id: this.profile.id
+        setMenuItems(profile) {
+            this.menu.items = [{
+                id: "kick",
+                label: "Исключить пользователя",
+                function: () => {
+                    this.confirmation({
+                        text: `Исключить пользователя ${this.name(profile)} из беседы?`,
+                        accept: () => {
+                            this.client.api.messages.removeChatUser({
+                                chat_id: this.$parent.conversation.local_id,
+                                user_id: profile.id
+                            });
+                        }
                     });
                 }
-            });
+            }];
         }
     }
 };

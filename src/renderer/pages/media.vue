@@ -1,6 +1,6 @@
 <template>
     <div id="media-page" @click.self="close">
-        <div v-if="~media.index" id="media-page-item" @click.right="openMenu(item, $event, true)">
+        <div v-if="~media.index" id="media-page-item" @click.right="openMenu">
             <iframe 
                 v-if="item.type === 'video'"
                 id="video"
@@ -20,24 +20,7 @@
                 :src="item.photo.maxSize"
             >
 
-            <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
-                <ContextMenuItem 
-                    label="Поделиться" 
-                    @select="share"
-                />
-
-                <ContextMenuItem 
-                    v-if="item.type === 'photo'" 
-                    label="Скопировать ссылку" 
-                    @select="copy('copyImageURL')"
-                />
-
-                <ContextMenuItem 
-                    v-if="item.type === 'photo'" 
-                    label="Скопировать изображение" 
-                    @select="copy('copyImage')"
-                />
-            </ContextMenu>
+            <ContextMenu v-if="menu.show" :menu="menu" />
 
             <div id="media-page-item-buttons">
                 <MediaPageButton 
@@ -103,13 +86,35 @@ export default {
     },
 
     methods: {
+        setMenuItems() {
+            this.menu.items = [{
+                id: "share",
+                label: "Поделиться",
+                function: () => {
+                    this.close();
+                    this.share();
+                }
+            },
+
+            {
+                id: "copy",
+                label: "Копировать ссылку",
+                function: () => this.copy("src")
+            },
+
+            {
+                id: "copy",
+                label: "Копировать изображение",
+                function: () => this.copy("image")
+            }];
+        },
+
         close() {
             ipcRenderer.send("close");
         },
 
         share() {
             ipcRenderer.send("share", this.item);
-            this.close();
         },
 
         copy(event) {

@@ -15,7 +15,10 @@ export default {
 
         async action(name, message) {
             message = message || this.message || this.menu.target;
-            this.close();
+            
+            if (this.modal.show) {
+                this.close();
+            }
 
             switch(name) {
                 case "reply": {
@@ -23,6 +26,7 @@ export default {
                 }
 
                 case "edit": {
+                    console.log(message);
                     return this.edit(message);
                 }
 

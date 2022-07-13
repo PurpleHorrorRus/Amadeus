@@ -8,7 +8,7 @@
             :first="index === 0"
             :last="index === visibleMessages.length - 1"
             @click.left.native="select(message)"
-            @click.right.native="openMessageMenu(message, $event)"
+            @click.right.native="openMenu($event, message)"
         />
     </div>
 </template>
@@ -49,12 +49,9 @@ export default {
             return true;
         },
 
-        openMessageMenu(message, $event) {
-            if ("action" in message) {
-                return false;
-            }
-
-            return this.$parent.openMenu(message, $event);
+        openMenu(event, message) {
+            if ("action" in message) return false;
+            this.$parent.openMenu(event, message);
         }
     }
 };

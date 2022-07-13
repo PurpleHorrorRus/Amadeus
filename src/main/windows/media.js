@@ -35,8 +35,8 @@ class MeridiusWindow {
         this.mainWindow = mainWindow;
 
         this.window = new BrowserWindow(params);
-        this.window.setSkipTaskbar(true);
-        this.window.setAlwaysOnTop(true, "screen-saver");
+        // this.window.setSkipTaskbar(true);
+        // this.window.setAlwaysOnTop(true, "screen-saver");
 
         ipcMain.handleOnce("requestMedia", () => {
             return media;
@@ -50,11 +50,11 @@ class MeridiusWindow {
             common.windows.send(this.mainWindow, "share", attachment);
         });
 
-        ipcMain.on("copyImageURL", async (_, image) => {
+        ipcMain.on("src", async (_, image) => {
             clipboard.writeText(image);
         });
 
-        ipcMain.on("copyImage", async (_, image) => {
+        ipcMain.on("image", async (_, image) => {
             clipboard.writeImage(await nativeImageFromURL(image));
         });
 
@@ -63,6 +63,7 @@ class MeridiusWindow {
             return { action: "deny" };
         });
 
+        this.window.openDevTools();
         this.window.show();
         await common.windows.load(this.window, "media");
 

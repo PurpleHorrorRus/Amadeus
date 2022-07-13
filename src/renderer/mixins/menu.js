@@ -1,37 +1,52 @@
-const menuDefaults = {
-    show: false,
-    position: [0, 0, 0, 0],
-    target: null
-};
-
 export default {
     data: () => ({
-        menu: { ...menuDefaults }
+        menu: { 
+            show: false,
+            event: null,
+            target: null,
+            position: [0, 0],
+            items: []
+        }
     }),
 
+    mounted() {
+        window.addEventListener("blur", this.closeMenu);
+    },
+
+    beforeDestroy() {
+        window.removeEventListener("blur", this.closeMenu);
+    },
+
     methods: {
-        async openMenu(target, event, atCursor = true) {
+        openMenu(event, target, atElement = false) {
             if (this.menu.show) {
                 this.closeMenu();
-                if (!atCursor) return false;
+                if (atElement) return true;
             }
-            
-            return this.$nextTick(() => {
-                this.menu.target = target;
 
-                if (atCursor) {
-                    this.menu.position = [event.clientY, 0, 0, event.clientX];
-                } else {
-                    const rect = event.target.getBoundingClientRect();
-                    this.menu.position = [rect.top + 25, 0, 0, rect.left];
-                }
-        
+            return this.$nextTick(() => {
+                if (atElement) {
+                    const { left, top } = event.target.getBoundingClientRect();
+                    this.menu.position = [left, top];
+                } else this.menu.position = [event.clientX, event.clientY];
+
+                if (target) {
+                    this.menu.target = target;
+                    this.setMenuItems(target);
+                } else this.setMenuItems();
+
                 this.menu.show = true;
             });
         },
 
         closeMenu() {
-            this.menu = { ...menuDefaults };
+            this.menu.show = false;
+            this.menu.event = null;
+            this.menu.target = null;
+            this.menu.position = [0, 0];
+            this.menu.items = [];
+
+            return true;
         }
     }
 };

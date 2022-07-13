@@ -25,13 +25,14 @@
 
         <DotsHorizontal 
             class="icon vkgram clickable" 
-            @click="openMenu(null, $event, false)" 
+            @click="openMenu($event, null, true)" 
         />
 
-        <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
-            <ContextMenuItem label="Важные сообщения" @select="openImportant" />
-            <ContextMenuItem label="Настройки" @select="openSettings" />
-        </ContextMenu>
+        <ContextMenu 
+            v-if="menu.show" 
+            :menu="menu" 
+            :margins="[140, 105]" 
+        />
     </div>
 </template>
 
@@ -54,14 +55,18 @@ export default {
     }),
 
     methods: {
-        openImportant() {
-            return this.$router.replace("/important").catch(() => {});
-        },
-
-        openSettings() {
-            return this.open({
-                layout: "settings"                
-            });
+        setMenuItems() {
+            this.menu.items = [{
+                id: "important",
+                label: "Важные сообщения",
+                function: () => this.$router.replace("/important").catch(() => {})
+            },
+            
+            {
+                id: "settings",
+                label: "Настройки",
+                function: () => this.open({ layout: "settings" })
+            }];
         },
 
         search() {

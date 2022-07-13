@@ -55,6 +55,10 @@ export default {
 
 <style lang="scss">
 .conversation-unread {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     &-out {
         justify-self: center;
         align-self: center;
