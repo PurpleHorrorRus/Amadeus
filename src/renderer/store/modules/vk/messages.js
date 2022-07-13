@@ -78,21 +78,17 @@ export default {
             })).reverse();
         },
 
-        FLUSH: ({ dispatch, state }, conversation) => {
+        FLUSH: ({ state }, conversation) => {
             const messages = state.cache[conversation.id].messages;
             if (messages.length > fields.count) {
                 messages.splice(0, messages.length - fields.count - 1);
             }
 
-            if (messages.length > 0) {
-                dispatch("UNSELECT_ALL", conversation.id);
-            }
-
             return true;
         },
 
-        UNSELECT_ALL: ({ state }, id) => {
-            state.cache[id].messages.filter(message => {
+        UNSELECT_ALL: ({ state }) => {
+            state.cache[state.current.id].messages.filter(message => {
                 return message.selected;
             }).forEach(message => {
                 message.selected = false;
@@ -269,6 +265,15 @@ export default {
         DELETE: async ({ dispatch, rootState }, data) => {
             data.delete_for_all = Number(data.delete_for_all) || 0;
             data.spam = Number(data.spam) || 0;
+            
+            if (data.messages) {
+                data.messages.forEach(message => dispatch("SYNC_DELETE", message));
+                return await rootState.vk.client.api.messages.delete({
+                    message_ids: data.messages.map(message => message.id).join(","),
+                    ...data
+                });
+            }
+
             dispatch("SYNC_DELETE", data.message);
             return await rootState.vk.client.api.messages.delete({
                 message_ids: data.message.id,

@@ -58,7 +58,8 @@ export default {
     computed: {
         ...mapState({
             background: state => state.background,
-            input: state => state.input
+            input: state => state.input,
+            modal: state => state.modal
         }),
 
         chatClass() {
@@ -116,6 +117,7 @@ export default {
     },
 
     beforeDestroy() {
+        this.unselectAll();
         this.clearInput();
         document.removeEventListener("keydown", this.exit);
 
@@ -141,11 +143,14 @@ export default {
             delete: "vk/messages/DELETE",
             setCurrent: "vk/messages/SET_CURRENT",
             markImportant: "vk/messages/MARK_IMPORTANT",
+            unselectAll: "vk/messages/UNSELECT_ALL",
 
             addReply: "input/ADD_REPLY",
             edit: "input/EDIT",
             clearEdit: "input/CLEAR_EDIT",
-            clearInput: "input/CLEAR"
+            clearInput: "input/CLEAR",
+
+            close: "modal/CLOSE"
         }),
 
         turnProfile() {
@@ -156,6 +161,7 @@ export default {
             if (event.code !== "Escape") return false;
             if (this.opened) return this.turnProfile();
             if (this.input.editing.enable) return this.clearEdit();
+            if (this.modal.show) return this.close();
             this.$router.replace("/general").catch(() => {});
             return true;
         }

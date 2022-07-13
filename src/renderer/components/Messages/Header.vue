@@ -9,9 +9,14 @@
             </div>
         </div>
         
-        <div id="messages-header-profile-actions">
+        <div v-if="isSelectedMessages" id="messages-header-actions">
+            <TrashIcon 
+                v-if="messagesToDelete.length > 0"
+                class="icon vkgram clickable"
+                @click="deleteMessages"
+            />
+
             <ForwardIcon 
-                v-if="isSelectedMessages" 
                 class="icon vkgram clickable" 
                 @click="forwardMessages" 
             />
@@ -22,6 +27,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+import DateMixin from "~/mixins/date";
 import ModalMixin from "~/mixins/modal";
 
 export default {
@@ -29,10 +35,11 @@ export default {
         MessagesHeaderBack: () => import("~/components/Messages/Header/Back"),
         MessagesHeaderInformation: () => import("~/components/Messages/Header/Information"),
     
+        TrashIcon: () => import("~/assets/icons/trash.svg"),
         ForwardIcon: () => import("~/assets/icons/forward.svg")
     },
 
-    mixins: [ModalMixin],
+    mixins: [DateMixin, ModalMixin],
 
     props: {
         conversation: {
@@ -43,25 +50,73 @@ export default {
 
     computed: {
         ...mapState({
-            extended: state => state.extendedView
+            extended: state => state.extendedView,
+            user: state => state.vk.user
         }),
 
         isSelectedMessages() {
             return this.$parent.chat.messages.some(message => {
                 return message.selected;
             });
+        },
+
+        messagesToDelete() {
+            return this.$parent.chat.messages.filter(message => {
+                return message.selected 
+                    && this.dateDiff(message).hours() < 24;
+            });
         }
     },
 
     methods: {
         ...mapActions({
-            setForward: "input/SET_FORWARD"
+            setForward: "input/SET_FORWARD",
+            delete: "vk/messages/DELETE",
+            unselectAll: "vk/messages/UNSELECT_ALL"
         }),
+
+        deleteMessages() {
+            let messages = this.messagesToDelete;
+            if (messages.length === 0) return false;
+
+            const options = [];
+            const isOutSelected = messages.some(message => {
+                return message.out;
+            });
+
+            if (isOutSelected && this.conversation.id !== this.user.id) {
+                options[0] = {
+                    id: "delete-for-all",
+                    text: "Удалить для всех",
+                    checked: false
+                };
+                
+                messages = messages.filter(message => {
+                    return message.out;
+                });
+            }
+
+            this.confirmation({
+                text: `Удалить ${messages.length} сообщений?`,
+                options,
+
+                accept: () => {
+                    this.delete({
+                        peer_id: this.conversation.id,
+                        delete_for_all: this.modal.confirmation.options[0]?.checked || false,
+                        messages
+                    });
+
+                    this.unselectAll();
+                }
+            });
+        },
 
         forwardMessages() {
             this.open({
                 view: "choose-user",
                 title: "Переслать сообщения",
+
                 function: async conversation => {
                     const fwd_messages = [...this.$parent.chat.messages.filter(message => {
                         return message.selected;
@@ -112,6 +167,16 @@ export default {
         
                 border-radius: 100%;
             }
+        }
+    }
+
+    &-actions {
+        display: flex;
+        flex-direction: row;
+        column-gap: 15px;
+
+        .icon {
+            width: 20px;
         }
     }
 }

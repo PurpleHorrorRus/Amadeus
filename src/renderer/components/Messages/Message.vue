@@ -145,6 +145,8 @@ export default {
     }
 
     &.noBackground {
+        --contrast: var(--secondary);
+
         .message-content {
             padding: 0px 0px 10px 0px;
 
