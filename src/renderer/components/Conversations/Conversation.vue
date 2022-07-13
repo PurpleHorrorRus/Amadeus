@@ -7,8 +7,9 @@
             <ConversationMessage v-if="!conversation.typing.enable" :message="conversation.message" />
             <ConversationTyping v-else :typing="conversation.typing" />
         </div>
-
+    
         <ConversationUnread :conversation="conversation" />
+        <VolumeMuteIcon v-if="conversation.muted" class="icon vkgram mute-icon" />
     </div>
 </template>
 
@@ -16,6 +17,7 @@
 import { mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";
+import ConversationsMixin from "~/mixins/conversations";
 import ProfileMixin from "~/mixins/profile";
 
 export default {
@@ -23,10 +25,11 @@ export default {
         ConversationAvatar: () => import("~/components/Conversations/Conversation/Avatar"),
         ConversationMessage: () => import("~/components/Conversations/Conversation/Message"),
         ConversationTyping: () => import("~/components/Conversations/Conversation/Typing"),
-        ConversationUnread: () => import("~/components/Conversations/Conversation/Unread")
+        ConversationUnread: () => import("~/components/Conversations/Conversation/Unread"),
+        VolumeMuteIcon: () => import("~/assets/icons/volume-mute.svg")
     },
 
-    mixins: [CoreMixin, ProfileMixin],
+    mixins: [CoreMixin, ConversationsMixin, ProfileMixin],
 
     props: {
         conversation: {
@@ -56,7 +59,7 @@ export default {
     position: relative;
 
     display: grid;
-    grid-template-columns: 40px 1fr 20px;
+    grid-template-columns: 40px 1fr 20px 20px;
     grid-template-rows: 50px;
     align-items: center;
 
@@ -84,9 +87,25 @@ export default {
             position: absolute;
             top: 3px; right: 2px;
         }
+
+        .mute-icon {
+            position: absolute;
+            top: 2px; left: 3px;
+
+            width: 18px;
+
+            padding: 3px;
+
+            background: var(--item-disabled);
+            border-radius: 100%;
+
+            path {
+                fill: var(--text);
+            }
+        }
     }
 
-    &.active {
+    &.active, &:hover {
         background: var(--navigation-select);
     }
 
@@ -121,6 +140,14 @@ export default {
             path {
                 stroke: var(--small-text);
             }
+        }
+    }
+
+    .mute-icon {
+        width: 14px;
+
+        path {
+            fill: var(--small-text);
         }
     }
 }

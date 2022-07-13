@@ -11,13 +11,7 @@ export default {
 
         confirmation: {
             text: "Окно подтверждения",
-
-            options: [{
-                id: "empty",
-                text: "Опция",
-                checked: false
-            }],
-
+            options: [],
             accept: () => {}
         }
     }),

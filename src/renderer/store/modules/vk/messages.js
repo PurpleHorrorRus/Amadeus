@@ -339,6 +339,7 @@ export default {
                 return false;
             }
 
+            chat.conversation.information.unread_count = 0;
             return await rootState.vk.client.api.messages.markAsRead({
                 peer_id: message.peer_id,
                 start_message_id: message.id

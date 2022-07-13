@@ -2,7 +2,7 @@
     <div id="chat-page-viewport" :class="chatViewportClass">
         <div id="chat-page-viewport-messages">
             <MessagesList ref="messages" :messages="chat.messages" />
-            <ScrollArrow v-if="scrollPercent < 90" @click.native="scrollToBottom" />
+            <ScrollArrow v-if="showScrollArrow" @click.native="scrollToBottom" />
 
             <transition name="slide-right">
                 <Profile 
@@ -43,6 +43,7 @@ export default {
 
     data: () => ({
         loadMore: false,
+        showScrollArrow: false,
         percentToRead: 80
     }),
 
@@ -92,7 +93,12 @@ export default {
             this.loadMore = true;
             await this.append(this.chat.id);
             this.loadMore = false;
-        }, percent => percent < 20);
+        }, percent => {
+            this.showScrollArrow = percent < 90 
+                && this.$refs.messages.$el.scrollTop > 0;
+
+            return percent < 20;
+        });
 
         this.scrollToBottom();
     },

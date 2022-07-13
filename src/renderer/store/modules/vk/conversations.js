@@ -86,6 +86,7 @@ export default {
                 information: item.conversation,
 
                 pinned: item.conversation.sort_id.major_id !== 0,
+                muted: rootState.settings.settings.vk.mute.includes(item.conversation.peer.id),
                 mention: mentionRegex.test(item.last_message.text),
 
                 typing: {
@@ -208,16 +209,17 @@ export default {
                     return id === conversation.id;
                 });
 
-                if (muted) {
+                const cantPlayNotification = muted
+                    || rootState.vk.messages.current?.id === conversation.id
+                    || await ipcRenderer.invoke("focused");
+
+                if (cantPlayNotification) {
                     return false;
                 }
             }
 
-            if (rootState.vk.messages.current.id === conversation.id) {
-                if (await ipcRenderer.invoke("focused")) return false;
-            }
-
             const notification = new Audio("./message.mp3");
+            notification.volume = 0.2;
             return notification.play();
         },
 

@@ -3,37 +3,37 @@
         <ConversationsHeader v-if="showHeader" />
 
         <div id="conversations-list" ref="conversations">
-            <div v-if="pinned.length > 0" id="conversations-list-pinned">
-                <span 
-                    v-if="!settings.appearance.minimized"
-                    id="conversations-list-pinned-label" 
-                    class="small-text"
-                    v-text="'Закрепленные чаты'" 
-                />
-
-                <Conversation
-                    v-for="conversation of pinned"
-                    :key="conversation.message.id"
-                    :conversation="conversation"
-                    @click.native.left="open(conversation)"
-                />
-            </div>
+            <PinnedConversations 
+                v-if="pinned.length > 0" 
+                :conversations="pinned" 
+            />
 
             <Conversation
                 v-for="conversation of notPinned"
                 :key="conversation.message.id"
                 :conversation="conversation"
                 @click.native.left="open(conversation)"
-            />
-
-            <Skeleton 
-                v-if="load"
-                id="skeleton-conversations"
-                :count="5"
-                :width="'100%'"
-                :height="'40px'" 
+                @click.native.right="openMenu(conversation, $event, true)"
             />
         </div>
+
+        <ContextMenu v-if="menu.show" :position="menu.position" @click.native="closeMenu">
+            <ContextMenuItem 
+                v-if="menu.target.information.unread_count > 0" 
+                label="Прочитать" 
+                @select="readConversation(menu.target)"
+            />
+
+            <ContextMenuItem 
+                :label="muteLabel" 
+                @select="turnMute(menu.target)"
+            />
+
+            <ContextMenuItem 
+                label="Удалить" 
+                @select="openDeleteConfirmation(menu.target)" 
+            />
+        </ContextMenu>
     </div>
 </template>
 
@@ -41,15 +41,18 @@
 import { mapActions, mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";
+import MenuMixin from "~/mixins/menu";
+import ConversationsMixin from "~/mixins/conversations";
 import ScrollMixin from "~/mixins/scroll";
 
 export default {
     components: {
         ConversationsHeader: () => import("~/components/Conversations/Header"),
+        PinnedConversations: () => import("~/components/Conversations/Pinned"),
         Conversation: () => import("~/components/Conversations/Conversation")
     },
 
-    mixins: [CoreMixin, ScrollMixin],
+    mixins: [CoreMixin, MenuMixin, ConversationsMixin, ScrollMixin],
 
     data: () => ({
         loadMore: false
@@ -88,6 +91,12 @@ export default {
         canScroll() {
             return !this.load 
                 && this.conversations.length < this.count;
+        },
+
+        muteLabel() {
+            return this.menu.target.muted
+                ? "Включить уведомления" 
+                : "Отключить уведомления";
         }
     },
 
@@ -101,7 +110,8 @@ export default {
 
     methods: {
         ...mapActions({
-            append: "vk/conversations/APPEND"
+            append: "vk/conversations/APPEND",
+            read: "vk/messages/READ"
         }),
 
         async open(conversation) {
@@ -139,16 +149,6 @@ export default {
 
         overflow-x: hidden;
         overflow-y: auto;
-
-        &-pinned {
-            border-bottom: 1px solid var(--border);
-
-            &-label {
-                display: block;
-
-                padding: 10px;
-            }
-        }
     }
 
     .skeleton-list {
