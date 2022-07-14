@@ -17,7 +17,7 @@
                 v-else-if="item.type === 'photo'"
                 id="photo"
                 class="media-page-item-frame"
-                :src="item.photo.maxSize"
+                :src="maxSize.url"
             >
 
             <ContextMenu v-if="menu.show" :menu="menu" />
@@ -38,6 +38,7 @@
 <script>
 import { ipcRenderer } from "electron";
 
+import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
 import MenuMixin from "~/mixins/menu";
 
 export default {
@@ -46,7 +47,7 @@ export default {
         MediaPageButton: () => import("~/components/Media/Button")
     },
 
-    mixins: [MenuMixin],
+    mixins: [GalleryMixin, MenuMixin],
 
     layout: "empty",
 
@@ -55,7 +56,8 @@ export default {
             data: [],
             index: -1
         },
-
+        
+        maxSize: { url: "" },
         buttons: []
     }),
 
@@ -74,6 +76,10 @@ export default {
         }];
 
         this.media = await ipcRenderer.invoke("requestMedia");
+
+        if (this.item.type === "photo") {
+            this.maxSize = this.calculateMaxSize(this.item.photo.sizes);
+        }
     },
 
     mounted() {
