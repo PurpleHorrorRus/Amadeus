@@ -1,22 +1,16 @@
 <template>
-    <div class="context-menu-item" @click="select">
-        <span class="context-menu-item-label" v-text="label" />
+    <div class="context-menu-item" @click="$emit('select')">
+        <Component :is="item.icon" v-if="item.icon" class="icon vkgram" />
+        <span class="context-menu-item-label" v-text="item.label" />
     </div>
 </template>
 
 <script>
 export default {
     props: {
-        label: {
-            type: String,
-            required: false,
-            default: "(not set)"
-        }
-    },
-
-    methods: {
-        select() {
-            this.$emit("select");
+        item: {
+            type: Object,
+            required: true
         }
     }
 };
@@ -25,7 +19,9 @@ export default {
 <style lang="scss">
 .context-menu-item {
     display: flex;
+    flex-direction: row;
     align-items: center;
+    column-gap: 5px;
 
     padding: 10px;
 
@@ -36,6 +32,10 @@ export default {
 
     &:hover {
         background: var(--item-hover);
+    }
+
+    .icon {
+        width: 16px;
     }
 
     span {

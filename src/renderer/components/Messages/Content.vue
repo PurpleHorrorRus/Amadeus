@@ -122,7 +122,8 @@ export default {
         }
 
         .icon {
-            width: 14px;
+            width: 10px;
+            align-items: center;
 
             &.message-content-info-read path {
                 stroke: var(--out-contrast);

@@ -1,24 +1,42 @@
 <template>
     <div id="message-page-input" class="nowrap" :class="inputClass">
         <InputEdit v-if="input.editing.enable" />
-        <InputField />
+        <div id="message-page-input-main">
+            <AddIcon 
+                class="icon vkgram clickable" 
+                @click="openAdd" 
+                @mouseenter="openMenu($event, null, true, true)"
+            />
+
+            <ContextMenu 
+                v-if="menu.show" 
+                ref="menu" 
+                :menu="menu"
+                :margins="[100, -10]"
+            />
+
+            <InputField />
+        </div>
         <InputAttachments v-if="showAttachments" />
     </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import { chunk } from "lodash";
 
 import ModalMixin from "~/mixins/modal";
+import MenuMixin from "~/mixins/menu";
 
 export default {
     components: {
+        AddIcon: () => import("~/assets/icons/add.svg"),
         InputEdit: () => import("~/components/Messages/Input/Edit"),
         InputField: () => import("~/components/Messages/Input/Field"),
         InputAttachments: () => import("~/components/Messages/Input/Attachments")
     },
 
-    mixins: [ModalMixin],
+    mixins: [ModalMixin, MenuMixin],
 
     data: () => ({
         sending: false
@@ -51,8 +69,9 @@ export default {
 
             edit: "input/EDIT",
             clearEdit: "input/CLEAR_EDIT",
+            clearInput: "input/CLEAR",
 
-            clearInput: "input/CLEAR"
+            open: "modal/OPEN"
         }),
 
         async send(message) {
@@ -60,7 +79,7 @@ export default {
                 this.sending = true;
             }
 
-            const attachments = [...this.input.attachments];
+            const attachments = chunk(this.input.attachments, 10);
             const reply_message = this.input.reply ? { ...this.input.reply } : undefined;
             const forward_messages = [...this.input.fwd_messages];
             this.clearInput();
@@ -85,10 +104,54 @@ export default {
 
                 this.clearEdit();
                 await this.editMessage(edited);
-            } else await this.sendMessage(params);
+            } else {
+                if (attachments.length > 0) {
+                    while (attachments.length > 0) {
+                        params.attachments = attachments[0];
+                        await this.sendMessage(params);
+                        attachments.splice(0, 1);
+
+                        if (attachments.length > 0) {
+                            params.text = "";
+                        }
+                    }
+                } else await this.sendMessage(params);
+            }
 
             this.sending = false;
             return true;
+        },
+
+        setMenuItems() {
+            this.menu.items = [{
+                id: "photos",
+                label: "Фотографии",
+                function: () => this.openAdd("photos"),
+                icon: () => import("~/assets/icons/image.svg")
+            },
+            
+            {
+                id: "videos",
+                label: "Видеозаписи",
+                function: () => this.openAdd("videos"),
+                icon: () => import("~/assets/icons/video.svg")
+            },
+            
+            {
+                id: "docs",
+                label: "Документы",
+                function: () => this.openAdd("docs"),
+                icon: () => import("~/assets/icons/document.svg")
+            }];
+        },
+
+        openAdd(id = "photos") {
+            return this.open({
+                view: "add-attachments",
+                label: "Прикрепить вложения",
+                target: id,
+                function: () => {}
+            });
         }
     }
 };
@@ -100,8 +163,17 @@ export default {
 
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
     gap: 10px;
 
     padding: 10px 10px 10px 5px;
+
+    &-main {
+        display: flex;
+        flex-direction: row;
+        column-gap: 5px;
+
+        width: 100%;
+    }
 }
 </style>

@@ -10,7 +10,7 @@
         <ContextMenuItem 
             v-for="item of validItems"
             :key="item.id"
-            :label="item.label"
+            :item="item"
             @select="action(item)"
         />
     </div>

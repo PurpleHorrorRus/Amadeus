@@ -14,12 +14,11 @@ export default {
     mixins: [GalleryMixin],
 
     data: () => ({
-        maxSize: ""
+        maxSize: { url: "" }
     }),
 
     created() {
         this.maxSize = this.calculateMaxSize(this.item.photo.sizes);
-        this.$set(this.item.photo, "maxSize", this.maxSize.url);
     }
 };
 </script>

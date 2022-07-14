@@ -1,3 +1,5 @@
+import common from "~/plugins/common";
+
 export default {
     data: () => ({
         scrollPercent: 0,
@@ -49,6 +51,13 @@ export default {
             };
 
             return true;
+        },
+        
+        async awaitElement(ref) {
+            return this.$refs[ref] || await (async () => {
+                await common.wait(100);
+                return await this.awaitElement(ref);
+            })();
         }
     }
 };

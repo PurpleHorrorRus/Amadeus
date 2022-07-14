@@ -35,8 +35,8 @@ class MeridiusWindow {
         this.mainWindow = mainWindow;
 
         this.window = new BrowserWindow(params);
-        // this.window.setSkipTaskbar(true);
-        // this.window.setAlwaysOnTop(true, "screen-saver");
+        this.window.setSkipTaskbar(true);
+        this.window.setAlwaysOnTop(true, "screen-saver");
 
         ipcMain.handleOnce("requestMedia", () => {
             return media;
@@ -63,7 +63,7 @@ class MeridiusWindow {
             return { action: "deny" };
         });
 
-        this.window.openDevTools();
+        // this.window.openDevTools();
         this.window.show();
         await common.windows.load(this.window, "media");
 
