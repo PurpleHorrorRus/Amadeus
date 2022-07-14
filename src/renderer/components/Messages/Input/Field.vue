@@ -168,6 +168,8 @@ export default {
     align-items: center;
     flex-direction: row;
     column-gap: 10px;
+    
+    width: 100%;
 
     &-textarea {
         display: flex;

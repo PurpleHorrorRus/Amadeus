@@ -35,7 +35,7 @@ export default {
     justify-content: center;
     align-items: flex-start;
 
-    padding: 30px;
+    padding: 15px 0px;
 
     background: #2c2c2cb6;
 

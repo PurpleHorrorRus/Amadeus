@@ -117,11 +117,11 @@ export default {
     },
 
     beforeDestroy() {
-        this.unselectAll();
         this.clearInput();
         document.removeEventListener("keydown", this.exit);
 
         if (!this.first) {
+            this.unselectAll();
             return !this.chat.search
                 ? this.flush(this.current) 
                 : this.clear(this.current);

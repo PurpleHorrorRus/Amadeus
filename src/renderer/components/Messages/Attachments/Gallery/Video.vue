@@ -23,7 +23,8 @@
 
             <PlayIcon 
                 v-if="canQuick" 
-                class="icon" @click.stop="quickPlay" 
+                class="icon" 
+                @click.stop="quickPlay" 
             />
         </div>
 
@@ -51,6 +52,12 @@ export default {
             type: Boolean,
             required: false,
             default: true
+        },
+
+        showTitle: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
 
@@ -64,10 +71,6 @@ export default {
             return this.canQuickPlay 
                 && !this.quick 
                 && !this.isRestrict;
-        },
-
-        showTitle() {
-            return this.$parent.data?.length === 1;
         },
 
         isRestrict() {
@@ -100,7 +103,10 @@ export default {
 <style lang="scss">
 .attachments-item-video {
     display: grid;
+    grid-template-rows: 1fr;
     row-gap: 8px;
+
+    height: 100%;
 
     &-preview {
         position: relative;
@@ -114,9 +120,13 @@ export default {
         background-position: center center !important;
         border-radius: 8px;
 
+        &-image {
+            object-fit: cover;
+        }
+
         &-image, &-quick, &-empty {
             width: 100%;
-            height: auto;
+            height: 100%;
 
             border-radius: 8px;
             border: none;
@@ -127,8 +137,8 @@ export default {
             justify-content: center;
             align-items: center;
 
-            width: 30vw;
-            height: 15vw;
+            width: 100%;
+            height: 100%;
         }
 
         .icon {

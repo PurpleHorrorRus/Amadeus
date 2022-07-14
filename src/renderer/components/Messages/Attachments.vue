@@ -134,6 +134,8 @@ export default {
         }
 
         &-title {
+            display: block;
+
             width: fit-content;
 
             padding: 10px;

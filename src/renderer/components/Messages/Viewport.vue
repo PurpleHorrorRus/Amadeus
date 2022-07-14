@@ -23,8 +23,6 @@ import MessagesList from "~/components/Messages/List";
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 
-import common from "~/plugins/common";
-
 export default {
     components: {
         MessagesList,
@@ -89,7 +87,8 @@ export default {
     async mounted() {
         window.addEventListener("focus", this.readOnBottom);
 
-        this.registerScroll(await this.awaitElement(), async () => {
+        const element = await this.awaitElement("messages");
+        this.registerScroll(element.$el, async () => {
             this.loadMore = true;
             await this.append(this.chat.id);
             this.loadMore = false;
@@ -112,11 +111,6 @@ export default {
             append: "vk/messages/APPEND",
             read: "vk/messages/READ"
         }),
-
-        async awaitElement() {
-            await common.wait(100);
-            return this.$refs.messages?.$el || await this.awaitElement();
-        },
 
         scrollToBottom() {
             this.$refs.messages.$el.scrollTop = this.$refs.messages.$el.scrollHeight;

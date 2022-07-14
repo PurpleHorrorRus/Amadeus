@@ -2,11 +2,33 @@
     <div class="message-attachment-item">
         <XIcon class="icon remove-icon" @click="$emit('remove')" />
 
-        <WallRepost v-if="item.type === 'wall'" :item="item.wall" />
-        <GalleryPhoto v-else-if="item.type === 'photo'" :item="item" :index="index" />
-        <GalleryVideo v-else-if="item.type === 'video'" :item="item" :index="index" />
-        <AttachmentAudio v-else-if="item.type === 'audio'" :item="item" />
-        <AttachmentsDoc v-else-if="item.type === 'doc'" :item="item" />
+        <WallRepost 
+            v-if="item.type === 'wall'" 
+            :item="item.wall" 
+        />
+
+        <GalleryPhoto 
+            v-else-if="item.type === 'photo'" 
+            :item="item" 
+            :index="index" 
+        />
+
+        <GalleryVideo 
+            v-else-if="item.type === 'video'" 
+            :item="item" 
+            :index="index" 
+            :showTitle="false" 
+        />
+
+        <AttachmentAudio 
+            v-else-if="item.type === 'audio'" 
+            :item="item" 
+        />
+
+        <AttachmentsDoc 
+            v-else-if="item.type === 'doc'" 
+            :item="item" 
+        />
     </div>
 </template>
 
@@ -38,11 +60,10 @@ export default {
 .message-attachment-item {
     position: relative;
 
-    width: max-content;
+    width: 120px;
+    height: 120px;
 
     .attachments-item {
-        width: 15vw;
-
         &.attachments-item-doc {
             width: max-content;
         }
