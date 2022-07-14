@@ -8,8 +8,10 @@
             <ConversationTyping v-else :typing="conversation.typing" />
         </div>
     
-        <ConversationUnread :conversation="conversation" />
-        <VolumeMuteIcon v-if="conversation.muted" class="icon vkgram mute-icon" />
+        <div class="conversation-icons">
+            <VolumeMuteIcon v-if="conversation.muted" class="icon vkgram mute-icon" />
+            <ConversationUnread :conversation="conversation" />
+        </div>
     </div>
 </template>
 
@@ -59,7 +61,7 @@ export default {
     position: relative;
 
     display: grid;
-    grid-template-columns: 40px 1fr 20px 20px;
+    grid-template-columns: 40px 1fr max-content;
     grid-template-rows: 50px;
     align-items: center;
 
@@ -143,11 +145,21 @@ export default {
         }
     }
 
-    .mute-icon {
-        width: 14px;
+    &-icons {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        column-gap: 10px;
 
-        path {
-            fill: var(--small-text);
+        padding: 0px 10px;
+
+        .mute-icon {
+            width: 18px;
+
+            path {
+                fill: var(--small-text);
+            }
         }
     }
 }
