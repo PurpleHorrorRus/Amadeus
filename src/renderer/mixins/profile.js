@@ -1,7 +1,7 @@
 export default {
     computed: {
         showLastSeen() {
-            return (this.conversation.profile.last_seen || this.conversation.profile.online)
+            return this.conversation.isUser
                 || this.conversation.isChat;
         }
     },

@@ -43,7 +43,7 @@ export default {
             }
 
             return this.profile.online_mobile 
-                || this.profile.last_seen.platform < 6;
+                || this.profile.last_seen?.platform < 6;
         }
     },
 
@@ -77,7 +77,7 @@ export default {
             }
 
             if (!this.profile.last_seen) {
-                this.lastSeenText = "";
+                this.lastSeenText = "был в сети давно";
                 return false;
             }
 
