@@ -255,13 +255,12 @@ export default {
 
         TRIGGER_TYPING: async ({ dispatch }, data) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.to_id);
-            return conversation.triggerTyping();
+            return conversation?.triggerTyping();
         },
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.userId);
-            conversation.setOnline(data.isOnline, Number(data.isOnline && data.platform < 6));
-            return true;
+            return conversation?.setOnline(data.isOnline, Number(data.isOnline && data.platform < 6));
         },
 
         ADD_USER: async ({ dispatch }, message) => {
