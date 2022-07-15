@@ -106,7 +106,7 @@ export default {
                 extended: 1
             });
 
-            if (conversation.isChat) {
+            if (conversation.isChat && data.isEvent) {
                 const chat = list.conversations[0].chat_settings;
                 conversation.updateAvatar(chat.photo?.photo_100);
                 conversation.updateTitle(chat.title);
