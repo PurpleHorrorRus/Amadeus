@@ -1,3 +1,5 @@
+import { mapActions } from "vuex";
+
 import CoreMixin from "~/mixins/core";
 import ModalMixin from "~/mixins/modal";
 
@@ -5,6 +7,10 @@ export default {
     mixins: [CoreMixin, ModalMixin],
 
     methods: {
+        ...mapActions({
+            deleteConversation: "vk/conversations/DELETE"
+        }),
+
         async readConversation(conversation) {
             conversation.information.unread_count = 0;
             return await this.client.api.messages.markAsRead({

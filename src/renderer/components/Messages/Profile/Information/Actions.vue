@@ -50,12 +50,6 @@ export default {
         canOpen() {
             return !this.conversation.isChat;
         }
-    },
-
-    methods: {
-        ...mapActions({
-            deleteConversation: "vk/conversations/DELETE"
-        })
     }
 };
 </script>
