@@ -53,7 +53,7 @@ export default {
         },
 
         chatUserProfile() {
-            return this.provideData.conversation.profile.users.find(user => {
+            return this.provideData.conversation.users.find(user => {
                 return user.id === this.message.from_id;
             });
         },

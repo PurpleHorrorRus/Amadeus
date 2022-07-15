@@ -69,7 +69,7 @@ export default {
     methods: {
         updateLastSeen() {
             if (this.conversation.isChat) {
-                this.lastSeenText = `${this.conversation.profile.users.length} участников`;
+                this.lastSeenText = `${this.conversation.users.length} участников`;
                 return false;
             }
 

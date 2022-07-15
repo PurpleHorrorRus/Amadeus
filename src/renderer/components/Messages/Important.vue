@@ -1,6 +1,6 @@
 <template>
     <div class="important-message">
-        <img :src="conversation.profile.photo_100" class="important-message-avatar">
+        <img :src="conversation.avatar" class="important-message-avatar">
         <div class="important-message-information">
             <div class="important-message-information-placeholder">
                 <span 

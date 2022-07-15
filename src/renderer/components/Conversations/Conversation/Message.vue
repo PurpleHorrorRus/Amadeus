@@ -69,7 +69,7 @@ export default {
                 return "Вы:";
             }
 
-            return this.$parent.conversation.profile.users.find(user => {
+            return this.$parent.conversation.users.find(user => {
                 return user.id === this.message.from_id;
             }).first_name + ":";
         }

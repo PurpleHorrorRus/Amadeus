@@ -4,7 +4,7 @@
             <MessagesHeaderBack v-if="!extended" />
 
             <div id="messages-header-main-profile" @click="$parent.turnProfile">
-                <img id="messages-header-main-profile-avatar" :src="conversation.profile.photo_100">
+                <img id="messages-header-main-profile-avatar" :src="conversation.avatar">
                 <MessagesHeaderInformation :conversation="conversation" />
             </div>
         </div>

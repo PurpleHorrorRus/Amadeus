@@ -11,6 +11,8 @@ class ConversationGroup extends Conversation {
         this.profile = groups.find(group => {
             return -Math.abs(group.id) === item.conversation.peer.id;
         });
+
+        this.updateAvatar(this.profile.photo_100);
     }
 
     get name() {

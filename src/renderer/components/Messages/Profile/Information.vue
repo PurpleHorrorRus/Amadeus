@@ -3,7 +3,7 @@
         <div id="profile-information-avatar">
             <img 
                 id="profile-information-avatar-image" 
-                :src="conversation.profile.photo_100" 
+                :src="conversation.avatar" 
                 :class="avatarClass" 
                 @click="choosePhoto"
             >
@@ -16,7 +16,6 @@
                 <XIcon class="icon clickable" />
             </div>
         </div>
-        
 
         <ProfileInformationMeta :conversation="conversation" />
     </div>
@@ -62,7 +61,7 @@ export default {
 
         showRemovingAvatar() {
             return this.conversation.isChat
-                && this.conversation.profile.photo_100 !== this.defaults.photo_100;
+                && this.conversation.avatar !== this.defaults.photo_100;
         }
     },
 
@@ -91,7 +90,7 @@ export default {
                 }),
 
                 path: filePaths[0],
-                save: file =>  this.client.api.messages.setChatPhoto({ file })
+                save: file => this.client.api.messages.setChatPhoto({ file })
             });
         },
 

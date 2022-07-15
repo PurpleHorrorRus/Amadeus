@@ -10,13 +10,15 @@ import {
 
 import { ConversationMessageType } from "./types/ConversationMessage";
 
+type ProfileType = UsersUserFull | GroupsGroupFull | MessagesChatFull;
+
 const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 
 abstract class Conversation {
     [x: string]: any;
 
     public message: ConversationMessageType;
-    public profile: UsersUserFull | GroupsGroupFull | MessagesChatFull;
+    public profile: ProfileType;
     public information: MessagesConversation;
     public id: number;
     public type: string;
@@ -91,9 +93,21 @@ abstract class Conversation {
     setMute(muted: boolean): void {
         this.muted = muted;
     }
+
+    setProfile(profile: ProfileType): void {
+        this.profile = profile;
+    }
+
+    updateAvatar(avatar: string): void {
+        this.profile.photo_100 = avatar;
+    }
     
     get name(): string { 
         return "none";
+    }
+
+    get avatar(): string {
+        return this.profile.photo_100 || "https://vk.com/images/camera_100.png";
     }
 }
 

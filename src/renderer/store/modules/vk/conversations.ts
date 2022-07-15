@@ -90,7 +90,7 @@ export default {
         },
 
         UPDATE_ONE: async ({ dispatch, state, rootState }, data) => {
-            const conversation: Conversation = dispatch("GET_CONVERSATION_CACHE", data.peerId);
+            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
 
             if (!conversation) {
                 return false;
@@ -107,19 +107,13 @@ export default {
             });
 
             if (conversation.isChat) {
-                list.items[0] = {
-                    conversation: list.conversations.find(conversation => {
-                        return conversation.peer.id === list.items[0].peer_id;
-                    }),
-
-                    last_message: list.items[0]
-                };
-
-                const [updated] = await dispatch("FORMAT", list);
-                Object.assign(conversation, updated);
+                const chat = list.conversations[0].chat_settings;
+                conversation.updateAvatar(chat.photo?.photo_100);
+                conversation.updateTitle(chat.title);
             }
-
-            conversation.message = await dispatch("FORMAT_MESSAGE", list.items[0]);
+            
+            const message: ConversationMessageType = await dispatch("FORMAT_MESSAGE", list.items[0]);
+            conversation.setMessage(message);
             state.cache.sort((a, b) => b.message.date - a.message.date);
             return true;
         },
@@ -150,7 +144,7 @@ export default {
         },
 
         EDIT_SYNC: async ({ dispatch }, message) => {
-            const conversation: Conversation = dispatch("GET_CONVERSATION_CACHE", message.peer_id);
+            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
             conversation.message = await dispatch("FORMAT_MESSAGE", message);
             return conversation;
         },
@@ -249,7 +243,7 @@ export default {
         },
 
         UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => { 
-            const conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
+            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
 
             if (data.isInbox) {
                 conversation.information.unread_count = 0;
@@ -265,19 +259,19 @@ export default {
         },
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
-            const conversation: Conversation = dispatch("GET_CONVERSATION_CACHE", data.userId);
+            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.userId);
             conversation.setOnline(data.isOnline, Number(data.isOnline && data.platform < 6));
             return true;
         },
 
         ADD_USER: async ({ dispatch }, message) => {
-            const conversation: Chat = dispatch("GET_CONVERSATION_CACHE", message.peer_id);
+            const conversation: Chat = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
             const user = await dispatch("vk/GET_PROFILE", message.action.member_id, { root: true });
             return conversation.addUser(user);
         },
 
         REMOVE_USER: async ({ dispatch }, message) => {
-            const conversation: Chat = dispatch("GET_CONVERSATION_CACHE", message.peer_id);
+            const conversation: Chat = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
             return conversation.removeUser(message.action.member_id);
         }
     }

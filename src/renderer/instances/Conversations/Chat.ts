@@ -8,6 +8,7 @@ import ChatUser from "./ChatUser";
 
 class ConversationChat extends Conversation {
     public isChat: boolean = true;
+    public local_id?: number;
     public profile: MessagesChatFull;
     public users?: ChatUser[];
 
@@ -15,9 +16,13 @@ class ConversationChat extends Conversation {
         super(item);
 
         this.profile = item.profile;
+
+        this.local_id = item.profile.id;
         this.users = this.profile.users.map(user => { 
             return new ChatUser(user);
         });
+
+        delete this.profile.users;
     }
 
     addUser(user: any): ChatUser[] {
@@ -41,6 +46,10 @@ class ConversationChat extends Conversation {
 
         chatUser.typing.enable = true;
         return chatUser.typing.debounce();
+    }
+
+    updateTitle(title: string): void {
+        this.profile.title = title;
     }
 
     get name(): string { 

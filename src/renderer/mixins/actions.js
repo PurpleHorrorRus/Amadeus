@@ -20,13 +20,12 @@ export default {
                 this.close();
             }
 
-            switch(name) {
+            switch (name) {
                 case "reply": {
                     return this.addReply(message);
                 }
 
                 case "edit": {
-                    console.log(message);
                     return this.edit(message);
                 }
 

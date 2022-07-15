@@ -1,6 +1,6 @@
 <template>
     <div class="forward-profile">
-        <img :src="conversation.profile.photo_100" class="forward-profile-avatar">
+        <img :src="conversation.avatar" class="forward-profile-avatar">
         <span class="forward-profile-name nowrap" v-text="conversation.name" />
     </div>
 </template>

@@ -87,6 +87,10 @@ export default {
                 dispatch("conversations/UPDATE_ONE", data);
             });
 
+            state.client.updates.on("chat_title_update", data => { 
+                dispatch("conversations/UPDATE_ONE", data);
+            });
+
             state.client.updates.on("chat_invite_user", async data => {
                 console.log("chat_invite_user", data);
                 dispatch("conversations/ADD_USER", data.payload.message);
@@ -163,7 +167,7 @@ export default {
 
         GET_ACTION_MESSAGE: async ({ dispatch }, message) => {
             const conversation = await dispatch("conversations/GET_CONVERSATION_CACHE", message.peer_id);
-            const user = conversation.profile.users.find(user => {
+            const user = conversation.users.find(user => {
                 return user.id === message.from_id;
             });
 
