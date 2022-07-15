@@ -45,7 +45,7 @@ export default {
     computed: {
         showReply() {
             return this.message.reply_message
-                && !this.exclude.some(attachment => attachment === "reply");
+                && !this.exclude.includes("reply");
         }
     }
 };

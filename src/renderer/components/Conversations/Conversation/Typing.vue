@@ -15,7 +15,7 @@ export default {
     },
 
     props: {
-        typing: {
+        conversation: {
             type: Object,
             required: true
         }
@@ -23,11 +23,16 @@ export default {
 
     computed: {
         text() {
-            return this.typing.names.length > 0
-                ? this.typing.names.length === 1 
-                    ? this.typing.names[0].first_name + " набирает сообщение"
-                    : this.typing.names.map(user => user.first_name).join(", ") + " набирают сообщение"
-                : "набирает сообщение";
+            if (this.conversation.isUser || this.conversation.isGroup) {
+                return "набирает сообщение";
+            }
+
+            if (this.conversation.writers.length > 1) {
+                const names = this.conversation.writers.map(writer => writer.first_name);
+                return names.join(", ") + " набирают сообщение";
+            }
+
+            return this.conversation.writers[0].name + " набирает сообщение";
         }
     }
 };

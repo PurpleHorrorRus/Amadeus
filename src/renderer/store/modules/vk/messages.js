@@ -1,9 +1,7 @@
 import { ipcRenderer } from "electron";
 import Promise from "bluebird";
-import { FormData } from "formdata-node";
-import { fileFromPathSync } from "formdata-node/file-from-path";
+
 import { findLastIndex } from "lodash";
-import fs from "fs-extra";
 
 import common from "~/plugins/common";
 
@@ -241,6 +239,8 @@ export default {
         },
 
         EDIT: async ({ dispatch, rootState }, message) => {
+            message.update_time = Math.floor(Date.now() / 1000);
+
             const toEdit = {
                 attachment: "",
                 peer_id: message.peer_id,
@@ -285,42 +285,19 @@ export default {
         UPLOAD: async ({ dispatch, rootState }, attachments) => {
             const server = await rootState.vk.client.api.photos.getMessagesUploadServer();
             const uploaded = await Promise.map(attachments, async attachment => {
-                if (!("path" in attachment)) {
-                    return attachment;
-                }
-
-                attachment.uploading = true;
-
-                const saved = await dispatch("UPLOAD_ON_SERVER", {
-                    path: attachment.path,
-                    server,
-                    save: upload => rootState.vk.client.api.photos.saveMessagesPhoto(upload)
-                });
-
-                attachment.uploading = false;
-                fs.remove(attachment.path);
-
-                return {
-                    type: attachment.type,
-                    [attachment.type]: saved[0]
-                };
+                return await dispatch("vk/uploader/UPLOAD", {
+                    ...attachment,
+                    server 
+                }, { root: true });
             }, { concurrency: 1 });
 
             return {
                 uploaded,
                 ids: uploaded.map(data => {
                     const attachment = data[data.type];
-                    return `photo${attachment.owner_id}_${attachment.id}`;
+                    return `${data.type}${attachment.owner_id}_${attachment.id}`;
                 }).join(",")
             };
-        },
-
-        UPLOAD_ON_SERVER: async ({ dispatch, rootState }, data) => {
-            const upload = await rootState.vk.client.upload.upload(data.server.upload_url, { 
-                formData: await dispatch("PREPARE_FORMDATA", data.path)
-            });
-
-            return await data.save(upload);
         },
 
         READ: async ({ rootState }, chat) => {
@@ -390,12 +367,6 @@ export default {
             return state.cache[data.peerId].messages.find(message => {
                 return message.id === data.id;
             });
-        },
-
-        PREPARE_FORMDATA: (_, file) => {
-            const form = new FormData();
-            form.set("file", fileFromPathSync(file));
-            return form;
         },
 
         SET_CURRENT: ({ state }, current) => {

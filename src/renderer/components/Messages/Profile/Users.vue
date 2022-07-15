@@ -2,7 +2,7 @@
     <div id="profile-users">
         <div id="profile-users-list">
             <ChatUser 
-                v-for="user of conversation.profile.users"
+                v-for="user of conversation.users"
                 :key="user.id"
                 :profile="user"
             />

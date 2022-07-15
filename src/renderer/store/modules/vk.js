@@ -1,11 +1,14 @@
 import { VK } from "vk-io";
 // const vk = new VK();
-// vk.updates.on("chat_photo_remove");
+// vk.upload.video
 
 import conversations from "~/store/modules/vk/conversations";
 import messages from "~/store/modules/vk/messages";
 import important from "~/store/modules/vk/important";
 import search from "~/store/modules/vk/search";
+import uploader from "~/store/modules/vk/uploader";
+
+import User from "~/instances/User";
 
 export default {
     namespaced: true,
@@ -26,12 +29,11 @@ export default {
                 token: account.token
             });
 
-            const [user] =  await state.client.api.users.get({
-                user_ids: [account.user],
-                fields: "photo_max"
+            const [user] = await state.client.api.users.get({
+                user_ids: [account.user]
             });
 
-            state.user = user;
+            state.user = new User(user);
 
             await dispatch("conversations/FETCH");
             await dispatch("LISTEN");
@@ -40,7 +42,7 @@ export default {
         },
 
         LISTEN: ({ dispatch, state, rootState }) => {
-            state.client.updates.on("message_new",async data => {
+            state.client.updates.on("message_new", async data => {
                 await Promise.all([
                     dispatch("messages/ADD_MESSAGE", data),
                     dispatch("conversations/ADD_MESSAGE", data)
@@ -165,7 +167,7 @@ export default {
                 return user.id === message.from_id;
             });
 
-            switch(message.action.type) {
+            switch (message.action.type) {
                 case "chat_photo_update": {
                     return [
                         `${user.first_name} ${user.last_name}`,
@@ -184,7 +186,7 @@ export default {
                     const newUser = await dispatch("GET_PROFILE", message.action.member_id);
 
                     let actionText = "(not set)";
-                    switch(message.action.type) {
+                    switch (message.action.type) {
                         case "chat_invite_user": actionText = "добавил в беседу"; break;
                         case "chat_kick_user": actionText = "исключил из беседы"; break;
                     }
@@ -217,6 +219,7 @@ export default {
         conversations,
         messages,
         important,
-        search
+        search,
+        uploader
     }
 };

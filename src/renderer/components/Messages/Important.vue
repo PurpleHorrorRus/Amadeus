@@ -5,7 +5,7 @@
             <div class="important-message-information-placeholder">
                 <span 
                     class="important-message-information-placeholder-name" 
-                    v-text="name(conversation.profile)" 
+                    v-text="conversation.name" 
                 />
 
                 <span 

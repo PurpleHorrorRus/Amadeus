@@ -1,7 +1,8 @@
 <template>
     <div class="chat-user">
         <img :src="profile.photo_100" class="chat-user-avatar">
-        <span class="chat-user-name nowrap" v-text="name(profile)" />
+        <span class="chat-user-name nowrap" v-text="profile.name" />
+
         <MoreHorizontalIcon 
             v-if="showActions" 
             class="icon vkgram clickable" 

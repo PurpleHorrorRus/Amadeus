@@ -1,7 +1,7 @@
 <template>
     <div class="forward-profile">
-        <img :src="profile.photo_100" class="forward-profile-avatar">
-        <span class="forward-profile-name nowrap" v-text="name(profile)" />
+        <img :src="conversation.profile.photo_100" class="forward-profile-avatar">
+        <span class="forward-profile-name nowrap" v-text="conversation.name" />
     </div>
 </template>
 
@@ -12,7 +12,7 @@ export default {
     mixins: [ProfileMixin],
 
     props: {
-        profile: {
+        conversation: {
             type: Object,
             required: true
         }

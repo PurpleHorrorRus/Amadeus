@@ -2,7 +2,7 @@
     <div class="message-content-reply nowrap">
         <span 
             class="message-content-reply-name nowrap"
-            v-text="name(profile)"
+            v-text="profile.name"
         />
 
         <span 
@@ -47,19 +47,22 @@ export default {
         }),
 
         showAttachments() {
-            return this.message.attachments?.length > 0
-                || this.message.fwd_messages?.length > 0;
+            return this.message.attachments?.length > 0 ||
+                this.message.fwd_messages?.length > 0;
         }
     },
 
     created() {
         if (this.current.isChat) {
-            this.profile = this.current.profile.users.find(user => user.id === this.message.from_id);
+            this.profile = this.current.profile.users.find(user => {
+                return user.id === this.message.from_id;
+            });
+
             return this.profile;
         }
 
         this.profile = this.message.from_id !== this.user.id
-            ? this.current.profile
+            ? this.current
             : this.user;
     }
 };

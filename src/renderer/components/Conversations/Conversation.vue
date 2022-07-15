@@ -1,11 +1,11 @@
 <template>
     <div :key="conversation" class="conversation" :class="conversationClass">
-        <ConversationAvatar :profile="conversation.profile" />
+        <ConversationAvatar :conversation="conversation" />
 
         <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">
-            <span class="conversation-message-name nowrap" v-text="name(conversation.profile)" />
-            <ConversationMessage v-if="!conversation.typing.enable" :message="conversation.message" />
-            <ConversationTyping v-else :typing="conversation.typing" />
+            <span class="conversation-message-name nowrap" v-text="conversation.name" />
+            <ConversationMessage v-if="!isTyping" :message="conversation.message" />
+            <ConversationTyping v-else :conversation="conversation" />
         </div>
     
         <div class="conversation-icons">
@@ -51,6 +51,14 @@ export default {
                 active: this.current?.id === this.conversation.id,
                 minimized: this.settings.appearance.minimized && this.extended
             };
+        },
+
+        isTyping() {
+            if (this.conversation.isUser || this.conversation.isGroup) {
+                return this.conversation.typing.enable;
+            }
+
+            return this.conversation.writers.length > 0;
         }
     }
 };

@@ -3,12 +3,12 @@
         <span 
             id="messages-header-main-profile-information-name" 
             class="nowrap"
-            v-text="name(conversation.profile)" 
+            v-text="conversation.name" 
         />
 
         <MessagesHeaderOnline 
             v-if="showLastSeen" 
-            :profile="conversation.profile" 
+            :conversation="conversation" 
         />
     </div>
 </template>

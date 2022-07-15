@@ -1,7 +1,7 @@
 <template>
     <div class="conversation-avatar">
-        <img :src="profile.photo_100" class="conversation-avatar-image">
-        <div v-if="profile.online && !onlineMobile" class="conversation-avatar-online" />
+        <img :src="conversation.profile.photo_100" class="conversation-avatar-image">
+        <div v-if="conversation.profile.online && !onlineMobile" class="conversation-avatar-online" />
         <PhoneIcon v-else-if="onlineMobile" class="icon conversation-avatar-online-mobile" />
     </div>
 </template>
@@ -13,7 +13,7 @@ export default {
     },
 
     props: {
-        profile: {
+        conversation: {
             type: Object,
             required: true
         }
@@ -21,8 +21,8 @@ export default {
 
     computed: {
         onlineMobile() {
-            return this.profile.online
-                && this.profile.online_mobile;
+            return this.conversation.profile.online
+                && this.conversation.profile.online_mobile;
         }
     }
 };

@@ -6,7 +6,7 @@
             <ForwardProfile
                 v-for="conversation of conversations"
                 :key="conversation.id"
-                :profile="conversation.profile"
+                :conversation="conversation"
                 @click.native="modal.function(conversation)"
             />
         </div>

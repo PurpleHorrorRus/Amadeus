@@ -96,7 +96,7 @@ export default {
             });
 
             if (index < currentAccountIndex) {
-                config.vk.active = currentAccountIndex -1;
+                config.vk.active = currentAccountIndex - 1;
             }
 
             config.vk.accounts.splice(index, 1);

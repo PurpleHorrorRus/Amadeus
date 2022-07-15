@@ -14,13 +14,11 @@ export default {
         },
 
         profileInMute(conversation) {
-            return this.settings.vk.mute.some(id => {
-                return id === conversation.id;
-            });
+            return this.settings.vk.mute.includes(conversation.id);
         },
 
         turnMute(conversation) {
-            conversation.muted = !conversation.muted; 
+            conversation.setMute(!conversation.muted);
 
             if (conversation.muted) {
                 this.settings.vk.mute.push(conversation.id);

@@ -51,7 +51,8 @@ module.exports = {
     router: routerConfig,
 
     buildModules: [
-        "@nuxtjs/color-mode"
+        "@nuxtjs/color-mode",
+        "@nuxt/typescript-build"
     ],
 
     css: [

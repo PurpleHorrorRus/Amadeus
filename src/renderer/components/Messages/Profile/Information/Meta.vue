@@ -4,7 +4,7 @@
             id="profile-information-meta-name"
             :class="nameClass"
             @click.stop="openInBrowser"
-            v-text="name(conversation.profile)"
+            v-text="conversation.name"
         />
 
         <span 
@@ -16,7 +16,7 @@
 
         <MessagesHeaderOnline 
             v-if="showLastSeen" 
-            :profile="conversation.profile" 
+            :conversation="conversation" 
         />
 
         <ProfileInformationActions :conversation="conversation" />

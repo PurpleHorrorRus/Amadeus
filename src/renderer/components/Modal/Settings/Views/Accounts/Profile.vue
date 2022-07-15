@@ -1,8 +1,8 @@
 <template>
     <div class="account-profile" :class="accountProfileClass">
         <div class="account-profile-main">
-            <img :src="profile.photo_100" class="account-profile-main-avatar">
-            <span class="account-profile-main-name nowrap" v-text="name(profile)" />
+            <img :src="conversation.profile.photo_100" class="account-profile-main-avatar">
+            <span class="account-profile-main-name nowrap" v-text="conversation.name" />
         </div>
 
         <CheckIcon v-if="active" class="icon vkgram" />
@@ -26,7 +26,7 @@ export default {
     mixins: [ProfileMixin],
 
     props: {
-        profile: {
+        conversation: {
             type: Object,
             required: true
         },
