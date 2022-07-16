@@ -17,6 +17,11 @@ export default {
     }),
 
     actions: {
+        SET_ATTACHMENTS: ({ state }, attachments) => {
+            state.attachments = attachments;
+            return state.attachments;
+        },
+        
         ADD_ATTACHMENT: ({ state }, attachment) => {
             if (state.attachments.length === 10) {
                 return false;
@@ -52,6 +57,7 @@ export default {
                 type: "photo",
                 filename,
                 path: savePath,
+                temp: true,
 
                 photo: {
                     id: Date.now(),

@@ -18,6 +18,7 @@ export default {
             switch(this.view) {
                 case "choose-user": return () => import("~/components/Modal/Views/ChooseUser");
                 case "confirmation": return () => import("~/components/Modal/Views/Confirmation");
+                case "add-attachments": return () => import("~/components/Modal/Views/AddAttachments");
             }
 
             return null;

@@ -6,6 +6,8 @@ export default {
         layout: "none",
         view: "none",
         label: "",
+        target: null,
+        busy: false,
 
         function: () => {},
 
@@ -28,6 +30,7 @@ export default {
             state.title = data.title || "";
             state.layout = data.layout || "default";
             state.view = data.view;
+            state.target = data.target;
             state.show = true;
 
             return true;
@@ -51,7 +54,16 @@ export default {
             });
         },
 
+        SET_BUSY: ({ state }, busy) => {
+            state.busy = busy;
+            return state.busy;
+        },
+
         CLOSE: ({ state }) => {
+            if (state.busy) {
+                return false;
+            }
+
             state.show = false;
 
             if (state.view === "confirmation") {
@@ -64,6 +76,7 @@ export default {
 
             state.layout = "none";
             state.view = "none";
+            state.target = null;
             
             return true;
         }
