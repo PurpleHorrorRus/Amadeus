@@ -83,7 +83,7 @@ export default {
 
     methods: {
         openItem(item) {
-            switch(item.type) {
+            switch (item.type) {
                 case types.link: return this.openExternal(item.data);
                 case types.mention: return this.openExternal(`https://vk.com/id${item.data.id}`);
                 default: return false;
@@ -97,7 +97,7 @@ export default {
         },
 
         itemText(item) {
-            switch(item.type) {
+            switch (item.type) {
                 case types.text: case types.link: return item.data;
                 case types.mention: return item.data.mention;
             }
@@ -121,6 +121,10 @@ export default {
         overflow-wrap: break-word;
         word-wrap: break-word;
         word-break: break-word;
+
+        &.text {
+            color: var(--contrast);
+        }
 
         &.mention, &.link {
             color: var(--contrast);

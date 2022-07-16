@@ -1,5 +1,11 @@
 import { ipcRenderer, shell } from "electron";
 
+const availabelToOpenMediaTypes = [
+    "photo",
+    "video",
+    "story"
+];
+
 export default {
     props: {
         item: {
@@ -15,6 +21,10 @@ export default {
 
     methods: {
         openMedia(data, index) {
+            if (data[index].restriction || !availabelToOpenMediaTypes.includes(data[index].type)) {
+                return false;
+            }
+
             if (!data || index === undefined) {
                 console.log("MEDIA: no data requirements", data, index);
                 return false;

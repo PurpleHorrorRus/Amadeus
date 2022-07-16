@@ -1,24 +1,24 @@
 <template>
     <div id="media-page" @click.self="close">
         <div v-if="~media.index" id="media-page-item" @click.right="openMenu">
+            <img
+                v-if="item.type === 'photo'"
+                id="photo"
+                class="media-page-item-frame"
+                :src="item.sizes.max"
+            >
+
             <iframe 
-                v-if="item.type === 'video'"
+                v-else-if="item.type === 'video'"
                 id="video"
                 class="media-page-item-frame"
-                :src="item.video.player" 
+                :src="item.player" 
             />
 
             <MediaPageStory 
                 v-else-if="item.type === 'story'" 
-                :story="item.story"
+                :story="item"
             />
-
-            <img
-                v-else-if="item.type === 'photo'"
-                id="photo"
-                class="media-page-item-frame"
-                :src="maxSize.url"
-            >
 
             <ContextMenu v-if="menu.show" :menu="menu" />
 
@@ -76,10 +76,6 @@ export default {
         }];
 
         this.media = await ipcRenderer.invoke("requestMedia");
-
-        if (this.item.type === "photo") {
-            this.maxSize = this.calculateMaxSize(this.item.photo.sizes);
-        }
     },
 
     mounted() {

@@ -51,6 +51,7 @@
         "vue/attribute-hyphenation": 0,
         "eol-last": ["error", "never"],
         "space-before-function-paren": "off",
-        "operator-linebreak": "off"
+        "operator-linebreak": "off",
+        "import/default": "off"
     }
 }

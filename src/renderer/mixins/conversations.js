@@ -12,7 +12,7 @@ export default {
         }),
 
         async readConversation(conversation) {
-            conversation.information.unread_count = 0;
+            conversation.readIn(conversation.message.id);
             return await this.client.api.messages.markAsRead({
                 peer_id: conversation.id,
                 start_message_id: conversation.message.id

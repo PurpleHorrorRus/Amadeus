@@ -26,6 +26,8 @@
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 
+import AttachmentGenerator from "~/instances/Messages/Attachments/Generator";
+
 export default {
     components: {
         ProfileAttachment: () => import("~/components/Messages/Profile/Attachments/Attachment")
@@ -92,9 +94,12 @@ export default {
             });
 
             this.nextFrom = attachments.next_from;
-            return attachments.items.map(item => {
+
+            const attachmentsList = attachments.items.map(item => {
                 return item.attachment;
             });
+
+            return AttachmentGenerator.generateList(attachmentsList);
         },
 
         async update(index) {
@@ -121,15 +126,17 @@ export default {
 #profile-attachments {
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+    row-gap: 10px;
 
     &-list {
         display: flex;
+        flex-direction: row;
         flex-wrap: wrap;
         gap: 10px;
 
         padding: 10px;
 
+        overflow-x: hidden;
         overflow-y: auto;
     }
 

@@ -72,8 +72,8 @@
             />
         </div>
 
-        <ToggleButton 
-            text="Светлая тема для анимированных стикеров"
+        <ToggleButton
+            text="Светлая тема для стикеров"
             :value="settings.appearance.stickersTheme"
             @change="deepChange(settings.appearance, 'stickersTheme')"
         />

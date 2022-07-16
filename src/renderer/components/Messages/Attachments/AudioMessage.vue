@@ -1,23 +1,11 @@
 <template>
-    <div class="attachments-item attachments-item-audiomessage">
-        <div class="attachments-item-audiomessage-play" @click.stop="action">
+    <div class="attachments-item attachments-item-audiomessage" @click.stop="action">
+        <div class="attachments-item-audiomessage-play">
             <PlayIcon v-if="!isPlaying" class="icon vkgram" />
             <PauseIcon v-else class="icon vkgram" />
         </div>
 
-        <div 
-            ref="waveform" 
-            class="attachments-item-audiomessage-waveform"
-            @click.stop="seekTo"
-        >
-            <div 
-                v-for="(peak, index) of waveform"
-                :key="index"
-                class="attachments-item-audiomessage-waveform-peak"
-                :class="{ played: index <= playedIndex || !isSame }"
-                :style="peakStyle(peak)"
-            />
-        </div>
+        <Waveform :waveform="waveform" />
     </div>
 </template>
 
@@ -28,6 +16,7 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
+        Waveform: () => import("~/components/Messages/Attachments/AudioMessage/Waveform"),
         PlayIcon: () => import("~/assets/icons/play.svg"),
         PauseIcon: () => import("~/assets/icons/pause.svg")
     },
@@ -48,7 +37,7 @@ export default {
         }),
 
         isSame() {
-            return this.voice?.id === this.item.audio_message.id;
+            return this.voice?.id === this.item.id;
         },
 
         isPlaying() {
@@ -61,11 +50,11 @@ export default {
     },
 
     created() {
-        this.percent = this.item.audio_message.duration / 100;
-        this.percentPerPeak = this.item.audio_message.duration / this.item.audio_message.waveform.length;
+        this.percent = this.item.duration / 100;
+        this.percentPerPeak = this.item.duration / this.item.waveform.length;
 
-        this.waveform = this.item.audio_message.waveform.length > 0
-            ? this.item.audio_message.waveform
+        this.waveform = this.item.waveform.length > 0
+            ? this.item.waveform
             : new Array(128).fill(2);
     },
 
@@ -78,34 +67,17 @@ export default {
             play: "audio_message/PLAY",
             pause: "audio_message/PAUSE",
             resume: "audio_message/RESUME",
-            seek: "audio_message/SEEK",
             clear: "audio_message/CLEAR"
         }),
 
         action() {
             if (!this.isSame) { 
-                return this.play(this.item.audio_message);
+                return this.play(this.item);
             }
 
             return this.playing
                 ? this.pause()
                 : this.resume();
-        },
-
-        seekTo(event) {
-            if (!this.isSame) {
-                return false;
-            }
-
-            const percent = (event.offsetX / this.$refs.waveform.clientWidth) * 100;
-            const time = this.percent * percent;
-            return this.seek(time);
-        },
-
-        peakStyle(peak) {
-            return { 
-                height: Math.floor(Math.max(peak, 2) / 1.1) + "px"
-            };
         }
     }
 };
@@ -134,27 +106,6 @@ export default {
 
         .icon {
             width: 16px;
-        }
-    }
-
-    &-waveform {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        flex-wrap: nowrap;
-        column-gap: 1px;
-
-        width: 95%;
-
-        &-peak {
-            width: 1px;
-
-            background: var(--player-slider);
-            pointer-events: none;
-
-            &.played {
-                background: var(--secondary);
-            }
         }
     }
 }

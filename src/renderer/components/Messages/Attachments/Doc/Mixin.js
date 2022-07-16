@@ -5,7 +5,7 @@ export default {
 
     computed: {
         size() {
-            const size = this.item.doc.size / 1024 / 1024;
+            const size = this.item.size / 1024 / 1024;
             return size < 1 
                 ? `${Math.round(size * 1024)} KB`
                 : `${Math.round(size)} MB`;

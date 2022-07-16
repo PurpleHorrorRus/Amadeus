@@ -1,6 +1,6 @@
 <template>
     <div class="attachments-item attachments-item-graffiti">
-        <img :src="item.graffiti.url" class="attachments-item-graffiti-image">
+        <img :src="item.url" class="attachments-item-graffiti-image">
     </div>
 </template>
 

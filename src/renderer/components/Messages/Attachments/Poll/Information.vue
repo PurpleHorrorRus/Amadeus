@@ -11,11 +11,19 @@
             v-text="poll.question" 
         />
 
-        <span 
-            v-if="poll.anonymous"
-            class="attachments-item-poll-information-anonymous" 
-            v-text="'Анонимное голосование'" 
-        />
+        <div class="attachments-item-poll-information-meta">
+            <span 
+                v-if="poll.anonymous"
+                class="attachments-item-poll-information-meta-anonymous" 
+                v-text="'Анонимное голосование'" 
+            />
+
+            <span 
+                v-if="poll.multiple"
+                class="attachments-item-poll-information-meta-multiple" 
+                v-text="'Множественный выбор'" 
+            />
+        </div>
     </div>
 </template>
 
@@ -36,6 +44,7 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    row-gap: 10px;
 
     z-index: 2;
 
@@ -44,6 +53,12 @@ export default {
 
         font-size: 15px;
         font-weight: 600;
+    }
+
+    &-meta {
+        span {
+            font-size: 14px;
+        }
     }
 }
 </style>

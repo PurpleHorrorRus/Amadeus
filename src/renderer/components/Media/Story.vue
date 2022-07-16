@@ -4,8 +4,10 @@
             id="story"
             ref="player"
             class="media-page-item-frame"
-            :src="story.video.files.mp4_480"
+            :src="story.src"
             autoplay loop
+            @mousedown="pause"
+            @mouseup="resume"
         />
 
         <div id="media-page-story-icon" @click="toggleMute">
@@ -37,6 +39,14 @@ export default {
         toggleMute() {
             this.sound = !this.sound;
             this.$refs.player.muted = !this.sound;
+        },
+
+        pause() {
+            this.$refs.player.pause();
+        },
+
+        resume() {
+            this.$refs.player.play();
         }
     }
 };

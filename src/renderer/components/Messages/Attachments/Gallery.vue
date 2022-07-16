@@ -6,6 +6,8 @@
             :key="index"
             :item="attachment"
             :index="index"
+            :showTitle="data.length === 1"
+            @click.native.stop="openMedia(data, index)"
         />
     </div>
 </template>
@@ -14,10 +16,11 @@
 import AttachmentPhoto from "~/components/Messages/Attachments/Gallery/Photo";
 import AttachmentVideo from "~/components/Messages/Attachments/Gallery/Video";
 
+import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 import AttachmentsMixin from "~/mixins/attachments";
 
 export default {
-    mixins: [AttachmentsMixin],
+    mixins: [AttachmentMixin, AttachmentsMixin],
 
     computed: {
         galleryClass() {
@@ -29,7 +32,7 @@ export default {
 
     methods: {
         render(attachment) {
-            switch(attachment.type) {
+            switch (attachment.type) {
                 case "photo": return AttachmentPhoto;
                 case "video": return AttachmentVideo;
             }
@@ -62,7 +65,7 @@ export default {
     }
 
     &.grid-2 {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr 1fr;
         grid-template-rows: 1fr;
         grid-template-areas: "item-1 item-2";
     }

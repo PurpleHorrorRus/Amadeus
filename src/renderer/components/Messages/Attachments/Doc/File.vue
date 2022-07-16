@@ -1,11 +1,11 @@
 <template>
-    <div class="attachments-item-doc-file" @click="openExternal(item.doc.url)">
+    <div class="attachments-item-doc-file" @click.stop="openExternal(item.url)">
         <div class="attachments-item-doc-file-download">
             <FileIcon class="icon" />
         </div>
 
         <div class="attachments-item-doc-file-information nowrap">
-            <span class="attachments-item-doc-file-information-title nowrap" v-text="item.doc.title" />
+            <span class="attachments-item-doc-file-information-title nowrap" v-text="item.title" />
             <div class="attachments-item-doc-file-information-meta">
                 <span class="attachments-item-doc-file-information-meta-size" v-text="size" />
             </div>

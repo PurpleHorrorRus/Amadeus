@@ -1,9 +1,8 @@
 <template>
     <img 
-        :src="maxSize.url" 
+        :src="item.sizes.medium" 
         class="attachments-item attachments-item-photo"
         :style="itemStyle"
-        @click.stop="openMedia($parent.data, index)"
     >
 </template>
 
@@ -11,15 +10,7 @@
 import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
 
 export default {
-    mixins: [GalleryMixin],
-
-    data: () => ({
-        maxSize: { url: "" }
-    }),
-
-    created() {
-        this.maxSize = this.calculateMaxSize(this.item.photo.sizes);
-    }
+    mixins: [GalleryMixin]
 };
 </script>
 

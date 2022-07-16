@@ -72,7 +72,7 @@ class MeridiusWindow {
                 return false;
             }
 
-            switch(input.code) {
+            switch (input.code) {
                 case "ArrowRight": {
                     common.windows.send(this.window, "changeMedia", 1);
                     break;

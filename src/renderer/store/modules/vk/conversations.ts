@@ -6,7 +6,7 @@ import User from "~/instances/Conversations/User";
 import Group from "~/instances/Conversations/Group";
 import Chat from "~/instances/Conversations/Chat";
 
-import { ConversationMessageType } from "~/instances/Conversations/types/ConversationMessage";
+import { ConversationMessageType } from "~/instances/Types/ConversationMessage";
 import ChatUser from "~/instances/Conversations/ChatUser";
 
 import common from "~/plugins/common";
@@ -145,7 +145,7 @@ export default {
 
         EDIT_SYNC: async ({ dispatch }, message) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
-            conversation.message = await dispatch("FORMAT_MESSAGE", message);
+            conversation.setMessage(await dispatch("FORMAT_MESSAGE", message));
             return conversation;
         },
 
@@ -244,11 +244,10 @@ export default {
 
         UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => { 
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
-
-            if (data.isInbox) {
-                conversation.information.unread_count = 0;
-                conversation.information.in_read = data.payload.local_id;
-            } else conversation.information.out_read = data.payload.local_id;
+        
+            data.isInbox
+                ? conversation.readIn(data.payload.local_id)
+                : conversation.readOut(data.payload.local_id);
             
             return true;
         },

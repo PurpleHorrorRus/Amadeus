@@ -1,4 +1,4 @@
-import Vuex from "vuex";
+import { Store } from "vuex";
 
 import vk from "~/store/modules/vk";
 import ipc from "~/store/modules/ipc";
@@ -9,7 +9,7 @@ import audio_message from "~/store/modules/audio_message";
 import modal from "~/store/modules/modal";
 
 export default () => {
-    return new Vuex.Store({
+    return new Store({
         state: () => ({
             extendedView: false,
 

@@ -207,9 +207,6 @@ export default {
         },
 
         VOTE: async ({ state }, data) => {
-            data.poll.can_vote = false;
-            data.poll.votes++;
-
             return await state.client.api.polls.addVote({
                 owner_id: data.poll.owner_id,
                 poll_id: data.poll.id,

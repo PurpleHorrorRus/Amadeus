@@ -14,7 +14,7 @@ export default {
             }
 
             const daysDiff = Math.floor(diff.days());
-            switch(daysDiff) {
+            switch (daysDiff) {
                 case 0: {
                     return common.timestampFormat(date);
                 }

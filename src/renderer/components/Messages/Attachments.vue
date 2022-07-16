@@ -2,8 +2,8 @@
     <div class="message-content-attachments">
         <div v-if="message.attachments.length > 0" class="message-content-attachments-list">
             <AttachmentWall
-                v-if="message.attachments[0].type === 'wall'" 
-                :item="message.attachments[0]"
+                v-if="attachment.type === 'wall'" 
+                :item="attachment"
             />
 
             <Gallery 
@@ -12,23 +12,23 @@
             />
 
             <AttachmentSticker 
-                v-if="message.attachments[0].type === 'sticker'" 
-                :item="message.attachments[0]"
+                v-if="attachment.type === 'sticker'" 
+                :item="attachment"
             />
 
             <AttachmentGraffiti
-                v-else-if="message.attachments[0].type === 'graffiti'" 
-                :item="message.attachments[0]"
+                v-else-if="attachment.type === 'graffiti'" 
+                :item="attachment"
             />
 
             <AttachmentAudioMessage
-                v-else-if="message.attachments[0].type === 'audio_message'" 
-                :item="message.attachments[0]"
+                v-else-if="attachment.type === 'audio_message'" 
+                :item="attachment"
             />
 
             <AttachmentStory
-                v-else-if="message.attachments[0].type === 'story'" 
-                :item="message.attachments[0]"
+                v-else-if="attachment.type === 'story'" 
+                :item="attachment"
             />
 
             <AttachmentPoll
@@ -36,10 +36,15 @@
                 :item="pollItem"
             />
 
+            <AttachmentsLink 
+                v-if="linkItem" 
+                :item="linkItem" 
+            />
+
             <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
                 <AttachmentAudio
                     v-for="item of audioItems"
-                    :key="item.audio.id"
+                    :key="item.id"
                     :item="item"
                 />
             </div>
@@ -47,13 +52,12 @@
             <div v-if="docItems.length > 0" class="message-content-attachments-docs">
                 <AttachmentsDoc 
                     v-for="item of docItems"
-                    :key="item.doc.id"
+                    :key="item.id"
                     :item="item"
                 />
             </div>
         </div>
 
-        <AttachmentsLink v-if="linkItem" :item="linkItem" />
         <AttachmentsMap v-if="message.geo" :geo="message.geo" />
     </div>
 </template>
@@ -82,6 +86,10 @@ export default {
     },
 
     computed: {
+        attachment() {
+            return this.message.attachments[0];
+        },
+
         galleryItems() {
             return this.message.attachments.filter(attachment => {
                 return attachment.type === "photo" 

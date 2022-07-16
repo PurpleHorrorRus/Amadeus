@@ -46,5 +46,9 @@ export default {
         cursor: pointer;
         background: var(--item-hover);
     }
+
+    .icon {
+        width: 16px;
+    }
 }
 </style>

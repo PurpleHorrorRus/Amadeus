@@ -1,17 +1,17 @@
 <template>
     <div class="attachments-item attachments-item-sticker">
         <lottie-vue-player
-            v-if="item.sticker.animation_url"
+            v-if="item.animated"
             :key="settings.appearance.stickersTheme"
-            :src="item.sticker.animations[settings.appearance.stickersTheme].url"
+            :src="sticker"
             class="attachments-item-sticker-animation"
             autoplay
             loop
-            mode="normal"
         />
 
         <img 
             v-else
+            :key="settings.appearance.stickersTheme"
             :src="sticker" 
             class="attachments-item-sticker-image"
         >
@@ -27,7 +27,9 @@ export default {
 
     computed: {
         sticker() {
-            return this.item.sticker.images[this.item.sticker.images.length - 1].url;
+            return this.settings.appearance.stickersTheme === 1
+                ? this.item.dark
+                : this.item.light;
         }
     }
 };
@@ -49,7 +51,7 @@ export default {
     }
 
     &-animation {
-        height: 20vw;
+        height: 20%;
 
         .lf-spinner {
             display: none;

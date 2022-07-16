@@ -18,7 +18,7 @@ export default {
 
     computed: {
         isGif() {
-            return this.item.doc.ext === "gif";
+            return this.item.doctype === 3;
         }
     }
 };

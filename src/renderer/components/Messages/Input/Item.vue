@@ -4,7 +4,7 @@
 
         <WallRepost 
             v-if="item.type === 'wall'" 
-            :item="item.wall" 
+            :item="item" 
         />
 
         <GalleryPhoto 

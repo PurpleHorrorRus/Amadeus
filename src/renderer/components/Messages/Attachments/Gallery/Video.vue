@@ -1,19 +1,15 @@
 <template>
-    <div 
-        class="attachments-item attachments-item-video" 
-        :style="itemStyle" 
-        @click.stop="openVideo"
-    >
+    <div class="attachments-item attachments-item-video" :style="itemStyle">
         <div class="attachments-item-video-preview" :style="previewStyle">
             <img 
-                v-if="!quick && preview.url" 
-                :src="preview.url" 
+                v-if="!quick && item.sizes.max" 
+                :src="item.sizes.max" 
                 class="attachments-item-video-preview-image"
             >
             
             <iframe 
                 v-else-if="quick" 
-                :src="item.video.player" 
+                :src="item.player" 
                 class="attachments-item-video-preview-quick"
             />
             
@@ -31,7 +27,7 @@
         <span 
             v-if="showTitle"
             class="attachments-item-title attachments-item-video-title nowrap" 
-            v-text="item.video.title"
+            v-text="item.title"
         />
     </div>
 </template>
@@ -62,7 +58,6 @@ export default {
     },
 
     data: () => ({
-        preview: {},
         quick: false
     }),
 
@@ -70,29 +65,11 @@ export default {
         canQuick() {
             return this.canQuickPlay 
                 && !this.quick 
-                && !this.isRestrict;
-        },
-
-        isRestrict() {
-            return Boolean(this.item.video.restriction);
-        }
-    },
-
-    created() {
-        if (this.item.video.image) {
-            this.preview = this.calculateMaxSize(this.item.video.image);
+                && !this.item.restriction;
         }
     },
 
     methods: {
-        openVideo() {
-            if (this.isRestrict) {
-                return false;
-            }
-
-            return this.openMedia(this.$parent.data, this.index);
-        },
-
         quickPlay() {
             this.quick = true;
         }

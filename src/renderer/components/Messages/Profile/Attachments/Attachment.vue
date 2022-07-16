@@ -2,13 +2,15 @@
     <div class="profile-attachments-item">
         <GalleryPhoto 
             v-if="item.type === 'photo'" 
-            :item="item" :index="index" 
+            :item="item" :index="index"
+            @click.native.stop="openMedia(data, index)"
         />
 
         <GalleryVideo 
             v-else-if="item.type === 'video'" 
             :item="item" 
-            :index="index" :canQuickPlay="false" 
+            :index="index" :canQuickPlay="false"
+            @click.native.stop="openMedia(data, index)"
         />
 
         <AttachmentAudio 
@@ -24,6 +26,8 @@
 </template>
 
 <script>
+import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
+
 export default {
     components: {
         GalleryPhoto: () => import("~/components/Messages/Attachments/Gallery/Photo"),
@@ -31,6 +35,8 @@ export default {
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
         AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc")
     },
+    
+    mixins: [AttachmentMixin],
 
     props: {
         item: {
@@ -54,6 +60,8 @@ export default {
 
 <style lang="scss">
 .profile-attachments-item {
+    height: max-content;
+
     cursor: pointer;
 
     .attachments-item {
@@ -65,6 +73,10 @@ export default {
         height: 95px;
 
         border-radius: 8px;
+    }
+
+    .attachments-item-doc-file {
+        width: 20rem;
     }
 
     .attachments-item-doc-gif-preview {

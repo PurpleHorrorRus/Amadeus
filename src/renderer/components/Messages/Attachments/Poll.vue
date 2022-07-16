@@ -2,38 +2,26 @@
     <div 
         class="attachments-item attachments-item-poll" 
         :class="pollClass" 
-        :style="style.poll"
+        :style="item.style.poll"
     >
         <div 
             class="attachments-item-poll-foreground" 
-            :style="style.foreground" 
+            :style="item.style.foreground" 
         />
 
-        <PollInformation :poll="item.poll" />
+        <PollInformation :poll="item" />
 
         <div class="attachments-item-poll-answers">
             <div class="attachments-item-poll-answers-list">
                 <PollAnswer
-                    v-for="answer of choices"
+                    v-for="answer of item.answers"
                     :key="answer.id"
                     :answer="answer"
                     @click.native.stop="addChoice(answer)"
                 />
             </div>
 
-            <div class="attachments-item-poll-answers-vote">
-                <span 
-                    v-if="showFirst"
-                    class="attachments-item-poll-answers-vote-first" 
-                    v-text="'Проголосуйте первым!'" 
-                />
-
-                <SolidButton 
-                    v-else-if="readyToVote"
-                    label="Проголосовать" 
-                    @click.native="voteLocal"
-                />
-            </div>
+            <PollVote :item="item" />
         </div>
     </div>
 </template>
@@ -46,7 +34,8 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 export default {
     components: {
         PollInformation: () => import("~/components/Messages/Attachments/Poll/Information"),
-        PollAnswer: () => import("~/components/Messages/Attachments/Poll/Answer")
+        PollAnswer: () => import("~/components/Messages/Attachments/Poll/Answer"),
+        PollVote: () => import("~/components/Messages/Attachments/Poll/Vote")
     },
 
     mixins: [AttachmentMixin],
@@ -67,74 +56,11 @@ export default {
 
         pollClass() {
             return {
-                first: this.isFirst,
-                closed: this.isClosed,
-                background: !this.isPhoto
+                first: this.showFirst,
+                closed: !this.item.voteAvailable,
+                background: !this.item.isPhoto
             };
-        },
-
-        isPhoto() {
-            return "photo" in this.item.poll;
-        },
-
-        isFirst() {
-            return this.item.poll.votes === 0;
-        },
-
-        isClosed() {
-            return this.item.poll.closed || !this.item.poll.can_vote;
-        },
-
-        choicedItems() {
-            return this.choices.filter(choice => {
-                return choice.choiced;
-            });
-        },
-
-        showFirst() {
-            return this.item.poll.multiple
-                ? !this.readyToVote
-                : this.item.poll.votes === 0;
-        },
-
-        readyToVote() {
-            if (this.item.poll.multiple) {
-                return this.choicedItems.length > 0 
-                    || (this.choicedItems.length === 0 && this.item.poll.votes > 0);
-            }
-
-            return false;
         }
-    },
-
-    created() {
-        this.item.poll.answers.forEach(answer => {
-            this.choices.push({
-                ...answer,
-                choiced: false
-            });
-
-            return answer;
-        });
-    },
-
-    mounted() {
-        if (this.isPhoto) {
-            const maxSize = this.calculateMaxSize(this.item.poll.photo.images);
-            this.style.poll = { backgroundImage: `url("${maxSize.url}")` };
-            this.style.foreground = { 
-                background: `linear-gradient(transparent -100%,  #${this.item.poll.photo.color} 100%)`
-            };
-
-            return true;
-        }
-
-        this.style.foreground = {
-            background: `linear-gradient(\
-                -${this.item.poll.background.angle}deg, \
-                #${this.item.poll.background.points[0].color} 0%, \
-             #${this.item.poll.background.points[1].color} 100%)`
-        };
     },
     
     methods: {
@@ -143,21 +69,22 @@ export default {
         }),
 
         addChoice(answer) {
-            if (this.isClosed) {
+            if (!this.item.voteAvailable) {
                 return false;
             }
 
-            answer.choiced = !answer.choiced;
-
-            if (!this.item.poll.multiple) {
+            if (!this.item.multiple) {
+                this.item.vote(answer);
                 return this.voteLocal();
             }
+
+            return this.item.choice(answer);
         },
 
         async voteLocal() {
             this.vote({ 
-                poll: this.item.poll,
-                answers: this.choicedItems
+                poll: this.item,
+                answers: this.item.choiced
             });
         }
     }
@@ -172,7 +99,7 @@ export default {
     grid-template-rows: 120px 1fr;
     grid-template-columns: 1fr;
 
-    width: 100%;
+    width: 300px;
     height: max-content;
 
     border-radius: 8px;
@@ -221,16 +148,6 @@ export default {
             row-gap: 10px;
 
             padding: 10px;
-        }
-
-        &-vote {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            &-first {
-                font-size: 12px;
-            }
         }
     }
 }

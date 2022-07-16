@@ -1,7 +1,7 @@
 import { FormData } from "formdata-node";
 import { fileFromPathSync } from "formdata-node/file-from-path";
 
-import fs from "fs-extra";
+import { removeSync } from "fs-extra";
 
 export default {
     namespaced: true,
@@ -17,7 +17,7 @@ export default {
             attachment.uploading = true;
 
             let save = null;
-            switch(attachment.type) {
+            switch (attachment.type) {
                 case "photo": {
                     save = {
                         field: "file",
@@ -70,7 +70,7 @@ export default {
             }, { root: true });
             
             if (attachment.temp) {
-                fs.remove(attachment.path);
+                removeSync(attachment.path);
             }
 
             attachment.uploading = false;

@@ -55,7 +55,7 @@ export default {
         marker() {
             return {
                 layout: "default#imageWithContent",
-                content: this.geo.place.title
+                content: this.geo.title
             };
         }
     }

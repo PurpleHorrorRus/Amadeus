@@ -1,16 +1,16 @@
 <template>
     <div class="attachments-item attachments-item-wall">
-        <WallRepost :item="item.wall" />
+        <WallRepost :item="item" />
 
         <span 
-            v-if="item.wall.text"
+            v-if="item.text"
             class="attachments-item-wall-text" 
-            v-text="item.wall.text" 
+            v-text="item.text" 
         />
 
         <MessageAttachments
-            v-if="wall.attachments.length > 0"
-            :message="wall"
+            v-if="item.attachments.length > 0"
+            :message="item"
         />
     </div>
 </template>
@@ -28,18 +28,8 @@ export default {
 
     data: () => ({
         loaded: false,
-        wall: {},
         repost: null
-    }),
-
-    async created() {
-        this.wall = this.item.wall;
-        this.wall.attachments = this.item.wall.copy_history?.length > 0
-            ? [{ 
-                wall: this.item.wall.copy_history[0],
-                type: "wall"
-            }] : this.item.wall.attachments || [];
-    }
+    })
 };
 </script>
 

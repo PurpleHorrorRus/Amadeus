@@ -8,7 +8,7 @@ import {
     MessagesChatFull
 } from "vk-io/lib/api/schemas/objects";
 
-import { ConversationMessageType } from "./types/ConversationMessage";
+import { ConversationMessageType } from "../Types/ConversationMessage";
 
 type ProfileType = UsersUserFull | GroupsGroupFull | MessagesChatFull;
 
@@ -96,6 +96,15 @@ abstract class Conversation {
 
     setProfile(profile: ProfileType): void {
         this.profile = profile;
+    }
+
+    readIn(id: number): void {
+        this.information.unread_count = 0;
+        this.information.in_read = id;
+    }
+
+    readOut(id: number): void {
+        this.information.out_read = id;
     }
 
     updateAvatar(avatar: string): void {

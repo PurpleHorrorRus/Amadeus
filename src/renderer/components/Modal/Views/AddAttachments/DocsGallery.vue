@@ -3,7 +3,7 @@
         <div id="docs-gallery-list">
             <SelectableItem 
                 v-for="item of items"
-                :key="item.doc.id"
+                :key="item.id"
                 :component="DocComponent"
                 :item="item"
                 @select="$emit('select', item)"

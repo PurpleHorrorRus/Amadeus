@@ -6,8 +6,8 @@
         </div>
 
         <div class="attachments-item-audio-information nowrap">
-            <span class="attachments-item-audio-information-artist nowrap" v-text="item.audio.artist" />
-            <span class="attachments-item-audio-information-title nowrap" v-text="item.audio.title" />
+            <span class="attachments-item-audio-information-artist nowrap" v-text="item.artist" />
+            <span class="attachments-item-audio-information-title nowrap" v-text="item.title" />
         </div>
     </div>
 </template>
@@ -26,7 +26,7 @@ export default {
 
     computed: {
         full_id() {
-            return `${this.item.audio.owner_id}_${this.item.audio.id}`;
+            return `${this.item.owner_id}_${this.item.id}`;
         },
 
         isSame() {
@@ -49,7 +49,7 @@ export default {
             }
 
             return this.play({
-                ...this.item.audio,
+                ...this.item,
                 full_id: this.full_id
             });
         }
