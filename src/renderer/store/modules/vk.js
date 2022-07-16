@@ -9,6 +9,7 @@ import search from "~/store/modules/vk/search";
 import uploader from "~/store/modules/vk/uploader";
 
 import User from "~/instances/User";
+import Group from "~/instances/Group";
 
 export default {
     namespaced: true,
@@ -144,11 +145,8 @@ export default {
                     fields: "photo_100",
                     extended: 1
                 });
-    
-                return {
-                    type: "group",
-                    profile: data.groups?.[0] || data[0]
-                };
+
+                return new Group(data.groups?.[0] || data[0]);
             }
 
             const data = await state.client.api.users.get({
@@ -157,12 +155,7 @@ export default {
                 extended: 1
             });
 
-            const user = data.profiles?.[0] || data[0];
-            user.name = `${user.first_name} ${user.last_name}`;
-            return {
-                type: "user",
-                profile: user
-            };
+            return new User(data.profiles?.[0] || data[0]);
         },
 
         GET_ACTION_MESSAGE: async ({ dispatch }, message) => {

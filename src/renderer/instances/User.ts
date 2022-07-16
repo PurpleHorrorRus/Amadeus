@@ -1,6 +1,8 @@
+import { shell } from "electron";
 import { BaseBoolInt, UsersUserFull, UsersLastSeen } from "vk-io/lib/api/schemas/objects";
+import { UserGroup } from "./Interfaces/General";
 
-class User implements UsersUserFull {
+class User implements UserGroup, UsersUserFull {
     public id: number;
     public first_name: string;
     public last_name: string;
@@ -17,6 +19,10 @@ class User implements UsersUserFull {
         this.online = user.online;
         this.online_mobile = user.online_mobile;
         this.last_seen = user.last_seen;
+    }
+
+    openExternal(): Promise<void> {
+        return shell.openExternal(`https://vk.com/id${this.id}`);
     }
 
     get name(): string { 

@@ -13,7 +13,7 @@ export default {
                 return `${common.formatTimeToDayAndMonth(date)}, ${date.getFullYear()} г.`;
             }
 
-            const daysDiff = Math.floor(diff.days());
+            const daysDiff = Math.round(diff.days());
             switch (daysDiff) {
                 case 0: {
                     return common.timestampFormat(date);

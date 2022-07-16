@@ -107,7 +107,7 @@ export default {
     &-info {
         display: flex;
         justify-content: flex-end;
-        align-items: flex-end;
+        align-items: center;
         column-gap: 5px;
 
         height: 15px;

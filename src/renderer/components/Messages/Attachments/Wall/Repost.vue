@@ -8,14 +8,11 @@
             <div class="attachments-item-repost-block-information nowrap">
                 <span 
                     class="attachments-item-repost-block-information-name nowrap clickable" 
-                    @click.stop="open"
+                    @click.stop="() => profile.openExternal()"
                     v-text="profile.name"
                 />
 
-                <span 
-                    class="attachments-item-repost-block-information-date" 
-                    v-text="profile.date" 
-                />
+                <span class="attachments-item-repost-block-information-date" v-text="date" />
             </div>
         </div>
 
@@ -50,30 +47,20 @@ export default {
 
     data: () => ({
         profile: {},
+        date: new Date(),
         loaded: false
     }),
 
     async created() {
-        const { profile } = await this.getProfile(this.item.from_id);
-        this.profile = Object.assign(profile, {
-            date: this.relativeDate(this.item.date)
-        });
-
+        this.profile = await this.getProfile(this.item.from_id);
+        this.date = this.relativeDate(this.item.date);
         this.loaded = true;
     },
 
     methods: {
         ...mapActions({
             getProfile: "vk/GET_PROFILE"
-        }),
-
-        open() {
-            const url = this.profile.type === "user"
-                ? `https://vk.com/id${this.profile.id}` 
-                : `https://vk.com/public${this.profile.id}`;
-
-            return this.openExternal(url);
-        }
+        })
     }
 };
 </script>

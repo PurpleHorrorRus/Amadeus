@@ -175,7 +175,15 @@ export default {
     }
 }
 
-.message.out:not(.noBackground) .attachments-item-title {
-    color: var(--text);
+.message.out:not(.noBackground) {
+    .attachments-item-title {
+        color: var(--text);
+    }
+}
+
+.message.noBackground {
+    .attachments-item-title, .message-content-info-date {
+        color: var(--text);
+    }
 }
 </style>
