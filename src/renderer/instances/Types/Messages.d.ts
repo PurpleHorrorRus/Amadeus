@@ -1,4 +1,4 @@
-import { MessagesMessage, MessagesForeignMessage } from "vk-io/lib/api/schemas/objects";
+import { MessagesMessage } from "vk-io/lib/api/schemas/objects";
 
 import Conversation from "../Conversations/Convesration";
 import Message from "../Messages/Message";
@@ -12,6 +12,7 @@ export type TChat = {
     conversation: Conversation
 }
 
-export type TMessage = (MessagesMessage | MessagesForeignMessage) & {
+export type TMessage = MessagesMessage & {
+    syncing?: boolean | number
     geo?: TMap
 }

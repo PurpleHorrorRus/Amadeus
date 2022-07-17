@@ -6,7 +6,7 @@ import Attachment from "./Attachment";
 import AttachmentGenerator from "./Attachments/Generator";
 import Map from "./Attachments/Map";
 
-class Message {
+class Message implements TMessage {
     public id: number;
     public date: number;
     public from_id: number;
@@ -33,6 +33,7 @@ class Message {
         this.out = message.out;
         this.random_id = message.random_id;
         this.important = message.important;
+        this.syncing = message.syncing;
         this._update_time = message.update_time || 0;
 
         if (message.attachments?.length > 0) {

@@ -4,6 +4,7 @@ import lodash from "lodash";
 
 import { BaseUploadServer } from "vk-io/lib/api/schemas/objects";
 import { MessagesSendParams } from "vk-io/lib/api/schemas/params";
+import { MessagesGetByIdResponse, MessagesGetHistoryResponse } from "vk-io/lib/api/schemas/responses";
 
 import Message from "~/instances/Messages/Message";
 import Attachment from "~/instances/Messages/Attachment";
@@ -35,7 +36,7 @@ export default {
                 state.cache[data.id].messages = [];
             }
 
-            const history = await rootState.vk.client.api.messages.getHistory({
+            const history: MessagesGetHistoryResponse = await rootState.vk.client.api.messages.getHistory({
                 offset: isSearch ? undefined : (data.offset || 0),
                 start_message_id: data.start_message_id,
                 peer_id: data.id,
@@ -54,34 +55,32 @@ export default {
         },
 
         APPEND: async ({ dispatch, state, rootState }, id) => {
-            const history = await rootState.vk.client.api.messages.getHistory({
+            const history: MessagesGetHistoryResponse = await rootState.vk.client.api.messages.getHistory({
                 offset: state.cache[id].messages.length,
                 peer_id: id,
                 ...fields
             });
 
-            const formatted = await dispatch("FORMAT_MESSAGES", history.items);
+            const formatted: Message[] = await dispatch("FORMAT_MESSAGES", history.items);
             state.cache[id].messages = formatted.concat(state.cache[id].messages);
             return state.cache[id];
         },
 
-        FORMAT_MESSAGES: (_, items) => {
+        FORMAT_MESSAGES: (_, items): Message[] => {
             return items.map(message => {
                 return new Message(message);
             }).reverse();
         },
 
-        FLUSH: ({ state }, conversation) => {
-            const messages = state.cache[conversation.id].messages;
+        FLUSH: ({ state }, conversation): void => {
+            const messages: Message[] = state.cache[conversation.id].messages;
 
             if (messages.length > fields.count) {
                 messages.splice(0, messages.length - fields.count - 1);
             }
-
-            return messages.length > fields.count;
         },
 
-        UNSELECT_ALL: ({ state }) => {
+        UNSELECT_ALL: ({ state }): void => {
             return state.cache[state.current.id].messages.filter(message => {
                 return message.selected;
             }).forEach(message => {
@@ -90,20 +89,17 @@ export default {
             });
         },
 
-        CLEAR: ({ state }, conversation) => {
+        CLEAR: ({ state }, conversation): void => {
             delete state.cache[conversation.id];
-            return true;
         },
 
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
-            data = await dispatch("PREPARE_DATA", data);
-
             if (data.payload.message.peer_id in state.cache) {
-                const response = await rootState.vk.client.api.messages.getById({
+                const response: MessagesGetByIdResponse = await rootState.vk.client.api.messages.getById({
                     message_ids: data.payload.message.id
                 });
-
-                const message = await dispatch("SYNC", response.items[0]);
+                
+                const message: Message = await dispatch("SYNC", response.items[0]);
                 state.cache[message.peer_id].count++;
                 return state.cache[message.peer_id];
             }
@@ -123,16 +119,13 @@ export default {
             return data;
         },
 
-        SYNC: async ({ dispatch, state }, message) => {
+        SYNC: async ({ state }, message: Message) => {
             const messages: Message[] = state.cache[message.peer_id]?.messages;
             if (!messages) {
                 return false;
             }
 
-            const formatted: Message = await dispatch("FORMAT_MESSAGES", [message]); 
-            message = formatted[0];
-
-            let messageIndex = message.random_id > 0
+            let messageIndex: number = message.random_id > 0
                 ? lodash.findLastIndex(messages, msg => {
                     return msg.id === message.id;
                 })
@@ -148,7 +141,7 @@ export default {
                 const cacheMessage: Message = messages[messageIndex];
                 cacheMessage.id = message.id;
                 cacheMessage.syncing = 0;
-                return Object.assign(cacheMessage, message);
+                return cacheMessage;
             } else {
                 messages.push(message);
                 return message;
@@ -196,7 +189,7 @@ export default {
                 reply_to: data.reply_message?.id
             };
 
-            const message = {
+            const message: Message = new Message({
                 id: common.getRandom(100000, 999999),
                 peer_id: toSend.peer_id,
                 random_id: toSend.random_id,
@@ -206,7 +199,7 @@ export default {
                 out: 1,
                 syncing: 1,
                 ...data
-            };
+            });
 
             if (!toSend.reply_to && data.forward_messages) {
                 toSend.forward_messages = data.forward_messages.map(message => {
@@ -309,8 +302,6 @@ export default {
             if (message.out) {
                 return false;
             }
-
-            console.log("Read In 2", message);
             
             chat.conversation.readIn(message.id);
             return await rootState.vk.client.api.messages.markAsRead({

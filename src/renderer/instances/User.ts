@@ -1,9 +1,10 @@
 import { shell } from "electron";
 import { BaseBoolInt, UsersUserFull, UsersLastSeen } from "vk-io/lib/api/schemas/objects";
-import { UserGroup } from "./Interfaces/General";
+import { profileTypes, UserGroup } from "./Interfaces/General";
 
 class User implements UserGroup, UsersUserFull {
     public id: number;
+    public profileType: profileTypes;
     public first_name: string;
     public last_name: string;
     public photo_100?: string;
@@ -13,6 +14,7 @@ class User implements UserGroup, UsersUserFull {
 
     constructor(user: UsersUserFull) {
         this.id = user.id;
+        this.profileType = profileTypes.USER;
         this.first_name = user.first_name;
         this.last_name = user.last_name;
         this.photo_100 = user.photo_100;

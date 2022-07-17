@@ -2,15 +2,11 @@ import lodash from "lodash";
 
 import {
     MessagesConversationWithMessage,
-    MessagesConversation,
-    UsersUserFull,
-    GroupsGroupFull,
-    MessagesChatFull
+    MessagesConversation
 } from "vk-io/lib/api/schemas/objects";
 
+import { TProfile } from "../Types/Conversation";
 import { ConversationMessageType } from "../Types/ConversationMessage";
-
-type ProfileType = UsersUserFull | GroupsGroupFull | MessagesChatFull;
 
 const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 
@@ -18,7 +14,7 @@ abstract class Conversation {
     [x: string]: any;
 
     public message: ConversationMessageType;
-    public profile: ProfileType;
+    public profile: TProfile;
     public information: MessagesConversation;
     public id: number;
     public type: string;
@@ -60,6 +56,10 @@ abstract class Conversation {
         this.setMessage(message);
         this.updateMention(message.text);
         this.stopTyping();
+
+        if (!message.out) {
+            this.information.unread_count++;
+        }
     }
 
     setMessage(message: ConversationMessageType): void { 
@@ -94,7 +94,7 @@ abstract class Conversation {
         this.muted = muted;
     }
 
-    setProfile(profile: ProfileType): void {
+    setProfile(profile: TProfile): void {
         this.profile = profile;
     }
 

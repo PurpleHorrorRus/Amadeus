@@ -44,6 +44,8 @@ export default {
 
         LISTEN: ({ dispatch, state, rootState }) => {
             state.client.updates.on("message_new", async data => {
+                data = await dispatch("messages/PREPARE_DATA", data);
+
                 await Promise.all([
                     dispatch("messages/ADD_MESSAGE", data),
                     dispatch("conversations/ADD_MESSAGE", data)

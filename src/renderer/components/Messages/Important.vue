@@ -1,11 +1,11 @@
 <template>
     <div class="important-message">
-        <img :src="conversation.avatar" class="important-message-avatar">
+        <img :src="message.profile.photo_100" class="important-message-avatar">
         <div class="important-message-information">
             <div class="important-message-information-placeholder">
                 <span 
                     class="important-message-information-placeholder-name" 
-                    v-text="conversation.name" 
+                    v-text="message.profile.name" 
                 />
 
                 <span 
@@ -35,15 +35,9 @@ export default {
     mixins: [ProfileMixin, DateMixin, AttachmentsMixin],
 
     props: {
-        conversation: {
+        message: {
             type: Object,
             required: true
-        }
-    },
-
-    computed: {
-        message() {
-            return this.conversation.message;
         }
     }
 };
@@ -95,6 +89,10 @@ export default {
 
             width: 30vw;
         }
+    }
+
+    .message-content-text-item.text {
+        color: var(--text);
     }
 
     .message-content-attachments {

@@ -2,14 +2,13 @@ import { ipcRenderer } from "electron";
 import Promise from "bluebird";
 
 import Conversation from "~/instances/Conversations/Convesration";
-import User from "~/instances/Conversations/User";
-import Group from "~/instances/Conversations/Group";
 import Chat from "~/instances/Conversations/Chat";
 
 import { ConversationMessageType } from "~/instances/Types/ConversationMessage";
 import ChatUser from "~/instances/Conversations/ChatUser";
 
 import common from "~/plugins/common";
+import ProfileGenerator from "~/instances/Generator";
 
 const fields = {
     count: 100,
@@ -70,16 +69,11 @@ export default {
 
         FORMAT_ITEM: async ({ rootState }, { item, profiles, groups }) => {
             item.muted = rootState.settings.settings.vk.mute.includes(item.conversation.peer.id);
-
-            switch (item.conversation.peer.type) {
-                case "user": return new User(item, profiles);
-                case "group": case "page": return new Group(item, groups);
-                case "chat": return new Chat(item);
-            }
+            return ProfileGenerator.conversationProfileByType(item.conversation.peer.type, item, profiles, groups);
         },
 
         FORMAT_MESSAGE: async ({ dispatch, rootState }, message) => {
-            message.out = message.from_id === rootState.vk.user.id;
+            message.out = message.out || Number(message.from_id === rootState.vk.user.id);
 
             if (message.action) {
                 const action = await dispatch("vk/GET_ACTION_MESSAGE", message, { root: true });
@@ -218,10 +212,6 @@ export default {
             });
 
             conversation.addMessage(message);
-            
-            !data.payload.message.out
-                ? conversation.information.unread_count++
-                : dispatch("UPDATE_LAST_MESSAGE", data);
 
             if (conversation.isChat) {
                 const typingUser: ChatUser = conversation.users.find(user => {

@@ -4,10 +4,10 @@
 
         <div v-if="!first" id="search-page-list" ref="messages">
             <SearchMessage
-                v-for="conversation of search.conversations"
-                :key="conversation.message.date"
-                :conversation="conversation"
-                @click.native="open(conversation)"
+                v-for="message of messages"
+                :key="message.date"
+                :message="message"
+                @click.native="open(message)"
             />
         </div>
 
@@ -33,10 +33,8 @@ export default {
         first: true,
         loadMore: false,
 
-        search: {
-            count: 0,
-            conversations: []
-        }
+        messages: [],
+        count: 0
     }),
 
     computed: {
@@ -45,7 +43,7 @@ export default {
         }),
 
         canScroll() {
-            return this.search.conversations.length < this.search.count;
+            return this.messages.length < this.count;
         }
     },
 
@@ -64,10 +62,10 @@ export default {
 
                 const more = await this.fetch({
                     q: this.$route.query.q,
-                    offset: this.search.conversations.length
+                    offset: this.messages.length
                 });
 
-                this.search.conversations = this.search.conversations.concat(more.conversations);
+                this.messages = this.messages.concat(more.messages);
                 this.loadMore = false;
             }, percent => percent >= 80);
         });
@@ -79,10 +77,13 @@ export default {
         }),
 
         async loadResults(q) {
-            this.search = await this.fetch({
-                q,
+            const results = await this.fetch({
+                q: String(q),
                 offset: 0
             });
+
+            this.messages = results.messages;
+            this.count = results.count;
 
             if (this.first) {
                 this.first = false;
@@ -91,13 +92,13 @@ export default {
             return this.search;
         },
 
-        open(conversation) {
+        open(message) {
             const query = new URLSearchParams({
-                type: conversation.information.peer.type,
-                start_message_id: conversation.message.id
+                type: message.profile.profileType,
+                start_message_id: message.id
             }).toString();
 
-            return this.$router.replace(`/messages/${conversation.information.peer.id}?${query}`);
+            return this.$router.replace(`/messages/${message.peer_id}?${query}`);
         }
     }
 };

@@ -10,13 +10,8 @@ import Conversation from "./Convesration";
 class ConversationUser extends Conversation {
     public isUser: boolean = true;
 
-    constructor(item: MessagesConversationWithMessage, profiles: UsersUserFull[]) {
+    constructor(item: MessagesConversationWithMessage, profile: UsersUserFull) {
         super(item);
-
-        const profile = profiles.find(profile => {
-            return profile.id === item.conversation.peer.id;
-        });
-
         this.profile = new User(profile);
     }
 

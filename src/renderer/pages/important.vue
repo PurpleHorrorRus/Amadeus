@@ -4,10 +4,10 @@
 
         <div v-if="!first" id="important-page-list" ref="messages">
             <ImportantMessage
-                v-for="conversation of important.conversations"
-                :key="conversation.message.date"
-                :conversation="conversation"
-                @click.native="open(conversation)"
+                v-for="message of messages"
+                :key="message.id"
+                :message="message"
+                @click.native="open(message)"
             />
         </div>
 
@@ -31,10 +31,8 @@ export default {
 
     data: () => ({
         loadMore: false,
-        important: {
-            count: 0,
-            conversations: []
-        }
+        messages: [],
+        count: 0
     }),
 
     computed: {
@@ -43,19 +41,23 @@ export default {
         }),
 
         canScroll() {
-            return this.important.conversations.length < this.important.count;
+            return this.messages.length < this.count;
         }
     },
 
     async created() {
-        this.important = await this.fetch(0);
+        const response = await this.fetch(0);
+        this.messages = response.messages;
+        this.count = response.count;
         this.first = false;
 
         this.$nextTick(() => {
             this.registerScroll(this.$refs.messages, async () => {
+                if (this.loadMore) return false;
+            
                 this.loadMore = true;
-                const more = await this.fetch(this.important.conversations.length);
-                this.important.conversations = this.important.conversations.concat(more.conversations);
+                const more = await this.fetch(this.messages.length);
+                this.messages = this.messages.concat(more.messages);
                 this.loadMore = false;
             }, percent => percent >= 80);
         });
@@ -66,13 +68,13 @@ export default {
             fetch: "vk/important/FETCH"
         }),
 
-        open(conversation) {
+        open(message) {
             const query = new URLSearchParams({
-                type: conversation.information.peer.type,
-                start_message_id: conversation.message.id
+                type: message.profile.profileType,
+                start_message_id: message.id
             }).toString();
 
-            return this.$router.replace(`/messages/${conversation.information.peer.id}?${query}`);
+            return this.$router.replace(`/messages/${message.peer_id}?${query}`);
         }
     }
 };
