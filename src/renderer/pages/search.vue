@@ -57,7 +57,11 @@ export default {
         this.first = false;
 
         this.$nextTick(() => {
-            this.registerScroll(this.$refs.messages, async () => {
+            this.registerScroll("messages", async () => {
+                if (this.loadMore || !this.canScroll) {
+                    return false;
+                }
+
                 this.loadMore = true;
 
                 const more = await this.fetch({

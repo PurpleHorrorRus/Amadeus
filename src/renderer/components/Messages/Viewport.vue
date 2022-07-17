@@ -87,8 +87,11 @@ export default {
     async mounted() {
         window.addEventListener("focus", this.readOnBottom);
 
-        const element = await this.awaitElement("messages");
-        this.registerScroll(element.$el, async () => {
+        this.registerScroll("messages", async () => {
+            if (this.loadMore || !this.canScroll) {
+                return false;
+            }
+
             this.loadMore = true;
             await this.append(this.chat.id);
             this.loadMore = false;

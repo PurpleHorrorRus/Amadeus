@@ -42,7 +42,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { debounce } from "lodash";
+import lodash from "lodash";
 
 import ScrollMixin from "~/mixins/scroll";
 
@@ -99,7 +99,7 @@ export default {
     },
 
     async created() {
-        this.search.debounce = debounce(async () => {
+        this.search.debounce = lodash.debounce(async () => {
             this.search.items = [];
             this.search.count = 0;
 
@@ -137,7 +137,9 @@ export default {
                 this.$nextTick(async () => {
                     const element = await this.awaitElement("my");
                     this.registerScroll(element.$refs.list, async () => {
-                        if (this.loadMore) return false;
+                        if (this.loadMore || !this.canScroll) {
+                            return false;
+                        }
 
                         this.loadMore = true;
                         await this.fetch(this.items.length);
@@ -178,7 +180,9 @@ export default {
                 this.$nextTick(async () => {
                     const element = await this.awaitElement("search");
                     this.registerScroll(element.$refs.list, async () => {
-                        if (this.loadMore) return false;
+                        if (this.loadMore || !this.canScroll) {
+                            return false;
+                        }
 
                         this.loadMore = true;
                         await this.searchVideos(this.search.items.length);

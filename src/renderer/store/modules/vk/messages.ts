@@ -43,6 +43,8 @@ export default {
                 ...fields
             });
 
+            console.log(data.id);
+
             state.cache[data.id] = {
                 id: data.id,
                 count: history.count,

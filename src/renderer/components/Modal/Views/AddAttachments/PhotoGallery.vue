@@ -115,8 +115,11 @@ export default {
 
             this.$nextTick(() => {
                 if (this.data.length > 0) {
-                    this.registerScroll(this.$refs.list, async () => {
-                        if (this.loadMore) return false;
+                    this.registerScroll("list", async () => {
+                        if (this.loadMore || !this.canScroll) {
+                            return false;
+                        }
+
                         this.loadMore = true;
                         this.data = [...this.data, ...await this.fetch(this.current)];
                         this.loadMore = false;

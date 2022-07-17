@@ -73,8 +73,7 @@ export default {
         },
 
         canScroll() {
-            return !this.load 
-                && this.conversations.length < this.count;
+            return this.conversations.length < this.count;
         },
 
         muteLabel() {
@@ -84,8 +83,12 @@ export default {
         }
     },
 
-    mounted() {
-        this.registerScroll(this.$refs.conversations, async () => {
+    async mounted() {
+        this.registerScroll("conversations", async () => {
+            if (this.loadMore || !this.canScroll) {
+                return false;
+            }
+
             this.loadMore = true;
             await this.append();
             this.loadMore = false;
