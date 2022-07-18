@@ -39,8 +39,8 @@ export default {
     computed: {
         contextMenuStyle() {
             return {
-                left: this.position[0] + this.margins[0] + "px",
-                top: this.position[1] + this.margins[1] + "px"
+                left: this.position[0] + "px",
+                top: this.position[1] + "px"
             };
         },
 
@@ -52,12 +52,13 @@ export default {
     },
 
     mounted() {
-        const { width, height } = this.$refs.menu.getBoundingClientRect();
-
-        this.position = [
-            Math.max(Math.min(this.menu.position[0] - width, window.innerWidth), this.margin),
-            Math.min(this.menu.position[1] - height, window.innerHeight)
-        ];
+        this.$nextTick(() => {
+            const { width, height } = this.$refs.menu.getBoundingClientRect();
+            this.position = [
+                Math.min(this.menu.position[0] + this.margins[0], window.innerWidth - width - this.margin), 
+                Math.min(this.menu.position[1] + this.margins[1], window.innerHeight - height - this.margin)
+            ];
+        });
     },
 
     methods: {

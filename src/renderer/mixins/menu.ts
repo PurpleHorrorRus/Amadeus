@@ -18,11 +18,11 @@ export default {
     mixins: [ScrollMixin],
 
     mounted() {
-        window.addEventListener("blur", this.closeMenu);
+        // window.addEventListener("blur", this.closeMenu);
     },
 
     beforeDestroy() {
-        window.removeEventListener("blur", this.closeMenu);
+        // window.removeEventListener("blur", this.closeMenu);
     },
 
     methods: {

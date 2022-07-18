@@ -31,7 +31,7 @@
         <ContextMenu 
             v-if="menu.show" 
             :menu="menu" 
-            :margins="[140, 105]" 
+            :margins="[0, 20]" 
         />
     </div>
 </template>

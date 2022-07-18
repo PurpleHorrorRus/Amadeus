@@ -13,7 +13,7 @@
                 v-if="menu.show" 
                 ref="menu" 
                 :menu="menu"
-                :margins="[100, -10]"
+                :margins="[-10, -120]"
             />
 
             <InputField :disabled="sending" />
