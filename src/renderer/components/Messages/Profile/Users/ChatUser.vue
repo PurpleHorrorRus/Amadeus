@@ -23,7 +23,7 @@ import ModalMixin from "~/mixins/modal";
 
 export default {
     components: {
-        MoreHorizontalIcon: () => import("~/assets/icons/more-horizontal.svg")
+        MoreHorizontalIcon: () => import("~icons/more-horizontal.svg")
     },
 
     mixins: [CoreMixin, ProfileMixin, MenuMixin, ModalMixin],

@@ -18,7 +18,7 @@
 <script>
 export default {
     components: {
-        SendIcon: () => import("~/assets/icons/send.svg")
+        SendIcon: () => import("~icons/send.svg")
     },
 
     props: {

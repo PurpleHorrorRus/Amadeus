@@ -7,7 +7,7 @@
 <script>
 export default {
     components: {
-        ChevronDownIcon: () => import("~/assets/icons/chevron-down.svg")
+        ChevronDownIcon: () => import("~icons/chevron-down.svg")
     }
 };
 </script>

@@ -24,14 +24,14 @@ export default {
 
     data: () => ({
         AppButtons: [{
-            icon: () => import("~/assets/icons/minus.svg"),
+            icon: () => import("~icons/minus.svg"),
             event: "minimize"
         }, {
-            icon: () => import("~/assets/icons/square.svg"),
+            icon: () => import("~icons/square.svg"),
             event: "maximize",
             class: "maximize"
         }, {
-            icon: () => import("~/assets/icons/x.svg"),
+            icon: () => import("~icons/x.svg"),
             event: "close",
             class: "close"
         }]

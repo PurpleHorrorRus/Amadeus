@@ -22,8 +22,8 @@ import { resolve } from "path";
 
 export default {
     components: {
-        MoreHorizontalIcon: () => import("~/assets/icons/more-horizontal.svg"),
-        XIcon: () => import("~/assets/icons/x.svg")
+        MoreHorizontalIcon: () => import("~icons/more-horizontal.svg"),
+        XIcon: () => import("~icons/x.svg")
     },
 
     props: {

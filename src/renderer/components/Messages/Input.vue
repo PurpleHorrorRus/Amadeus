@@ -31,7 +31,7 @@ import MenuMixin from "~/mixins/menu";
 
 export default {
     components: {
-        AddIcon: () => import("~/assets/icons/add.svg"),
+        AddIcon: () => import("~icons/add.svg"),
         InputEdit: () => import("~/components/Messages/Input/Edit"),
         InputField: () => import("~/components/Messages/Input/Field"),
         InputAttachments: () => import("~/components/Messages/Input/Attachments")
@@ -120,21 +120,21 @@ export default {
                 id: "photos",
                 label: "Фотографии",
                 function: () => this.openAdd("photos"),
-                icon: () => import("~/assets/icons/image.svg")
+                icon: () => import("~icons/image.svg")
             },
             
             {
                 id: "videos",
                 label: "Видеозаписи",
                 function: () => this.openAdd("videos"),
-                icon: () => import("~/assets/icons/video.svg")
+                icon: () => import("~icons/video.svg")
             },
             
             {
                 id: "docs",
                 label: "Документы",
                 function: () => this.openAdd("docs"),
-                icon: () => import("~/assets/icons/document.svg")
+                icon: () => import("~icons/document.svg")
             }];
         },
 

@@ -11,7 +11,7 @@
 <script>
 export default {
     components: {
-        PenIcon: () => import("~/assets/icons/pen.svg")
+        PenIcon: () => import("~icons/pen.svg")
     },
 
     props: {

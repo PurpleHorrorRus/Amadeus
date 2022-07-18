@@ -17,8 +17,8 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 export default {
     components: {
         Waveform: () => import("~/components/Messages/Attachments/AudioMessage/Waveform"),
-        PlayIcon: () => import("~/assets/icons/play.svg"),
-        PauseIcon: () => import("~/assets/icons/pause.svg")
+        PlayIcon: () => import("~icons/play.svg"),
+        PauseIcon: () => import("~icons/pause.svg")
     },
 
     mixins: [AttachmentMixin],

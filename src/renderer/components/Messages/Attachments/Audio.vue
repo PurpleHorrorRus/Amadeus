@@ -18,8 +18,8 @@ import AudioMixin from "~/mixins/audio";
 
 export default {
     components: {
-        PlayIcon: () => import("~/assets/icons/play.svg"),
-        PauseIcon: () => import("~/assets/icons/pause.svg")
+        PlayIcon: () => import("~icons/play.svg"),
+        PauseIcon: () => import("~icons/pause.svg")
     },
 
     mixins: [AttachmentMixin, AudioMixin],

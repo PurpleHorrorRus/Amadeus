@@ -15,7 +15,7 @@ import { mapActions } from "vuex";
 
 export default {
     components: {
-        XIcon: () => import("~/assets/icons/x.svg")
+        XIcon: () => import("~icons/x.svg")
     },
 
     methods: {

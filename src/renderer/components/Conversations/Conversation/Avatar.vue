@@ -9,7 +9,7 @@
 <script>
 export default {
     components: {
-        PhoneIcon: () => import("~/assets/icons/phone.svg")
+        PhoneIcon: () => import("~icons/phone.svg")
     },
 
     props: {

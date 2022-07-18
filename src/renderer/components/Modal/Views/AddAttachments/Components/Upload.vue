@@ -19,7 +19,7 @@ import { ipcRenderer } from "electron";
 
 export default {
     components: {
-        UploadIcon: () => import("~/assets/icons/upload.svg")
+        UploadIcon: () => import("~icons/upload.svg")
     },
 
     props: {

@@ -27,7 +27,7 @@ import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
-import RepostIcon from "~/assets/icons/repost.svg";
+import RepostIcon from "~icons/repost.svg";
 
 export default {
     mixins: [CoreMixin, DateMixin, AttachmentMixin],

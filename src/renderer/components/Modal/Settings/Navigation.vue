@@ -21,19 +21,19 @@ export default {
             {
                 id: "general",
                 label: "Основные",
-                icon: () => import("~/assets/icons/settings.svg")
+                icon: () => import("~icons/settings.svg")
             },
 
             {
                 id: "appearance",
                 label: "Внешний вид",
-                icon: () => import("~/assets/icons/color.svg")
+                icon: () => import("~icons/color.svg")
             },
 
             {
                 id: "accounts",
                 label: "Аккаунты",
-                icon: () => import("~/assets/icons/person.svg")
+                icon: () => import("~icons/person.svg")
             }
         ]
     })

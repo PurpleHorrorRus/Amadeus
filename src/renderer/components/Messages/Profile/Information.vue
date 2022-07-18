@@ -36,7 +36,7 @@ const filter = {
 export default {
     components: {
         ProfileInformationMeta: () => import("~/components/Messages/Profile/Information/Meta"),
-        XIcon: () => import("~/assets/icons/x.svg")
+        XIcon: () => import("~icons/x.svg")
     },
 
     mixins: [CoreMixin, ModalMixin],

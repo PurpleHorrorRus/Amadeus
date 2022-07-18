@@ -13,7 +13,7 @@ import { mapState } from "vuex";
 
 export default {
     components: {
-        ArrowLeftIcon: () => import("~/assets/icons/arrow-left.svg"),
+        ArrowLeftIcon: () => import("~icons/arrow-left.svg"),
         UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter")
     },
 

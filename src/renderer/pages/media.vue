@@ -56,8 +56,7 @@ export default {
             data: [],
             index: -1
         },
-        
-        maxSize: { url: "" },
+
         buttons: []
     }),
 
@@ -70,7 +69,7 @@ export default {
     async created() {
         this.buttons = [{
             id: "share",
-            icon: () => import("~/assets/icons/reply.svg"),
+            icon: () => import("~icons/reply.svg"),
             tooltip: "Поделиться",
             action: this.share
         }];
@@ -117,10 +116,11 @@ export default {
 
         share() {
             ipcRenderer.send("share", this.item);
+            this.close();
         },
 
         copy(event) {
-            ipcRenderer.send(event, this.item.photo.maxSize);
+            ipcRenderer.send(event, this.item.sizes.max);
         }
     }
 };

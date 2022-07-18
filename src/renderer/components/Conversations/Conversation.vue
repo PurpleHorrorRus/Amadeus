@@ -28,7 +28,7 @@ export default {
         ConversationMessage: () => import("~/components/Conversations/Conversation/Message"),
         ConversationTyping: () => import("~/components/Conversations/Conversation/Typing"),
         ConversationUnread: () => import("~/components/Conversations/Conversation/Unread"),
-        VolumeMuteIcon: () => import("~/assets/icons/volume-mute.svg")
+        VolumeMuteIcon: () => import("~icons/volume-mute.svg")
     },
 
     mixins: [CoreMixin, ConversationsMixin, ProfileMixin],

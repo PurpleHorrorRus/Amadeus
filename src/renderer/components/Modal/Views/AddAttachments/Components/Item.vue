@@ -17,7 +17,7 @@ import { mapActions } from "vuex";
 
 export default {
     components: {
-        CheckIcon: () => import("~/assets/icons/check.svg")
+        CheckIcon: () => import("~icons/check.svg")
     },
 
     props: {

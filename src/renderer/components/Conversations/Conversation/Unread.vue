@@ -25,7 +25,7 @@
 export default {
     components: {
         UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter"),
-        MentionIcon: () => import("~/assets/icons/mention.svg")
+        MentionIcon: () => import("~icons/mention.svg")
     },
 
     props: {

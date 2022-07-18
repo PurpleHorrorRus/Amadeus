@@ -1,6 +1,12 @@
 {
     "plugins": ["vue", "@typescript-eslint"],
 
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "vue"
+    ],
+
     "env": {
         "browser": true,
         "es6": true

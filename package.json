@@ -46,6 +46,7 @@
     },
     "dependencies": {
         "@lottiefiles/vue-lottie-player": "^1.0.8",
+        "@nuxt/typescript-runtime": "^2.1.0",
         "@nuxtjs/color-mode": "^2.1.1",
         "@nuxtjs/style-resources": "^1.2.1",
         "@uscreen-video/v-color": "^1.0.0",

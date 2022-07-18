@@ -1,25 +1,24 @@
 <template>
     <div class="attachments-item attachments-item-video" :style="itemStyle">
         <div class="attachments-item-video-preview" :style="previewStyle">
+            <VideoBlock v-if="item.restriction" />
+
             <img 
-                v-if="!quick && item.sizes.medium" 
+                v-else-if="!quick && item.sizes.medium" 
                 :src="item.sizes.medium" 
                 class="attachments-item-video-preview-image"
             >
-            
+
             <iframe 
                 v-else-if="quick" 
                 :src="item.player" 
                 class="attachments-item-video-preview-quick"
             />
-            
-            <div v-else class="attachments-item-video-preview-empty">
-                <BlockIcon class="icon block" />
-            </div>
 
             <PlayIcon 
                 v-if="canQuick" 
-                class="icon" 
+                class="icon"
+                id="video-play-icon" 
                 @click.stop="quickPlay" 
             />
         </div>
@@ -37,8 +36,8 @@ import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
 
 export default {
     components: {
-        PlayIcon: () => import("~/assets/icons/play.svg"),
-        BlockIcon: () => import("~/assets/icons/block.svg")
+        VideoBlock: () => import("~/components/Messages/Attachments/Video/Block.vue"),
+        PlayIcon: () => import("~icons/play.svg")
     },
 
     mixins: [GalleryMixin],

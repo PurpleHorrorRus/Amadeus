@@ -17,8 +17,8 @@
 <script>
 export default {
     components: {
-        CheckIcon: () => import("~/assets/icons/check.svg"),
-        XIcon: () => import("~/assets/icons/x.svg")
+        CheckIcon: () => import("~icons/check.svg"),
+        XIcon: () => import("~icons/x.svg")
     },
 
     props: {

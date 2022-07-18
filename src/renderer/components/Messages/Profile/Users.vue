@@ -22,7 +22,7 @@ import ModalMixin from "~/mixins/modal";
 export default {
     components: {
         ChatUser: () => import("~/components/Messages/Profile/Users/ChatUser"),
-        AddIcon: () => import("~/assets/icons/add.svg")
+        AddIcon: () => import("~icons/add.svg")
     },
 
     mixins: [CoreMixin, ModalMixin],

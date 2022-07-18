@@ -36,9 +36,9 @@ export default {
         PlayerTime: () => import("~/components/Messages/Player/Time"),
         PlayerVolume: () => import("~/components/Messages/Player/Volume"),
         
-        PlayIcon: () => import("~/assets/icons/play.svg"),
-        PauseIcon: () => import("~/assets/icons/pause.svg"),
-        XIcon: () => import("~/assets/icons/x.svg")
+        PlayIcon: () => import("~icons/play.svg"),
+        PauseIcon: () => import("~icons/pause.svg"),
+        XIcon: () => import("~icons/x.svg")
     },
 
     mixins: [AudioMixin],

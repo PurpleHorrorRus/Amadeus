@@ -3,7 +3,7 @@ import Vue from "vue";
 import LottieVuePlayer from "@lottiefiles/vue-lottie-player";
 
 Object.entries({
-    LoaderIcon: () => import("~/assets/icons/loader.svg"),
+    LoaderIcon: () => import("~icons/loader.svg"),
     SolidButton: () => import("~/components/Global/SolidButton"),
     SingleInput: () => import("~/components/Global/SingleInput"),
     ToggleButton: () => import("~/components/Global/ToggleButton"),

@@ -20,8 +20,8 @@
 <script>
 export default {
     components: {
-        VolumeHighIcon: () => import("~/assets/icons/volume-high.svg"),
-        VolumeMuteIcon: () => import("~/assets/icons/volume-mute.svg")
+        VolumeHighIcon: () => import("~icons/volume-high.svg"),
+        VolumeMuteIcon: () => import("~icons/volume-mute.svg")
     },
 
     props: {

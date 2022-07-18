@@ -51,7 +51,7 @@ const callbackService = new CallbackService();
 
 export default {
     components: {
-        VKIcon: () => import("~/assets/icons/brands/vk.svg"),
+        VKIcon: () => import("~icons/brands/vk.svg"),
 
         LoginCredits: () => import("~/components/Login/Credits"),
         LoginCaptcha: () => import("~/components/Login/Captcha")

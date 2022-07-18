@@ -32,9 +32,9 @@ import ModalMixin from "~/mixins/modal";
 
 export default {
     components: {
-        AlertIcon: () => import("~/assets/icons/alert.svg"),
-        AlertOffIcon: () => import("~/assets/icons/alert-off.svg"),
-        TrashIcon: () => import("~/assets/icons/trash.svg")
+        AlertIcon: () => import("~icons/alert.svg"),
+        AlertOffIcon: () => import("~icons/alert-off.svg"),
+        TrashIcon: () => import("~icons/trash.svg")
     },
 
     mixins: [CoreMixin, ProfileMixin, ConversationsMixin, ModalMixin],

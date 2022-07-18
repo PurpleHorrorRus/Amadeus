@@ -20,9 +20,9 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
-import VolumeHighIcon from "~/assets/icons/volume-high.svg";
-import VolumeLowIcon from "~/assets/icons/volume-low.svg";
-import VolumeMuteIcon from "~/assets/icons/volume-mute.svg";
+import VolumeHighIcon from "~icons/volume-high.svg";
+import VolumeLowIcon from "~icons/volume-low.svg";
+import VolumeMuteIcon from "~icons/volume-mute.svg";
 
 import CoreMixin from "~/mixins/core";
 

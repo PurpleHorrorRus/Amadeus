@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+const path = require("path");
+
 const headConfig = require("../../nuxt-config/head");
 const webpackRules = require("../../nuxt-config/rules");
 const webpackPlugins = require("../../nuxt-config/plugins");
@@ -35,6 +37,8 @@ module.exports = {
 
             config.module.rules.find(rule => rule.test.test(".svg")).test = /\.(gif|webp)$/;
             config.module.rules = config.module.rules.concat(webpackRules);
+
+            console.log(config.resolve.alias);
         },
 
         standalone: true,
@@ -44,6 +48,10 @@ module.exports = {
         splitChunks: isDev ? optimizationConfig.splitChunks : {},
         filenames: !isDev ? optimizationConfig.filenames : {},
         extractCSS: false
+    },
+
+    alias: {
+        "~icons": path.resolve("./src/renderer/assets/icons")
     },
 
     vue: vueConfig(isDev),

@@ -18,7 +18,7 @@ import DocMixin from "~/components/Messages/Attachments/Doc/Mixin";
 
 export default {
     components: {
-        FileIcon: () => import("~/assets/icons/document.svg")
+        FileIcon: () => import("~icons/document.svg")
     },
 
     mixins: [DocMixin]

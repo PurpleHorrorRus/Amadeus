@@ -14,8 +14,8 @@ import CoreMixin from "~/mixins/core";
 
 export default {
     components: {
-        AddIcon: () => import("~/assets/icons/add.svg"),
-        CheckIcon: () => import("~/assets/icons/check.svg")
+        AddIcon: () => import("~icons/add.svg"),
+        CheckIcon: () => import("~icons/check.svg")
     },
 
     mixins: [CoreMixin],

@@ -43,7 +43,7 @@ export default {
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
         AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc"),
 
-        XIcon: () => import("~/assets/icons/x.svg")
+        XIcon: () => import("~icons/x.svg")
     },
 
     mixins: [AttachmentMixin],

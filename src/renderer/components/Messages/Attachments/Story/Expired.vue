@@ -11,7 +11,7 @@
 <script>
 export default {
     components: {
-        BlockIcon: () => import("~/assets/icons/block.svg")
+        BlockIcon: () => import("~icons/block.svg")
     }
 };
 </script>

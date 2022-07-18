@@ -20,8 +20,8 @@ import ActionsMixin from "~/mixins/actions";
 
 export default {
     components: {
-        ReplyIcon: () => import("~/assets/icons/reply.svg"),
-        StarIcon: () => import("~/assets/icons/star.svg")
+        ReplyIcon: () => import("~icons/reply.svg"),
+        StarIcon: () => import("~icons/star.svg")
     },
 
     mixins: [CoreMixin, ActionsMixin],

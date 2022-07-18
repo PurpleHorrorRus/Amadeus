@@ -33,7 +33,7 @@ export default {
         attachments: [],
         profile: null,
 
-        icon: () => import("~/assets/icons/reply.svg")
+        icon: () => import("~icons/reply.svg")
     })
 };
 </script>

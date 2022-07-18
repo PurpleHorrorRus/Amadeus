@@ -41,8 +41,8 @@ import DateMixin from "~/mixins/date";
 export default {
     components: {
         AllAttachments: () => import("~/components/Messages/AllAttachments"),
-        PenIcon: () => import("~/assets/icons/pen.svg"),
-        CheckIcon: () => import("~/assets/icons/check.svg")
+        PenIcon: () => import("~icons/pen.svg"),
+        CheckIcon: () => import("~icons/check.svg")
     },
 
     mixins: [DateMixin],

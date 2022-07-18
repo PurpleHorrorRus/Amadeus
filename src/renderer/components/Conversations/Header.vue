@@ -43,9 +43,9 @@ import MenuMixin from "~/mixins/menu";
 
 export default {
     components: {
-        AlertIcon: () => import("~/assets/icons/alert.svg"),
-        AlertOffIcon: () => import("~/assets/icons/alert-off.svg"),
-        DotsHorizontal: () => import("~/assets/icons/dots-horizontal.svg")
+        AlertIcon: () => import("~icons/alert.svg"),
+        AlertOffIcon: () => import("~icons/alert-off.svg"),
+        DotsHorizontal: () => import("~icons/dots-horizontal.svg")
     },
 
     mixins: [CoreMixin, ModalMixin, MenuMixin],

@@ -35,8 +35,8 @@ export default {
         MessagesHeaderBack: () => import("~/components/Messages/Header/Back"),
         MessagesHeaderInformation: () => import("~/components/Messages/Header/Information"),
     
-        TrashIcon: () => import("~/assets/icons/trash.svg"),
-        ForwardIcon: () => import("~/assets/icons/forward.svg")
+        TrashIcon: () => import("~icons/trash.svg"),
+        ForwardIcon: () => import("~icons/forward.svg")
     },
 
     mixins: [DateMixin, ModalMixin],
