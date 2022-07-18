@@ -15,11 +15,11 @@ import Poll from "./Poll";
 import Graffiti from "./Graffiti";
 
 class AttachmentGenerator { 
-    static generateList(list: MessagesMessageAttachment[]): Attachment[] | MessagesMessageAttachment[] {
+    static generateList(list: MessagesMessageAttachment[]): Attachment[] {
         return list.map(AttachmentGenerator.generate);
     }
 
-    static generate(attachment: MessagesMessageAttachment): Attachment | MessagesMessageAttachment {
+    static generate(attachment: MessagesMessageAttachment): Attachment {
         switch (attachment.type) {
             case "photo": return new Photo(attachment.photo, { path: attachment.path });
             case "video": return new Video(attachment.video);
@@ -41,8 +41,6 @@ class AttachmentGenerator {
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);
         }
-
-        return attachment;
     }
 }
 

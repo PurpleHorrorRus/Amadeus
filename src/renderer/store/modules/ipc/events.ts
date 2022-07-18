@@ -1,4 +1,5 @@
-import common from "~/plugins/common";
+import Attachment from "~/instances/Messages/Attachment";
+import AttachmentGenerator from "~/instances/Messages/Attachments/Generator";
 
 export default {
     namespaced: true,
@@ -18,8 +19,8 @@ export default {
                 title: "Поделиться",
                 function: async conversation => {
                     commit("REDIRECT", `/messages/${conversation.id}?type=${conversation.type}`);
-                    await common.wait(200);
-                    return dispatch("input/ADD_ATTACHMENT", attachment, { root: true });
+                    const generated: Attachment = AttachmentGenerator.generate(attachment);
+                    return dispatch("input/ADD_ATTACHMENT", generated, { root: true });
                 }
             }, { root: true });
         }
