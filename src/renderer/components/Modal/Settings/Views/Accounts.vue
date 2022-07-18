@@ -26,6 +26,8 @@ import { mapActions, mapState } from "vuex";
 
 import ModalMixin from "~/mixins/modal";
 
+import User from "~/instances/User";
+
 export default {
     components: {
         AccountProfile: () => import("~/components/Modal/Settings/Views/Accounts/Profile")
@@ -51,10 +53,14 @@ export default {
             return account.user;
         });
 
-        this.profiles = await this.client.api.users.get({
+        const profiles = await this.client.api.users.get({
             user_ids: ids,
             count: 100,
             fields: "photo_100"
+        });
+
+        this.profiles = profiles.map(profile => {
+            return new User(profile);
         });
 
         this.loaded = true;
