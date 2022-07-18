@@ -1,0 +1,83 @@
+<template>
+    <div class="compact-attachment nowrap">
+        <span 
+            class="compact-attachment-name nowrap"
+            v-text="profile.name"
+        />
+
+        <span 
+            v-if="text"
+            class="compact-attachment-text nowrap" 
+            v-text="text"
+        />
+    </div>
+</template>
+
+<script>
+import { mapState } from "vuex";
+
+import ProfileMixin from "~/mixins/profile";
+
+export default {
+    mixins: [ProfileMixin],
+
+    props: {
+        message: {
+            type: Object,
+            required: true
+        },
+        
+        text: {
+            type: String,
+            required: false,
+            default: "compact-attachment-text"
+        }
+    },
+
+    data: () => ({
+        profile: null
+    }),
+
+    computed: {
+        ...mapState({
+            current: state => state.vk.messages.current,
+            user: state => state.vk.user
+        })
+    },
+
+    created() {
+        if (this.current.isChat) {
+            this.profile = this.current.users.find(user => {
+                return user.id === this.message.from_id;
+            });
+
+            return this.profile;
+        }
+
+        this.profile = this.message.from_id !== this.user.id
+            ? this.current
+            : this.user;
+    }
+};
+</script>
+
+<style lang="scss">
+.compact-attachment {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding-left: 10px;
+
+    border-left: 4px solid var(--secondary);
+
+    span {
+        user-select: text;
+    }
+
+    &-attachments, &-text {
+        font-size: 12px;
+    }
+}
+</style>

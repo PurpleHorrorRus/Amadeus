@@ -1,20 +1,35 @@
 <template>
     <div id="message-page-input-attachments">
-        <MessageReply 
-            v-if="input.reply" 
-            :message="input.reply" 
+        <CompactAttachment 
+            v-if="input.reply"
+            :message="input.reply"
+            :text="replyText"
             @click.native="removeReply"
         />
 
-        <MessageForwardedMessages 
-            v-if="showForwardedMessages"
-            :messages="input.fwd_messages"
+        <CompactAttachment 
+            v-else-if="showForwardMessages"
+            :message="input"
+            :text="forwardMessagesText"
             @click.native="removeForward"
         />
 
+        <CompactAttachment 
+            v-else-if="input.attachments[0].type === 'wall'"
+            :message="input"
+            :text="'Запись со стены'"
+            @click.native="removeAttachment(0)"
+        />
+
+        <CompactAttachment 
+            v-else-if="input.geo"
+            :message="input"
+            :text="'Карта'"
+        />
+
         <MessageAttachmentsGallery 
-            v-if="input.attachments.length > 0"
-            :attachments="input.attachments"
+            v-else-if="galleryItems.length > 0"
+            :attachments="galleryItems"
         />
     </div>
 </template>
@@ -22,25 +37,47 @@
 <script>
 import { mapActions, mapState } from "vuex";
 
+import CoreMixin from "~/mixins/core";
+import AttachmentsMixin from "~/mixins/attachments";
+
 export default {
     components: {
-        MessageReply: () => import("~/components/Messages/Reply"),
-        MessageForwardedMessages: () => import("~/components/Messages/ForwardedMessages"),
+        CompactAttachment: () => import("~/components/Messages/Input/CompactAttachment"),
         MessageAttachmentsGallery: () => import("~/components/Messages/Input/Gallery")
     },
+
+    mixins: [CoreMixin, AttachmentsMixin],
 
     computed: {
         ...mapState({
             input: state => state.input
         }),
 
-        showForwardedMessages() {
-            return this.input.fwd_messages.length > 0;
+        galleryItems() {
+            return this.input.attachments?.filter(attachment => {
+                return attachment.type === "photo"
+                    || attachment.type === "video"
+                    || attachment.type === "doc";
+            }) || [];
+        },
+
+        replyText() {
+            return `${this.formatAttachmentsString(this.input.reply, false)} 
+                ${this.formatText(this.input.reply.text)}`;
+        },
+
+        showForwardMessages() {
+            return this.input.fwd_messages?.length > 0;
+        },
+
+        forwardMessagesText() {
+            return this.formatAttachmentsString(this.input, false);
         }
     },
 
     methods: {
         ...mapActions({
+            removeAttachment: "input/REMOVE_ATTACHMENT",
             removeReply: "input/REMOVE_REPLY",
             removeForward: "input/REMOVE_FORWARD"
         })

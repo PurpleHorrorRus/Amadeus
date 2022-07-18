@@ -23,7 +23,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { chunk } from "lodash";
+import lodash from "lodash";
 
 import ModalMixin from "~/mixins/modal";
 import MenuMixin from "~/mixins/menu";
@@ -79,7 +79,7 @@ export default {
                 this.sending = true;
             }
 
-            const attachments = chunk(this.input.attachments, 10);
+            const attachments = lodash.chunk(this.input.attachments, 10);
             const reply_message = this.input.reply ? { ...this.input.reply } : undefined;
             const forward_messages = [...this.input.fwd_messages];
             this.clearInput();
@@ -104,19 +104,17 @@ export default {
 
                 this.clearEdit();
                 await this.editMessage(edited);
-            } else {
-                if (attachments.length > 0) {
-                    while (attachments.length > 0) {
-                        params.attachments = attachments[0];
-                        await this.sendMessage(params);
-                        attachments.splice(0, 1);
+            } else if (attachments.length > 0) {
+                while (attachments.length > 0) {
+                    params.attachments = attachments[0];
+                    await this.sendMessage(params);
+                    attachments.splice(0, 1);
 
-                        if (attachments.length > 0) {
-                            params.text = "";
-                        }
+                    if (attachments.length > 0) {
+                        params.text = "";
                     }
-                } else await this.sendMessage(params);
-            }
+                }
+            } else await this.sendMessage(params);
 
             this.sending = false;
             return true;

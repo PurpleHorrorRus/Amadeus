@@ -31,15 +31,8 @@
                 :item="attachment"
             />
 
-            <AttachmentPoll
-                v-if="pollItem"
-                :item="pollItem"
-            />
-
-            <AttachmentsLink 
-                v-if="linkItem" 
-                :item="linkItem" 
-            />
+            <AttachmentPoll v-if="pollItem" :item="pollItem" />
+            <AttachmentsLink v-if="linkItem" :item="linkItem" />
 
             <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
                 <AttachmentAudio
@@ -85,40 +78,48 @@ export default {
         }
     },
 
+    data: () => ({
+        galleryItems: [],
+        docItems: [],
+        audioItems: [],
+
+        pollItem: null,
+        linkItem: null
+    }),
+
     computed: {
         attachment() {
             return this.message.attachments[0];
-        },
+        }
+    },
 
-        galleryItems() {
+    created() {
+        this.galleryItems = this.filter(["photo", "video"]);
+        this.docItems = this.filter("doc");
+        this.audioItems = this.filter("audio");
+
+        this.pollItem = this.find("poll");
+        this.linkItem = this.find("link");
+    },
+
+    methods: {
+        filter(type) {
+            if (!this.message.attachments) {
+                return [];
+            }
+
+            const isArray = Array.isArray(type);
             return this.message.attachments.filter(attachment => {
-                return attachment.type === "photo" 
-                    || attachment.type === "video";
+                return isArray 
+                    ? type.includes(attachment.type)
+                    : attachment.type === type;
             });
         },
 
-        audioItems() {
-            return this.message.attachments.filter(attachment => {
-                return attachment.type === "audio";
-            });
-        },
-
-        docItems() {
-            return this.message.attachments.filter(attachment => {
-                return attachment.type === "doc";
-            });
-        },
-
-        pollItem() {
-            return this.message.attachments.find(attachment => {
-                return attachment.type === "poll";
-            });
-        },
-
-        linkItem() {
-            return this.message.attachments.find(attachment => {
-                return attachment.type === "link";
-            });
+        find(type) {
+            return this.message.attachment?.find(attachment => {
+                return attachment.type === type;
+            }) || null;
         }
     }
 };

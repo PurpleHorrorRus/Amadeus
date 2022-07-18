@@ -22,7 +22,7 @@ export default {
         }),
 
         deepChange(category, option, value = "") {
-            switch(typeof category[option]) {
+            switch (typeof category[option]) {
                 case "boolean": {
                     category[option] = !category[option];
                     break;

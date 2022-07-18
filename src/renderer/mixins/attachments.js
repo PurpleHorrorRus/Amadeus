@@ -89,26 +89,29 @@ export default {
         },
 
         formatAttachmentsString(message, unset = true) {
-            if (message.attachments.length === 0 && message.fwd_messages?.length === 0) {
+            if (message.attachments?.length === 0 && message.fwd_messages?.length === 0) {
                 return "";
             }
 
-            let atts = {};
+            let attachments = [];
+            if (message.attachments.length > 0) {
+                const atts = {};
 
-            for (const attachment of message.attachments) {
-                attachment.type in atts
-                    ? atts[attachment.type] += 1
-                    : atts[attachment.type] = 1;
+                for (const attachment of message.attachments) {
+                    attachment.type in atts
+                        ? atts[attachment.type] += 1
+                        : atts[attachment.type] = 1;
+                }
+
+                attachments = Object.keys(atts).map(attachment => {
+                    return this.formatAttachment(attachment, atts[attachment], unset);
+                });
             }
 
             let formatted = [];
             if (message.fwd_messages?.length > 0) {
                 formatted.push(this.formatAttachment("fwd", message.fwd_messages.length, unset));
             }
-
-            const attachments = Object.keys(atts).map(attachment => {
-                return this.formatAttachment(attachment, atts[attachment], unset);
-            });
 
             formatted = [...formatted, ...attachments];
             return formatted.join(", ");
