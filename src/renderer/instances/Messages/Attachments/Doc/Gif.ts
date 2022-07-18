@@ -6,7 +6,7 @@ import IPreview from "../../../Interfaces/Preview";
 import { TSize } from "~/instances/Types/Attachments";
 
 class DocGif extends Doc implements IPreview {
-    public sizes: TSize;
+    public sizes?: TSize;
 
     public playing: boolean = false;
     public added: boolean = false;

@@ -6,7 +6,7 @@ import IPreview from "../../Interfaces/Preview";
 import { TSize } from "~/instances/Types/Attachments";
 
 class Sticker extends Attachment implements IPreview {
-    public sizes: TSize;
+    public sizes?: TSize;
     public sizesBackground: TSize;
 
     public animated?: boolean = false;

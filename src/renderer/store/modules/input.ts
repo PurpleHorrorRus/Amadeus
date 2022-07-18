@@ -75,8 +75,9 @@ export default {
                         reader.readAsDataURL(blob);
                     })
                 }]
-            }, { 
-                path: savePath
+            }, {
+                path: savePath,
+                temp: true
             });
 
             return await dispatch("ADD_ATTACHMENT", attachment);

@@ -25,6 +25,7 @@
         "@nuxtjs/eslint-config-typescript": "^10.0.0",
         "@types/bluebird": "^3.5.36",
         "@types/lodash": "^4.14.182",
+        "@vue/runtime-dom": "^3.2.37",
         "@xpda-dev/core": "^0.1.6",
         "@xpda-dev/electron-builder": "^0.2.1",
         "@xpda-dev/electron-launcher": "^0.3.0",

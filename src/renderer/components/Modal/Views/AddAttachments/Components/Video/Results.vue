@@ -9,7 +9,7 @@
         <div ref="list" class="video-gallery-results-list">
             <SelectableItem 
                 v-for="item of items"
-                :key="item.video.id"
+                :key="item.id"
                 :component="VideoComponent"
                 :item="item"
                 @select="$parent.$emit('select', item)"
@@ -54,7 +54,7 @@ export default {
     &-list {
         display: flex;
         flex-wrap: wrap;
-        column-gap: 1.8vw;
+        column-gap: 1.7vw;
         row-gap: 15px;
 
         max-height: 50vh;

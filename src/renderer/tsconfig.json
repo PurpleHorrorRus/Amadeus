@@ -16,10 +16,10 @@
         "strict": false,
         "noEmit": true,
         "baseUrl": ".",
+        "jsx": "preserve",
 
         "paths": {
-            "~/*": ["./*"],
-            "@/*": ["./*"]
+            "~/*": ["./*"]
         },
 
         "types": [
@@ -27,7 +27,16 @@
             "@nuxt/types"
         ]
     },
+
+    "vueCompilerOptions": {
+        "target": 2,
+        "experimentalImplicitWrapComponentOptionsWithVue2Extend": true
+    },
+
+    "include": ["./**/*"],
+
     "exclude": [
+        ".nuxt",
         "node_modules"
     ]
 }

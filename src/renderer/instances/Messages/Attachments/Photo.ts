@@ -7,7 +7,7 @@ import { TSize } from "~/instances/Types/Attachments";
 import { IUpload } from "~/instances/Interfaces/Upload";
 
 class Photo extends Attachment implements IPreview, IUpload {
-    public sizes: TSize;
+    public sizes?: TSize;
     public path?: string;
 
     constructor(private photo: PhotosPhoto, upload?: IUpload) { 
@@ -16,6 +16,7 @@ class Photo extends Attachment implements IPreview, IUpload {
         
         if (upload) {
             this.path = upload.path;
+            this.upload_field = "file";
         }
     }
 

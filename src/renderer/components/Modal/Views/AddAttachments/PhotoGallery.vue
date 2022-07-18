@@ -17,7 +17,7 @@
             <div id="photo-gallery-items-list" ref="list">
                 <SelectableItem 
                     v-for="item of data"
-                    :key="item.photo.id"
+                    :key="item.id"
                     :component="PhotoComponent"
                     :item="item"
                     @select="$emit('select', item)"
@@ -27,11 +27,11 @@
     </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script lang="ts">
+import PhotoComponent from "~/components/Messages/Attachments/Gallery/Photo.vue";
+import Photo from "~/instances/Messages/Attachments/Photo";
 
-import PhotoComponent from "~/components/Messages/Attachments/Gallery/Photo";
-
+import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 
 const ids = {
@@ -42,11 +42,11 @@ const ids = {
 
 export default {
     components: {
-        PhotoAlbum: () => import("~/components/Modal/Views/AddAttachments/Components/Photo/Album"),
-        SelectableItem: () => import("~/components/Modal/Views/AddAttachments/Components/Item")
+        PhotoAlbum: () => import("~/components/Modal/Views/AddAttachments/Components/Photo/Album.vue"),
+        SelectableItem: () => import("~/components/Modal/Views/AddAttachments/Components/Item.vue")
     },
 
-    mixins: [ScrollMixin],
+    mixins: [CoreMixin, ScrollMixin],
 
     data: () => ({
         PhotoComponent,
@@ -64,11 +64,6 @@ export default {
     }),
 
     computed: {
-        ...mapState({
-            client: state => state.vk.client,
-            user: state => state.vk.user.id
-        }),
-
         canScroll() {
             return this.data.length < this.count;
         }
@@ -100,8 +95,7 @@ export default {
             
             return list.items.map(item => {
                 return {
-                    type: "photo",
-                    photo: item,
+                    attachment: new Photo(item),
                     selected: false
                 };
             });
@@ -113,19 +107,18 @@ export default {
             this.current = album;
             this.load = false;
 
-            this.$nextTick(() => {
-                if (this.data.length > 0) {
-                    this.registerScroll("list", async () => {
-                        if (this.loadMore || !this.canScroll) {
-                            return false;
-                        }
-
-                        this.loadMore = true;
-                        this.data = [...this.data, ...await this.fetch(this.current)];
-                        this.loadMore = false;
-                    }, percent => percent > 80);
+            this.registerScroll("list", async () => {
+                if (this.loadMore || !this.canScroll) {
+                    return false;
                 }
-            });
+
+                this.loadMore = true;
+
+                const more = await this.fetch(this.current);
+                this.data = [...this.data, ...more];
+
+                this.loadMore = false;
+            }, percent => percent > 80);
 
             return true;
         }

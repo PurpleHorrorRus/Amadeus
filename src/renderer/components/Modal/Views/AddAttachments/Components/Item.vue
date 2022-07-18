@@ -6,7 +6,7 @@
 
         <Component 
             :is="component" 
-            :item="item"
+            :item="item.attachment"
             :canQuickPlay="false"
         />
     </div>

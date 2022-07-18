@@ -8,7 +8,8 @@ import {
     StoriesStory,
     VideoVideo,
     WallWallpostFull,
-    MessagesGraffiti
+    MessagesGraffiti,
+    BaseImage
 } from "vk-io/lib/api/schemas/objects";
 
 import { TLink, TMap, TSize } from "../Types/Attachments";
@@ -49,7 +50,10 @@ abstract class Attachment {
     
     // Uploading properties
     public path?: string;
+    public temp?: boolean;
     public uploading?: boolean;
+    public upload_field?: string
+    public upload_type?: string
 
     constructor(attachment: TAttachment, type: TAttachmentType) {
         this.id = Number(attachment.id);
@@ -57,7 +61,15 @@ abstract class Attachment {
         this.type = type;
     }
 
-    public calculateSize(images: any[]): TSize {
+    public calculateSize(images?: BaseImage[]): TSize {
+        if (!images) {
+            return {
+                max: "",
+                medium: "",
+                min: ""
+            };
+        }
+
         const sizes = [...images].sort((a, b) => {
             return (b.width * b.height) - (a.width * a.height);
         });

@@ -1,7 +1,7 @@
 import { TSize } from "~/instances/Types/Attachments";
 
 interface IPreview {
-    sizes: TSize;
+    sizes?: TSize;
     calculateSize(images: any[]): TSize
     readonly preview?: string
 }

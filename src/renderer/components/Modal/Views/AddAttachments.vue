@@ -100,7 +100,11 @@ export default {
         },
 
         attach() {
-            this.setAttachments(this.selected);
+            const attachments = this.selected.map(selected =>{
+                return selected.attachment;
+            });
+
+            this.setAttachments(attachments);
             this.close();
         }
     }

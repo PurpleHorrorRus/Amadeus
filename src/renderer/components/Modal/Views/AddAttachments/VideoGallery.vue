@@ -13,6 +13,7 @@
         />
 
         <ToggleButton 
+            v-if="search.query.length > 0"
             text="Безопасный поиск" 
             :value="search.safe"
             @change="search.safe = !search.safe"
@@ -40,25 +41,43 @@
     </div>
 </template>
 
-<script>
-import { mapActions, mapState } from "vuex";
+<script lang="ts">
+import { mapActions } from "vuex";
 import lodash from "lodash";
 
+import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
+
+import Video from "~/instances/Messages/Attachments/Video";
+import { VideoSaveResult } from "vk-io/lib/api/schemas/objects";
+import { TSaveData } from "~/instances/Types/Attachments";
+
+const fields = {
+    count: 100
+};
+
+const searchFields = {
+    search_own: 1,
+    hd: 1,
+    count: 100
+};
 
 export default {
     components: {
-        Upload: () => import("~/components/Modal/Views/AddAttachments/Components/Upload"),
-        VideoResults: () => import("~/components/Modal/Views/AddAttachments/Components/Video/Results")
+        Upload: () => import("~/components/Modal/Views/AddAttachments/Components/Upload.vue"),
+        VideoResults: () => import("~/components/Modal/Views/AddAttachments/Components/Video/Results.vue")
     },
 
-    mixins: [ScrollMixin],
+    mixins: [CoreMixin, ScrollMixin],
 
     data: () => ({
         load: true,
+        loadMore: false,
         uploading: false,
+
         items: [],
         count: 0,
+
         search: {
             query: "",
             safe: true,
@@ -70,11 +89,7 @@ export default {
     }),
 
     computed: {
-        ...mapState({
-            client: state => state.vk.client,
-            user: state => state.vk.user
-        }),
-        
+
         canScroll() {
             if (this.search.query > 0) {
                 return this.search.items.length < this.search.count;
@@ -120,98 +135,89 @@ export default {
             close: "modal/CLOSE"
         }),
 
-        async fetch(offset = 0) {
-            if (this.items.length === 0) {
-                this.load = true;
-
-                const list = await this.client.api.video.get({
-                    owner_id: this.user.id,
-                    offset: 0,
-                    count: 100
-                });
-
-                this.items = this.formatItems(list.items);
-                this.count = list.count;
-                this.load = false;
-
-                this.$nextTick(async () => {
-                    const element = await this.awaitElement("my");
-                    this.registerScroll(element.$refs.list, async () => {
-                        if (this.loadMore || !this.canScroll) {
-                            return false;
-                        }
-
-                        this.loadMore = true;
-                        await this.fetch(this.items.length);
-                        this.loadMore = false;
-                    }, percent => percent > 80);
-                });
-
-                return this.items;
-            }
-
+        async fetch() {
             const list = await this.client.api.video.get({
                 owner_id: this.user.id,
-                offset,
-                count: 100
+                offset: 0,
+                ...fields
             });
 
-            this.items = [...this.items, ...this.formatItems(list.items)];
-            return this.items;
+            this.items = this.formatItems(list.items);
+            this.count = list.count;
+            this.load = false;
+
+            const element = await this.awaitElement("my");
+            this.registerScroll(element.$refs.list, async () => {
+                if (this.loadMore || !this.canScroll) {
+                    return false;
+                }
+
+                this.loadMore = true;
+                    
+                const more = await this.fetchMore();
+                this.items = [
+                    ...this.items, 
+                    ...this.formatItems(more.items)
+                ];
+
+                this.loadMore = false;
+            }, percent => percent > 80);
+        },
+        
+        async fetchMore() {
+            return await this.client.api.video.get({
+                owner_id: this.user.id,
+                offset: this.items.length,
+                ...searchFields
+            });
         },
 
         async searchVideos() {
-            if (this.search.items.length === 0) {
-                this.load = true;
-
-                const list = await this.client.api.video.search({
-                    q: this.search.query,
-                    offset: this.search.items.length,
-                    adult: Number(!this.search.safe),
-                    search_own: 1,
-                    hd: 1,
-                    count: 100
-                });
-
-                this.search.items = this.formatItems(list.items);
-                this.search.count = list.count;
-                this.load = false;
-
-                this.$nextTick(async () => {
-                    const element = await this.awaitElement("search");
-                    this.registerScroll(element.$refs.list, async () => {
-                        if (this.loadMore || !this.canScroll) {
-                            return false;
-                        }
-
-                        this.loadMore = true;
-                        await this.searchVideos(this.search.items.length);
-                        this.loadMore = false;
-                    }, percent => percent > 80);
-                });
-
-                return this.search.items;
-            }
+            this.load = true;
 
             const list = await this.client.api.video.search({
                 q: this.search.query,
-                offset: this.search.items.length,
+                offset: 0,
                 adult: Number(!this.search.safe),
-                search_own: 1,
-                hd: 1,
-                count: 100
+                ...searchFields
             });
 
-            this.search.items = [...this.search.items, ...this.formatItems(list.items)];
-            return this.search.items;
+            this.search.items = this.formatItems(list.items);
+            this.search.count = list.count;
+            this.load = false;
+
+            const element = await this.awaitElement("search");
+            this.registerScroll(element.$refs.list, async () => {
+                if (this.loadMore || !this.canScroll) {
+                    return false;
+                }
+
+                this.loadMore = true;
+            
+                const more = await this.searchMore();
+                this.search.items = [
+                    ...this.search.items, 
+                    ...this.formatItems(more.items)
+                ];
+
+                this.loadMore = false;
+            }, percent => percent > 80);
+        },
+
+        async searchMore() {
+            return await this.client.api.video.search({
+                q: this.search.query,
+                offset: this.search.items.length,
+                adult: Number(!this.search.safe),
+                ...fields
+            });
         },
 
         formatItems(items) {
             return items.map(item => {
                 return {
-                    type: "video",
-                    video: item,
-                    selected: false
+                    selected: false,
+                    attachment: new Video(item)
                 };
             });
         },
@@ -220,21 +226,11 @@ export default {
             this.uploading = true;
             this.setBusy(true);
 
-            const uploaded = await this.upload({
-                type: "video",
-                path: file
+            const upload = await this.upload({
+                attachment: new Video({}, { path: file })
             });
 
-            const video = await this.client.api.video.get({
-                owner_id: uploaded.video.owner_id,
-                videos: `${uploaded.video.owner_id}_${uploaded.video.video_id}`
-            });
-
-            this.addAttachment({
-                type: "video",
-                video: video.items[0]
-            });
-
+            this.addAttachment(upload);
             this.setBusy(false);
             this.close();
         }

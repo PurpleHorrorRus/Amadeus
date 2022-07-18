@@ -4,7 +4,7 @@ import IPreview from "../../Interfaces/Preview";
 import { TSize, TLink } from "~/instances/Types/Attachments";
 
 class Link extends Attachment implements IPreview {
-    public sizes: TSize;
+    public sizes?: TSize;
 
     public url: string;
     public title?: string;

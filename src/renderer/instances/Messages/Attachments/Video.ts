@@ -4,16 +4,17 @@ import Attachment from "../Attachment";
 import IPreview from "../../Interfaces/Preview";
 
 import { TSize } from "~/instances/Types/Attachments";
+import { IUpload } from "~/instances/Interfaces/Upload";
 
-class Video extends Attachment implements IPreview {
-    public sizes: TSize;
+class Video extends Attachment implements IPreview, IUpload {
+    public sizes?: TSize;
 
     public id: number;
     public title: string;
     public player?: string = "";
     public restriction?: boolean = false;
 
-    constructor(private video: VideoVideo1) { 
+    constructor(private video: VideoVideo1, upload?: IUpload) { 
         super(video, "video");
 
         this.title = video.title;
@@ -23,6 +24,12 @@ class Video extends Attachment implements IPreview {
             : this.restriction = true;
 
         this.sizes = this.calculateSize(this.video.image);
+
+        if (upload) {
+            this.path = upload.path;
+            this.upload_field = "video_file";
+            this.upload_type = "video/mp4";
+        }
     }
 }
 

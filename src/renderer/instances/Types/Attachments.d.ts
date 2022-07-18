@@ -7,13 +7,27 @@ import {
     PollsPoll,
     PollsAnswer,
     PollsBackground,
-    BaseGeoCoordinates
+    BaseGeoCoordinates,
+    BaseUploadServer,
+    VideoSaveResult
 } from "vk-io/lib/api/schemas/objects";
+import { PhotosPhotoUploadResponse, VideoUploadResponse } from "vk-io/lib/api/schemas/responses";
+import Attachment from "../Messages/Attachment";
 
 export type TSize = {
     max: string
     medium: string
     min: string
+};
+
+export type TUploadData = {
+    attachment: Attachment
+    server?: BaseUploadServer
+}
+
+export type TSaveData = {
+    server: BaseUploadServer | VideoSaveResult
+    method: (upload: PhotosPhotoUploadResponse | VideoUploadResponse) => void
 };
 
 export type TStory = StoriesStory & {

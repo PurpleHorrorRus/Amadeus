@@ -6,7 +6,7 @@ import IPreview from "~/instances/Interfaces/Preview";
 import { TPoll, TPollChoice, TPollStyle, TSize } from "~/instances/Types/Attachments";
 
 class Poll extends Attachment implements IPreview {
-    public sizes: TSize;
+    public sizes?: TSize;
 
     public owner_id: number;
     public id: number;

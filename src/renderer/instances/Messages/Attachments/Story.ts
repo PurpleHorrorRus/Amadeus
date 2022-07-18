@@ -5,7 +5,7 @@ import IPreview from "~/instances/Interfaces/Preview";
 import { TSize, TStory } from "~/instances/Types/Attachments";
 
 class Story extends Attachment implements IPreview {
-    public sizes: TSize;
+    public sizes?: TSize;
 
     public id: number;
     public src?: string = "";
