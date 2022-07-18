@@ -12,13 +12,13 @@
         >
             <AlertIcon 
                 v-if="!settings.vk.disable_notifications"
-                v-tooltip.left="'Уведомления включены'"
+                v-tooltip.bottom="'Уведомления включены'"
                 class="icon vkgram clickable"
             />
 
             <AlertOffIcon 
                 v-else
-                v-tooltip.left="'Уведомления отключены'"
+                v-tooltip.bottom="'Уведомления отключены'"
                 class="icon vkgram clickable"
             />
         </div>

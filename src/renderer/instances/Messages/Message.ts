@@ -8,11 +8,11 @@ import Map from "./Attachments/Map";
 
 class Message implements TMessage {
     public id: number;
-    public date: number;
-    public from_id: number;
-    public peer_id: number;
+    public readonly date: number;
+    public readonly from_id: number;
+    public readonly peer_id: number;
+    public readonly out: boolean;
     public text: string;
-    public out: boolean;
 
     public attachments?: Attachment[] | MessagesMessageAttachment[] = [];
     public fwd_messages?: TMessage[] = [];
@@ -20,7 +20,7 @@ class Message implements TMessage {
     public important?: number | boolean;
     public geo?: TMap;
     public update_time?: number = 0;
-    private _deleted?: boolean = false;
+    public deleted?: boolean = false;
     public selected?: boolean = false;
     public syncing?: boolean | number = 0;
 
@@ -62,15 +62,11 @@ class Message implements TMessage {
     }
 
     delete(): void {
-        this._deleted = true;
+        this.deleted = true;
     }
 
     restore(): void {
-        this._deleted = false;
-    }
-
-    get deleted(): boolean {
-        return this._deleted;
+        this.deleted = false;
     }
 
     get edited(): boolean {

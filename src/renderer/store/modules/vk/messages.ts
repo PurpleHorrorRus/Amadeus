@@ -1,6 +1,7 @@
 import { ipcRenderer } from "electron";
 import Promise from "bluebird";
 import lodash from "lodash";
+import DateDiff from "date-diff";
 
 import { BaseUploadServer } from "vk-io/lib/api/schemas/objects";
 import { MessagesEditParams, MessagesSendParams } from "vk-io/lib/api/schemas/params";
@@ -163,7 +164,7 @@ export default {
                 return msg.id === message.id;
             });
 
-            cached.deleted = deleted;
+            deleted ? cached.delete() : cached.restore();
             return Boolean(cached);
         },
 
@@ -255,7 +256,38 @@ export default {
             data.spam = Number(data.spam) || 0;
             
             if (data.messages) {
-                data.messages.forEach(message => dispatch("SYNC_DELETE", message));
+                data.messages.forEach(message => {
+                    dispatch("SYNC_DELETE", message);
+                });
+
+                if (data.delete_for_all) {
+                    /*
+                        Делим сообщения на те, которые можно удалить для всех и тех, которые нельзя.
+                        Отправляем два разных запроса, но удаляем все отмеченные сообщения.
+                    */
+
+                    const now = new Date();
+
+                    const [deleteForAll, rest] = lodash.partition(data.messages, (message: Message) => {
+                        const diff = new DateDiff(now, new Date(message.date * 1000));
+                        return diff.hours() < 24;
+                    });
+
+                    if (deleteForAll.length > 0) {
+                        await rootState.vk.client.api.messages.delete({
+                            message_ids: deleteForAll.map(message => message.id).join(","),
+                            delete_for_all: 1
+                        });
+                    }
+
+                    if (rest.length > 0) {
+                        await rootState.vk.client.api.messages.delete({
+                            message_ids: rest.map(message => message.id).join(","),
+                            delete_for_all: 0
+                        });
+                    }
+                }
+
                 return await rootState.vk.client.api.messages.delete({
                     message_ids: data.messages.map(message => message.id).join(","),
                     ...data

@@ -62,8 +62,7 @@ export default {
 
         messagesToDelete() {
             return this.$parent.chat.messages.filter(message => {
-                return message.selected 
-                    && this.dateDiff(message).hours() < 24;
+                return message.selected;
             });
         }
     },
@@ -85,15 +84,21 @@ export default {
             });
 
             if (isOutSelected && this.conversation.id !== this.user.id) {
-                options[0] = {
-                    id: "delete-for-all",
-                    text: "Удалить для всех",
-                    checked: false
-                };
-                
                 messages = messages.filter(message => {
                     return message.out;
                 });
+
+                const isNotExpiredExist = messages.some(message => {
+                    return this.dateDiff(message).hours() < 24;
+                });
+
+                if (isNotExpiredExist) {
+                    options[0] = {
+                        id: "delete-for-all",
+                        text: "Удалить для всех",
+                        checked: false
+                    };
+                }
             }
 
             this.confirmation({
