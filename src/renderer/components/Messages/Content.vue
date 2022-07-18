@@ -20,14 +20,15 @@
             />
 
             <PenIcon
-                v-if="message.update_time"
+                v-if="message.edited"
                 v-tooltip.left="`Отредактировано ${relativeDate(message.update_time)}`"
                 class="icon vkgram message-content-info-edit"
             />
 
             <CheckIcon 
                 v-if="showCheckIcon"
-                class="icon message-content-info-read" 
+                v-tooltip.left="'Прочитано'" 
+                class="icon message-content-info-read"
                 :class="checkIconClass"
             />
         </div>

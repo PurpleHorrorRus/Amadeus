@@ -3,7 +3,7 @@ import Promise from "bluebird";
 import lodash from "lodash";
 
 import { BaseUploadServer } from "vk-io/lib/api/schemas/objects";
-import { MessagesSendParams } from "vk-io/lib/api/schemas/params";
+import { MessagesEditParams, MessagesSendParams } from "vk-io/lib/api/schemas/params";
 import { MessagesGetByIdResponse, MessagesGetHistoryResponse } from "vk-io/lib/api/schemas/responses";
 
 import Message from "~/instances/Messages/Message";
@@ -99,7 +99,8 @@ export default {
                     message_ids: data.payload.message.id
                 });
                 
-                const message: Message = await dispatch("SYNC", response.items[0]);
+                const message = new Message(response.items[0]); 
+                dispatch("SYNC", message);
                 state.cache[message.peer_id].count++;
                 return state.cache[message.peer_id];
             }
@@ -227,8 +228,11 @@ export default {
                 });
         },
 
-        EDIT: async ({ dispatch, rootState }, message) => {
-            const toEdit = {
+        EDIT: async ({ dispatch, rootState }, message: Message) => {
+            dispatch("SYNC", message);
+            dispatch("vk/conversations/EDIT_SYNC", message, { root: true });
+
+            const toEdit: MessagesEditParams = {
                 attachment: "",
                 peer_id: message.peer_id,
                 message: message.text,
@@ -237,11 +241,8 @@ export default {
                 keep_snippets: 1
             };
 
-            message.edit(message.text);
-            dispatch("vk/conversations/EDIT_SYNC", message, { root: true });
-
             if (message.attachments.length > 0) {
-                const attachments = await dispatch("uploader/UPLOAD", message.attachments);
+                const attachments = await dispatch("UPLOAD", message.attachments);
                 message.attachments = attachments.uploaded;
                 toEdit.attachment = attachments.ids;
             }
@@ -280,9 +281,9 @@ export default {
 
             return {
                 uploaded,
-                ids: uploaded.map(data => {
-                    const attachment = data[data.type];
-                    return `${data.type}${attachment.owner_id}_${attachment.id}`;
+
+                ids: uploaded.map(attachment => {
+                    return `${attachment.type}${attachment.owner_id}_${attachment.id}`;
                 }).join(",")
             };
         },

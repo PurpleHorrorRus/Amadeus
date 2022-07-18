@@ -1,6 +1,7 @@
 <template>
     <div id="message-page-input" class="nowrap" :class="inputClass">
         <InputEdit v-if="input.editing.enable" />
+
         <div id="message-page-input-main">
             <AddIcon 
                 class="icon vkgram clickable" 
@@ -15,7 +16,7 @@
                 :margins="[100, -10]"
             />
 
-            <InputField />
+            <InputField :disabled="sending" />
         </div>
         <InputAttachments v-if="showAttachments" />
     </div>
@@ -74,7 +75,7 @@ export default {
             open: "modal/OPEN"
         }),
 
-        async send(message) {
+        async send(text) {
             if (this.input.attachments.length > 0) {
                 this.sending = true;
             }
@@ -89,21 +90,15 @@ export default {
                 type: this.$route.query.type,
 
                 attachments,
-                text: message,
+                text,
                 reply_message,
                 forward_messages
             };
 
             if (this.input.editing.enable) {
-                const edited = {
-                    ...this.input.editing.message,
-                    text: params.text,
-                    attachments: params.attachments,
-                    reply_message: params.reply_message
-                };
-
+                this.input.editing.message.edit(text, attachments[0]);
+                await this.editMessage(this.input.editing.message);
                 this.clearEdit();
-                await this.editMessage(edited);
             } else if (attachments.length > 0) {
                 while (attachments.length > 0) {
                     params.attachments = attachments[0];

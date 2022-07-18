@@ -19,7 +19,7 @@ class Message implements TMessage {
     public random_id?: number;
     public important?: number | boolean;
     public geo?: TMap;
-    private _update_time?: number = 0;
+    public update_time?: number = 0;
     private _deleted?: boolean = false;
     public selected?: boolean = false;
     public syncing?: boolean | number = 0;
@@ -34,7 +34,7 @@ class Message implements TMessage {
         this.random_id = message.random_id;
         this.important = message.important;
         this.syncing = message.syncing;
-        this._update_time = message.update_time || 0;
+        this.update_time = message.update_time || 0;
 
         if (message.attachments?.length > 0) {
             this.attachments = AttachmentGenerator.generateList(message.attachments);
@@ -55,9 +55,10 @@ class Message implements TMessage {
         this.selected = selected;
     }
 
-    edit(text): void {
+    edit(text: string, attachments: Attachment[] = []): void {
         this.text = text;
-        this._update_time = Math.floor(Date.now() / 1000);
+        this.attachments = attachments;
+        this.update_time = Math.floor(Date.now() / 1000);
     }
 
     delete(): void {
@@ -73,7 +74,7 @@ class Message implements TMessage {
     }
 
     get edited(): boolean {
-        return Boolean(this._update_time);
+        return Boolean(this.update_time);
     }
 }
 

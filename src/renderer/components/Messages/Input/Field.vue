@@ -6,6 +6,7 @@
             v-model="message" 
             v-autogrow
             placeholder="Введите сообщение..."
+            :disabled="disabled"
             @keypress.enter="send"
             @keydown.up="hotkeyEdit"
         />
@@ -20,7 +21,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import { throttle } from "lodash";
+import lodash from "lodash";
 import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 
 import AttachmentsMixin from "~/mixins/attachments";
@@ -37,6 +38,14 @@ export default {
     },
 
     mixins: [AttachmentsMixin, ActionsMixin, DateMixin],
+    
+    props: {
+        disabled: {
+            type: Boolean,
+            required: false,
+            default: false
+        }
+    },
 
     data: () => ({
         message: "",
@@ -84,7 +93,7 @@ export default {
     },
 
     mounted() {
-        this.typingThrottle = throttle(() => {
+        this.typingThrottle = lodash.throttle(() => {
             this.sendTyping(this.current.id);
         }, 6 * 1000);
 
@@ -134,7 +143,7 @@ export default {
                     return this.addPhoto(item);
                 }
 
-                default: return;
+                default: 
             }
         },
 

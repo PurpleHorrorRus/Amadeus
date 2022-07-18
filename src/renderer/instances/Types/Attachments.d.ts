@@ -40,6 +40,7 @@ export type TPollStyle = {
 
 export type TMap = {
     id: number
+    owner_id?: number
     coordinates: BaseGeoCoordinates
     place: any
 };

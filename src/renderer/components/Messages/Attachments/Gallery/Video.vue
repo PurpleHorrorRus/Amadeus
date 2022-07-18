@@ -2,8 +2,8 @@
     <div class="attachments-item attachments-item-video" :style="itemStyle">
         <div class="attachments-item-video-preview" :style="previewStyle">
             <img 
-                v-if="!quick && item.sizes.max" 
-                :src="item.sizes.max" 
+                v-if="!quick && item.sizes.medium" 
+                :src="item.sizes.medium" 
                 class="attachments-item-video-preview-image"
             >
             

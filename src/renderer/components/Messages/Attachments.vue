@@ -93,16 +93,28 @@ export default {
         }
     },
 
-    created() {
-        this.galleryItems = this.filter(["photo", "video"]);
-        this.docItems = this.filter("doc");
-        this.audioItems = this.filter("audio");
+    watch: {
+        message: {
+            deep: true,
+            
+            handler: function() { this.updateAttachments(); }
+        }
+    },
 
-        this.pollItem = this.find("poll");
-        this.linkItem = this.find("link");
+    created() {
+        this.updateAttachments();
     },
 
     methods: {
+        updateAttachments() {
+            this.galleryItems = this.filter(["photo", "video"]);
+            this.docItems = this.filter("doc");
+            this.audioItems = this.filter("audio");
+
+            this.pollItem = this.find("poll");
+            this.linkItem = this.find("link");
+        },
+
         filter(type) {
             if (!this.message.attachments) {
                 return [];

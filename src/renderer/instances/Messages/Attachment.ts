@@ -25,7 +25,7 @@ type TAttachment =
     | BaseSticker
     | MessagesGraffiti
     | PollsPoll
-    | TMap;
+    | TMap
 
 type TAttachmentType =
     "photo"
@@ -44,6 +44,7 @@ type TAttachmentType =
 
 abstract class Attachment { 
     public readonly id: number;
+    public readonly owner_id: number;
     public readonly type: string;
     
     // Uploading properties
@@ -52,6 +53,7 @@ abstract class Attachment {
 
     constructor(attachment: TAttachment, type: TAttachmentType) {
         this.id = Number(attachment.id);
+        this.owner_id = attachment.owner_id;
         this.type = type;
     }
 

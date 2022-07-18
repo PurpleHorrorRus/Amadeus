@@ -5,7 +5,7 @@ import AttachmentGenerator from "./Generator";
 
 class Wall extends Attachment implements WallWallpostFull {
     public id: number;
-    public owner_id?: number;
+    public owner_id: number;
     public post_id?: number;
     public from_id?: number;
 
