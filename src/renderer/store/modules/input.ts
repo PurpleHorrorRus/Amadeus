@@ -1,5 +1,9 @@
-import fs from "fs-extra";
 import path from "path";
+import fs from "fs-extra";
+
+import Attachment from "~/instances/Messages/Attachment";
+import Photo from "~/instances/Messages/Attachments/Photo";
+import { TMessage } from "~/instances/Types/Messages";
 
 export default {
     namespaced: true,
@@ -17,12 +21,12 @@ export default {
     }),
 
     actions: {
-        SET_ATTACHMENTS: ({ state }, attachments) => {
+        SET_ATTACHMENTS: ({ state }, attachments: Attachment[]) => {
             state.attachments = attachments;
             return state.attachments;
         },
         
-        ADD_ATTACHMENT: ({ state }, attachment) => {
+        ADD_ATTACHMENT: ({ state }, attachment: Attachment) => {
             if (state.attachments.length === 10) {
                 return false;
             }
@@ -31,7 +35,7 @@ export default {
             return true;
         },
 
-        REMOVE_ATTACHMENT: ({ state }, index) => {
+        REMOVE_ATTACHMENT: ({ state }, index: number) => {
             if (state.attachments[index].path) {
                 fs.remove(state.attachments[index].path);
             }
@@ -50,31 +54,35 @@ export default {
             const filename = Date.now() + ".jpg";
             const savePath = path.resolve(rootState.config.paths.temp, filename);
             // eslint-disable-next-line no-undef
-            const buffer = Buffer.from(await blob.arrayBuffer());
+            const arrayBuffer = await blob.arrayBuffer();
+            const buffer = Buffer.from(arrayBuffer);
             fs.writeFileSync(savePath, buffer, "binary");
 
-            return await dispatch("ADD_ATTACHMENT", {
-                type: "photo",
-                filename,
-                path: savePath,
-                temp: true,
+            const attachment: Attachment = new Photo({
+                id: Date.now(),
+                owner_id: rootState.vk.user.id,
+                album_id: -1,
+                has_tags: false,
+                date: Math.floor(Date.now() / 1000),
 
-                photo: {
-                    id: Date.now(),
-                    sizes: [{
-                        width: 1, height: 1,
+                sizes: [{
+                    width: 1,
+                    height: 1,
 
-                        url: await new Promise(resolve => {
-                            const reader = new FileReader();
-                            reader.onload = event => resolve(event.target.result);
-                            reader.readAsDataURL(blob);
-                        })
-                    }]
-                }
-            });            
+                    url: await new Promise(resolve => { 
+                        const reader = new FileReader();
+                        reader.onload = event => resolve(String(event.target.result));
+                        reader.readAsDataURL(blob);
+                    })
+                }]
+            }, { 
+                path: savePath
+            });
+
+            return await dispatch("ADD_ATTACHMENT", attachment);
         },
 
-        SET_FORWARD: ({ state }, messages) => {
+        SET_FORWARD: ({ state }, messages: TMessage[]) => {
             state.fwd_messages = messages;
             return state.fwd_messages;
         },
@@ -88,7 +96,7 @@ export default {
             return state.fwd_messages;
         },
 
-        ADD_REPLY: ({ state }, message) => {
+        ADD_REPLY: ({ state }, message: TMessage) => {
             if (state.editing.enable) {
                 return false;
             }
@@ -106,7 +114,7 @@ export default {
             return true;
         },
 
-        EDIT: ({ state }, message) => {
+        EDIT: ({ state }, message: TMessage) => {
             state.attachments = [...message.attachments];
             state.reply = message.reply_message;
             state.fwd_messages = message.fwd_messages;

@@ -43,8 +43,6 @@ export default {
                 ...fields
             });
 
-            console.log(data.id);
-
             state.cache[data.id] = {
                 id: data.id,
                 count: history.count,
@@ -275,8 +273,8 @@ export default {
             const server: BaseUploadServer = await rootState.vk.client.api.photos.getMessagesUploadServer();
             const uploaded = await Promise.map(attachments, async attachment => {
                 return await dispatch("vk/uploader/UPLOAD", {
-                    ...attachment,
-                    server 
+                    attachment,
+                    server
                 }, { root: true });
             }, { concurrency: 1 });
 

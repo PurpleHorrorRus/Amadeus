@@ -45,6 +45,10 @@ type TAttachmentType =
 abstract class Attachment { 
     public readonly id: number;
     public readonly type: string;
+    
+    // Uploading properties
+    public path?: string;
+    public uploading?: boolean;
 
     constructor(attachment: TAttachment, type: TAttachmentType) {
         this.id = Number(attachment.id);

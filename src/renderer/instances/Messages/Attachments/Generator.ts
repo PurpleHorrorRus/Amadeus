@@ -21,7 +21,7 @@ class AttachmentGenerator {
 
     static generate(attachment: MessagesMessageAttachment): Attachment | MessagesMessageAttachment {
         switch (attachment.type) {
-            case "photo": return new Photo(attachment.photo);
+            case "photo": return new Photo(attachment.photo, { path: attachment.path });
             case "video": return new Video(attachment.video);
             case "audio": return new Audio(attachment.audio);
 

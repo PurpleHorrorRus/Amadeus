@@ -1,7 +1,23 @@
 import { FormData } from "formdata-node";
 import { fileFromPathSync } from "formdata-node/file-from-path";
 
-import { removeSync } from "fs-extra";
+import fs from "fs-extra";
+import { BaseUploadServer, VideoSaveResult } from "vk-io/lib/api/schemas/objects";
+import { PhotosPhotoUploadResponse, VideoUploadResponse } from "vk-io/lib/api/schemas/responses";
+import Attachment from "~/instances/Messages/Attachment";
+import AttachmentGenerator from "~/instances/Messages/Attachments/Generator";
+
+type TUploadData = {
+    attachment: Attachment
+    server: BaseUploadServer
+}
+
+type TSaveData = {
+    field: string
+    type?: string
+    server: BaseUploadServer | VideoSaveResult
+    method: (upload: PhotosPhotoUploadResponse | VideoUploadResponse) => void
+};
 
 export default {
     namespaced: true,
@@ -9,21 +25,21 @@ export default {
     state: () => ({}),
 
     actions: {
-        UPLOAD: async ({ dispatch, rootState }, attachment) => {
-            if (!("path" in attachment)) {
-                return attachment;
+        UPLOAD: async ({ dispatch, rootState }, data: TUploadData) => {
+            if (!data.attachment.path) {
+                return data.attachment;
             }
 
-            attachment.uploading = true;
+            data.attachment.uploading = true;
 
-            let save = null;
-            switch (attachment.type) {
+            let save: TSaveData = null;
+            switch (data.attachment.type) {
                 case "photo": {
                     save = {
                         field: "file",
 
-                        server: attachment.server 
-                            ? () => attachment.server 
+                        server: data.server 
+                            ? () => data.server 
                             : rootState.vk.client.api.photos.getMessagesUploadServer,
 
                         method: rootState.vk.client.api.photos.saveMessagesPhoto
@@ -62,23 +78,23 @@ export default {
             }
 
             const saved = await dispatch("vk/uploader/UPLOAD_ON_SERVER", {
-                path: attachment.path,
+                path: data.attachment.path,
                 field: save.field,
                 type: save.type,
                 server: save.server,
                 save: upload => save.method(upload)
             }, { root: true });
             
-            if (attachment.temp) {
-                removeSync(attachment.path);
+            if (data.attachment.path) {
+                fs.removeSync(data.attachment.path);
             }
 
-            attachment.uploading = false;
+            data.attachment.uploading = false;
 
-            return {
-                type: attachment.type,
-                [attachment.type]: Array.isArray(saved) ? saved[0] : saved
-            };
+            return AttachmentGenerator.generate({
+                type: data.attachment.type,
+                [data.attachment.type]: Array.isArray(saved) ? saved[0] : saved
+            });
         },
 
         UPLOAD_ON_SERVER: async ({ dispatch, rootState }, data) => {
