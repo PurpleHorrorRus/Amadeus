@@ -114,6 +114,10 @@ export default {
             object-fit: cover;
         }
 
+        &-quick {
+            height: 35vh;
+        }
+
         &-image, &-quick, &-empty {
             width: 100%;
             height: 100%;
