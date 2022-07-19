@@ -1,3 +1,7 @@
+import { FormData } from "formdata-node";
+import { fileFromPathSync } from "formdata-node/file-from-path";
+import { API, Upload, VK } from "vk-io";
+
 import {
     AudioAudio,
     BaseSticker,
@@ -11,6 +15,9 @@ import {
     MessagesGraffiti,
     BaseImage
 } from "vk-io/lib/api/schemas/objects";
+import { PhotosSaveMessagesPhotoParams, VideoSaveParams } from "vk-io/lib/api/schemas/params";
+import { DocsDocUploadResponse } from "vk-io/lib/api/schemas/responses";
+import { IUpload } from "../Interfaces/Upload";
 
 import { TLink, TMap, TSize } from "../Types/Attachments";
 
@@ -43,7 +50,12 @@ type TAttachmentType =
     | "geo"
     | "gift";
 
-abstract class Attachment { 
+type TUpload =
+    PhotosSaveMessagesPhotoParams
+    | VideoSaveParams
+    | DocsDocUploadResponse;
+
+abstract class Attachment implements IUpload { 
     public readonly id: number;
     public readonly owner_id: number;
     public readonly type: string;
@@ -51,14 +63,16 @@ abstract class Attachment {
     // Uploading properties
     public path?: string;
     public temp?: boolean;
-    public uploading?: boolean;
-    public upload_field?: string;
-    public upload_type?: string;
 
-    constructor(attachment: TAttachment, type: TAttachmentType) {
+    constructor(attachment: TAttachment, type: TAttachmentType, upload?: IUpload) {
         this.id = Number(attachment.id);
         this.owner_id = attachment.owner_id;
         this.type = type;
+
+        if (upload) {
+            this.path = upload.path;
+            this.temp = upload.temp || false;
+        }
     }
 
     public calculateSize(images?: BaseImage[]): TSize {
@@ -79,6 +93,38 @@ abstract class Attachment {
             medium: sizes[1]?.url || sizes[1]?.src || "",
             max: sizes[0]?.url || sizes[0]?.src || ""
         };
+    }
+
+    async upload(_client: VK): Promise<any> { 
+        return new Promise(resolve => {
+            return resolve("Unknown upload");
+        });
+    }
+
+    protected getServer(_api: API): Promise<string> {
+        return new Promise(resolve => {
+            return resolve("Unknown getServer");
+        });
+    }
+
+    protected async uploadOnServer(
+        uploader: Upload,
+        file: string,
+        server: string,
+        field: string = "file"
+    ): Promise<TUpload> { 
+        return await uploader.upload(server, {
+            // @ts-ignore
+            formData: this.prepareFormdata(file, field),
+            timeout: 0,
+            forceBuffer: true
+        });
+    }
+
+    private prepareFormdata(file: string, field = "file"): FormData {
+        const form = new FormData();
+        form.set(field, fileFromPathSync(file));
+        return form;
     }
 }
 

@@ -41,6 +41,7 @@ const allowUpload = {
 };
 
 const allowUploadExtensions = Object.values(allowUpload).flat(1);
+const docsExclude = [".mp3", ".exe"];
 
 export default {
     components: {
@@ -173,6 +174,7 @@ export default {
             unselectAll: "vk/messages/UNSELECT_ALL",
 
             uploadVideo: "vk/uploader/UPLOAD_VIDEO",
+            uploadDoc: "vk/uploader/UPLOAD_DOC",
 
             addPhotoPath: "input/ADD_PHOTO_PATH",
             addReply: "input/ADD_REPLY",
@@ -230,6 +232,17 @@ export default {
                     if (allowUpload.video.includes(file.extension)) {
                         return await this.uploadVideo(file.path);
                     }
+                });
+            }
+
+            const docsPayload: TUploadingPath[] = [...files].filter(attachment => {
+                const extension = path.extname(attachment.path);
+                return !docsExclude.includes(extension);
+            });
+
+            if (docsPayload.length > 0) {
+                await Promise.each(docsPayload, async file => {
+                    return await this.uploadDoc(file.path);
                 });
             }
             

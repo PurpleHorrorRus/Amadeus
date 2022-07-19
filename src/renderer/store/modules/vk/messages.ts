@@ -3,7 +3,6 @@ import Promise from "bluebird";
 import lodash from "lodash";
 import DateDiff from "date-diff";
 
-import { BaseUploadServer } from "vk-io/lib/api/schemas/objects";
 import { MessagesEditParams, MessagesSendParams } from "vk-io/lib/api/schemas/params";
 import { MessagesGetByIdResponse, MessagesGetHistoryResponse } from "vk-io/lib/api/schemas/responses";
 
@@ -302,21 +301,23 @@ export default {
             });
         },
 
-        UPLOAD: async ({ dispatch, rootState }, attachments: Attachment[]) => {
-            const server: BaseUploadServer = await rootState.vk.client.api.photos.getMessagesUploadServer();
-            const uploaded = await Promise.map(attachments, async attachment => {
-                return await dispatch("vk/uploader/UPLOAD", {
-                    attachment,
-                    server
-                }, { root: true });
-            }, { concurrency: 1 });
+        UPLOAD: async ({ rootState }, attachments: Attachment[]) => {
+            const uploadings: Attachment[] = await Promise.map(attachments, async attachment => {
+                if (!attachment.path) {
+                    return attachment;
+                }
+
+                return await attachment.upload(rootState.vk.client);
+            });
+
+            console.log(uploadings);
 
             return {
-                uploaded,
+                uploaded: uploadings,
 
-                ids: uploaded.map(attachment => {
-                    return `${attachment.type}${attachment.owner_id}_${attachment.id}`;
-                }).join(",")
+                ids: uploadings.map(uploading => {
+                    return `${uploading.type}${uploading.owner_id}_${uploading.id}`;
+                })
             };
         },
 

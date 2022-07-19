@@ -19,15 +19,19 @@ class AttachmentGenerator {
         return list.map(AttachmentGenerator.generate);
     }
 
-    static generate(attachment: MessagesMessageAttachment): Attachment | MessagesMessageAttachment {
+    static generate(attachment: MessagesMessageAttachment): Attachment | undefined {
         switch (attachment.type) {
-            case "photo": return new Photo(attachment.photo, { path: attachment.path });
+            case "photo": return new Photo(attachment.photo, {
+                path: attachment.path,
+                temp: attachment.temp
+            });
+
             case "video": return new Video(attachment.video);
             case "audio": return new Audio(attachment.audio);
 
             case "doc": {
                 if (attachment.doctype) {
-                    return attachment;
+                    return attachment as Attachment;
                 }
 
                 return attachment.doc.type === 3
@@ -43,8 +47,6 @@ class AttachmentGenerator {
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);
         }
-        
-        return attachment;
     }
 }
 

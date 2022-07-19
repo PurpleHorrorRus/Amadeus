@@ -8,8 +8,7 @@ import {
     PollsAnswer,
     PollsBackground,
     BaseGeoCoordinates,
-    BaseUploadServer,
-    VideoSaveResult
+    BaseUploadServer
 } from "vk-io/lib/api/schemas/objects";
 import { PhotosPhotoUploadResponse, VideoUploadResponse } from "vk-io/lib/api/schemas/responses";
 import Attachment from "../Messages/Attachment";
@@ -26,7 +25,7 @@ export type TUploadData = {
 }
 
 export type TSaveData = {
-    server: BaseUploadServer | VideoSaveResult
+    server: () => any
     method: (upload: PhotosPhotoUploadResponse | VideoUploadResponse) => void
 };
 

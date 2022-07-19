@@ -30,6 +30,7 @@
         <AttachmentsDocs
             v-if="docItems.length > 0"
             :items="docItems"
+            @remove="removeDoc"
         />
 
         <MessageAttachmentsGallery 
@@ -104,8 +105,6 @@ export default {
             const newIndex = this.input.attachments.findIndex(attachment => {
                 return attachment.id === this.galleryItems[moved.newIndex].id;
             });
-
-            console.log(oldIndex, newIndex);
 
             return this.moveAttachments({ oldIndex, newIndex });
         }

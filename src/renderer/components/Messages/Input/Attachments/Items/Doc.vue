@@ -2,11 +2,11 @@
     <div class="input-attachments-doc">
         <DocPreview :item="item" />
         <span class="input-attachments-doc nowrap" v-text="item.title" />
-        <XIcon class="icon clickable remove" />
+        <XIcon class="icon clickable remove" @click="$emit('remove')" />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
         XIcon: () => import("~icons/x.svg"),
