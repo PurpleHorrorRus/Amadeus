@@ -1,5 +1,9 @@
 <template>
-    <div id="message-page-input-attachments-gallery">
+    <Draggable 
+        v-bind="dragOptions" 
+        id="message-page-input-attachments-gallery" 
+        @change="$emit('sort', $event)"
+    >
         <AttachmentItem
             v-for="(item, index) of attachments"
             :key="item.id"
@@ -7,21 +11,39 @@
             :index="index"
             @remove="removeAttachment(index)"
         />
-    </div>
+    </Draggable>
 </template>
 
 <script lang="ts">
 import { mapActions } from "vuex";
 
+import Draggable from "vuedraggable";
+
 export default {
     components: {
-        AttachmentItem: () => import("~/components/Messages/Input/Item.vue")
+        AttachmentItem: () => import("~/components/Messages/Input/Item.vue"),
+        Draggable
     },
 
     props: {
         attachments: {
             type: Array,
             required: true
+        }
+    },
+
+    computed: {
+        dragOptions() {
+            return {
+                list: this.attachments,
+                draggable: ".message-attachment-item",
+                ghostClass: "ghost",
+                direction: "both",
+                animation: 50,
+                delay: 20,
+                touchStartThreshold: 8,
+                forceFallback: true
+            };
         }
     },
 

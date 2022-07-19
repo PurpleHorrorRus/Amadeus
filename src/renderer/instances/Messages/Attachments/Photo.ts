@@ -16,6 +16,7 @@ class Photo extends Attachment implements IPreview, IUpload {
         
         if (upload) {
             this.path = upload.path;
+            this.temp = upload.temp || false;
             this.upload_field = "file";
         }
     }

@@ -52,8 +52,8 @@ abstract class Attachment {
     public path?: string;
     public temp?: boolean;
     public uploading?: boolean;
-    public upload_field?: string
-    public upload_type?: string
+    public upload_field?: string;
+    public upload_type?: string;
 
     constructor(attachment: TAttachment, type: TAttachmentType) {
         this.id = Number(attachment.id);

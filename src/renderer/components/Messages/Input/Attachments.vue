@@ -35,6 +35,7 @@
         <MessageAttachmentsGallery 
             v-if="galleryItems.length > 0"
             :attachments="galleryItems"
+            @sort="sort"
         />
     </div>
 </template>
@@ -89,10 +90,25 @@ export default {
 
     methods: {
         ...mapActions({
+            moveAttachments: "input/MOVE_ATTACHMENTS",
             removeAttachment: "input/REMOVE_ATTACHMENT",
             removeReply: "input/REMOVE_REPLY",
             removeForward: "input/REMOVE_FORWARD"
-        })
+        }),
+
+        sort({ moved }) {
+            const oldIndex = this.input.attachments.findIndex(attachment => {
+                return attachment.id === this.galleryItems[moved.oldIndex].id;
+            });
+
+            const newIndex = this.input.attachments.findIndex(attachment => {
+                return attachment.id === this.galleryItems[moved.newIndex].id;
+            });
+
+            console.log(oldIndex, newIndex);
+
+            return this.moveAttachments({ oldIndex, newIndex });
+        }
     }
 };
 </script>

@@ -290,3 +290,7 @@ a:not(.clickable) {
         transition: opacity .1s;
     }
 }
+
+.ghost {
+    opacity: 0;
+}

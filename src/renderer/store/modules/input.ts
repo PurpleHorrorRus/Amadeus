@@ -5,6 +5,8 @@ import Attachment from "~/instances/Messages/Attachment";
 import Photo from "~/instances/Messages/Attachments/Photo";
 import { TMessage } from "~/instances/Types/Messages";
 
+import common from "~/plugins/common";
+
 export default {
     namespaced: true,
 
@@ -29,6 +31,10 @@ export default {
         ADD_ATTACHMENT: ({ state }, attachment: Attachment) => {
             state.attachments.push(attachment);
             return true;
+        },
+
+        MOVE_ATTACHMENTS: ({ state }, moved) => { 
+            state.attachments = common.arrayMove(state.attachments, moved.oldIndex, moved.newIndex);
         },
 
         REMOVE_ATTACHMENT: ({ state }, index: number) => {
