@@ -17,8 +17,8 @@
 
             <PlayIcon 
                 v-if="canQuick" 
-                class="icon"
-                id="video-play-icon" 
+                id="video-play-icon"
+                class="icon" 
                 @click.stop="quickPlay" 
             />
         </div>

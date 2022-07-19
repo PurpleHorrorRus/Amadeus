@@ -14,8 +14,9 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions } from "vuex";
+import Attachment from "~/instances/Messages/Attachment";
 
 import ModalMixin from "~/mixins/modal";
 
@@ -38,8 +39,8 @@ export default {
             label: "Документы"
         }],
 
-        current: "photos",
-        selected: []
+        current: "photos" as string,
+        selected: [] as Attachment[]
     }),
 
     computed: {
@@ -57,12 +58,12 @@ export default {
 
         renderComponent() {
             switch (this.current) {
-                case "photos": return () => import("~/components/Modal/Views/AddAttachments/PhotoGallery");
-                case "videos": return () => import("~/components/Modal/Views/AddAttachments/VideoGallery");
-                case "docs": return () => import("~/components/Modal/Views/AddAttachments/DocsGallery");
+                case "photos": return () => import("~/components/Modal/Views/AddAttachments/PhotoGallery.vue");
+                case "videos": return () => import("~/components/Modal/Views/AddAttachments/VideoGallery.vue");
+                case "docs": return () => import("~/components/Modal/Views/AddAttachments/DocsGallery.vue");
             }
 
-            return () => import("~/components/Modal/Views/AddAttachments/PhotoGallery");
+            return () => import("~/components/Modal/Views/AddAttachments/PhotoGallery.vue");
         },
 
         attachLabel() {
@@ -76,11 +77,11 @@ export default {
 
     methods: {
         ...mapActions({
-            setAttachments: "input/SET_ATTACHMENTS",
+            addAttachment: "input/ADD_ATTACHMENT",
             close: "modal/CLOSE"
         }),
 
-        changeCategory(index) {
+        changeCategory(index: number) {
             this.current = this.categories[index].id;
             return true;
         },
@@ -89,7 +90,7 @@ export default {
             item.selected = !item.selected;
 
             if (!item.selected) {
-                const selectedIndex = this.selected.findIndex(selected => {
+                const selectedIndex: number = this.selected.findIndex(selected => {
                     return selected.id === item.id;
                 });
 
@@ -100,11 +101,14 @@ export default {
         },
 
         attach() {
-            const attachments = this.selected.map(selected =>{
+            const attachments: Attachment[] = this.selected.map(selected => {
                 return selected.attachment;
             });
 
-            this.setAttachments(attachments);
+            attachments.forEach(() => {
+                this.addAttachment(attachments);
+            });
+
             this.close();
         }
     }
@@ -113,6 +117,8 @@ export default {
 
 <style lang="scss">
 #modal-view-add-attachments {
+    display: grid;
+    grid-template-rows: 40px auto;
     row-gap: 20px !important;
 
     width: 60vw;

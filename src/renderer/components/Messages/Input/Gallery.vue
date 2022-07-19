@@ -10,12 +10,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions } from "vuex";
 
 export default {
     components: {
-        AttachmentItem: () => import("~/components/Messages/Input/Item")
+        AttachmentItem: () => import("~/components/Messages/Input/Item.vue")
     },
 
     props: {
@@ -23,6 +23,10 @@ export default {
             type: Array,
             required: true
         }
+    },
+
+    created() {
+        console.log(this.attachments);
     },
 
     methods: {

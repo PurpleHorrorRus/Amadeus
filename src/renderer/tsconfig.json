@@ -16,7 +16,7 @@
         "sourceMap": true,
         "strict": false,
         "noEmit": true,
-        "baseUrl": "./",
+        "baseUrl": ".",
         "jsx": "preserve",
         "typeRoots": ["./types"],
 
@@ -30,16 +30,6 @@
             "@nuxt/types"
         ]
     },
-
-    "vueCompilerOptions": {
-        "target": 2,
-        "experimentalImplicitWrapComponentOptionsWithVue2Extend": true
-    },
-
-    "files": [
-        "./types/vue-shim.d.ts",
-        "./types/svg-shim.d.ts"
-    ],
 
     "include": [
         "./**/*"

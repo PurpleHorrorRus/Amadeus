@@ -43,7 +43,8 @@ export default {
 
     .modal-layout {
         width: max-content;
-        height: max-content;
+        height: auto;
+        max-height: 100%;
 
         background: var(--backdrop);
         border-radius: 8px;

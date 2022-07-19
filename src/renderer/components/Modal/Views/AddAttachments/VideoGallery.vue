@@ -49,8 +49,6 @@ import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 
 import Video from "~/instances/Messages/Attachments/Video";
-import { VideoSaveResult } from "vk-io/lib/api/schemas/objects";
-import { TSaveData } from "~/instances/Types/Attachments";
 
 const fields = {
     count: 100

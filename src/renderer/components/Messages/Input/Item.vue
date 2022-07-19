@@ -25,23 +25,23 @@
             :item="item" 
         />
 
-        <AttachmentsDoc 
-            v-else-if="item.type === 'doc'" 
+        <AttachmentsGif 
+            v-else-if="item.isGif" 
             :item="item" 
         />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        WallRepost: () => import("~/components/Messages/Attachments/Wall/Repost"),
-        GalleryPhoto: () => import("~/components/Messages/Attachments/Gallery/Photo"),
-        GalleryVideo: () => import("~/components/Messages/Attachments/Gallery/Video"),
-        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
-        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc"),
+        WallRepost: () => import("~/components/Messages/Attachments/Wall/Repost.vue"),
+        GalleryPhoto: () => import("~/components/Messages/Attachments/Gallery/Photo.vue"),
+        GalleryVideo: () => import("~/components/Messages/Attachments/Gallery/Video.vue"),
+        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio.vue"),
+        AttachmentsGif: () => import("~/components/Messages/Attachments/Doc.vue"),
 
         XIcon: () => import("~icons/x.svg")
     },
@@ -60,12 +60,12 @@ export default {
 .message-attachment-item {
     position: relative;
 
-    width: 120px;
-    height: 120px;
+    width: 130px;
+    height: auto;
 
     .attachments-item {
         &.attachments-item-doc {
-            width: max-content;
+            width: 100%;
         }
 
         &.attachments-item-audio {
@@ -81,8 +81,8 @@ export default {
         position: absolute;
         top: 3px; right: 3px;
         
-        width: 36px;
-        padding: 10px;
+        width: 30px;
+        padding: 7px;
 
         background: var(--backdrop);
         border-radius: 100%;

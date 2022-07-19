@@ -22,19 +22,24 @@
         />
 
         <CompactAttachment 
-            v-else-if="input.geo"
+            v-if="input.geo"
             :message="input"
             :text="'Карта'"
         />
+        
+        <AttachmentsDocs
+            v-if="docItems.length > 0"
+            :items="docItems"
+        />
 
         <MessageAttachmentsGallery 
-            v-else-if="galleryItems.length > 0"
+            v-if="galleryItems.length > 0"
             :attachments="galleryItems"
         />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";
@@ -42,23 +47,30 @@ import AttachmentsMixin from "~/mixins/attachments";
 
 export default {
     components: {
-        CompactAttachment: () => import("~/components/Messages/Input/CompactAttachment"),
-        MessageAttachmentsGallery: () => import("~/components/Messages/Input/Gallery")
+        CompactAttachment: () => import("~/components/Messages/Input/CompactAttachment.vue"),
+        AttachmentsDocs: () => import("~/components/Messages/Input/Attachments/Docs.vue"),
+        MessageAttachmentsGallery: () => import("~/components/Messages/Input/Gallery.vue")
     },
 
     mixins: [CoreMixin, AttachmentsMixin],
 
     computed: {
         ...mapState({
-            input: state => state.input
+            input: (state: any) => state.input
         }),
 
         galleryItems() {
-            return this.input.attachments?.filter(attachment => {
+            return this.input.attachments.filter(attachment => {
                 return attachment.type === "photo"
                     || attachment.type === "video"
-                    || attachment.type === "doc";
+                    || attachment.isGif;
             }) || [];
+        },
+
+        docItems() {
+            return this.input.attachments.filter(attachment => {
+                return attachment.type === "doc" && attachment.doctype !== 3;
+            });
         },
 
         replyText() {
@@ -89,9 +101,10 @@ export default {
 #message-page-input-attachments {
     grid-area: attachments;
 
+    width: 100%;
     max-height: 40vh;
 
-    overflow-y: auto;
+    overflow: hidden;
 
     .message-content-attachments {
         max-width: 30vw;

@@ -17,7 +17,7 @@ export default {
 .attachments-item-doc-gif-preview {
     position: relative;
 
-    width: 200px;
+    width: 100%;
     height: 100%;
 
     &-image {

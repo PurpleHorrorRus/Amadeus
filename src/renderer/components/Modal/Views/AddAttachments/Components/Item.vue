@@ -42,14 +42,14 @@ export default {
 
     methods: {
         ...mapActions({
-            setAttachments: "input/SET_ATTACHMENTS",
+            addAttachment: "input/ADD_ATTACHMENT",
             close: "modal/CLOSE"
         }),
 
         attach(event) {
             if (event.ctrlKey) return this.select();
 
-            this.setAttachments([this.item]);
+            this.addAttachment(this.item.attachment);
             return this.close();
         },
 

@@ -10,6 +10,7 @@ class Doc extends Attachment {
     public date: number;
     public doctype: number;
     public url?: string;
+    public isGif: boolean;
 
     constructor(doc: DocsDoc) {
         super(doc, "doc");
@@ -21,6 +22,8 @@ class Doc extends Attachment {
         this.date = doc.date;
         this.doctype = doc.type;
         this.url = doc.url;
+
+        this.isGif = this.doctype === 3;
     }
 }
 

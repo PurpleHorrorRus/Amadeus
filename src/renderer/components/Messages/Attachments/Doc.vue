@@ -1,7 +1,7 @@
 <template>
     <div class="attachments-item attachments-item-doc">
-        <DocGif v-if="isGif" :item="item" />
-        <DocFile v-else :item="item" />
+        <DocGif v-if="item.isGif" :item="item" />
+        <InlineDoc v-else :item="item" />
     </div>
 </template>
 
@@ -11,19 +11,24 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 export default {
     components: {
         DocGif: () => import("~/components/Messages/Attachments/Doc/Gif"),
-        DocFile: () => import("~/components/Messages/Attachments/Doc/File")
+        InlineDoc: () => import("~/components/Modal/Views/AddAttachments/Components/Doc/Inline.vue")
     },
 
-    mixins: [AttachmentMixin],
-
-    computed: {
-        isGif() {
-            return this.item.doctype === 3;
-        }
-    }
+    mixins: [AttachmentMixin]
 };
 </script>
 
 <style lang="scss">
+.attachments-item-doc {
+    width: 100%;
+    height: 100%;
 
+    .inline-doc {
+        border-bottom: none;
+        
+        span {
+            color: var(--contrast);
+        }
+    }
+}
 </style>
