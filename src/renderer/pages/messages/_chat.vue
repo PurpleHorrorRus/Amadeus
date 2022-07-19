@@ -237,7 +237,9 @@ export default {
 
             const docsPayload: TUploadingPath[] = [...files].filter(attachment => {
                 const extension = path.extname(attachment.path);
-                return !docsExclude.includes(extension);
+                return !docsExclude.includes(extension)
+                    && !allowUpload.image.includes(extension)
+                    && !allowUpload.video.includes(extension);
             });
 
             if (docsPayload.length > 0) {
