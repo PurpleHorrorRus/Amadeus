@@ -60,7 +60,7 @@ export default {
 .attachments-item-doc-gif-playing {
     position: relative;
 
-    width: 300px;
+    width: 100%;
 
     &-image {
         width: 100%;
