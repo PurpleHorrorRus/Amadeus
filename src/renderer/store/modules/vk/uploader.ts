@@ -1,3 +1,4 @@
+import AudioMessage from "~/instances/Messages/Attachments/AudioMessage";
 import Doc from "~/instances/Messages/Attachments/Doc";
 import Video from "~/instances/Messages/Attachments/Video";
 
@@ -26,9 +27,16 @@ export default {
             });
 
             const upload = await doc.upload(rootState.vk.client);
-            console.log(upload);
-            
             return await dispatch("input/ADD_ATTACHMENT", upload, { root: true });
+        },
+
+        UPLOAD_AUDIO_MESSAGE: async ({ rootState }, file) => { 
+            const audioMessage = new AudioMessage({}, {
+                path: file,
+                temp: true
+            });
+
+            return await audioMessage.upload(rootState.vk.client);
         }
     }
 };

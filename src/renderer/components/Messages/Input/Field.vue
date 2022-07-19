@@ -11,6 +11,8 @@
             @keydown.up="hotkeyEdit"
         />
 
+        <InputRecorder />
+
         <InputFieldSend 
             :loading="$parent.sending"
             :canSend="canSend"
@@ -32,6 +34,7 @@ import Message from "~/instances/Messages/Message";
 
 export default {
     components: {
+        InputRecorder: () => import("~/components/Messages/Input/Recorder.vue"),
         InputFieldSend: () => import("~/components/Messages/Input/Field/Send.vue")
     },
 

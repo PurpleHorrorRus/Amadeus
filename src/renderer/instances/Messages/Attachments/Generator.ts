@@ -40,7 +40,15 @@ class AttachmentGenerator {
             }
                 
             case "wall": return new Wall(attachment.wall);
-            case "audio_message": return new AudioMessage(attachment.audio_message);
+            
+            case "audio_message": { 
+                if (attachment.link_ogg) {
+                    return attachment as Attachment;
+                }
+
+                return new AudioMessage(attachment.audio_message);
+            }
+
             case "link": return new Link(attachment.link);
             case "sticker": return new Sticker(attachment.sticker);
             case "story": return new Story(attachment.story);

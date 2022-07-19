@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 
-import { app } from "electron";
 import fs from "fs";
 import path from "path";
+import { app } from "electron";
 
 const isDev = process.env.NODE_ENV === "development";
 
@@ -10,6 +10,8 @@ const clear = {
     settings: {
         width: 380,
         height: 530,
+
+        inputDevice: "default",
 
         vk: {
             mute: [],
@@ -82,7 +84,9 @@ const nested = (settings, clear) => {
     const clearKeys = Object.keys(clear);
     for (const key of clearKeys) {
         const settingType = typeof settings[key];
+        // eslint-disable-next-line valid-typeof
         const differentTypes = settingType !== typeof clear[key];
+        // eslint-disable-next-line no-mixed-operators
         const isNewKey = !(key in settings) && key in clear || differentTypes;
         const settingIsArray = Array.isArray(settings[key]);
 
@@ -130,6 +134,7 @@ if (!fs.existsSync(paths.background)) {
 
 Object.keys(clear).map(key => {
     paths[key] = dataPath(`${key}.json`);
+    return clear[key];
 });
 
 const config = {

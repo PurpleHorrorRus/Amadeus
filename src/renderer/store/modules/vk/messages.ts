@@ -186,7 +186,7 @@ export default {
                 attachment: "",
                 peer_id: data.peer_id,
                 random_id: common.getRandom(10, 99999999),
-                message: data.text,
+                message: data.text || "",
                 reply_to: data.reply_message?.id
             };
 
@@ -205,7 +205,7 @@ export default {
             if (!toSend.reply_to && data.forward_messages) {
                 toSend.forward_messages = data.forward_messages.map(message => {
                     return message.id;
-                }).join(",") || "";
+                }).join(",");
             }
 
             dispatch("SYNC", message);
@@ -224,7 +224,6 @@ export default {
                 .then(() => dispatch("SEND_OFFLINE"))
                 .catch(e => {
                     console.warn(e);
-                    dispatch("UPDATE_CURRENT");
                 });
         },
 
@@ -310,8 +309,6 @@ export default {
                 return await attachment.upload(rootState.vk.client);
             });
 
-            console.log(uploadings);
-
             return {
                 uploaded: uploadings,
 
@@ -361,20 +358,6 @@ export default {
             }
 
             return await rootState.vk.client.api.account.setOffline();
-        },
-
-        UPDATE_CURRENT: async ({ state, rootState }) => {
-            const list = await rootState.vk.client.api.messages.getConversationsById({
-                peer_ids: state.current.id,
-                extended: 1
-            });
-
-            const conversation = list.items[0];
-            if (conversation.peer.id === state.current.id) {
-                state.current.information = conversation;
-            }
-
-            return true;
         },
 
         FIND_MESSAGE: ({ state }, data) => {

@@ -22,32 +22,45 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 import lodash from "lodash";
+
+import Attachment from "~/instances/Messages/Attachment";
+import Message from "~/instances/Messages/Message";
 
 import ModalMixin from "~/mixins/modal";
 import MenuMixin from "~/mixins/menu";
 
+type TSend = {
+    peer_id: number
+    type: string
+
+    attachments: Attachment[] | Attachment[][],
+    text: string,
+    reply_message: Message,
+    forward_messages: Message[]
+};
+
 export default {
     components: {
         AddIcon: () => import("~icons/add.svg"),
-        InputEdit: () => import("~/components/Messages/Input/Edit"),
-        InputField: () => import("~/components/Messages/Input/Field"),
-        InputAttachments: () => import("~/components/Messages/Input/Attachments")
+        InputEdit: () => import("~/components/Messages/Input/Edit.vue"),
+        InputField: () => import("~/components/Messages/Input/Field.vue"),
+        InputAttachments: () => import("~/components/Messages/Input/Attachments.vue")
     },
 
     mixins: [ModalMixin, MenuMixin],
 
     data: () => ({
-        sending: false
+        sending: false as boolean
     }),
 
     computed: {
         ...mapState({
-            paths: state => state.config.paths,
-            current: state => state.vk.messages.current,
-            input: state => state.input
+            paths: (state: any) => state.config.paths,
+            current: (state: any) => state.vk.messages.current,
+            input: (state: any) => state.input
         }),
 
         inputClass() {
@@ -80,12 +93,12 @@ export default {
                 this.sending = true;
             }
 
-            const attachments = lodash.chunk(this.input.attachments, 10);
-            const reply_message = this.input.reply ? { ...this.input.reply } : undefined;
-            const forward_messages = [...this.input.fwd_messages];
+            const attachments: Attachment[][] = lodash.chunk(this.input.attachments, 10);
+            const reply_message: Message = this.input.reply ? { ...this.input.reply } : undefined;
+            const forward_messages: Message[] = [...this.input.fwd_messages];
             this.clearInput();
 
-            const params = {
+            const params: TSend = {
                 peer_id: this.current.id,
                 type: this.$route.query.type,
 

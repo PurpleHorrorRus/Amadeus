@@ -15,7 +15,7 @@ import {
     MessagesGraffiti,
     BaseImage
 } from "vk-io/lib/api/schemas/objects";
-import { PhotosSaveMessagesPhotoParams, VideoSaveParams } from "vk-io/lib/api/schemas/params";
+import { DocsSaveParams, PhotosSaveMessagesPhotoParams, VideoSaveParams } from "vk-io/lib/api/schemas/params";
 import { DocsDocUploadResponse } from "vk-io/lib/api/schemas/responses";
 import { IUpload } from "../Interfaces/Upload";
 
@@ -53,7 +53,8 @@ type TAttachmentType =
 type TUpload =
     PhotosSaveMessagesPhotoParams
     | VideoSaveParams
-    | DocsDocUploadResponse;
+    | DocsDocUploadResponse
+    | DocsSaveParams;
 
 abstract class Attachment implements IUpload { 
     public readonly id: number;

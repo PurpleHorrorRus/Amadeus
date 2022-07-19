@@ -17,14 +17,50 @@
             :value="settings.vk.send_offline"
             @change="deepChange(settings.vk, 'send_offline')"
         />
+
+        <Dropdown 
+            :options="deviceNames"
+            :selected="0"
+            text="Устройство записи"
+            @change="changeInput"
+        />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 
 export default {
-    mixins: [CoreMixin]
+    mixins: [CoreMixin],
+
+    data: () => ({
+        devices: [] as MediaDeviceInfo[]
+    }),
+
+    computed: {
+        deviceNames() {
+            return this.devices.map(device => {
+                return device.label;
+            });
+        }
+    },
+
+    created() {
+        this.initDevices();
+    },
+
+    methods: {
+        async initDevices() {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            this.devices = devices.filter(device => {
+                return device.kind === "audioinput";
+            });
+        },
+
+        changeInput(index) {
+            this.deepChange(this.settings, "inputDevice", this.devices[index].deviceId);
+        }
+    }
 };
 </script>
 

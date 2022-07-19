@@ -49,6 +49,7 @@
         "@nuxt/typescript-runtime": "^2.1.0",
         "@nuxtjs/color-mode": "^2.1.1",
         "@nuxtjs/style-resources": "^1.2.1",
+        "@types/dom-mediacapture-record": "^1.0.11",
         "@uscreen-video/v-color": "^1.0.0",
         "@vk-io/authorization": "1.2.1",
         "bluebird": "^3.7.2",
