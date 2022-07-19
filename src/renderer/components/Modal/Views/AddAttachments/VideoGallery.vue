@@ -44,6 +44,7 @@
 <script lang="ts">
 import { mapActions } from "vuex";
 import lodash from "lodash";
+import Promise from "bluebird";
 
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
@@ -219,15 +220,18 @@ export default {
             });
         },
 
-        async uploadVideo(file) {
+        async uploadVideo(files: string[]) {
             this.uploading = true;
             this.setBusy(true);
 
-            const upload = await this.upload({
-                attachment: new Video({}, { path: file })
+            await Promise.each(files, async file => {
+                const upload = await this.upload({
+                    attachment: new Video({}, { path: file })
+                });
+
+                this.addAttachment(upload);
             });
 
-            this.addAttachment(upload);
             this.setBusy(false);
             this.close();
         }

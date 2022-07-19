@@ -27,10 +27,6 @@ export default {
         },
         
         ADD_ATTACHMENT: ({ state }, attachment: Attachment) => {
-            if (state.attachments.length === 10) {
-                return false;
-            }
-
             state.attachments.push(attachment);
             return true;
         },
@@ -44,11 +40,28 @@ export default {
             return state.attachments;
         },
 
-        ADD_PHOTO: async ({ dispatch, state, rootState }, item) => {
-            if (state.attachments.length === 10) {
-                return false;
-            }
+        ADD_PHOTO_PATH: async ({ dispatch, rootState }, file: string) => { 
+            const photo: Photo = new Photo({
+                album_id: -1,
+                date: Math.floor(Date.now() / 1000),
+                id: Date.now(),
+                owner_id: rootState.vk.user.id,
+                has_tags: false,
 
+                sizes: [{
+                    width: 1,
+                    height: 1,
+                    url: "data:image/png;base64," + fs.readFileSync(file, "base64")
+                }]
+            }, {
+                path: file,
+                temp: false
+            });
+
+            return await dispatch("ADD_ATTACHMENT", photo);
+        },
+
+        ADD_PHOTO_CLIPBOARD: async ({ dispatch, rootState }, item) => {
             const blob = item.getAsFile();
 
             const filename = Date.now() + ".jpg";

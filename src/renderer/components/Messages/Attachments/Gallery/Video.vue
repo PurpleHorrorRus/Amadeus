@@ -1,5 +1,9 @@
 <template>
-    <div class="attachments-item attachments-item-video" :style="itemStyle">
+    <div 
+        class="attachments-item attachments-item-video" 
+        :class="videoClass" 
+        :style="itemStyle"
+    >
         <div class="attachments-item-video-preview" :style="previewStyle">
             <VideoBlock v-if="item.restriction" />
 
@@ -61,6 +65,12 @@ export default {
     }),
 
     computed: {
+        videoClass() {
+            return {
+                title: this.showTitle
+            };
+        },
+
         canQuick() {
             return this.canQuickPlay 
                 && !this.quick 
@@ -79,10 +89,14 @@ export default {
 <style lang="scss">
 .attachments-item-video {
     display: grid;
-    grid-template-rows: 1fr;
+    grid-template-rows: 100%;
     row-gap: 8px;
 
     height: 100%;
+
+    &.title {
+        grid-template-rows: 1fr 35px;
+    }
 
     &-preview {
         position: relative;

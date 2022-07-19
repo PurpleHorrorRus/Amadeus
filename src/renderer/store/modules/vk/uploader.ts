@@ -2,11 +2,9 @@ import { FormData } from "formdata-node";
 import { fileFromPathSync } from "formdata-node/file-from-path";
 
 import fs from "fs-extra";
-import { VideoGetResponse, VideoUploadResponse } from "vk-io/lib/api/schemas/responses";
-import AttachmentGenerator from "~/instances/Messages/Attachments/Generator";
+import { VideoGetResponse } from "vk-io/lib/api/schemas/responses";
 import Video from "~/instances/Messages/Attachments/Video";
 import { TSaveData, TUploadData } from "~/instances/Types/Attachments";
-import { VideoSaveResult } from 'vk-io/lib/api/schemas/objects';
 import Photo from "~/instances/Messages/Attachments/Photo";
 import Attachment from "~/instances/Messages/Attachment";
 
@@ -33,7 +31,7 @@ export default {
                                 const [saved] = await rootState.vk.client.api.photos.saveMessagesPhoto(upload);
                                 return resolve(new Photo(saved));
                             }
-                        }
+                        };
     
                         case "video": return {
                             server: () => rootState.vk.client.api.video.save({
@@ -51,7 +49,7 @@ export default {
                     
                                 return resolve(new Video(response.items[0]));
                             }
-                        }
+                        };
                     }
                 })();
 

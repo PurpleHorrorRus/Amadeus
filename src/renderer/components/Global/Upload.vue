@@ -14,7 +14,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer } from "electron";
 
 export default {
@@ -27,11 +27,17 @@ export default {
             type: Boolean,
             required: false,
             default: false
+        },
+
+        properties: {
+            type: Object,
+            required: false,
+            default: () => ({})
         }
     },
 
     data: () => ({
-        drag: false
+        drag: false as boolean
     }),
 
     computed: {
@@ -59,10 +65,9 @@ export default {
                 return this.$emit("choose", event.dataTransfer.files[0].path);
             }
 
-            const filePaths = await ipcRenderer.invoke("select");
-            console.log(filePaths);
+            const filePaths = await ipcRenderer.invoke("select", this.properties);
             return filePaths
-                ? this.$emit("choose", filePaths[0])
+                ? this.$emit("choose", filePaths)
                 : false;
         }
     }

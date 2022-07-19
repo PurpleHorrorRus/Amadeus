@@ -39,8 +39,6 @@ export default {
 
     computed: {
         albumTitles() {
-            console.log(this.$parent);
-            
             return this.$parent.albums.items.map(album => {
                 return album.title;
             });

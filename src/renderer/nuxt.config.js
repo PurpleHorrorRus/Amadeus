@@ -37,8 +37,6 @@ module.exports = {
 
             config.module.rules.find(rule => rule.test.test(".svg")).test = /\.(gif|webp)$/;
             config.module.rules = config.module.rules.concat(webpackRules);
-
-            console.log(config.resolve.alias);
         },
 
         standalone: true,

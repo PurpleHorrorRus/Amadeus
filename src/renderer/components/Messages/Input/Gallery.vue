@@ -25,10 +25,6 @@ export default {
         }
     },
 
-    created() {
-        console.log(this.attachments);
-    },
-
     methods: {
         ...mapActions({
             removeAttachment: "input/REMOVE_ATTACHMENT"

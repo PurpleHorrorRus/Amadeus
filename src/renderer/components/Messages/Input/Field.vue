@@ -116,7 +116,7 @@ export default {
         ...mapActions({
             sendTyping: "vk/messages/SEND_TYPING",
 
-            addPhoto: "input/ADD_PHOTO"
+            addPhotoClipboard: "input/ADD_PHOTO_CLIPBOARD"
         }),
 
         send(event) {
@@ -147,7 +147,7 @@ export default {
             switch (item?.kind) {
                 case "file": {
                     event.preventDefault();
-                    return this.addPhoto(item);
+                    return this.addPhotoClipboard(item);
                 }
 
                 default: 

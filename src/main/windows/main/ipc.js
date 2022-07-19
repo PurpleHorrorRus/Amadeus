@@ -16,12 +16,12 @@ class IPC {
                 };
             },
 
-            select: async params => {
-                const { canceled, filePaths } = await dialog.showOpenDialog(params);
+            select: async (_, properties) => {
+                const { canceled, filePaths } = await dialog.showOpenDialog(properties);
                 return !canceled ? filePaths : false;
             },
 
-            save: async options => {
+            save: async (_, options) => {
                 const { canceled, filePath } = await dialog.showSaveDialog(options);
                 return !canceled ? filePath : false;
             },

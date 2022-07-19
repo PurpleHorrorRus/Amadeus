@@ -1,7 +1,8 @@
 <template>
     <div id="photo-gallery">
         <Upload 
-            :uploading="uploading" 
+            :uploading="uploading"
+            :properties="uploadProperties"
             @choose="uploadPhoto" 
         />
 
@@ -23,6 +24,9 @@
 </template>
 
 <script lang="ts">
+import { mapActions } from "vuex";
+import Promise from "bluebird";
+
 import { PhotosPhoto, PhotosPhotoAlbum } from "vk-io/lib/api/schemas/objects";
 
 import Photo from "~/instances/Messages/Attachments/Photo";
@@ -60,6 +64,16 @@ export default {
     }),
 
     computed: {
+        uploadProperties() {
+            return {
+                properties: ["openFile", "multiSelections"],
+                filters: [{
+                    name: ".jpg, .jpeg, .png",
+                    extensions: ["jpg", "jpeg", "png"]
+                }]
+            };
+        },
+
         canScroll() {
             return this.data.length < this.count;
         }
@@ -76,6 +90,11 @@ export default {
     },
 
     methods: {
+        ...mapActions({
+            addPhotoPath: "input/ADD_PHOTO_PATH",
+            close: "modal/CLOSE"
+        }),
+
         async fetch(album) {
             const list = await this.client.api.photos.get({
                 owner_id: album.owner_id,
@@ -121,13 +140,14 @@ export default {
             return true;
         },
 
-        methods: {
-            async uploadPhoto(file) {
-                console.log(file);
-                
-                this.uploading = true;
-                this.uploading = false;
-            }
+        async uploadPhoto(files: string[]) {
+            this.uploading = true;
+
+            await Promise.each(files, async file => {
+                return await this.addPhotoPath(file);
+            });
+
+            this.close();
         }
     }
 };

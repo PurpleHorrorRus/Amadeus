@@ -18,7 +18,8 @@ const params = {
     width: Math.max(common.storage.config.settings.width, minWidth),
     height: Math.max(common.storage.config.settings.height, minHeight),
 
-    minWidth, minHeight,
+    minWidth,
+    minHeight,
 
     frame: false,
     transparent: false,
