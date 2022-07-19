@@ -3,7 +3,7 @@
         <Upload 
             v-if="search.query.length === 0"
             :uploading="uploading" 
-            @choose="uploadVideo" 
+            @choose="upload" 
         />
 
         <SingleInput 
@@ -126,7 +126,7 @@ export default {
 
     methods: {
         ...mapActions({
-            upload: "vk/uploader/UPLOAD",
+            uploadVideo: "vk/uploader/UPLOAD_VIDEO",
             addAttachment: "input/ADD_ATTACHMENT",
 
             setBusy: "modal/SET_BUSY",
@@ -220,16 +220,12 @@ export default {
             });
         },
 
-        async uploadVideo(files: string[]) {
+        async upload(files: string[]) {
             this.uploading = true;
             this.setBusy(true);
 
             await Promise.each(files, async file => {
-                const upload = await this.upload({
-                    attachment: new Video({}, { path: file })
-                });
-
-                this.addAttachment(upload);
+                return await this.uploadVideo(file);
             });
 
             this.setBusy(false);

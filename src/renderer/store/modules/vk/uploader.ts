@@ -1,7 +1,7 @@
 import { FormData } from "formdata-node";
 import { fileFromPathSync } from "formdata-node/file-from-path";
-
 import fs from "fs-extra";
+
 import { VideoGetResponse } from "vk-io/lib/api/schemas/responses";
 import Video from "~/instances/Messages/Attachments/Video";
 import { TSaveData, TUploadData } from "~/instances/Types/Attachments";
@@ -88,6 +88,17 @@ export default {
             const form = new FormData();
             form.set(data.field, fileFromPathSync(data.file));
             return form;
+        },
+
+        UPLOAD_VIDEO: async ({ dispatch }, path) => { 
+            const upload = await dispatch("UPLOAD", {
+                attachment: new Video({}, {
+                    path,
+                    temp: false
+                })
+            });
+
+            return await dispatch("input/ADD_ATTACHMENT", upload, { root: true });
         }
     }
 };

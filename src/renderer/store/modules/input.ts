@@ -38,7 +38,7 @@ export default {
         },
 
         REMOVE_ATTACHMENT: ({ state }, index: number) => {
-            if (state.attachments[index].path) {
+            if (state.attachments[index].temp) {
                 fs.remove(state.attachments[index].path);
             }
 

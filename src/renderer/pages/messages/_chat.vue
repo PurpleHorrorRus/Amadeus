@@ -1,5 +1,10 @@
 <template>
-    <div id="chat-page" :class="chatClass">
+    <div 
+        id="chat-page" 
+        :class="chatClass"
+        @dragenter.prevent="onDragEnter"
+        @dragover.prevent
+    >
         <MessagesHeader v-if="current" :conversation="current" />
 
         <div id="chat-page-container" :style="chatViewportStyle">
@@ -9,22 +14,41 @@
 
         <MessageInput v-if="canWrite" ref="input" />
         <MessageNotAllowed v-else-if="showBlocked" />
+
+        <Upload 
+            v-if="drag"
+            :uploading="uploading"
+            @dragleave.prevent.native="onDragLeave" 
+            @dragover.prevent
+            @choose="uploadAttachments"
+        />
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import path from "path";
 import { mapActions, mapState } from "vuex";
+import Promise from "bluebird";
+
+import { TUploadingPath } from "~/instances/Types/Attachments";
 
 import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
 
+const allowUpload = {
+    image: [".jpg", ".jpeg", ".png"],
+    video: [".mp4", ".mkv", ".avi", ".3gp", ".mpeg", ".mov", ".flv", ".wmv"]
+};
+
+const allowUploadExtensions = Object.values(allowUpload).flat(1);
+
 export default {
     components: {
-        MessagesHeader: () => import("~/components/Messages/Header"),
-        MessagesViewport: () => import("~/components/Messages/Viewport"),
+        MessagesHeader: () => import("~/components/Messages/Header.vue"),
+        MessagesViewport: () => import("~/components/Messages/Viewport.vue"),
         
-        MessageInput: () => import("~/components/Messages/Input"),
-        MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed")
+        MessageInput: () => import("~/components/Messages/Input.vue"),
+        MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed.vue")
     },
 
     mixins: [CoreMixin, DateMixin],
@@ -43,23 +67,26 @@ export default {
     },
 
     data: () => ({
-        first: true,
+        first: true as boolean,
 
-        id: 0,
-        type: "user",
-        opened: false,
+        id: 0 as number,
+        type: "user" as string,
+        opened: false as boolean,
+
+        drag: false as boolean,
+        uploading: false as boolean,
 
         chat: {
             count: 0,
             messages: []
-        }
+        } as import("~/instances/Types/Messages").TChat
     }),
 
     computed: {
         ...mapState({
-            background: state => state.background,
-            input: state => state.input,
-            modal: state => state.modal
+            background: (state: any) => state.background,
+            input: (state: any) => state.input,
+            modal: (state: any) => state.modal
         }),
 
         chatClass() {
@@ -145,6 +172,9 @@ export default {
             markImportant: "vk/messages/MARK_IMPORTANT",
             unselectAll: "vk/messages/UNSELECT_ALL",
 
+            uploadVideo: "vk/uploader/UPLOAD_VIDEO",
+
+            addPhotoPath: "input/ADD_PHOTO_PATH",
             addReply: "input/ADD_REPLY",
             edit: "input/EDIT",
             clearEdit: "input/CLEAR_EDIT",
@@ -164,6 +194,47 @@ export default {
             if (this.modal.show) return this.close();
             this.$router.replace("/general").catch(() => {});
             return true;
+        },
+
+        onDragEnter() {
+            this.drag = true;
+        },
+
+        onDragLeave() {
+            if (this.uploading) {
+                return false;
+            }
+
+            this.drag = false;
+        },
+
+        async uploadAttachments(files) {
+            this.uploading = true;
+            
+            const payload: TUploadingPath[] = [...files].filter(attachment => {
+                const extension = path.extname(attachment.path);
+                return allowUploadExtensions.includes(extension);
+            }).map(attachment => {
+                return {
+                    extension: path.extname(attachment.path),
+                    path: attachment.path
+                };
+            });
+
+            if (payload.length > 0) {
+                await Promise.each(payload, async file => {
+                    if (allowUpload.image.includes(file.extension)) {
+                        return await this.addPhotoPath(file.path);
+                    }
+
+                    if (allowUpload.video.includes(file.extension)) {
+                        return await this.uploadVideo(file.path);
+                    }
+                });
+            }
+            
+            this.uploading = false;
+            this.drag = false;
         }
     }
 };
@@ -172,6 +243,8 @@ export default {
 <style lang="scss">
 #chat-page {
     grid-area: page;
+    
+    position: relative;
 
     display: grid;
     grid-template-columns: 1fr;
@@ -202,6 +275,22 @@ export default {
         height: 100%;
 
         background-repeat: no-repeat;
+    }
+
+    .upload {
+        position: absolute;
+        top: 0px; left: 0px;
+        width: 100%; height: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        background: #2c2c2cb6;
+
+        z-index: 10000;
+
+        pointer-events: all;
     }
 }
 </style>

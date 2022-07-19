@@ -30,6 +30,11 @@ export type TSaveData = {
     method: (upload: PhotosPhotoUploadResponse | VideoUploadResponse) => void
 };
 
+export type TUploadingPath = {
+    extension: string
+    path: string
+};
+
 export type TStory = StoriesStory & {
     video?: VideoVideoFull1 & VideoVideo
 }

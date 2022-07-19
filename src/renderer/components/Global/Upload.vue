@@ -3,7 +3,7 @@
         class="upload" 
         :class="uploadClass" 
         @click="open" 
-        @drop.prevent="open" 
+        @drop.prevent.stop="open" 
         @dragenter.prevent="drag = true"
         @dragleave.prevent="drag = false"
     >
@@ -62,7 +62,7 @@ export default {
             }
 
             if (event.dataTransfer) {
-                return this.$emit("choose", event.dataTransfer.files[0].path);
+                return this.$emit("choose", event.dataTransfer.files);
             }
 
             const filePaths = await ipcRenderer.invoke("select", this.properties);
