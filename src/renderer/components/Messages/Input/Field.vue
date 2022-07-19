@@ -19,7 +19,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 import lodash from "lodash";
 import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
@@ -27,6 +27,8 @@ import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
 import AttachmentsMixin from "~/mixins/attachments";
 import ActionsMixin from "~/mixins/actions";
 import DateMixin from "~/mixins/date";
+
+import Message from "~/instances/Messages/Message";
 
 export default {
     components: {
@@ -48,15 +50,16 @@ export default {
     },
 
     data: () => ({
-        message: "",
+        message: "" as string,
         typingThrottle: null
     }),
     
     computed: {
         ...mapState({
-            current: state => state.vk.messages.current,
-            cache: state => state.vk.messages.cache,
-            input: state => state.input
+            current: (state: any) => state.vk.messages.current,
+            cache: (state: any) => state.vk.messages.cache,
+            input: (state: any) => state.input,
+            modal: (state: any) => state.modal
         }),
 
         canSend() {
@@ -129,6 +132,10 @@ export default {
         },
 
         focus(event) {
+            if (this.modal.show) {
+                return false;
+            }
+
             if (event.type === "keypress" || event.type === "focus") {
                 this.$refs.textarea.focus();
             }
@@ -152,7 +159,7 @@ export default {
                 return false;
             }
 
-            const messages = this.cache[this.current.id].messages;
+            const messages: Message[] = this.cache[this.current.id].messages;
             for (let i = messages.length - 1; i > 0; i--) {
                 const message = messages[i];
 
