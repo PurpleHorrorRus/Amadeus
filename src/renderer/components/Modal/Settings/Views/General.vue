@@ -19,10 +19,17 @@
         />
 
         <Dropdown 
-            :options="deviceNames"
-            :selected="0"
+            :options="getDeviceNames(inputDevices)"
+            :selected="selectedInputDevice"
             text="Устройство записи"
-            @change="changeInput"
+            @change="changeDevice('inputDevice', inputDevices, $event)"
+        />
+
+        <Dropdown 
+            :options="getDeviceNames(outputDevices)"
+            :selected="selectedOutputDevice"
+            text="Устройство вывода"
+            @change="changeDevice('outputDevice', outputDevices, $event)"
         />
     </div>
 </template>
@@ -34,14 +41,21 @@ export default {
     mixins: [CoreMixin],
 
     data: () => ({
-        devices: [] as MediaDeviceInfo[]
+        inputDevices: [] as MediaDeviceInfo[],
+        outputDevices: [] as MediaDeviceInfo[]
     }),
 
     computed: {
-        deviceNames() {
-            return this.devices.map(device => {
-                return device.label;
-            });
+        selectedInputDevice() {
+            return this.inputDevices.findIndex(device => {
+                return device.deviceId === this.settings.inputDevice;
+            }) || 0;
+        },
+
+        selectedOutputDevice() {
+            return this.outputDevices.findIndex(device => {
+                return device.deviceId === this.settings.outputDevice;
+            }) || 0;
         }
     },
 
@@ -52,18 +66,23 @@ export default {
     methods: {
         async initDevices() {
             const devices = await navigator.mediaDevices.enumerateDevices();
-            this.devices = devices.filter(device => {
-                return device.kind === "audioinput";
+            this.inputDevices = this.getDevices(devices, "audioinput");
+            this.outputDevices = this.getDevices(devices, "audiooutput");
+        },
+
+        getDevices(devices: MediaDeviceInfo[], kind: string) {
+            return devices.filter(device => device.kind === kind);
+        },
+
+        getDeviceNames(devices: MediaDeviceInfo[]) {
+            return devices.map(device => {
+                return device.label;
             });
         },
 
-        changeInput(index) {
-            this.deepChange(this.settings, "inputDevice", this.devices[index].deviceId);
+        changeDevice(device: string, devices: MediaDeviceInfo[], index: number) {
+            this.deepChange(this.settings, device, devices[index].deviceId);
         }
     }
 };
 </script>
-
-<style lang="scss">
-
-</style>

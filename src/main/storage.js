@@ -12,6 +12,7 @@ const clear = {
         height: 530,
 
         inputDevice: "default",
+        outputDevice: "default",
 
         vk: {
             mute: [],

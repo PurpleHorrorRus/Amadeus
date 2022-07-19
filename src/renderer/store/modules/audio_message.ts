@@ -10,7 +10,7 @@ export default {
     }),
 
     actions: {
-        PLAY: async ({ dispatch, state }, data) => {
+        PLAY: async ({ dispatch, state, rootState }, data) => {
             if (state.playing) {
                 await dispatch("CLEAR");
             }
@@ -18,6 +18,11 @@ export default {
             state.voice = data;
 
             audio = new Audio(data.link_ogg);
+
+            try {
+                audio.setSinkId(rootState.settings.settings.outputDevice);
+            } catch (e) { audio.setSinkId("default"); }
+
             audio.onended = () => dispatch("CLEAR");
             audio.ontimeupdate = () => state.time = audio.currentTime;
             audio.oncanplaythrough = () => {

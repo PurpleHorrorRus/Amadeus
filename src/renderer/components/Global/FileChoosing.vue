@@ -1,24 +1,27 @@
 <template>
     <div class="file-choosing-item">
         <span class="file-choosing-item-text" v-text="text" />
-        <div class="file-choosing-item-block flex-spaced">
-            <span class="file-choosing-item-block-data nowrap" v-text="value" />
-            <div class="file-choosing-item-block-button clickable" @click="open">
-                <MoreHorizontalIcon class="icon vkgram" />
+        
+        <div class="file-choosing-item-container">
+            <div class="file-choosing-item-container-block flex-spaced">
+                <span class="file-choosing-item-container-block-data nowrap" v-text="value" />
+                <div class="file-choosing-item-container-block-button clickable" @click="open">
+                    <MoreHorizontalIcon class="icon vkgram" />
+                </div>
             </div>
-        </div>
 
-        <XIcon 
-            v-if="canClear" 
-            class="icon clickable" 
-            @click="$emit('choose', '')"
-        />
+            <XIcon 
+                v-if="canClear" 
+                class="icon clickable" 
+                @click="$emit('choose', '')"
+            />
+        </div>
     </div>
 </template>
 
 <script>
-import { ipcRenderer } from "electron";
 import { resolve } from "path";
+import { ipcRenderer } from "electron";
 
 export default {
     components: {
@@ -69,49 +72,55 @@ export default {
     justify-content: space-between;
     align-items: center;
 
-    &-text {
-        font-weight: 300;
-    }
-
-    &-block {
-        position: relative;
-
+    &-container {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        column-gap: 10px;
 
-        width: 200px;
-        height: 20px;
-
-        padding-left: 10px;
-
-        background-color: var(--item);
-        border: var(--borderWidth) solid var(--border);
-        border-radius: 50px;
-
-        &-data {
-            width: 75%;
-
-            font-size: 11pt;
+        &-text {
             font-weight: 300;
         }
 
-        &-button {
-            position: absolute;
-            right: 0px;
-            top: 0px;
+        &-block {
+            position: relative;
 
             display: flex;
-            justify-content: center;
+            flex-direction: row;
             align-items: center;
 
-            width: 30px;
-            height: 100%;
+            width: 200px;
+            height: 20px;
 
-            padding-left: 2px;
+            padding-left: 10px;
 
-            background-color: var(--switch-unchecked);
+            background-color: var(--item);
+            border: var(--borderWidth) solid var(--border);
             border-radius: 50px;
+
+            &-data {
+                width: 75%;
+
+                font-size: 11pt;
+                font-weight: 300;
+            }
+
+            &-button {
+                position: absolute;
+                right: 0px;
+                top: 0px;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: 30px;
+                height: 100%;
+
+                padding-left: 2px;
+
+                background-color: var(--switch-unchecked);
+                border-radius: 50px;
+            }
         }
     }
 

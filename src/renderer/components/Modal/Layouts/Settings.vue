@@ -17,7 +17,7 @@ export default {
 
     computed: {
         renderView() {
-            switch(this.view) {
+            switch (this.view) {
                 case "general": return () => import("~/components/Modal/Settings/Views/General");
                 case "appearance": return () => import("~/components/Modal/Settings/Views/Appearance");
                 case "accounts": return () => import("~/components/Modal/Settings/Views/Accounts");
@@ -49,7 +49,7 @@ export default {
 
 #modal-layout-settings {
     display: grid;
-    grid-template-columns: max-content 1fr;
+    grid-template-columns: max-content 60vw;
     grid-template-rows: 1fr;
     grid-template-areas: "navigation view";
     column-gap: 10px;
@@ -65,7 +65,6 @@ export default {
         flex-direction: column;
         row-gap: 10px;
 
-        width: 40vw;
         max-height: 90vh;
 
         padding: 10px;

@@ -1,5 +1,7 @@
 /* eslint-disable no-undef */
-import { debounce } from "lodash";
+// @ts-nocheck
+
+import lodash from "lodash";
 
 const hlsConfig = {
     maxBufferSize: 1024 * 1000 * 1000,
@@ -12,7 +14,7 @@ const hlsConfig = {
 let hls = null;
 let sound = null;
 
-const saveVolumeDebounce = debounce((dispatch, settings) => {
+const saveVolumeDebounce = lodash.debounce((dispatch, settings) => {
     dispatch("settings/SAVE", settings, { root: true });
     return true;
 }, 2000);
@@ -42,7 +44,7 @@ export default {
                 const { type, fatal } = data;
 
                 if (fatal) {
-                    switch(type) {
+                    switch (type) {
                         case Hls.ErrorTypes.NETWORK_ERROR: {
                             // eslint-disable-next-line max-len
                             console.error("[HLS]: Fatal network error encountered, try to recover");
@@ -61,6 +63,10 @@ export default {
 
             hls.attachMedia(sound.player.media);
             hls.loadSource(state.song.url);
+
+            try {
+                sound.player.media.setSinkId(rootState.settings.settings.outputDevice);
+            } catch (e) { sound.player.media.setSinkId("default"); }
 
             state.volume = await dispatch("CALCULATE_VOLUME", rootState.settings.settings.player.volume);
 
