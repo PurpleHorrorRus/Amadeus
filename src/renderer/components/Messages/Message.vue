@@ -98,23 +98,8 @@ export default {
 
     border-radius: 8px;
 
-    &.noBackground .message-content-all-attachments {
-        border: 4px solid transparent;
-    }
-
-    &:not(.noBackground) .message-content {
-        border: 1px solid transparent;
-    }
-
     &.selected {
-        &.noBackground .message-content-all-attachments {
-            border: 4px solid var(--secondary);
-            border-radius: 12px;
-        }
-
-        &:not(.noBackground) .message-content {
-            border: 1px solid var(--contrast);
-        }
+        transform: scale(.95);
     }
 
     &:hover {
