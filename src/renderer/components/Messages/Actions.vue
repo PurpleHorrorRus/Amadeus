@@ -3,13 +3,13 @@
         <ReplyIcon 
             v-if="canReply"
             class="icon vkgram" 
-            @click.prevent="action('reply')" 
+            @click.stop="action('reply')" 
         />
 
         <StarIcon 
             class="icon vkgram star" 
             :class="starClass"
-            @click.prevent="action('important')" 
+            @click.stop="action('important')" 
         />
     </div>
 </template>
@@ -59,12 +59,12 @@ export default {
         cursor: pointer;
 
         path {
-            fill: var(--message-bg);
+            fill: var(--secondary);
         }
     }
 
     .star {
-        stroke: var(--message-bg);
+        stroke: var(--secondary);
         stroke-width: 2px;
 
         path {
@@ -72,7 +72,7 @@ export default {
         }
 
         &.filled path {
-            fill: var(--message-bg);
+            fill: var(--secondary);
         }
     }
 }

@@ -98,6 +98,14 @@ export default {
 
     border-radius: 8px;
 
+    &.noBackground .message-content-all-attachments {
+        border: 4px solid transparent;
+    }
+
+    &:not(.noBackground) .message-content {
+        border: 1px solid transparent;
+    }
+
     &.selected {
         &.noBackground .message-content-all-attachments {
             border: 4px solid var(--secondary);
@@ -117,19 +125,11 @@ export default {
         }
     }
 
-    &:not(.noBackground) {
-        --contrast: var(--message-contrast);
-        --message-bg: var(--message);
-
-        &.out {
-            --contrast: var(--out-contrast);
-            --message-bg: var(--out);
-        }
-    }
-
     &.out {
         align-self: flex-end;
         flex-direction: row-reverse;
+
+        --contrast: var(--out-contrast);
 
         .message-content {
             background: var(--out);
@@ -142,6 +142,10 @@ export default {
         svg.clickable:hover path, .clickable:hover svg path {
             fill: var(--out-contrast);
         }
+    }
+
+    &:not(.out) {
+        --contrast: var(--message-contrast);
     }
 
     &.noBackground {
