@@ -60,6 +60,7 @@ export default {
             }
 
             const filePaths = await ipcRenderer.invoke("select");
+            console.log(filePaths);
             return filePaths
                 ? this.$emit("choose", filePaths[0])
                 : false;

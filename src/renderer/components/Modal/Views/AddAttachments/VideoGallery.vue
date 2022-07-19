@@ -62,7 +62,6 @@ const searchFields = {
 
 export default {
     components: {
-        Upload: () => import("~/components/Modal/Views/AddAttachments/Components/Upload.vue"),
         VideoResults: () => import("~/components/Modal/Views/AddAttachments/Components/Video/Results.vue")
     },
 
@@ -238,8 +237,8 @@ export default {
 
 <style lang="scss">
 #video-gallery {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-rows: 80px 1fr;
     align-items: center;
     row-gap: 10px;
 
@@ -247,10 +246,6 @@ export default {
         display: flex;
         flex-direction: column;
         row-gap: 10px;
-    }
-
-    .upload {
-        height: 120px;
     }
 }
 </style>

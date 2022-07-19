@@ -32,7 +32,7 @@ import Message from "~/instances/Messages/Message";
 
 export default {
     components: {
-        InputFieldSend: () => import("~/components/Messages/Input/Field/Send")
+        InputFieldSend: () => import("~/components/Messages/Input/Field/Send.vue")
     },
 
     directives: {

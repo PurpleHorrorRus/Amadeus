@@ -4,16 +4,17 @@ import LottieVuePlayer from "@lottiefiles/vue-lottie-player";
 
 Object.entries({
     LoaderIcon: () => import("~icons/loader.svg"),
-    SolidButton: () => import("~/components/Global/SolidButton"),
-    SingleInput: () => import("~/components/Global/SingleInput"),
-    ToggleButton: () => import("~/components/Global/ToggleButton"),
-    Checkbox: () => import("~/components/Global/Checkbox"),
-    RangeItem: () => import("~/components/Global/RangeItem"),
-    FileChoosing: () => import("~/components/Global/FileChoosing"),
-    Dropdown: () => import("~/components/Global/Dropdown"),
-    ContextMenu: () => import("~/components/Global/ContextMenu"),
-    ContextMenuItem: () => import("~/components/Menu/Item"),
-    Skeleton: () => import("~/components/Global/Skeleton")
+    SolidButton: () => import("~/components/Global/SolidButton.vue"),
+    SingleInput: () => import("~/components/Global/SingleInput.vue"),
+    ToggleButton: () => import("~/components/Global/ToggleButton.vue"),
+    Checkbox: () => import("~/components/Global/Checkbox.vue"),
+    RangeItem: () => import("~/components/Global/RangeItem.vue"),
+    FileChoosing: () => import("~/components/Global/FileChoosing.vue"),
+    Dropdown: () => import("~/components/Global/Dropdown.vue"),
+    Upload: () => import("~/components/Global/Upload.vue"),
+    ContextMenu: () => import("~/components/Global/ContextMenu.vue"),
+    ContextMenuItem: () => import("~/components/Menu/Item.vue"),
+    Skeleton: () => import("~/components/Global/Skeleton.vue")
 }).forEach(([name, component]) => Vue.component(name, component));
 
 Vue.use(LottieVuePlayer);

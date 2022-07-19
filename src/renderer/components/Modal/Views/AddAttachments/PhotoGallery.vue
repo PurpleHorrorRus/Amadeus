@@ -1,34 +1,30 @@
 <template>
     <div id="photo-gallery">
-        <LoaderIcon v-if="load" class="icon loader-icon spin" />
+        <Upload 
+            :uploading="uploading" 
+            @choose="uploadPhoto" 
+        />
 
-        <div v-else-if="current.id === -1" id="photo-gallery-albums">
-            <PhotoAlbum 
-                v-for="album of albums.items"
-                :key="album.id"
-                :album="album"
-                @click.native="changeAlbum(album)"
-            />
-        </div>
+        <LoaderIcon 
+            v-if="load" 
+            class="icon loader-icon spin" 
+        />
 
-        <div v-else-if="data.length > 0" id="photo-gallery-items">
-            <span id="photo-gallery-items-title" v-text="current.title" />
+        <PhotoAlbums
+            v-else-if="current.id === -1" 
+            :items="albums.items"
+        />
 
-            <div id="photo-gallery-items-list" ref="list">
-                <SelectableItem 
-                    v-for="item of data"
-                    :key="item.id"
-                    :component="PhotoComponent"
-                    :item="item"
-                    @select="$emit('select', item)"
-                />
-            </div>
-        </div>
+        <PhotoItems 
+            v-else-if="data.length > 0"
+            :items="data" 
+        />
     </div>
 </template>
 
 <script lang="ts">
-import PhotoComponent from "~/components/Messages/Attachments/Gallery/Photo.vue";
+import { PhotosPhoto, PhotosPhotoAlbum } from "vk-io/lib/api/schemas/objects";
+
 import Photo from "~/instances/Messages/Attachments/Photo";
 
 import CoreMixin from "~/mixins/core";
@@ -42,25 +38,25 @@ const ids = {
 
 export default {
     components: {
-        PhotoAlbum: () => import("~/components/Modal/Views/AddAttachments/Components/Photo/Album.vue"),
-        SelectableItem: () => import("~/components/Modal/Views/AddAttachments/Components/Item.vue")
+        PhotoAlbums: () => import("~/components/Modal/Views/AddAttachments/Components/Photo/Albums.vue"),
+        PhotoItems: () => import("~/components/Modal/Views/AddAttachments/Components/Photo/Items.vue")
     },
 
     mixins: [CoreMixin, ScrollMixin],
 
     data: () => ({
-        PhotoComponent,
-
         current: {
             id: -1
         },
 
-        load: true,
-        loadMore: false,
-        albums: [],
+        load: true as boolean,
+        loadMore: false as boolean,
+        albums: [] as PhotosPhotoAlbum[],
 
-        data: [],
-        count: 0
+        uploading: false as boolean,
+
+        data: [] as PhotosPhoto[],
+        count: 0 as number
     }),
 
     computed: {
@@ -102,6 +98,8 @@ export default {
         },
 
         async changeAlbum(album) {
+            this.data = [];
+
             this.load = true;
             this.data = await this.fetch(album);
             this.current = album;
@@ -121,6 +119,15 @@ export default {
             }, percent => percent > 80);
 
             return true;
+        },
+
+        methods: {
+            async uploadPhoto(file) {
+                console.log(file);
+                
+                this.uploading = true;
+                this.uploading = false;
+            }
         }
     }
 };
@@ -128,34 +135,8 @@ export default {
 
 <style lang="scss">
 #photo-gallery {
-    &-albums {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    &-items {
-        display: flex;
-        flex-direction: column;
-        row-gap: 10px;
-
-        max-height: 70vh;
-
-        &-title {
-            margin: 5px 15px;
-
-            font-size: 12px;
-        }
-
-        &-list {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-
-            overflow-x: hidden;
-            overflow-y: auto;
-        }
-    }
+    display: grid;
+    grid-template-rows: 80px 1fr;
+    row-gap: 10px;
 }
 </style>
