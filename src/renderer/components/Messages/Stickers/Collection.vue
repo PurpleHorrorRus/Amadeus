@@ -54,10 +54,11 @@ export default {
         
     &-list {
         display: flex;
+        justify-content: flex-start;
         flex-wrap: wrap;
         gap: 10px;
 
-        padding: 0px 0px 10px 6px;
+        padding: 0px 0px 10px 1vw;
 
         overflow-y: auto;
     }
