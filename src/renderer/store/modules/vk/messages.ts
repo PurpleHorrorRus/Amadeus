@@ -79,7 +79,7 @@ export default {
             const messages: Message[] = state.cache[conversation.id].messages;
 
             if (messages.length > fields.count) {
-                messages.splice(0, messages.length - fields.count - 1);
+                state.cache[conversation.id].messages = messages.splice(0, fields.count);
             }
         },
 
@@ -130,7 +130,7 @@ export default {
             }
 
             let messageIndex: number = message.random_id > 0
-                ? lodash.findLastIndex(messages, msg => {
+                ? messages.findIndex(msg => {
                     return msg.id === message.id;
                 })
                 : -1;
