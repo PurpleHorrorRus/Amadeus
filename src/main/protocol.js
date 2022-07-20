@@ -2,7 +2,7 @@ import { protocol } from "electron";
 import { URL } from "url";
 import path from "path";
 
-const PRODUCTION_APP_PROTOCOL = "vkgram";
+const PRODUCTION_APP_PROTOCOL = "amadeus";
 // eslint-disable-next-line no-undef
 const PRODUCTION_APP_PATH = path.join(__dirname, "..", "renderer");
 

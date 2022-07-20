@@ -42,8 +42,8 @@ const macOS = {
 }
 
 module.exports = {
-  productName: 'vkgram',
-  appId: 'purplehorrorrus.vkgram',
+  productName: 'amadeus',
+  appId: 'purplehorrorrus.amadeus',
   artifactName: 'setup-${version}.${ext}',
   directories: {
     output: 'build'

@@ -1,6 +1,6 @@
 <template>
     <div class="inline-doc-preview-doc">
-        <DocumentIcon class="icon vkgram" />
+        <DocumentIcon class="icon amadeus" />
     </div>
 </template>
 

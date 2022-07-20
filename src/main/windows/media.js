@@ -7,7 +7,7 @@ import common from "../common";
 nativeTheme.themeSource = "system";
 
 const params = {
-    title: "VKGram Media Preview",
+    title: "Amadeus Media Preview",
 
     fullscreen: true,
     frame: false,

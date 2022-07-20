@@ -6,7 +6,7 @@
             <div class="file-choosing-item-container-block flex-spaced">
                 <span class="file-choosing-item-container-block-data nowrap" v-text="value" />
                 <div class="file-choosing-item-container-block-button clickable" @click="open">
-                    <MoreHorizontalIcon class="icon vkgram" />
+                    <MoreHorizontalIcon class="icon amadeus" />
                 </div>
             </div>
 

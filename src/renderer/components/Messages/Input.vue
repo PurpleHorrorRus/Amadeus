@@ -4,7 +4,7 @@
 
         <div id="message-page-input-main">
             <AddIcon 
-                class="icon vkgram clickable" 
+                class="icon amadeus clickable" 
                 @click="openAdd" 
                 @mouseenter="openMenu($event, null, true, true)"
             />

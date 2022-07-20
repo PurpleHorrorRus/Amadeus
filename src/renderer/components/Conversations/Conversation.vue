@@ -9,7 +9,7 @@
         </div>
     
         <div class="conversation-icons">
-            <VolumeMuteIcon v-if="conversation.muted" class="icon vkgram mute-icon" />
+            <VolumeMuteIcon v-if="conversation.muted" class="icon amadeus mute-icon" />
             <ConversationUnread :conversation="conversation" />
         </div>
     </div>

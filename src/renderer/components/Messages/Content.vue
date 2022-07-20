@@ -22,7 +22,7 @@
             <PenIcon
                 v-if="message.edited"
                 v-tooltip.top-start="`Отредактировано ${relativeDate(message.update_time)}`"
-                class="icon vkgram message-content-info-edit"
+                class="icon amadeus message-content-info-edit"
             />
 
             <CheckIcon 

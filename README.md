@@ -1,4 +1,4 @@
-# vkgram
+# amadeus
 
 > Custom messenger for VK
 

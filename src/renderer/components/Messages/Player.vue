@@ -1,8 +1,8 @@
 <template>
     <div id="messages-player">
         <div id="messages-player-play" @click="action">
-            <PlayIcon v-if="!playing" class="icon vkgram clickable" />
-            <PauseIcon v-else class="icon vkgram clickable" />
+            <PlayIcon v-if="!playing" class="icon amadeus clickable" />
+            <PauseIcon v-else class="icon amadeus clickable" />
         </div>
 
         <span id="messages-player-song" class="nowrap" v-text="title" />

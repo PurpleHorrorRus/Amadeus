@@ -1,7 +1,7 @@
 <template>
     <div id="stickers">
         <EmojiIcon 
-            class="icon vkgram clickable" 
+            class="icon amadeus clickable" 
             @click="openMenu($event, null, true)" 
         />
 

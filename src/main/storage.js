@@ -74,7 +74,7 @@ const checkDirs = dirs => {
     });
 };
 
-const rootPath = isDev ? path.join(configPath, "VKGram") : configPath;
+const rootPath = isDev ? path.join(configPath, "Amadeus") : configPath;
 checkDirs([rootPath]);
 
 const nested = (settings, clear) => {
@@ -121,7 +121,7 @@ const paths = {
     rootPath,
     vk: path.join(rootPath, "vk.json"),
     settings: path.join(rootPath, "settings.json"),
-    temp: path.join(app.getPath("temp"), "vkgram"),
+    temp: path.join(app.getPath("temp"), "amadeus"),
     background: path.join(rootPath, "background")
 };
 

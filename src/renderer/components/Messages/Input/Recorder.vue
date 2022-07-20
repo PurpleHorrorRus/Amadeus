@@ -2,14 +2,14 @@
     <div id="recorder" :class="recorderClass">
         <MicIcon 
             v-tooltip.top-start="recordText"
-            class="icon vkgram clickable mic" 
+            class="icon amadeus clickable mic" 
             @click="turnRecord"
         />
 
         <StopIcon
             v-if="recording"
             v-tooltip.top-start="'Прервать запись'"
-            class="icon vkgram clickable"
+            class="icon amadeus clickable"
             @click="reset"
         />
     </div>

@@ -52,11 +52,11 @@ span, input, textarea, select, div {
     &:hover {
         &:not(.active) {
             &.icon {
-                &.vkgram path {
+                &.amadeus path {
                     fill: var(--icons-hover) !important;
                 }
         
-                &:not(.vkgram) path {
+                &:not(.amadeus) path {
                     stroke: var(--icons-hover) !important;
                 }
             }
@@ -65,11 +65,11 @@ span, input, textarea, select, div {
                 color: var(--icons-hover);
     
                 .icon {
-                    &.vkgram path {
+                    &.amadeus path {
                         fill: var(--icons-hover) !important;
                     }
             
-                    &:not(.vkgram) path {
+                    &:not(.amadeus) path {
                         stroke: var(--icons-hover) !important;
                     }
                 }
@@ -85,11 +85,11 @@ span, input, textarea, select, div {
 @mixin ClickableIcon {
     transition: fill .1s ease-in-out;
 
-    &.filled, &.vkgram path {
+    &.filled, &.amadeus path {
         fill: var(--secondary);
     }
 
-    &:not(.vkgram):not(.nostroke):not(.filled) {
+    &:not(.amadeus):not(.nostroke):not(.filled) {
         stroke: var(--secondary);
     }
 }
@@ -129,13 +129,13 @@ a:not(.clickable) {
 
     color: var(--icons);
 
-    &.vkgram path {
+    &.amadeus path {
         fill: var(--icons);
 
         transition: fill .1s ease-in-out;
     }
 
-    &:not(.vkgram) {
+    &:not(.amadeus) {
         fill: none;
         
         &:not(.nostroke) {
@@ -164,11 +164,11 @@ a:not(.clickable) {
     }
 
     &.active {
-        &.vkgram path {
+        &.amadeus path {
             fill: var(--secondary);
         }
 
-        &:not(.vkgram) {
+        &:not(.amadeus) {
             stroke: var(--secondary);
         }
     }

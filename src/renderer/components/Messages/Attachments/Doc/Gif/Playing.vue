@@ -3,8 +3,8 @@
         <img :src="item.url" class="attachments-item-doc-gif-playing-image">
 
         <div v-if="canAdd" class="attachments-item-doc-gif-playing-add" @click.stop="add">
-            <AddIcon v-if="!item.added" class="icon vkgram" />
-            <CheckIcon v-else class="icon vkgram" />
+            <AddIcon v-if="!item.added" class="icon amadeus" />
+            <CheckIcon v-else class="icon amadeus" />
         </div>
     </div>
 </template>

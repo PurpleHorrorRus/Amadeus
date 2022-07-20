@@ -6,7 +6,7 @@
         />
 
         <div v-else-if="showMention" class="conversation-unread-mention">
-            <MentionIcon class="icon vkgram" />
+            <MentionIcon class="icon amadeus" />
         </div>
 
         <UnreadCounter 

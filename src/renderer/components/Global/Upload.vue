@@ -7,7 +7,7 @@
         @dragenter.prevent="onDragEnter"
         @dragleave.prevent="drag = false"
     >
-        <UploadIcon v-if="!uploading" class="icon vkgram" />
+        <UploadIcon v-if="!uploading" class="icon amadeus" />
         <LoaderIcon v-else class="icon loader-icon spin" />
 
         <span class="upload-label" v-text="text" />

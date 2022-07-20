@@ -2,12 +2,12 @@
     <div class="message-actions">
         <ReplyIcon 
             v-if="canReply"
-            class="icon vkgram" 
+            class="icon amadeus" 
             @click.stop="action('reply')" 
         />
 
         <StarIcon 
-            class="icon vkgram star" 
+            class="icon amadeus star" 
             :class="starClass"
             @click.stop="action('important')" 
         />

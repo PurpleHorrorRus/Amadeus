@@ -29,7 +29,7 @@ if (!app.requestSingleInstanceLock()) {
             app.setLoginItemSettings({
                 openAtLogin: sequence,
                 enabled: sequence,
-                name: "VKGram",
+                name: "Amadeus",
                 path: process.execPath,
                 args: process.argv
             });

@@ -4,19 +4,19 @@
             <AlertIcon 
                 v-if="!conversation.muted"
                 v-tooltip.left="'Уведомления включены'" 
-                class="icon vkgram clickable"
+                class="icon amadeus clickable"
             />
 
             <AlertOffIcon 
                 v-else
                 v-tooltip.left="'Уведомления включены'" 
-                class="icon vkgram clickable"
+                class="icon amadeus clickable"
             />
         </div>
 
         <TrashIcon 
             v-tooltip.left="'Очистить историю'" 
-            class="icon vkgram clickable"
+            class="icon amadeus clickable"
             @click="openDeleteConfirmation(conversation)"
         />
     </div>

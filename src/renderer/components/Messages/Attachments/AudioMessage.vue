@@ -1,8 +1,8 @@
 <template>
     <div class="attachments-item attachments-item-audiomessage" @click.stop="action">
         <div class="attachments-item-audiomessage-play">
-            <PlayIcon v-if="!isPlaying" class="icon vkgram" />
-            <PauseIcon v-else class="icon vkgram" />
+            <PlayIcon v-if="!isPlaying" class="icon amadeus" />
+            <PauseIcon v-else class="icon amadeus" />
         </div>
 
         <Waveform :waveform="waveform" />

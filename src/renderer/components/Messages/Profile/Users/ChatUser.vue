@@ -5,7 +5,7 @@
 
         <MoreHorizontalIcon 
             v-if="showActions" 
-            class="icon vkgram clickable" 
+            class="icon amadeus clickable" 
             @click="openMenu($event, profile)" 
         />
 

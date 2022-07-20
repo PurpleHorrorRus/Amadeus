@@ -3,7 +3,7 @@
         <div id="login-page-logo">
             <VKIcon id="login-page-logo-icon" />
             <span id="login-page-logo-description">
-                VKGram - бесплатный мессенджер для социальной сети ВКонтакте
+                Amadeus — бесплатный мессенджер для социальной сети ВКонтакте
                 с открытым исходным кодом
             </span>
         </div>
@@ -140,7 +140,7 @@ export default {
 
             this.loading = true;
 
-            switch(this.type) {
+            switch (this.type) {
                 case "credits": {
                     this.username = this.username.trim();
                     this.password = this.password.trim();

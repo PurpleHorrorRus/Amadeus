@@ -1,6 +1,6 @@
 <template>
     <div id="titlebar">
-        <span id="titlebar-title" v-text="'VKGram'" />
+        <span id="titlebar-title" v-text="'Amadeus'" />
 
         <div id="titlebar-buttons">
             <AppButton 
@@ -64,8 +64,7 @@ export default {
     &-title {
         padding-left: 20px;
 
-        font-size: 11px;
-        font-weight: bold;
+        font-size: 14px;
     }
 
     &-buttons {

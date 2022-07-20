@@ -2,11 +2,11 @@
     <div id="conversations-header-menu">
         <ExclamationRoundIcon 
             v-if="updater.available" 
-            class="icon vkgram update-icon"
+            class="icon amadeus update-icon"
         />
         
         <DotsHorizontal 
-            class="icon vkgram clickable" 
+            class="icon amadeus clickable" 
             @click="openMenu($event, null, true)" 
         />
 

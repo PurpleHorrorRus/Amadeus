@@ -4,7 +4,7 @@
             <Component
                 :is="render.icon"
                 :id="render.id"
-                class="icon vkgram"
+                class="icon amadeus"
             />
         </div>
 

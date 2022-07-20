@@ -7,7 +7,7 @@
 
         <CheckIcon 
             v-if="answer.choiced" 
-            class="icon vkgram" 
+            class="icon amadeus" 
         />
     </div>
 </template>

@@ -3,7 +3,7 @@
         <Component
             :is="icon"
             v-tooltip.bottom="tooltip"
-            class="icon vkgram clickable"
+            class="icon amadeus clickable"
         />
     </div>
 </template>

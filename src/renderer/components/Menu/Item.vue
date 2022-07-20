@@ -1,6 +1,6 @@
 <template>
     <div class="context-menu-item" @click="$emit('select')">
-        <Component :is="item.icon" v-if="item.icon" class="icon vkgram" />
+        <Component :is="item.icon" v-if="item.icon" class="icon amadeus" />
         <span class="context-menu-item-label" v-text="item.label" />
     </div>
 </template>

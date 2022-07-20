@@ -12,7 +12,7 @@ const minWidth = 300;
 const minHeight = 380;
 
 const params = {
-    title: "VKGram",
+    title: "Amadeus",
     icon: common.icon,
 
     width: Math.max(common.storage.config.settings.width, minWidth),

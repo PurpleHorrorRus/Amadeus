@@ -16,7 +16,7 @@ class WindowLogic {
                 }
             });
             
-            const url = isDev ? process.env.DEV_SERVER_URL : "vkgram://./index.html";
+            const url = isDev ? process.env.DEV_SERVER_URL : "amadeus://./index.html";
             window.loadURL(url);
             console.log("Load page", url);
         });

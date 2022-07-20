@@ -11,8 +11,8 @@
         />
 
         <div id="media-page-story-icon" @click="toggleMute">
-            <VolumeHighIcon v-if="sound" class="icon vkgram clickable" />
-            <VolumeMuteIcon v-else class="icon vkgram clickable" />
+            <VolumeHighIcon v-if="sound" class="icon amadeus clickable" />
+            <VolumeMuteIcon v-else class="icon amadeus clickable" />
         </div>
     </div>
 </template>

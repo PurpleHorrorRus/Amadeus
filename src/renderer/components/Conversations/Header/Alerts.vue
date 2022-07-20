@@ -3,13 +3,13 @@
         <AlertIcon 
             v-if="!$parent.settings.vk.disable_notifications"
             v-tooltip.bottom="'Уведомления включены'"
-            class="icon vkgram clickable"
+            class="icon amadeus clickable"
         />
 
         <AlertOffIcon 
             v-else
             v-tooltip.bottom="'Уведомления отключены'"
-            class="icon vkgram clickable"
+            class="icon amadeus clickable"
         />
     </div>
 </template>

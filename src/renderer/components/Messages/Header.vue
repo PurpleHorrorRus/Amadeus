@@ -12,20 +12,20 @@
         <div v-if="isSelectedMessages" id="messages-header-actions">
             <XIcon 
                 v-tooltip.bottom-start="'Снять выделение'"
-                class="icon vkgram clickable"
+                class="icon amadeus clickable"
                 @click="unselectAll"
             />
 
             <TrashIcon 
                 v-if="messagesToDelete.length > 0"
                 v-tooltip.bottom-start="'Удалить сообщения'"
-                class="icon vkgram clickable"
+                class="icon amadeus clickable"
                 @click="deleteMessages"
             />
 
             <ForwardIcon 
                 v-tooltip.bottom-start="'Переслать сообщения'"
-                class="icon vkgram clickable" 
+                class="icon amadeus clickable" 
                 @click="forwardMessages" 
             />
         </div>

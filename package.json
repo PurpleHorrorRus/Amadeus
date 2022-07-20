@@ -1,5 +1,5 @@
 {
-    "name": "vkgram",
+    "name": "amadeus",
     "version": "0.0.1",
     "description": "Custom messenger for VK",
     "main": "./dist/main/index.ts",

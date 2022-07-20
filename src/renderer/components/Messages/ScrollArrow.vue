@@ -1,6 +1,6 @@
 <template>
     <div class="scroll-arrow">
-        <ChevronDownIcon class="icon vkgram" />
+        <ChevronDownIcon class="icon amadeus" />
     </div>
 </template>
 

@@ -8,7 +8,7 @@
             />
             
             <div id="profile-users-list-add">
-                <AddIcon class="icon vkgram clickable" @click="add" />
+                <AddIcon class="icon amadeus clickable" @click="add" />
                 <span id="profile-users-list-add-label" v-text="'Добавить пользователя'" />
             </div>
         </div>
