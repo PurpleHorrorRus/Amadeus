@@ -198,7 +198,11 @@ export default {
             return true;
         },
 
-        onDragEnter() {
+        onDragEnter(event) {
+            if (this.uploading || event.dataTransfer.items[0].kind === "string") {
+                return false;
+            }
+
             this.drag = true;
         },
 
@@ -211,6 +215,10 @@ export default {
         },
 
         async uploadAttachments(files) {
+            if (files?.length === 0) { 
+                return false;
+            }
+
             this.uploading = true;
             
             const payload: TUploadingPath[] = [...files].filter(attachment => {

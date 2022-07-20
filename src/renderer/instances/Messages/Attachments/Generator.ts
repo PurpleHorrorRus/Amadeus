@@ -30,7 +30,7 @@ class AttachmentGenerator {
             case "audio": return new Audio(attachment.audio);
 
             case "doc": {
-                if (attachment.doctype) {
+                if (attachment instanceof Doc || attachment instanceof DocGif) {
                     return attachment as Attachment;
                 }
 
@@ -42,7 +42,7 @@ class AttachmentGenerator {
             case "wall": return new Wall(attachment.wall);
             
             case "audio_message": { 
-                if (attachment.link_ogg) {
+                if (attachment instanceof AudioMessage) {
                     return attachment as Attachment;
                 }
 
@@ -50,7 +50,15 @@ class AttachmentGenerator {
             }
 
             case "link": return new Link(attachment.link);
-            case "sticker": return new Sticker(attachment.sticker);
+            
+            case "sticker": { 
+                if (attachment instanceof Sticker) {
+                    return attachment as Sticker;
+                }
+
+                return new Sticker(attachment.sticker);
+            }
+                
             case "story": return new Story(attachment.story);
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);

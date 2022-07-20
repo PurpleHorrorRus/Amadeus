@@ -11,6 +11,7 @@
             @keydown.up="hotkeyEdit"
         />
 
+        <InputStickers />
         <InputRecorder />
 
         <InputFieldSend 
@@ -34,6 +35,7 @@ import Message from "~/instances/Messages/Message";
 
 export default {
     components: {
+        InputStickers: () => import("~/components/Messages/Input/Stickers.vue"),
         InputRecorder: () => import("~/components/Messages/Input/Recorder.vue"),
         InputFieldSend: () => import("~/components/Messages/Input/Field/Send.vue")
     },

@@ -5,7 +5,10 @@ import IPreview from "../../Interfaces/Preview";
 
 import { TSize } from "~/instances/Types/Attachments";
 
-class Sticker extends Attachment implements IPreview {
+class Sticker extends Attachment implements BaseSticker, IPreview {
+    public sticker_id?: number;
+    public type: string;
+
     public sizes?: TSize;
     public sizesBackground: TSize;
 
@@ -18,12 +21,16 @@ class Sticker extends Attachment implements IPreview {
             id: sticker.sticker_id
         }, "sticker");
 
+        this.sticker_id = sticker.sticker_id;
+
         this.animated = "animations" in sticker;
 
-        if (!this.animated) {
-            this.sizes = this.calculateSize(sticker.images);
-            this.sizesBackground = this.calculateSize(sticker.images_with_background);
-        } else this.animations = sticker.animations;
+        if (this.animated) {
+            this.animations = sticker.animations;
+        }
+  
+        this.sizes = this.calculateSize(sticker.images);
+        this.sizesBackground = this.calculateSize(sticker.images_with_background);
     }
 
     get light() {

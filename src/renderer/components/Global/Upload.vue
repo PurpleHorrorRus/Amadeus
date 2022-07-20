@@ -4,7 +4,7 @@
         :class="uploadClass" 
         @click="open" 
         @drop.prevent.stop="open" 
-        @dragenter.prevent="drag = true"
+        @dragenter.prevent="onDragEnter"
         @dragleave.prevent="drag = false"
     >
         <UploadIcon v-if="!uploading" class="icon vkgram" />
@@ -56,8 +56,16 @@ export default {
     },
 
     methods: {
+        onDragEnter(event) {
+            if (this.uploading || event.dataTransfer.items[0].kind === "string") {
+                return false;
+            }
+
+            this.drag = true;
+        },
+
         async open(event) {
-            if (this.uploading) {
+            if (this.uploading || event.dataTransfer.items[0].kind === "string") {
                 return false;
             }
 

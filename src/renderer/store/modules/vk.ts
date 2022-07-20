@@ -35,9 +35,10 @@ export default {
             });
 
             state.user = new User(user);
-
+            
             await dispatch("conversations/FETCH");
             await dispatch("LISTEN");
+            dispatch("messages/stickers/FETCH");
 
             return state.client;
         },

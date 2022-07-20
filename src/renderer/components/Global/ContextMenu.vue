@@ -7,6 +7,8 @@
         :style="contextMenuStyle"
         @click="$parent.closeMenu"
     >
+        <slot v-if="$slots.default" />
+
         <ContextMenuItem 
             v-for="item of validItems"
             :key="item.id"

@@ -12,6 +12,8 @@ import Attachment from "~/instances/Messages/Attachment";
 import common from "~/plugins/common";
 import { TChat } from "~/instances/Types/Messages";
 
+import stickers from "~/store/modules/vk/stickers";
+
 const fields = {
     count: 20
 };
@@ -215,9 +217,16 @@ export default {
             }, { root: true });
 
             if (message.attachments.length > 0) {
-                const attachments = await dispatch("UPLOAD", message.attachments);
-                message.attachments = attachments.uploaded;
-                toSend.attachment = attachments.ids;
+                if (message.attachments[0].type === "sticker") {
+                    delete toSend.attachment;
+                    delete toSend.message;
+                    delete toSend.reply_to;
+                    toSend.sticker_id = data.attachments[0].id;
+                } else {
+                    const attachments = await dispatch("UPLOAD", message.attachments);
+                    message.attachments = attachments.uploaded;
+                    toSend.attachment = attachments.ids;
+                }
             }
 
             return await rootState.vk.client.api.messages.send(toSend)
@@ -384,5 +393,9 @@ export default {
                 important: Number(!message.important)
             });
         }
+    },
+    
+    modules: {
+        stickers
     }
 };
