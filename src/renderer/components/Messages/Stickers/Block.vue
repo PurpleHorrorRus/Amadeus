@@ -1,6 +1,6 @@
 <template>
     <div id="stickers-block">
-        <StickersCollection @send="sendSticker($event)" />
+        <StickersCollection @send="send($event)" />
         <StickersNavigation />
     </div>
 </template>
@@ -10,6 +10,8 @@ import { mapActions } from "vuex";
 
 import StickersMixin from "./Stickers";
 import CoreMixin from "~/mixins/core";
+
+import Sticker from "~/instances/Messages/Attachments/Sticker";
 
 export default {
     components: {
@@ -34,6 +36,11 @@ export default {
         ...mapActions({
             sendSticker: "vk/messages/SEND_STICKER"
         }),
+
+        send(sticker: Sticker) {
+            this.$parent.$parent.closeMenu();
+            this.sendSticker(sticker);
+        },
         
         changeCollection(id: number) {
             this.currentCollectionId = id;
