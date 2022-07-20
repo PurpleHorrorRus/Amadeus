@@ -69,8 +69,8 @@ export default {
     justify-content: center;
     align-items: center;
 
-    width: 93px;
-    height: 93px;
+    width: 23%;
+    height: auto;
 
     padding: 10px;
 
