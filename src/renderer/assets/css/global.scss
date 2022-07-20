@@ -32,7 +32,7 @@ span, input, textarea, select, div {
     text-rendering: optimizeSpeed;
 
     &::selection {
-        background: var(--secondary);
+        background: var(--secondary) !important;
     }
 }
 

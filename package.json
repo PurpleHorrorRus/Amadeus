@@ -2,7 +2,7 @@
     "name": "vkgram",
     "version": "0.0.1",
     "description": "Custom messenger for VK",
-    "main": "./dist/main/index.js",
+    "main": "./dist/main/index.ts",
     "scripts": {
         "dev": "node .electron-nuxt/dev.js",
         "build": "node .electron-nuxt/build.js",
@@ -55,6 +55,7 @@
         "bluebird": "^3.7.2",
         "contrast-color": "^1.0.1",
         "date-diff": "^1.0.2",
+        "electron-updater": "^5.0.5",
         "formdata-node": "^4.3.3",
         "sass": "^1.53.0",
         "v-tooltip": "2.1.3",

@@ -25,7 +25,7 @@ const nativeImageFromURL = async url => {
     return nativeImage.createFromDataURL(`data:image/jpeg;base64,${buffer.toString("base64")}`);
 };
 
-class MeridiusWindow {
+class MediaWindow {
     constructor() {
         this.window = null;
         this.mainWindow = null;
@@ -99,4 +99,4 @@ class MeridiusWindow {
     }
 }
 
-export default MeridiusWindow;
+export default MediaWindow;

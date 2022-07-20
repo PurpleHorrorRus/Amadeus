@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     props: {
         view: {
@@ -15,10 +15,11 @@ export default {
 
     computed: {
         renderView() {
-            switch(this.view) {
-                case "choose-user": return () => import("~/components/Modal/Views/ChooseUser");
-                case "confirmation": return () => import("~/components/Modal/Views/Confirmation");
-                case "add-attachments": return () => import("~/components/Modal/Views/AddAttachments");
+            switch (this.view) {
+                case "choose-user": return () => import("~/components/Modal/Views/ChooseUser.vue");
+                case "confirmation": return () => import("~/components/Modal/Views/Confirmation.vue");
+                case "add-attachments": return () => import("~/components/Modal/Views/AddAttachments.vue");
+                case "update": return () => import("~/components/Modal/Views/Update.vue");
             }
 
             return null;

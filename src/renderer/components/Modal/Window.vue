@@ -42,6 +42,11 @@ export default {
     z-index: 999;
 
     .modal-layout {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-self: center;
+
         width: max-content;
         height: auto;
         max-height: 100%;

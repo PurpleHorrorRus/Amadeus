@@ -7,6 +7,7 @@ import input from "~/store/modules/input";
 import audio from "~/store/modules/audio";
 import audio_message from "~/store/modules/audio_message";
 import modal from "~/store/modules/modal";
+import updater from "~/store/modules/updater";
 
 export default () => {
     return new Store({
@@ -52,7 +53,8 @@ export default () => {
             input,
             audio,
             audio_message,
-            modal
+            modal,
+            updater
         }
     });
 };

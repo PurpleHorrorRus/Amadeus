@@ -26,7 +26,7 @@ const params = {
     webPreferences: common.webPreferences
 };
 
-class MediaWindow {
+class VKGramWindow {
     constructor() {
         this.window = null;
     }
@@ -55,6 +55,12 @@ class MediaWindow {
             });
         }
 
+        if (common.isWindows) {
+            ipcMain.once("register-updater", () => {
+                return this.window.ipc.events.registerUpdater();
+            });
+        }
+
         this.window.webContents.setWindowOpenHandler(({ url }) => {
             shell.openExternal(url);
             return { action: "deny" };
@@ -68,4 +74,4 @@ class MediaWindow {
     }
 }
 
-export default MediaWindow;
+export default VKGramWindow;

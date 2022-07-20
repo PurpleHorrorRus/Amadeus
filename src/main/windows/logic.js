@@ -37,6 +37,11 @@ class WindowLogic {
         }
     }
 
+    closeAll() {
+        BrowserWindow.getAllWindows().forEach(window => this.close(window));
+        return true;
+    }
+
     close(window, event, hide, closeAll = false) {
         if (hide) {
             if (event !== null) {

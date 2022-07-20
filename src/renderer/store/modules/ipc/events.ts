@@ -1,3 +1,4 @@
+import { UpdateInfo } from "electron-updater";
 import { MessagesMessageAttachment } from "vk-io/lib/api/schemas/objects";
 import Attachment from "~/instances/Messages/Attachment";
 import AttachmentGenerator from "~/instances/Messages/Attachments/Generator";
@@ -14,7 +15,7 @@ export default {
     },
 
     actions: {
-        SHARE: ({ commit, dispatch }, attachment) => {
+        SHARE: ({ commit, dispatch }, attachment: MessagesMessageAttachment) => {
             dispatch("modal/OPEN", {
                 view: "choose-user",
                 title: "Поделиться",
@@ -27,6 +28,10 @@ export default {
                     return dispatch("input/ADD_ATTACHMENT", generated, { root: true });
                 }
             }, { root: true });
+        },
+
+        UPDATE: ({ dispatch }, release: UpdateInfo) => { 
+            return dispatch("updater/NOTIFY", release, { root: true });
         }
     }
 };

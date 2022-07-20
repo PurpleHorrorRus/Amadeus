@@ -1,13 +1,16 @@
 /* eslint-disable indent */
 /* eslint-disable no-undef */
-import { app } from "electron";
-
 import path from "path";
+import os from "os";
+import { app } from "electron";
 
 import storage from "./storage";
 import WindowsLogic from "./windows/logic";
 
 app.getVersion = () => "2.4.0";
+
+const isWindows11 = process.platform === "win32" 
+    && os.release().substring(0, 6) === "10.0.2";
 
 const webPreferences = {
     contextIsolation: false,
@@ -31,10 +34,12 @@ const getBuildResourcePath = file => {
 export default {
     icon: getBuildResourcePath("icon.ico"),
     noCover: getBuildResourcePath("no-cover.png"),
-    isWindows: process.platform === "win32",
     isDev: process.env.NODE_ENV === "development",
     getBuildResourcePath,
     webPreferences,
     storage,
-    windows: new WindowsLogic()
+    windows: new WindowsLogic(),
+
+    isWindows: process.platform === "win32",
+    isWindows11
 };

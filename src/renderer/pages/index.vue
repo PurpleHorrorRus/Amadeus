@@ -2,7 +2,7 @@
     <div id="index-page" class="page" />
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer } from "electron";
 import { mapActions } from "vuex";
 
@@ -28,6 +28,7 @@ export default {
             await this.setPaths(paths);
             await this.auth(account);
             this.ipc();
+            this.registerUpdater();
 
             this.$router.replace("/general").catch(() => {});
             return true;
@@ -48,7 +49,15 @@ export default {
 
             auth: "vk/AUTH",
             ipc: "ipc/REGISTER"
-        })
+        }),
+
+        registerUpdater() {
+            if (process.platform !== "win32") {
+                return false;
+            }
+
+            ipcRenderer.send("register-updater");
+        }
     }
 };
 </script>

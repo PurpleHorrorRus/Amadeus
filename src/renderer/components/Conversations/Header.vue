@@ -6,69 +6,27 @@
             @keydown.enter.native="search"
         />
 
-        <div 
-            id="conversations-header-mute"
-            @click="deepChange(settings.vk, 'disable_notifications')"
-        >
-            <AlertIcon 
-                v-if="!settings.vk.disable_notifications"
-                v-tooltip.bottom="'Уведомления включены'"
-                class="icon vkgram clickable"
-            />
-
-            <AlertOffIcon 
-                v-else
-                v-tooltip.bottom="'Уведомления отключены'"
-                class="icon vkgram clickable"
-            />
-        </div>
-
-        <DotsHorizontal 
-            class="icon vkgram clickable" 
-            @click="openMenu($event, null, true)" 
-        />
-
-        <ContextMenu 
-            v-if="menu.show" 
-            :menu="menu" 
-            :margins="[0, 20]" 
-        />
+        <HeaderAlerts @click.native="deepChange(settings.vk, 'disable_notifications')" />
+        <HeaderMenu />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
-import ModalMixin from "~/mixins/modal";
-import MenuMixin from "~/mixins/menu";
 
 export default {
     components: {
-        AlertIcon: () => import("~icons/alert.svg"),
-        AlertOffIcon: () => import("~icons/alert-off.svg"),
-        DotsHorizontal: () => import("~icons/dots-horizontal.svg")
+        HeaderAlerts: () => import("./Header/Alerts.vue"),
+        HeaderMenu: () => import("./Header/Menu.vue")
     },
 
-    mixins: [CoreMixin, ModalMixin, MenuMixin],
+    mixins: [CoreMixin],
 
     data: () => ({
         query: ""
     }),
 
     methods: {
-        setMenuItems() {
-            this.menu.items = [{
-                id: "important",
-                label: "Важные сообщения",
-                function: () => this.$router.replace("/important").catch(() => {})
-            },
-            
-            {
-                id: "settings",
-                label: "Настройки",
-                function: () => this.open({ layout: "settings" })
-            }];
-        },
-
         search() {
             this.query = this.query.trim();
             if (this.query.length === 0) {
@@ -89,12 +47,6 @@ export default {
     column-gap: 10px;
 
     padding: 5px;
-
-    &-mute {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
     .single-input {
         height: 30px;
