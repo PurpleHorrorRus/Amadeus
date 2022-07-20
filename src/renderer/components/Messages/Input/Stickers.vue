@@ -37,6 +37,16 @@ export default {
 </script>
 
 <style lang="scss">
+#default-layout {
+    &:not(.extended) #stickers-menu {
+        width: 80vw;
+    }
+
+    &.extended #stickers-menu {
+        width: 50vw;
+    }
+}
+
 #stickers {
     display: flex;
     justify-content: center;

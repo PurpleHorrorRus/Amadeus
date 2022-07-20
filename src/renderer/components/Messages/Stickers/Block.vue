@@ -49,7 +49,6 @@ export default {
     grid-template-areas: "collection"
                         "navigation";
 
-    width: 33rem;
     height: 100%;
 }
 </style>
