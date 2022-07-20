@@ -91,9 +91,7 @@ export default {
 
         "input.message": {
             handler: function(message) {
-                if (message.length === 0) {
-                    this.message = "";
-                }
+                this.message = message;
             }
         },
         

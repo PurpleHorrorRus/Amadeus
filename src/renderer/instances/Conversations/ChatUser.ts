@@ -10,8 +10,12 @@ class ChatUser extends User implements UsersUser {
         debounce: Function
     };
 
+    public screen_name?: string;
+
     constructor(user: UsersUser) {
         super(user);
+
+        this.screen_name = user.screen_name;
 
         this.typing = {
             enable: false,

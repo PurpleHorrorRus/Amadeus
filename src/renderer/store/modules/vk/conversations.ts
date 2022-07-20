@@ -123,7 +123,7 @@ export default {
 
             const chatProfiles = await rootState.vk.client.api.messages.getChat({
                 chat_ids: chatOnly.map(item => item[2]),
-                fields: ["photo_100"]
+                fields: ["photo_100", "screen_name"]
             });
 
             chatOnly.forEach(item => {
