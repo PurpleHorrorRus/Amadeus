@@ -11,6 +11,7 @@
             v-else-if="showForwardMessages"
             :message="input"
             :text="forwardMessagesText"
+            :hideName="true"
             @click.native="removeForward"
         />
 

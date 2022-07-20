@@ -1,6 +1,7 @@
 <template>
     <div class="compact-attachment nowrap">
         <span 
+            v-if="!hideName"
             class="compact-attachment-name nowrap"
             v-text="profile.name"
         />
@@ -25,6 +26,12 @@ export default {
         message: {
             type: Object,
             required: true
+        },
+
+        hideName: {
+            type: Boolean,
+            required: false,
+            default: false
         },
         
         text: {
