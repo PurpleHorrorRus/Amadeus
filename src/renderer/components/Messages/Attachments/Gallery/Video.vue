@@ -115,7 +115,7 @@ export default {
         }
 
         &-quick {
-            height: 35vh;
+            height: 35vh !important;
         }
 
         &-image, &-quick, &-empty {

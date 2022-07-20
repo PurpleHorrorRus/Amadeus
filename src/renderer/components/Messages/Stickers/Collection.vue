@@ -28,8 +28,8 @@ export default {
 
     computed: {
         currentCollection() {
-            return this.$parent.currentCollectionId !== -1
-                ? this.collections[this.$parent.currentCollectionId]
+            return this.$parent.currentCollectionIndex !== -1
+                ? this.collections[this.$parent.currentCollectionIndex]
                 : this.favorite;
         }
     }

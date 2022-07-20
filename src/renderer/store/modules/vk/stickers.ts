@@ -22,7 +22,7 @@ export default {
         stickersExist: false,
         
         favorite: {},
-        collections: {},
+        collections: [],
         words: {}
     }),
 
@@ -42,8 +42,12 @@ export default {
             state.stickersExist = response.items?.length > 0;
 
             if (state.stickersExist) {
-                response.items.forEach(collection => {
-                    state.collections[collection.id] = new StickersCollection(collection);
+                state.collections = response.items.map(collection => {
+                    return new StickersCollection(collection);
+                });
+
+                state.collections.sort((a, b) => { 
+                    return b.purchase_date - a.purchase_date;
                 });
 
                 // @ts-ignore
@@ -60,15 +64,9 @@ export default {
                 keywordsResponse.dictionary.forEach(dict => { // Во имя императора...
                     dict.words.forEach(word => {
                         if (!(word in state.words)) state.words[word] = [];
-
-                        const formatted = dict.user_stickers.map(sticker => {
+                        state.words[word] = dict.user_stickers.map(sticker => {
                             return new Sticker(sticker);
-                        });
-
-                        state.words[word] = [
-                            ...state.words[word],
-                            ...formatted
-                        ]; 
+                        }); 
                     });
                 });
             }

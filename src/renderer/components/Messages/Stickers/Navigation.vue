@@ -7,10 +7,10 @@
         />
 
         <NavigationItem
-            v-for="collection of collections"
+            v-for="(collection, index) of collections"
             :key="collection.id"
             :collection="collection"
-            @click.stop.native="$parent.changeCollection(collection.id)"
+            @click.stop.native="$parent.changeCollection(index)"
         />
     </div>
 </template>

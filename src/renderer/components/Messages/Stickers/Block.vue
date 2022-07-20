@@ -22,14 +22,11 @@ export default {
     mixins: [CoreMixin, StickersMixin],
 
     data: () => ({
-        currentCollectionId: 0 as number
+        currentCollectionIndex: 0 as number
     }),
 
     created() {
-        const firstCollection: any = Object.values(this.collections)[0];
-        this.currentCollectionId = "stickers" in this.favorite
-            ? -1 
-            : firstCollection.id;
+        this.currentCollectionIndex = "stickers" in this.favorite ? -1 : 0;
     },
 
     methods: {
@@ -42,8 +39,8 @@ export default {
             this.sendSticker(sticker);
         },
         
-        changeCollection(id: number) {
-            this.currentCollectionId = id;
+        changeCollection(index: number) {
+            this.currentCollectionIndex = index;
         }
     }
 };
