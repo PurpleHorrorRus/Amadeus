@@ -16,6 +16,7 @@ class Message implements TMessage {
 
     public attachments?: Attachment[] | MessagesMessageAttachment[] = [];
     public fwd_messages?: TMessage[] = [];
+    public reply_message?: TMessage;
     public random_id?: number;
     public important?: number | boolean;
     public geo?: TMap;
@@ -44,6 +45,10 @@ class Message implements TMessage {
             this.fwd_messages = message.fwd_messages.map(message => {
                 return new Message(message);
             });
+        }
+
+        if (message.reply_message) {
+            this.reply_message = new Message(message.reply_message);
         }
 
         if (message.geo) {
