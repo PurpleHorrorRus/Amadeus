@@ -23,7 +23,7 @@ class Updater {
 
         autoUpdater.setFeedURL({
             provider: "github",
-            repo: "Meridius",
+            repo: "Amadeus",
             owner: "PurpleHorrorRus",
             private: false
         });
