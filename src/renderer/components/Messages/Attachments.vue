@@ -16,6 +16,11 @@
                 :item="attachment"
             />
 
+            <AttachmentPlaylist
+                v-if="attachment.type === 'audio_playlist'" 
+                :item="attachment"
+            />
+
             <AttachmentGraffiti
                 v-else-if="attachment.type === 'graffiti'" 
                 :item="attachment"
@@ -55,20 +60,21 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
-        AttachmentWall: () => import("~/components/Messages/Attachments/Wall"),
-        Gallery: () => import("~/components/Messages/Attachments/Gallery"),
-        AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker"),
-        AttachmentGraffiti: () => import("~/components/Messages/Attachments/Graffiti"),
-        AttachmentPoll: () => import("~/components/Messages/Attachments/Poll"),
-        AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage"),
-        AttachmentStory: () => import("~/components/Messages/Attachments/Story"),
-        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
-        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc"),
-        AttachmentsLink: () => import("~/components/Messages/Attachments/Link"),
-        AttachmentsMap: () => import("~/components/Messages/Attachments/Map")
+        AttachmentWall: () => import("~/components/Messages/Attachments/Wall.vue"),
+        Gallery: () => import("~/components/Messages/Attachments/Gallery.vue"),
+        AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker.vue"),
+        AttachmentPlaylist: () => import("~/components/Messages/Attachments/AudioPlaylist.vue"),
+        AttachmentGraffiti: () => import("~/components/Messages/Attachments/Graffiti.vue"),
+        AttachmentPoll: () => import("~/components/Messages/Attachments/Poll.vue"),
+        AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage.vue"),
+        AttachmentStory: () => import("~/components/Messages/Attachments/Story.vue"),
+        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio.vue"),
+        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc.vue"),
+        AttachmentsLink: () => import("~/components/Messages/Attachments/Link.vue"),
+        AttachmentsMap: () => import("~/components/Messages/Attachments/Map.vue")
     },
 
     props: {

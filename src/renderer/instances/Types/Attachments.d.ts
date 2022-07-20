@@ -56,6 +56,18 @@ export type TPollStyle = {
     foreground: any
 }
 
+export type TAudioPlaylist = {
+    access_key?: string;
+    count: number;
+    description: string;
+    id: number;
+    owner_id: number;
+    title: string;
+    plays?: number;
+    followers?: number;
+    photo: any;
+};
+
 export type TMap = {
     id: number
     owner_id?: number

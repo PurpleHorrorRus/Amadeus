@@ -19,13 +19,14 @@ import { DocsSaveParams, PhotosSaveMessagesPhotoParams, VideoSaveParams } from "
 import { DocsDocUploadResponse } from "vk-io/lib/api/schemas/responses";
 import { IUpload } from "../Interfaces/Upload";
 
-import { TLink, TMap, TSize } from "../Types/Attachments";
+import { TAudioPlaylist, TLink, TMap, TSize } from "../Types/Attachments";
 
 type TAttachment =
     PhotosPhoto
     | VideoVideo
     | DocsDoc
     | AudioAudio
+    | TAudioPlaylist
     | TLink
     | WallWallpostFull
     | StoriesStory
@@ -40,6 +41,7 @@ type TAttachmentType =
     | "video"
     | "doc"
     | "audio"
+    | "audio_playlist"
     | "wall"
     | "story"
     | "link"

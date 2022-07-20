@@ -13,6 +13,7 @@ import Sticker from "./Sticker";
 import Story from "./Story";
 import Poll from "./Poll";
 import Graffiti from "./Graffiti";
+import AudioPlaylist from "./AudioPlaylist";
 
 class AttachmentGenerator { 
     static generateList(list: MessagesMessageAttachment[]): Attachment[] | MessagesMessageAttachment[] {
@@ -28,6 +29,7 @@ class AttachmentGenerator {
 
             case "video": return new Video(attachment.video);
             case "audio": return new Audio(attachment.audio);
+            case "audio_playlist": return new AudioPlaylist(attachment.audio_playlist);
 
             case "doc": {
                 if (attachment instanceof Doc || attachment instanceof DocGif) {
