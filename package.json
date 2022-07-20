@@ -1,7 +1,7 @@
 {
     "name": "amadeus",
     "version": "0.0.1",
-    "description": "Custom messenger for VK",
+    "description": "Free, functional and open source VK Messenger",
     "main": "./dist/main/index.ts",
     "scripts": {
         "dev": "node .electron-nuxt/dev.js",

@@ -1,24 +1,36 @@
-# amadeus
+# Amadeus
 
-> Custom messenger for VK
+> Free, functional and open source VK Messenger
 
-#### Build Setup
+Application is absolutely free and **does not allow development and distribution for commercial purposes.**
 
-``` bash
-# install dependencies
-yarn install
+## Development and Build
 
-# serve app with hot reload
-yarn dev
+1. Fork this repo
+2. Open terminal or CLI and put these commands
 
-# build electron application for production
-yarn build
-
-# lint all JS/Vue component files in `src/`
-yarn lint
-
+```bash
+git clone https://github.com/PurpleHorrorRus/Amadeus.git
+cd amadeus-master
+yarn
 ```
 
----
+After installing dependecies you can run project
 
-This project was generated with [electron-nuxt](https://github.com/michalzaq12/electron-nuxt) v1.8.1 using [vue-cli](https://github.com/vuejs/vue-cli). Documentation about the original structure can be found [here](https://github.com/michalzaq12/electron-nuxt/blob/master/README.md).
+```bash
+# Run in Dev mode
+yarn dev
+
+# Build in Production
+yarn build
+```
+
+## Contributing
+
+You can open any pull requests or issues in this repository.
+
+## Copyrights
+
+Base, template: [electron-nuxt](https://github.com/michalzaq12/electron-nuxt) by michalzaq12
+
+VK API: [vk-io](https://github.com/negezor/vk-io) by negezor
