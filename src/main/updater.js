@@ -27,13 +27,10 @@ class Updater {
             owner: "PurpleHorrorRus",
             private: false
         });
-
-        console.log("Updater has been register");
     }
 
     init() {
         autoUpdater.on("update-available", async info => {
-            console.log(info);
             common.windows.send(this.window, "update", info);
 
             ipcMain.removeAllListeners("install-update");
