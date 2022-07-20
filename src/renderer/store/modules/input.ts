@@ -23,6 +23,10 @@ export default {
     }),
 
     actions: {
+        SET_MESSAGE: ({ state }, message: string) => { 
+            state.message = message;
+        },
+
         SET_ATTACHMENTS: ({ state }, attachments: Attachment[]) => {
             state.attachments = attachments;
             return state.attachments;
@@ -152,6 +156,7 @@ export default {
         },
 
         CLEAR: ({ state }) => {
+            state.message = "";
             state.attachments = [];
             state.fwd_messages = [];
             state.reply = null;

@@ -19,11 +19,15 @@
                 />
             </transition>
         </div>
+
+        <transition name="fade">
+            <Suggests v-if="message.length > 0" />
+        </transition>
     </div>
 </template>
 
 <script lang="ts">
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
@@ -32,6 +36,7 @@ export default {
     components: {
         MessagesList: () => import("~/components/Messages/List.vue"),
         Profile: () => import("~/components/Messages/Profile.vue"),
+        Suggests: () => import("~/components/Messages/Suggests.vue"),
         ScrollArrow: () => import("~/components/Messages/ScrollArrow.vue")
     },
 
@@ -51,6 +56,10 @@ export default {
     }),
 
     computed: {
+        ...mapState({
+            message: (state: any) => state.input.message
+        }),
+
         chatViewportClass() {
             return {
                 chat: this.chat.isChat

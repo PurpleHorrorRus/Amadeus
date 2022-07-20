@@ -88,9 +88,19 @@ export default {
                     : "";
             }
         },
+
+        "input.message": {
+            handler: function(message) {
+                if (message.length === 0) {
+                    this.message = "";
+                }
+            }
+        },
         
         message: {
             handler: function(message) {
+                this.setMessage(message);
+
                 if (message.length === 0 || this.input.editing.enable) {
                     return false;
                 }
@@ -121,6 +131,7 @@ export default {
         ...mapActions({
             sendTyping: "vk/messages/SEND_TYPING",
 
+            setMessage: "input/SET_MESSAGE",
             addPhotoClipboard: "input/ADD_PHOTO_CLIPBOARD"
         }),
 

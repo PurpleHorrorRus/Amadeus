@@ -30,6 +30,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
     column-gap: 10px;
 }
 </style>

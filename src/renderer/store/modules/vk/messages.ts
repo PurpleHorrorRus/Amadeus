@@ -13,6 +13,7 @@ import common from "~/plugins/common";
 import { TChat } from "~/instances/Types/Messages";
 
 import stickers from "~/store/modules/vk/stickers";
+import Sticker from "~/instances/Messages/Attachments/Sticker";
 
 const fields = {
     count: 20
@@ -234,6 +235,13 @@ export default {
                 .catch(e => {
                     console.warn(e);
                 });
+        },
+
+        SEND_STICKER: async ({ dispatch, state }, sticker: Sticker) => { 
+            return await dispatch("SEND", {
+                attachments: [sticker],
+                peer_id: state.current.id
+            });
         },
 
         EDIT: async ({ dispatch, rootState }, message: Message) => {

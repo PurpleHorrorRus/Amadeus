@@ -1,0 +1,26 @@
+<template>
+    <div class="suggests-block">
+        <slot />
+    </div>
+</template>
+
+<script>
+export default {
+
+};
+</script>
+
+<style lang="scss">
+.suggests-block {
+    width: 100%;
+    max-height: 30vh;
+
+    padding: 10px;
+
+    background: var(--backdrop);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+
+    overflow-y: auto;
+}
+</style>

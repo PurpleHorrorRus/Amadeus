@@ -1,6 +1,6 @@
 <template>
     <div id="stickers-block">
-        <StickersCollection @send="sendSticker" />
+        <StickersCollection @send="sendSticker($event)" />
         <StickersNavigation />
     </div>
 </template>
@@ -35,15 +35,8 @@ export default {
 
     methods: {
         ...mapActions({
-            send: "vk/messages/SEND"
+            sendSticker: "vk/messages/SEND_STICKER"
         }),
-
-        async sendSticker(sticker) {
-            return await this.send({
-                attachments: [sticker],
-                peer_id: this.current.id
-            });
-        },
         
         changeCollection(id: number) {
             this.currentCollectionId = id;
