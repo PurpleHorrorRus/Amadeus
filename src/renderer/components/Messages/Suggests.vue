@@ -45,7 +45,7 @@ export default {
 <style lang="scss">
 #suggests {
     position: absolute;
-    left: 0px; bottom: 65px;
+    left: 0px; bottom: 0px;
 
     padding: 5px;
 

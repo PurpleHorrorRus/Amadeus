@@ -52,7 +52,7 @@ export default {
         bottom: 70px !important;
         right: 5px !important;
 
-        height: 40vh;
+        height: 50vh;
     }
 
     .icon {

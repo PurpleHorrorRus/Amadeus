@@ -21,7 +21,7 @@
         </div>
 
         <transition name="fade">
-            <Suggests v-if="message.length > 0" />
+            <Suggests v-if="showSuggests" />
         </transition>
     </div>
 </template>
@@ -57,7 +57,7 @@ export default {
 
     computed: {
         ...mapState({
-            message: (state: any) => state.input.message
+            input: (state: any) => state.input
         }),
 
         chatViewportClass() {
@@ -69,6 +69,10 @@ export default {
         canScroll() {
             return this.chat.messages.length < this.chat.count
                 && !this.loadMore;
+        },
+
+        showSuggests() {
+            return this.input.message.length > 0;
         }
     },
 
@@ -156,6 +160,8 @@ export default {
 #chat-page-viewport {
     width: 100%;
     height: 100%;
+
+    position: relative;
 
     &-messages {
         position: relative;

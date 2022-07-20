@@ -57,7 +57,7 @@ export default {
         flex-wrap: wrap;
         gap: 10px;
 
-        padding-left: 6px;
+        padding: 0px 0px 10px 6px;
 
         overflow-y: auto;
     }

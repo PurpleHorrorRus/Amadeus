@@ -44,7 +44,6 @@ export default {
     .modal-layout {
         display: flex;
         justify-content: center;
-        align-items: center;
         align-self: center;
 
         width: max-content;
