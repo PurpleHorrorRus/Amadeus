@@ -18,7 +18,6 @@ class ConversationChat extends Conversation {
         this.profile = item.profile;
 
         this.local_id = item.profile.id;
-        console.log(this.profile.users);
         
         this.users = this.profile.users.map(user => { 
             return new ChatUser(user);

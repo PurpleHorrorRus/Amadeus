@@ -17,20 +17,20 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
+import StickersMixin from "./Stickers";
 
 export default {
     components: {
         Sticker: () => import("./Collection/Sticker.vue")
     },
 
-    computed: {
-        ...mapState({
-            collections: (state: any) => state.vk.messages.stickers.collections
-        }),
+    mixins: [StickersMixin],
 
+    computed: {
         currentCollection() {
-            return this.collections[this.$parent.currentCollectionId];
+            return this.$parent.currentCollectionId !== -1
+                ? this.collections[this.$parent.currentCollectionId]
+                : this.favorite;
         }
     }
 };

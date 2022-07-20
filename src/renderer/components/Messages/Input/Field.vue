@@ -11,7 +11,7 @@
             @keydown.up="hotkeyEdit"
         />
 
-        <InputStickers />
+        <InputStickers v-if="stickersExist" />
         <InputRecorder />
 
         <InputFieldSend 
@@ -64,7 +64,8 @@ export default {
             current: (state: any) => state.vk.messages.current,
             cache: (state: any) => state.vk.messages.cache,
             input: (state: any) => state.input,
-            modal: (state: any) => state.modal
+            modal: (state: any) => state.modal,
+            stickersExist: (state: any) => state.vk.messages.stickers.stickersExist
         }),
 
         canSend() {

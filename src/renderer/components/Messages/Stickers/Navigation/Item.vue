@@ -5,9 +5,12 @@
         :class="itemClass"
     >
         <img 
+            v-if="!icon"
             :src="collection.preview" 
             class="stickers-navigation-item-preview"
         >
+
+        <Component :is="icon" v-else class="icon amadeus" />
     </div>
 </template>
 
@@ -17,6 +20,12 @@ export default {
         collection: {
             type: Object,
             required: true
+        },
+
+        icon: {
+            type: Object,
+            required: false,
+            default: null
         }
     },
 
@@ -55,6 +64,10 @@ export default {
     &-preview {
         width: 100%;
         height: 100%;
+    }
+
+    .icon {
+        width: 26px !important;
     }
 }
 </style>

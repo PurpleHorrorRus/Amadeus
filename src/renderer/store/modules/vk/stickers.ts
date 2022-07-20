@@ -1,5 +1,5 @@
 import { StoreGetProductsParams, StoreGetStickersKeywordsParams } from "vk-io/lib/api/schemas/params";
-import { StoreGetStickersKeywordsResponse } from "vk-io/lib/api/schemas/responses";
+import { StoreGetFavoriteStickersResponse, StoreGetStickersKeywordsResponse } from "vk-io/lib/api/schemas/responses";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import StickersCollection from "~/instances/Messages/StickersCollection";
 
@@ -20,16 +20,22 @@ export default {
 
     state: () => ({
         stickersExist: false,
+        
+        favorite: {},
         collections: {},
-
         words: {}
     }),
 
     actions: {
         FETCH: async ({ state, rootState }) => {
-            const [response, keywordsResponse]: [StoreGetStickersKeywordsResponse, StoreGetStickersKeywordsResponse] =
+            const [response, favorite, keywordsResponse]: [
+                StoreGetStickersKeywordsResponse,
+                StoreGetFavoriteStickersResponse,
+                StoreGetStickersKeywordsResponse
+            ] =
                 await Promise.all([
                     rootState.vk.client.api.store.getProducts(params),
+                    rootState.vk.client.api.store.getFavoriteStickers(),
                     rootState.vk.client.api.store.getStickersKeywords(keywordsParams)
                 ]);
 
@@ -39,6 +45,17 @@ export default {
                 response.items.forEach(collection => {
                     state.collections[collection.id] = new StickersCollection(collection);
                 });
+
+                // @ts-ignore
+                if (favorite.count > 0) {
+                    state.favorite = new StickersCollection({
+                        id: -1,
+                        title: "",
+                        preview: "",
+                        // @ts-ignore
+                        stickers: favorite.items
+                    });
+                }
 
                 keywordsResponse.dictionary.forEach(dict => { // Во имя императора...
                     dict.words.forEach(word => {

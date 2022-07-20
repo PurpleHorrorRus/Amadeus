@@ -9,7 +9,8 @@ class StickersCollection {
     constructor(collection) {
         this.id = collection.id;
         this.title = collection.title;
-        this.preview = collection.previews[collection.previews.length - 1]?.url || "";
+        this.preview = (collection.preview ?? collection.previews[collection.previews.length - 1]?.url)
+            || "";
 
         this.stickers = collection.stickers.map(sticker => {
             return new Sticker(sticker);

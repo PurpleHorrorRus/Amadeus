@@ -6,8 +6,9 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
+import StickersMixin from "./Stickers";
 import CoreMixin from "~/mixins/core";
 
 export default {
@@ -16,21 +17,17 @@ export default {
         StickersNavigation: () => import("./Navigation.vue")
     },
 
-    mixins: [CoreMixin],
+    mixins: [CoreMixin, StickersMixin],
 
     data: () => ({
         currentCollectionId: 0 as number
     }),
 
-    computed: {
-        ...mapState({
-            collections: (state: any) => state.vk.messages.stickers.collections
-        })
-    },
-
     created() {
         const firstCollection: any = Object.values(this.collections)[0];
-        this.currentCollectionId = firstCollection.id;
+        this.currentCollectionId = "stickers" in this.favorite
+            ? -1 
+            : firstCollection.id;
     },
 
     methods: {

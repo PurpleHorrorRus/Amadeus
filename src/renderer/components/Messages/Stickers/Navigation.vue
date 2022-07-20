@@ -1,6 +1,12 @@
 <template>
     <div id="stickers-block-navigation" ref="navigation" @mousewheel="scroll" @click.stop>
         <NavigationItem
+            :collection="favorite"
+            :icon="StarIcon"
+            @click.stop.native="$parent.changeCollection(favorite.id)"
+        />
+
+        <NavigationItem
             v-for="collection of collections"
             :key="collection.id"
             :collection="collection"
@@ -10,18 +16,20 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
+import StickersMixin from "./Stickers";
+
+import StarIcon from "~icons/star.svg";
 
 export default {
     components: {
         NavigationItem: () => import("./Navigation/Item.vue")
     },
 
-    computed: {
-        ...mapState({
-            collections: (state: any) => state.vk.messages.stickers.collections
-        })
-    },
+    mixins: [StickersMixin],
+
+    data: () => ({
+        StarIcon
+    }),
 
     methods: {
         scroll(event) {
