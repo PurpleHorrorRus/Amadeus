@@ -14,6 +14,7 @@ import Story from "./Story";
 import Poll from "./Poll";
 import Graffiti from "./Graffiti";
 import AudioPlaylist from "./AudioPlaylist";
+import Gift from "./Gift";
 
 class AttachmentGenerator { 
     static generateList(list: MessagesMessageAttachment[]): Attachment[] | MessagesMessageAttachment[] {
@@ -64,6 +65,7 @@ class AttachmentGenerator {
             case "story": return new Story(attachment.story);
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);
+            case "gift": return new Gift(attachment.gift);
         }
 
         return attachment;

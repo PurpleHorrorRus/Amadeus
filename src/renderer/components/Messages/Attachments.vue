@@ -36,6 +36,11 @@
                 :item="attachment"
             />
 
+            <AttachmentGift
+                v-else-if="attachment.type === 'gift'" 
+                :item="attachment"
+            />
+
             <AttachmentPoll v-if="pollItem" :item="pollItem" />
             <AttachmentsLink v-if="linkItem" :item="linkItem" />
 
@@ -71,6 +76,7 @@ export default {
         AttachmentPoll: () => import("~/components/Messages/Attachments/Poll.vue"),
         AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage.vue"),
         AttachmentStory: () => import("~/components/Messages/Attachments/Story.vue"),
+        AttachmentGift: () => import("~/components/Messages/Attachments/Gift.vue"),
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio.vue"),
         AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc.vue"),
         AttachmentsLink: () => import("~/components/Messages/Attachments/Link.vue"),

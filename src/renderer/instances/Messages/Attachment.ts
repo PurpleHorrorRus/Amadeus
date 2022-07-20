@@ -13,7 +13,8 @@ import {
     VideoVideo,
     WallWallpostFull,
     MessagesGraffiti,
-    BaseImage
+    BaseImage,
+    GiftsGift
 } from "vk-io/lib/api/schemas/objects";
 import { DocsSaveParams, PhotosSaveMessagesPhotoParams, VideoSaveParams } from "vk-io/lib/api/schemas/params";
 import { DocsDocUploadResponse } from "vk-io/lib/api/schemas/responses";
@@ -35,6 +36,7 @@ type TAttachment =
     | MessagesGraffiti
     | PollsPoll
     | TMap
+    | GiftsGift
 
 type TAttachmentType =
     "photo"
