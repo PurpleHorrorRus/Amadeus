@@ -64,14 +64,14 @@ export default {
             });
 
             const formatted: Message[] = await dispatch("FORMAT_MESSAGES", history.items);
-            state.cache[id].messages = formatted.concat(state.cache[id].messages);
+            state.cache[id].messages = state.cache[id].messages.concat(formatted);
             return state.cache[id];
         },
 
         FORMAT_MESSAGES: (_, items): Message[] => {
             return items.map(message => {
                 return new Message(message);
-            }).reverse();
+            });
         },
 
         FLUSH: ({ state }, conversation): void => {
@@ -146,7 +146,7 @@ export default {
                 cacheMessage.syncing = 0;
                 return cacheMessage;
             } else {
-                messages.push(message);
+                messages.unshift(message);
                 return message;
             }
         },

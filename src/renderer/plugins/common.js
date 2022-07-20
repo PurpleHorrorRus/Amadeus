@@ -58,6 +58,12 @@ class Common {
         return new Promise(resolve => setTimeout(resolve, timeout));    
     }
 
+    static async repeat(handler, timeout) {
+        const interval = setInterval(handler, 0);
+        await Common.wait(timeout);
+        clearInterval(interval);
+    }
+
     static arrayMove(arr, oldIndex, newIndex) {
         if (newIndex >= arr.length) {
             let k = newIndex - arr.length + 1;

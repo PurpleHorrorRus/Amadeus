@@ -19,7 +19,7 @@ class AttachmentGenerator {
         return list.map(AttachmentGenerator.generate);
     }
 
-    static generate(attachment: MessagesMessageAttachment): Attachment | undefined {
+    static generate(attachment: MessagesMessageAttachment): Attachment | MessagesMessageAttachment {
         switch (attachment.type) {
             case "photo": return new Photo(attachment.photo, {
                 path: attachment.path,
@@ -63,6 +63,8 @@ class AttachmentGenerator {
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);
         }
+
+        return attachment;
     }
 }
 

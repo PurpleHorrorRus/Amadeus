@@ -29,9 +29,9 @@ export default {
         },
 
         async onScroll(event) {
-            this.scrollPercent = (event.target.scrollTop 
-                / (event.target.scrollHeight - event.target.clientHeight)) 
-                * 100;
+            this.scrollPercent = Math.abs((
+                event.target.scrollTop 
+                / (event.target.scrollHeight - event.target.clientHeight)) * 100);
 
             return this.trigger(this.scrollPercent)
                 && await this.handler();

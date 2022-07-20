@@ -6,13 +6,17 @@
             :chunk="chunk"
         />
 
-        <ContextMenu v-if="menu.show" :menu="menu" />
+        <ContextMenu 
+            v-if="menu.show" 
+            :menu="menu" 
+        />
     </div>
 </template>
 
-<script>
-import { mapState } from "vuex";
+<script lang="ts">
+import { mapActions } from "vuex";
 
+import CoreMixin from "~/mixins/core";
 import AttachmentsMixin from "~/mixins/attachments";
 import MenuMixin from "~/mixins/menu";
 import DateMixin from "~/mixins/date";
@@ -20,10 +24,10 @@ import ActionsMixin from "~/mixins/actions";
 
 export default {
     components: {
-        MessagesChunk: () => import("~/components/Messages/Chunk")
+        MessagesChunk: () => import("~/components/Messages/Chunk.vue")
     },
 
-    mixins: [AttachmentsMixin, MenuMixin, DateMixin, ActionsMixin],
+    mixins: [CoreMixin, AttachmentsMixin, MenuMixin, DateMixin, ActionsMixin],
 
     props: {
         messages: {
@@ -32,12 +36,12 @@ export default {
         }
     },
 
-    computed: {
-        ...mapState({
-            current: state => state.vk.messages.current,
-            user: state => state.vk.user
-        }),
+    data: () => ({
+        firstLoad: true,
+        loadMore: false
+    }),
 
+    computed: {
         chunks() {
             const chunks = [];
             let current = [];
@@ -63,6 +67,15 @@ export default {
     },
 
     methods: {
+        ...mapActions({
+            append: "vk/messages/APPEND"
+        }),
+
+        scrollToBottom() {
+            this.$el.scrollTop = 0;
+            return true;
+        },
+
         setMenuItems(message) {
             if ("action" in this.menu.target) {
                 return false;
@@ -113,7 +126,7 @@ export default {
     inset: 0px;
 
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     row-gap: 10px;
 
     width: 100%;
@@ -122,5 +135,10 @@ export default {
     padding: 10px;
 
     overflow-y: auto;
+    
+    .scroll-arrow {
+        position: absolute;
+        bottom: 10px; right: 10px;
+    }
 }
 </style>

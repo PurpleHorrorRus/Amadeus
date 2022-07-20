@@ -1,8 +1,15 @@
 <template>
     <div id="chat-page-viewport" :class="chatViewportClass">
         <div id="chat-page-viewport-messages">
-            <MessagesList ref="messages" :messages="chat.messages" />
-            <ScrollArrow v-if="showScrollArrow" @click.native="scrollToBottom" />
+            <MessagesList 
+                ref="messages" 
+                :messages="chat.messages" 
+            />
+
+            <ScrollArrow 
+                v-if="showScrollArrow"
+                @click.native="scrollToBottom"
+            />
 
             <transition name="slide-right">
                 <Profile 
@@ -15,19 +22,17 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions } from "vuex";
-
-import MessagesList from "~/components/Messages/List";
 
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 
 export default {
     components: {
-        MessagesList,
-        Profile: () => import("~/components/Messages/Profile"),
-        ScrollArrow: () => import("~/components/Messages/ScrollArrow")
+        MessagesList: () => import("~/components/Messages/List.vue"),
+        Profile: () => import("~/components/Messages/Profile.vue"),
+        ScrollArrow: () => import("~/components/Messages/ScrollArrow.vue")
     },
 
     mixins: [CoreMixin, ScrollMixin],
@@ -42,7 +47,7 @@ export default {
     data: () => ({
         loadMore: false,
         showScrollArrow: false,
-        percentToRead: 80
+        percentToRead: 10
     }),
 
     computed: {
@@ -60,8 +65,18 @@ export default {
 
     watch: {
         scrollPercent: {
+            handler: function(scrollPercent) {
+                return this.chat.conversation.information.unread_count > 0 
+                    && scrollPercent <= this.percentToRead
+                    && this.readOnBottom();
+            }
+        },
+
+        "chat.messages": {
+            deep: true,
+            
             handler: function() {
-                if (this.chat.conversation.information.unread_count > 0) {
+                if (this.scrollPercent <= this.percentToRead) {
                     this.readOnBottom();
                 }
             }
@@ -73,21 +88,11 @@ export default {
                     this.readOnBottom();
                 }
             }
-        },
-
-        "chat.messages": {
-            handler: function() {
-                if (this.scrollPercent > this.percentToRead) {
-                    this.$nextTick(() => this.scrollToBottom());
-                }
-            }
         }
     },
 
     async mounted() {
-        window.addEventListener("focus", this.readOnBottom);
-
-        this.registerScroll("messages", async () => {
+        await this.registerScroll("messages", async () => {
             if (this.loadMore || !this.canScroll) {
                 return false;
             }
@@ -96,13 +101,13 @@ export default {
             await this.append(this.chat.id);
             this.loadMore = false;
         }, percent => {
-            this.showScrollArrow = percent < 90 
-                && this.$refs.messages.$el.scrollTop > 0;
+            this.showScrollArrow = percent > 10
+                && this.$refs.messages.$el.scrollTop !== 0;
 
-            return percent < 20;
+            return percent > 80;
         });
 
-        this.scrollToBottom();
+        window.addEventListener("focus", this.readOnBottom);
     },
 
     beforeDestroy() {
@@ -116,16 +121,10 @@ export default {
         }),
 
         scrollToBottom() {
-            this.$refs.messages.$el.scrollTop = this.$refs.messages.$el.scrollHeight;
-            this.readOnBottom();
-            return true;
+            return this.$refs.messages.scrollToBottom();
         },
 
         readOnBottom() {
-            if (this.scrollPercent < this.percentToRead && this.$refs.messages.$el.scrollTop !== 0) {
-                return false;
-            }
-
             return this.read(this.chat);
         },
         

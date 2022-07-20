@@ -60,7 +60,7 @@ export default {
 <style lang="scss">
 .chat-page-messages-list-chunk {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     row-gap: 10px;
 }
 </style>

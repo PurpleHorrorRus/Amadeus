@@ -1,6 +1,6 @@
 import { API, VK } from "vk-io";
 import { DocsSaveResponse } from "vk-io/lib/api/schemas/responses";
-import { DocsDoc } from "vk-io/lib/api/schemas/objects";
+import { DocsDoc, MessagesMessageAttachment } from "vk-io/lib/api/schemas/objects";
 
 import Attachment from "../Attachment";
 import AttachmentGenerator from "./Generator";
@@ -32,7 +32,7 @@ class Doc extends Attachment implements IUpload {
         this.isGif = this.doctype === 3;
     }
 
-    async upload(client: VK): Promise<Attachment> {
+    async upload(client: VK): Promise<Attachment | MessagesMessageAttachment> {
         const server = await this.getServer(client.api);
         
         const upload = await this.uploadOnServer(client.upload, this.path, server, "file");
