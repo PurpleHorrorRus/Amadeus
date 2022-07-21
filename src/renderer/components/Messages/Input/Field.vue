@@ -8,7 +8,7 @@
             :placeholder="$strings.CHAT.INPUT"
             :disabled="disabled"
             @keypress.enter="send"
-            @keydown.up="hotkeyEdit"
+            @keydown.up.prevent="hotkeyEdit"
         />
 
         <InputStickers v-if="stickersExist" />
