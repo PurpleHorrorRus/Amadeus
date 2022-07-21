@@ -38,6 +38,12 @@ export default {
                 id: "accounts",
                 label: this.$strings.SETTINGS.NAVIGATION.ACCOUNTS,
                 icon: () => import("~icons/person.svg")
+            },
+
+            {
+                id: "about",
+                label: "О приложении",
+                icon: () => import("~icons/info.svg")
             }
         ];
     }

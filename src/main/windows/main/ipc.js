@@ -1,4 +1,4 @@
-import { dialog } from "electron";
+import { app, dialog } from "electron";
 
 import MediaWindow from "../media";
 
@@ -31,6 +31,10 @@ class IPC {
             return this.window.isFocused();
         };
 
+        this.handlers.getVersion = () => {
+            return app.getVersion();
+        };
+
         this.events.save = args => {
             if (!args.content) {
                 console.error("Settings content is empty", args.type);
@@ -56,6 +60,7 @@ class IPC {
                 ? this.window.maximize()
                 : this.window.unmaximize(); 
         };
+
         this.events.buildNotificationIcon = count => {
             if (count > 9) count = "9-plus";
             else if (count === 0) count = "default";

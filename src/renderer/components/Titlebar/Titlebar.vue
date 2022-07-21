@@ -64,7 +64,8 @@ export default {
     &-title {
         padding-left: 20px;
 
-        font-size: 14px;
+        font-family: "Fira Sans";
+        font-size: 12px;
     }
 
     &-buttons {

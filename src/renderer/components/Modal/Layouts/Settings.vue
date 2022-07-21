@@ -5,10 +5,10 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
-        SettingsNavigation: () => import("~/components/Modal/Settings/Navigation")
+        SettingsNavigation: () => import("~/components/Modal/Settings/Navigation.vue")
     },
 
     data: () => ({
@@ -18,12 +18,13 @@ export default {
     computed: {
         renderView() {
             switch (this.view) {
-                case "general": return () => import("~/components/Modal/Settings/Views/General");
-                case "appearance": return () => import("~/components/Modal/Settings/Views/Appearance");
-                case "accounts": return () => import("~/components/Modal/Settings/Views/Accounts");
+                case "general": return () => import("~/components/Modal/Settings/Views/General.vue");
+                case "appearance": return () => import("~/components/Modal/Settings/Views/Appearance.vue");
+                case "accounts": return () => import("~/components/Modal/Settings/Views/Accounts.vue");
+                case "about": return () => import("~/components/Modal/Settings/Views/About.vue");
             }
 
-            return () => import("~/components/Modal/Settings/Views/General");
+            return () => import("~/components/Modal/Settings/Views/General.vue");
         }
     },
 
