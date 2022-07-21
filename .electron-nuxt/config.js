@@ -15,9 +15,7 @@ const config = {
     RENDERER_PROCESS_DIR: path.join(SRC_DIR, "renderer"),
     RESOURCES_DIR: path.join(SRC_DIR, "extraResources"),
     DIST_DIR: path.join(PROJECT_ROOT, "dist"),
-    BUILD_DIR: path.join(PROJECT_ROOT, "build"),
-
-    DISABLE_BABEL_LOADER: false // experimental
+    BUILD_DIR: path.join(PROJECT_ROOT, "build")
 };
 
 module.exports = Object.freeze(config);

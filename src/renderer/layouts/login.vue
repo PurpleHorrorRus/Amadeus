@@ -6,9 +6,18 @@
 </template>
 
 <script>
+import CoreMixin from "~/mixins/core";
+import AppearanceMixin from "~/mixins/appearance";
+
 export default {
     components: {
         Titlebar: () => import("~/components/Titlebar/Titlebar")
+    },
+    
+    mixins: [CoreMixin, AppearanceMixin],
+
+    created() {
+        this.setTheme(this.settings.appearance.theme);
     }
 };
 </script>

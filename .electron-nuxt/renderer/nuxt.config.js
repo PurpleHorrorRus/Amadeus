@@ -1,13 +1,12 @@
 /* eslint no-param-reassign: 0 */
 process.env.BABEL_ENV = "renderer";
 const isProduction = process.env.NODE_ENV === "production";
-const isDev = process.env.NODE_ENV === "development";
 const path = require("path");
 const webpack = require("webpack");
 const deepmerge = require("deepmerge");
 const nodeExternals = require("webpack-node-externals");
 const resourcesPath = require("../resources-path-provider");
-const { RENDERER_PROCESS_DIR, DIST_DIR, DISABLE_BABEL_LOADER } = require("../config");
+const { RENDERER_PROCESS_DIR, DIST_DIR } = require("../config");
 const userNuxtConfig = require("../../src/renderer/nuxt.config");
 
 const baseConfig = {
@@ -16,7 +15,6 @@ const baseConfig = {
     router: {
         mode: "hash"
     },
-    dev: isDev,
     generate: {
         dir: path.join(DIST_DIR, "renderer")
     }
@@ -46,12 +44,9 @@ const baseExtend = (config, { isClient }) => {
 
     config.module = config.module || {};
     config.module.rules = config.module.rules || [];
-
-    if (DISABLE_BABEL_LOADER) {
-        // https://github.com/nuxt/typescript/blob/master/packages/typescript-build/src/index.ts#L55
-        const jsLoader = config.module.rules.find(el => el.test.test("sample.js") === true);
-        if (jsLoader) jsLoader.use = [path.join(__dirname, "do-nothing-loader.js")];
-    }
+    
+    config.resolve.alias.vue = "vue/dist/vue.common";
+    console.log(config.resolve.alias.vue);
 };
 
 const mergeConfig = customConfig => {

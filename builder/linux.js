@@ -1,4 +1,6 @@
 /* eslint-disable no-undef */
+const path = require("path");
+
 const BuildTarget = require("./target");
 
 class LinuxTarget extends BuildTarget {

@@ -70,7 +70,10 @@ class VKGramWindow {
             return { action: "deny" };
         });
 
-        this.window.webContents.openDevTools();
+        if (common.isDev) {
+            this.window.webContents.openDevTools();
+        }
+
         this.window.show();
 
         await common.windows.load(this.window, "normal");

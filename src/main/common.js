@@ -7,7 +7,7 @@ import { app } from "electron";
 import storage from "./storage";
 import WindowsLogic from "./windows/logic";
 
-app.getVersion = () => "1.0.0";
+app.getVersion = () => "0.0.1";
 
 const isWindows11 = process.platform === "win32" 
     && os.release().substring(0, 6) === "10.0.2";
@@ -27,7 +27,7 @@ const webPreferences = {
 
 const getIcon = file => {
     return process.platform === "win32"
-        ? path.normalize(`build/icons/win/${file}.ico`)
+        ? path.normalize(`build/icons/win32/${file}.ico`)
         : path.resolve(__dirname, `../../../../build/icons/linux/${file}.png`);
 };
 

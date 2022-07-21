@@ -32,8 +32,8 @@ const files = [
 
 const extraResources = [
     {
-        from: "./build/icons",
-        to: "../build/icons"
+        from: `./build/icons/${process.platform}`,
+        to: `../build/icons/${process.platform}`
     }
 ];
 

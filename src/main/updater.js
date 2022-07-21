@@ -17,9 +17,7 @@ class Updater {
         autoUpdater.currentVersion = app.getVersion();
         autoUpdater.autoDownload = false;
         autoUpdater.autoInstallOnAppQuit = false;
-        autoUpdater.on("error", e => {
-            console.error(e);
-        });
+        autoUpdater.on("error", () => ({}));
 
         autoUpdater.setFeedURL({
             provider: "github",
