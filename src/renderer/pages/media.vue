@@ -21,21 +21,14 @@
             />
 
             <ContextMenu v-if="menu.show" :menu="menu" />
-
-            <div id="media-page-item-buttons">
-                <MediaPageButton 
-                    v-for="button of buttons"
-                    :key="button.id"
-                    :icon="button.icon"
-                    :tooltip="button.tooltip"
-                    @click.native="button.action"
-                />
-            </div>
         </div>
+
+        <MediaPageNavigation />
+        <MediaPageBottom />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer } from "electron";
 
 import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
@@ -43,8 +36,9 @@ import MenuMixin from "~/mixins/menu";
 
 export default {
     components: {
-        MediaPageStory: () => import("~/components/Media/Story"),
-        MediaPageButton: () => import("~/components/Media/Button")
+        MediaPageStory: () => import("~/components/Media/Story.vue"),
+        MediaPageNavigation: () => import("~/components/Media/Navigation.vue"),
+        MediaPageBottom: () => import("~/components/Media/Bottom.vue")
     },
 
     mixins: [GalleryMixin, MenuMixin],
@@ -55,38 +49,36 @@ export default {
         media: {
             data: [],
             index: -1
-        },
-
-        buttons: []
+        }
     }),
 
     computed: {
         item() {
             return this.media.data[this.media.index];
+        },
+
+        currentText() {
+            return `${this.media.index + 1} / ${this.media.data.length}`;
         }
     },
 
     async created() {
-        this.buttons = [{
-            id: "share",
-            icon: () => import("~icons/reply.svg"),
-            tooltip: this.$strings.TOOLTIP.SHARE,
-            action: this.share
-        }];
-
         this.media = await ipcRenderer.invoke("requestMedia");
     },
 
     mounted() {
         ipcRenderer.on("changeMedia", (_, index) => {
-            index = Math.max(this.media.index + index, 0);
-            index = Math.min(index, this.media.data.length - 1);
-            this.media.index = index;
-            return true;
+            return this.changeMedia(index);
         });
     },
 
     methods: {
+        changeMedia(index) {
+            index = Math.max(this.media.index + index, 0);
+            index = Math.min(index, this.media.data.length - 1);
+            this.media.index = index;
+        },
+
         setMenuItems() {
             this.menu.items = [{
                 id: "share",
@@ -169,13 +161,6 @@ export default {
                 width: auto;
                 max-height: 80vh;
             }
-        }
-
-        &-buttons {
-            display: flex;
-            align-items: center;
-            align-self: flex-end;
-            column-gap: 10px;
         }
     }
 }
