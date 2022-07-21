@@ -1,3 +1,4 @@
+import path from "path";
 import { app, dialog } from "electron";
 
 import MediaWindow from "../media";
@@ -66,8 +67,12 @@ class IPC {
             else if (count === 0) count = "default";
 
             const icon = common.getIcon(`amadeus-${count}`);
-            this.window.setIcon(icon);
             this.window.tray.setIcon(icon);
+
+            if (common.isWindows) {
+                const overlayIcon = path.normalize(`build/icons/win32/overlay/overlay-${count}.png`);
+                this.window.setOverlayIcon(overlayIcon, "test");
+            }
         };
 
         this.events.registerUpdater = () => {
