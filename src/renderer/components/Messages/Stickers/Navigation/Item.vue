@@ -32,7 +32,7 @@ export default {
     computed: {
         itemClass() {
             return {
-                active: this.collection.id === this.$parent.$parent.currentCollectionIndex
+                active: this.collection.id === this.$parent.$parent.currentCollection.id
             };
         }
     }

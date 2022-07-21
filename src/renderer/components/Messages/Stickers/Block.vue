@@ -1,19 +1,23 @@
 <template>
     <div id="stickers-block">
-        <EmojiPicker v-if="currentCollectionIndex === -2" />
-        <StickersCollection v-else @send="send($event)" />
+        <EmojiPicker v-if="currentCollection.id === -2" />
+        <StickersCollection 
+            v-else 
+            :collection="currentCollection" 
+            @send="send($event)" 
+        />
 
         <StickersNavigation />
     </div>
 </template>
 
 <script lang="ts">
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
-import StickersMixin from "./Stickers";
 import CoreMixin from "~/mixins/core";
 
 import Sticker from "~/instances/Messages/Attachments/Sticker";
+import StickersCollection from "~/instances/Messages/StickersCollection";
 
 export default {
     components: {
@@ -22,14 +26,24 @@ export default {
         StickersNavigation: () => import("./Navigation.vue")
     },
 
-    mixins: [CoreMixin, StickersMixin],
+    mixins: [CoreMixin],
 
     data: () => ({
-        currentCollectionIndex: 0 as number
+        currentCollection: { 
+            id: -2 
+        } as StickersCollection
     }),
 
+    computed: {
+        ...mapState({
+            collections: (state: any) => state.vk.messages.stickers.collections,
+            favorite: (state: any) => state.vk.messages.stickers.favorite,
+            emoji: (state: any) => state.vk.messages.stickers.emoji
+        })
+    },
+
     created() {
-        this.currentCollectionIndex = "stickers" in this.favorite ? -1 : -2;
+        this.changeCollection(this.emoji);
     },
 
     methods: {
@@ -42,8 +56,8 @@ export default {
             this.sendSticker(sticker);
         },
         
-        changeCollection(index: number) {
-            this.currentCollectionIndex = index;
+        changeCollection(collection: StickersCollection) {
+            this.currentCollection = collection;
         }
     }
 };

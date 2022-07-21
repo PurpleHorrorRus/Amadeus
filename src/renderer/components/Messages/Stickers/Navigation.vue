@@ -1,29 +1,27 @@
 <template>
     <div id="stickers-block-navigation" ref="navigation" @mousewheel="scroll" @click.stop>
         <NavigationItem
-            :collection="favorite"
+            :collection="$parent.favorite"
             :icon="StarIcon"
-            @click.stop.native="$parent.changeCollection(favorite.id)"
+            @click.stop.native="$parent.changeCollection($parent.favorite)"
         />
 
         <NavigationItem
-            :collection="emoji"
+            :collection="$parent.emoji"
             :icon="EmojiIcon"
-            @click.stop.native="$parent.changeCollection(emoji.id)"
+            @click.stop.native="$parent.changeCollection($parent.emoji)"
         />
 
         <NavigationItem
-            v-for="(collection, index) of collections"
+            v-for="collection of $parent.collections"
             :key="collection.id"
             :collection="collection"
-            @click.stop.native="$parent.changeCollection(index)"
+            @click.stop.native="$parent.changeCollection(collection)"
         />
     </div>
 </template>
 
 <script lang="ts">
-import StickersMixin from "./Stickers";
-
 import StarIcon from "~icons/star.svg";
 import EmojiIcon from "~icons/emoji.svg";
 
@@ -31,8 +29,6 @@ export default {
     components: {
         NavigationItem: () => import("./Navigation/Item.vue")
     },
-
-    mixins: [StickersMixin],
 
     data: () => ({
         StarIcon,

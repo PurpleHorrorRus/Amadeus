@@ -2,12 +2,13 @@
     <div id="stickers-block-collection" @click.stop>
         <span 
             id="stickers-block-collection-title" 
-            v-text="currentCollection.title" 
+            class="small-text"
+            v-text="collection.title" 
         />
 
         <div id="stickers-block-collection-list">
             <Sticker 
-                v-for="sticker of currentCollection.stickers"
+                v-for="sticker of collection.stickers"
                 :key="sticker.id"
                 :sticker="sticker"
                 @click.native="$emit('send', sticker)"
@@ -17,20 +18,15 @@
 </template>
 
 <script lang="ts">
-import StickersMixin from "./Stickers";
-
 export default {
     components: {
         Sticker: () => import("./Collection/Sticker.vue")
     },
 
-    mixins: [StickersMixin],
-
-    computed: {
-        currentCollection() {
-            return this.$parent.currentCollectionIndex !== -1
-                ? this.collections[this.$parent.currentCollectionIndex]
-                : this.favorite;
+    props: {
+        collection: {
+            type: Object,
+            required: true
         }
     }
 };

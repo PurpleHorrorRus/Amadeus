@@ -23,10 +23,13 @@ export default {
         
         favorite: {},
         
-        emoji: {
+        emoji: new StickersCollection({
             id: -2,
-            title: "Эмодзи"
-        },
+            title: "",
+            preview: "",
+            purchase_date: 0,
+            stickers: []
+        }),
 
         collections: [],
         words: {}
