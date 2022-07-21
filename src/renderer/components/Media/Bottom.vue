@@ -17,7 +17,7 @@
 <script lang="ts">
 export default {
     components: {
-        MediaPageButton: () => import("~/components/Media/Button")
+        MediaPageButton: () => import("./Button.vue")
     },
 
     data: () => ({
