@@ -123,6 +123,8 @@ export default {
         display: flex;
         flex-direction: row;
         column-gap: 20px;
+        row-gap: 5px;
+        flex-wrap: wrap;
 
         *:hover {
             cursor: pointer;
