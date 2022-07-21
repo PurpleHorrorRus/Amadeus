@@ -142,7 +142,7 @@ const config = {
     vk: dataNested(paths.vk, clear.vk),
     settings: dataNested(paths.settings, clear.settings),
     paths,
-    background: fs.readFileSync(paths.background, "utf-8")
+    background: fs.readFileSync(paths.background, "base64url")
 };
 
 export default {

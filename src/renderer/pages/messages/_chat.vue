@@ -105,11 +105,7 @@ export default {
                 backgroundSize: `${background.width * background.zoom}vw ${background.height * background.zoom}vh`,
                 backgroundPositionX: -background.x + "vw",
                 backgroundPositionY: background.y + "vh",
-
-                backgroundImage: this.background 
-                    // eslint-disable-next-line max-len
-                    ? `url("${this.background}")`
-                    : "var(--primary)"
+                backgroundImage: this.background
             };
         },
 

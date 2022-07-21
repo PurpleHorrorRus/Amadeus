@@ -15,18 +15,19 @@ export default {
 
     created() {
         ipcRenderer.once("normal", async () => {
-            const { config, paths } = await ipcRenderer.invoke("config");
+            const data = await ipcRenderer.invoke("config");
 
-            if (!~config.vk.active || config.vk.accounts.length === 0) {
+            if (!~data.config.vk.active || data.config.vk.accounts.length === 0) {
                 this.$router.replace("/login").catch(() => {});
                 ipcRenderer.send("dom-ready");
                 return false;
             }
 
-            const account = config.vk.accounts[config.vk.active];
-            await this.setConfig(config);
-            await this.setPaths(paths);
+            await this.setConfig(data);
+
+            const account = data.config.vk.accounts[data.config.vk.active];
             await this.auth(account);
+
             this.ipc();
             this.registerUpdater();
 
@@ -45,7 +46,6 @@ export default {
     methods: {
         ...mapActions({
             setConfig: "SET_CONFIG",
-            setPaths: "SET_PATHS",
 
             auth: "vk/AUTH",
             ipc: "ipc/REGISTER"

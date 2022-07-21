@@ -100,13 +100,15 @@ export default {
         },
 
         themeNames() {
-            return this.themes.map(theme => theme.name);
+            return this.themes.map(theme => {
+                return theme.name;
+            });
         },
 
         choosedThemeIndex() {
-            return this.themes
-                .map(theme => theme.id)
-                .indexOf(this.settings.appearance.theme);
+            return this.themes.findIndex(theme => {
+                return theme.id === this.settings.appearance.theme;
+            });
         }
     },
 
@@ -115,15 +117,13 @@ export default {
             this.deepChange(this.settings.appearance.messages.background, "url", path);
 
             if (!path) {
+                this.setBackground(false);
                 fs.writeFileSync(this.paths.background, "");
-                this.setBackground("");
                 return false;
             }
 
-            const base64 = "data:image/png;base64," + fs.readFileSync(path, "base64");
-            fs.writeFileSync(this.paths.background, base64);
-            this.setBackground(base64);
-
+            fs.copySync(path, this.paths.background);
+            this.setBackground(true);
             return true;
         },
 

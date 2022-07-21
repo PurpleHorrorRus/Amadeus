@@ -1,3 +1,5 @@
+import fs from "fs";
+
 import { Store } from "vuex";
 
 import vk from "~/store/modules/vk";
@@ -17,32 +19,35 @@ export default () => {
             config: {},
             paths: {},
 
-            background: ""
+            background: "var(--primary)"
         }),
 
         actions: {
-            SET_CONFIG: async ({ dispatch, state }, config) => {
-                state.background = config.background;
-                delete config.background;
+            SET_CONFIG: async ({ dispatch, state }, data) => {
+                state.config = data.config;
+                state.paths = data.paths;
 
-                state.config = config;
-                await dispatch("settings/SET", config.settings);
+                // state.background = data.background;
+                await dispatch("SET_BACKGROUND", state.background.length > 0);
+            
+                await dispatch("settings/SET", data.config.settings);
                 return state.config;
-            },
-
-            SET_PATHS: ({ state }, paths) => {
-                state.paths = paths;
-                return state.paths;
             },
 
             SET_VIEW: ({ state }, view) => {
                 state.extendedView = view;
                 return state.extendedView;
             },
-            
-            SET_BACKGROUND: ({ state }, background) => {
-                state.background = background;
-                return state.config;
+
+            SET_BACKGROUND: ({ state }, setBackground: boolean) => {
+                if (setBackground) {
+                    const base64 = "data:image/png;base64," + fs.readFileSync(state.paths.background, "base64");
+                    state.background = `url("${base64}")`;
+                    return base64;
+                }
+
+                state.background = "var(--primary)";
+                return false;
             }
         },
 
