@@ -61,7 +61,7 @@ export default {
                 sizes: [{
                     width: 1,
                     height: 1,
-                    url: "data:image/png;base64," + fs.readFileSync(file, "base64")
+                    url: file
                 }]
             }, {
                 path: file,
