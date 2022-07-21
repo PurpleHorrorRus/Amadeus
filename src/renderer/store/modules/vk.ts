@@ -170,15 +170,15 @@ export default {
             switch (message.action.type) {
                 case "chat_photo_update": {
                     return [
-                        `${user.first_name} ${user.last_name}`,
-                        "обновил фотографию беседы"
+                        user.name,
+                        global.$nuxt.$strings.CHAT.ACTIONS.UPDATE_PHOTO
                     ];
                 }
 
                 case "chat_photo_remove": {
                     return [
-                        `${user.first_name} ${user.last_name}`,
-                        "удалил фотографию беседы"
+                        user.name,
+                        global.$nuxt.$strings.CHAT.ACTIONS.REMOVE_PHOTO
                     ];
                 }
 
@@ -187,19 +187,27 @@ export default {
 
                     let actionText = "(not set)";
                     switch (message.action.type) {
-                        case "chat_invite_user": actionText = "добавил в беседу"; break;
-                        case "chat_kick_user": actionText = "исключил из беседы"; break;
+                        case "chat_invite_user": actionText = global.$nuxt.$strings.CHAT.ACTIONS.ADD_USER; break;
+                        case "chat_kick_user": actionText = global.$nuxt.$strings.CHAT.ACTIONS.KICK_USER; break;
                     }
 
                     return [
-                        `${user.first_name} ${user.last_name}`,
+                        user.name,
                         actionText,
-                        newUser.profile.name
+                        newUser.name
+                    ];
+                }
+                    
+                case "chat_title_update": {
+                    return [
+                        user.name,
+                        global.$nuxt.$strings.CHAT.ACTIONS.RENAME,
+                        `"${message.action.text}"`
                     ];
                 }
             }
 
-            return [`${user.first_name} ${user.last_name}`];
+            return [user.name];
         },
 
         VOTE: async ({ state }, data) => {

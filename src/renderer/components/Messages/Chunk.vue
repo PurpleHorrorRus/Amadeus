@@ -13,9 +13,9 @@
     </div>
 </template>
 
-<script>
-import Message from "~/components/Messages/Message";
-import System from "~/components/Messages/System";
+<script lang="ts">
+import Message from "~/components/Messages/Message.vue";
+import System from "~/components/Messages/System.vue";
 
 export default {
     props: {
