@@ -1,6 +1,8 @@
 <template>
     <div id="stickers-block">
-        <StickersCollection @send="send($event)" />
+        <EmojiPicker v-if="currentCollectionIndex === -2" />
+        <StickersCollection v-else @send="send($event)" />
+
         <StickersNavigation />
     </div>
 </template>
@@ -15,6 +17,7 @@ import Sticker from "~/instances/Messages/Attachments/Sticker";
 
 export default {
     components: {
+        EmojiPicker: () => import("./EmojiPicker.vue"),
         StickersCollection: () => import("./Collection.vue"),
         StickersNavigation: () => import("./Navigation.vue")
     },
@@ -26,7 +29,7 @@ export default {
     }),
 
     created() {
-        this.currentCollectionIndex = "stickers" in this.favorite ? -1 : 0;
+        this.currentCollectionIndex = "stickers" in this.favorite ? -1 : -2;
     },
 
     methods: {

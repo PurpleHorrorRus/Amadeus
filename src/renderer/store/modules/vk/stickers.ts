@@ -22,6 +22,12 @@ export default {
         stickersExist: false,
         
         favorite: {},
+        
+        emoji: {
+            id: -2,
+            title: "Эмодзи"
+        },
+
         collections: [],
         words: {}
     }),

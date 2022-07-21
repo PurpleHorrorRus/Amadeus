@@ -23,8 +23,14 @@ export default {
     }),
 
     actions: {
-        SET_MESSAGE: ({ state }, message: string) => { 
-            state.message = message;
+        SET_MESSAGE: ({ state }, text: string) => { 
+            state.message = text;
+            return state.message;
+        },
+
+        INSERT_MESSAGE: ({ state }, text) => { 
+            state.message += text;
+            return state.message;
         },
 
         SET_ATTACHMENTS: ({ state }, attachments: Attachment[]) => {

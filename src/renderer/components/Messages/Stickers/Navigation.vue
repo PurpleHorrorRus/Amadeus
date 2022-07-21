@@ -7,6 +7,12 @@
         />
 
         <NavigationItem
+            :collection="emoji"
+            :icon="EmojiIcon"
+            @click.stop.native="$parent.changeCollection(emoji.id)"
+        />
+
+        <NavigationItem
             v-for="(collection, index) of collections"
             :key="collection.id"
             :collection="collection"
@@ -19,6 +25,7 @@
 import StickersMixin from "./Stickers";
 
 import StarIcon from "~icons/star.svg";
+import EmojiIcon from "~icons/emoji.svg";
 
 export default {
     components: {
@@ -28,7 +35,8 @@ export default {
     mixins: [StickersMixin],
 
     data: () => ({
-        StarIcon
+        StarIcon,
+        EmojiIcon
     }),
 
     methods: {
