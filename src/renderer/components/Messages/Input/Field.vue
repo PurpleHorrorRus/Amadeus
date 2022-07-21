@@ -111,7 +111,10 @@ export default {
 
     mounted() {
         this.typingThrottle = lodash.throttle(() => {
-            this.sendTyping(this.current.id);
+            this.sendTyping({
+                id: this.current.id,
+                type: "typing"
+            });
         }, 6 * 1000);
 
         document.onpaste = event => this.onPaste(event);

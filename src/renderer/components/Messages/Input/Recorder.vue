@@ -84,7 +84,8 @@ export default {
     methods: {
         ...mapActions({
             uploadAudioMessage: "vk/uploader/UPLOAD_AUDIO_MESSAGE",
-            send: "vk/messages/SEND"
+            send: "vk/messages/SEND",
+            sendTyping: "vk/messages/SEND_TYPING"
         }),
 
         turnRecord() {
@@ -108,10 +109,16 @@ export default {
             this.interval = setInterval(() => {
                 this.duration++;
 
+                if (this.duration % 5 === 0) {
+                    this.sendRecording();
+                }
+
                 if (this.duration === limitation) {
                     this.stopRecord();
                 }
             }, 1000);
+
+            this.sendRecording();
         },
 
         async stopRecord() {
@@ -183,6 +190,13 @@ export default {
         reset() {
             this.interrupt = true;
             this.stopRecord();
+        },
+
+        sendRecording() {
+            this.sendTyping({
+                id: this.current.id,
+                type: "audiomessage"
+            });
         }
     }
 };

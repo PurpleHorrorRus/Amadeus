@@ -365,14 +365,14 @@ export default {
             });
         },
 
-        SEND_TYPING: async ({ rootState }, id) => {
+        SEND_TYPING: async ({ rootState }, { id, type }) => {
             if (rootState.settings.settings.vk.disable_write) {
                 return false;
             }
 
             return await rootState.vk.client.api.messages.setActivity({
                 peer_id: id,
-                type: "typing"
+                type
             });
         },
 
