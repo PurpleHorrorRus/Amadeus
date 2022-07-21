@@ -41,8 +41,6 @@ class ConversationChat extends Conversation {
     }
 
     triggerTyping(from_id: number): void {
-        console.log("trigger typing chat user", from_id);
-
         const chatUser: ChatUser = this.users.find(chatUser => {
             return chatUser.id === from_id;
         });

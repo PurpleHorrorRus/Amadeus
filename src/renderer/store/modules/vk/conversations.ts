@@ -256,7 +256,7 @@ export default {
 
         TRIGGER_TYPING: async ({ dispatch }, data) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.to_id);
-            return conversation?.triggerTyping();
+            return conversation?.triggerTyping(conversation.id);
         },
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
