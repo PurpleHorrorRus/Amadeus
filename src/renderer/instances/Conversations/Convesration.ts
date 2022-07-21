@@ -124,6 +124,11 @@ abstract class Conversation {
     get avatar(): string {
         return this.profile.photo_100 || "https://vk.com/images/camera_100.png";
     }
+
+    get isTyping(): boolean {
+        return (this.isUser || this.isGroup)
+            && this.typing.enable;
+    }
 }
 
 export default Conversation;

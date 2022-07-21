@@ -1,24 +1,30 @@
 <template>
     <div id="messages-header-main-profile-information">
-        <span 
+        <span
             id="messages-header-main-profile-information-name" 
             class="nowrap"
             v-text="conversation.name" 
         />
 
+        <ConversationTyping 
+            v-if="conversation.isTyping" 
+            :conversation="conversation" 
+        />
+
         <MessagesHeaderOnline 
-            v-if="showLastSeen" 
+            v-else-if="showLastSeen" 
             :conversation="conversation" 
         />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import ProfileMixin from "~/mixins/profile";
 
 export default {
     components: {
-        MessagesHeaderOnline: () => import("~/components/Messages/Header/Online")
+        ConversationTyping: () => import("~/components/Conversations/Conversation/Typing.vue"),
+        MessagesHeaderOnline: () => import("./Online.vue")
     },
 
     mixins: [ProfileMixin],

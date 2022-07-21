@@ -62,6 +62,10 @@ class ConversationChat extends Conversation {
             return user.typing.enable;
         });
     }
+
+    get isTyping(): boolean {
+        return this.writers.length > 0;    
+    }
 }
 
 export default ConversationChat;

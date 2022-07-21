@@ -4,7 +4,7 @@
 
         <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">
             <span class="conversation-message-name nowrap" v-text="conversation.name" />
-            <ConversationMessage v-if="!isTyping" :message="conversation.message" />
+            <ConversationMessage v-if="!conversation.isTyping" :message="conversation.message" />
             <ConversationTyping v-else :conversation="conversation" />
         </div>
     
@@ -51,14 +51,6 @@ export default {
                 active: this.current?.id === this.conversation.id,
                 minimized: this.settings.appearance.minimized && this.extended
             };
-        },
-
-        isTyping() {
-            if (this.conversation.isUser || this.conversation.isGroup) {
-                return this.conversation.typing.enable;
-            }
-
-            return this.conversation.writers.length > 0;
         }
     }
 };
