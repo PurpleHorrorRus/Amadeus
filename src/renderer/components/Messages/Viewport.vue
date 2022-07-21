@@ -121,6 +121,7 @@ export default {
         });
 
         window.addEventListener("focus", this.readOnBottom);
+        this.readOnBottom();
     },
 
     beforeDestroy() {

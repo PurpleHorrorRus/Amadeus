@@ -49,12 +49,20 @@ class IPC {
         };
 
         this.events.openMedia = media => new MediaWindow().create(media, this.window);
-        this.events.minimize = () => this.window.minimize();
 
+        this.events.minimize = () => this.window.minimize();
         this.events.maximize = () => {
             return !this.window.isMaximized()
                 ? this.window.maximize()
                 : this.window.unmaximize(); 
+        };
+        this.events.buildNotificationIcon = count => {
+            if (count > 9) count = "9-plus";
+            else if (count === 0) count = "default";
+
+            const icon = common.getIcon(`amadeus-${count}`);
+            this.window.setIcon(icon);
+            this.window.tray.setIcon(icon);
         };
 
         this.events.registerUpdater = () => {

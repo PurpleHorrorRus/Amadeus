@@ -25,17 +25,16 @@ const webPreferences = {
     v8CacheOptions: "none"
 };
 
-const getBuildResourcePath = file => {
+const getIcon = file => {
     return process.platform === "win32"
-        ? path.normalize(`build/icons/${file}`)
-        : path.resolve(__dirname, `../../../../build/icons/${file}`);
+        ? path.normalize(`build/icons/win/${file}.ico`)
+        : path.resolve(__dirname, `../../../../build/icons/linux/${file}.png`);
 };
 
 export default {
-    icon: getBuildResourcePath("icon.ico"),
-    noCover: getBuildResourcePath("no-cover.png"),
+    icon: getIcon("amadeus-default"),
     isDev: process.env.NODE_ENV === "development",
-    getBuildResourcePath,
+    getIcon,
     webPreferences,
     storage,
     windows: new WindowsLogic(),

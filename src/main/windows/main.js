@@ -3,6 +3,7 @@ import { BrowserWindow, ipcMain, nativeTheme, shell } from "electron";
 
 import common from "../common";
 
+import AmadeusTray from "../tray";
 import MainWindowEvents from "./main/events";
 import IPC from "./main/ipc";
 
@@ -36,6 +37,9 @@ class VKGramWindow {
 
         this.window.events = new MainWindowEvents(this.window);
         this.window.ipc = new IPC(this.window);
+
+        this.window.tray = new AmadeusTray(this.window);
+        this.window.tray.build();
 
         this.window.on("resized", () => {
             const [width, height] = this.window.getSize();

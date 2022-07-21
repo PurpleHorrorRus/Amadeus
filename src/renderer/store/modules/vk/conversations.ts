@@ -38,6 +38,7 @@ export default {
                 conversation.message = await dispatch("FORMAT_MESSAGE", conversation.message);
             });
 
+            dispatch("UPDATE_ICON");
             return state.cache;
         },
 
@@ -229,7 +230,8 @@ export default {
             if (conversationIndex > 0) {
                 state.cache = common.arrayMove(state.cache, conversationIndex, 0);
             }
-
+            
+            dispatch("UPDATE_ICON");
             return conversation;
         },
 
@@ -240,7 +242,16 @@ export default {
                 ? conversation.readIn(data.payload.local_id)
                 : conversation.readOut(data.payload.local_id);
             
+            dispatch("UPDATE_ICON");
             return true;
+        },
+
+        UPDATE_ICON: ({ state }) => { 
+            const notificationsCount = state.cache.filter(conversation => {
+                return conversation.information.unread_count > 0;
+            }).length;
+            
+            return ipcRenderer.send("buildNotificationIcon", notificationsCount);
         },
 
         TRIGGER_TYPING: async ({ dispatch }, data) => {

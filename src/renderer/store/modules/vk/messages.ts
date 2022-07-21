@@ -360,7 +360,8 @@ export default {
             chat.conversation.readIn(message.id);
             return await rootState.vk.client.api.messages.markAsRead({
                 peer_id: message.peer_id,
-                start_message_id: message.id
+                message_ids: message.id,
+                mark_conversation_as_read: 1
             });
         },
 
