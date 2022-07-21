@@ -36,7 +36,7 @@ export default {
         },
 
         canReply() {
-            return this.current.information.can_write.allowed;
+            return !this.current.information.restricted;
         }
     }
 };

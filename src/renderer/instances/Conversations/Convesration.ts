@@ -22,6 +22,7 @@ abstract class Conversation {
     public pinned: boolean = false;
     public muted: boolean = false;
     public mention: boolean = false;
+    public restricted: boolean = false;
 
     public isUser: boolean = false;
     public isGroup: boolean = false;
@@ -41,6 +42,7 @@ abstract class Conversation {
         this.type = item.conversation.peer.type;
 
         this.pinned = item.conversation.sort_id.major_id !== 0;
+        this.restricted = !item.conversation.can_write.allowed;
         this.muted = item.muted;
         this.mention = mentionRegex.test(this.message.text);
 
@@ -109,6 +111,10 @@ abstract class Conversation {
 
     updateAvatar(avatar: string): void {
         this.profile.photo_100 = avatar;
+    }
+
+    restrict(restricted: boolean = true) {
+        this.restricted = restricted;
     }
     
     get name(): string { 

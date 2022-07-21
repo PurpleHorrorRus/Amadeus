@@ -86,7 +86,7 @@ export default {
             this.menu.items = [{
                 id: "reply",
                 label: "Ответить",
-                show: this.current.information.can_write.allowed,
+                show: !this.current.information.restricted,
                 function: () => this.action("reply", message)
             },
             

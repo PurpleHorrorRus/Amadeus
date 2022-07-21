@@ -253,14 +253,25 @@ export default {
             return conversation?.setOnline(data.isOnline, Number(data.isOnline && data.platform < 6));
         },
 
+        RESTRICT: async ({ dispatch }, id: number) => { 
+            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", id);
+            return conversation.restrict();
+        },
+
         ADD_USER: async ({ dispatch }, message) => {
             const conversation: Chat = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
             const user = await dispatch("vk/GET_PROFILE", message.action.member_id, { root: true });
             return conversation.addUser(user);
         },
 
-        REMOVE_USER: async ({ dispatch }, message) => {
+        REMOVE_USER: async ({ dispatch, rootState }, message) => {
             const conversation: Chat = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
+
+            // Эта часть делалась вслепую без возможности протестировать
+            if (message.action.member_id === rootState.vk.user.id) {
+                conversation.restrict();
+            }
+
             return conversation.removeUser(message.action.member_id);
         }
     }

@@ -232,9 +232,7 @@ export default {
 
             return await rootState.vk.client.api.messages.send(toSend)
                 .then(() => dispatch("SEND_OFFLINE"))
-                .catch(e => {
-                    console.warn(e);
-                });
+                .catch(error => dispatch("HANDLE_ERROR", { error, data }));
         },
 
         SEND_STICKER: async ({ dispatch, state }, sticker: Sticker) => { 
@@ -315,6 +313,14 @@ export default {
                 peer_id: data.message.peer_id,
                 ...data
             });
+        },
+
+        HANDLE_ERROR: ({ dispatch }, { error, data }) => { 
+            switch (error.code) {
+                case 7: { // Ban or other restrictions
+                    return dispatch("vk/conversations/RESTRICT", data.peer_id, { root: true });
+                }
+            }
         },
 
         UPLOAD: async ({ rootState }, attachments: Attachment[]) => {

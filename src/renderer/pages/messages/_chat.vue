@@ -111,7 +111,7 @@ export default {
 
         canWrite() {
             return !this.chat.search
-                && this.current?.information.can_write.allowed;
+                && !this.chat.conversation?.restricted;
         },
 
         showBlocked() {
