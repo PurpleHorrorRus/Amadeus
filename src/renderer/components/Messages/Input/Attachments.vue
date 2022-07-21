@@ -18,14 +18,21 @@
         <CompactAttachment 
             v-else-if="input.attachments[0].type === 'wall'"
             :message="input"
-            :text="'Запись со стены'"
+            :text="$strings.CHAT.ATTACHMENTS.WALL"
+            @click.native="removeAttachment(0)"
+        />
+
+        <CompactAttachment 
+            v-else-if="input.attachments[0].type === 'audio_playlist'"
+            :message="input"
+            :text="$strings.CHAT.ATTACHMENTS.AUDIO_PLAYLIST"
             @click.native="removeAttachment(0)"
         />
 
         <CompactAttachment 
             v-if="input.geo"
             :message="input"
-            :text="'Карта'"
+            :text="$strings.CHAT.ATTACHMENTS.MAP"
         />
         
         <AttachmentsDocs

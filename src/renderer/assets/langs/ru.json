@@ -116,6 +116,10 @@
         },
 
         "ATTACHMENTS": {
+            "WALL":"Запись со стены",
+            "AUDIO_PLAYLIST": "Плейлист",
+            "MAP": "Карта",
+
             "STORY_EXPIRED": "Срок публикации истёк",
 
             "POLL": {
