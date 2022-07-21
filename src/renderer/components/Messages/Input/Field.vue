@@ -175,9 +175,7 @@ export default {
             }
 
             const messages: Message[] = this.cache[this.current.id].messages;
-            for (let i = messages.length - 1; i > 0; i--) {
-                const message = messages[i];
-
+            for (const message of messages) {
                 if (this.dateDiff(message).hours() >= 24) {
                     return false;
                 }
