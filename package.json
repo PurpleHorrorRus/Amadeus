@@ -4,8 +4,14 @@
     "description": "Free, functional and open source VK Messenger",
     "main": "./dist/main/index.ts",
     "scripts": {
-        "dev": "node .electron-nuxt/dev.js",
-        "build": "node .electron-nuxt/build.js",
+        "dev": "cross-env NODE_ENV=development node .electron-nuxt/index.js",
+        "build": "cross-env NODE_ENV=production node .electron-nuxt/index.js",
+        "build:skip": "electron-builder --config builder.config.js",
+        "build:linux": "docker run --privileged --rm -v E:\\Projects\\Meridius:/usr/meridius -w /usr/meridius meridius-linux yarn build:skip",
+        "build:all": "yarn build && yarn build:linux",
+        "postinstall": "electron-builder install-app-deps",
+        "docker": "docker build -t amadeus-linux .",
+        "deps": "yarn && yarn postinstall && modclean -r",
         "lint": "eslint --ext .ts,.js,.vue ."
     },
     "keywords": [],
