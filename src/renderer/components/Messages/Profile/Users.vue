@@ -9,19 +9,22 @@
             
             <div id="profile-users-list-add">
                 <AddIcon class="icon amadeus clickable" @click="add" />
-                <span id="profile-users-list-add-label" v-text="'Добавить пользователя'" />
+                <span 
+                    id="profile-users-list-add-label" 
+                    v-text="$strings.CHAT.PROFILE.ADD_USER" 
+                />
             </div>
         </div>
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import ModalMixin from "~/mixins/modal";
 
 export default {
     components: {
-        ChatUser: () => import("~/components/Messages/Profile/Users/ChatUser"),
+        ChatUser: () => import("./Users/ChatUser.vue"),
         AddIcon: () => import("~icons/add.svg")
     },
 
@@ -44,7 +47,7 @@ export default {
         add() {
             this.open({
                 view: "choose-user",
-                title: "Выбрать пользователя",
+                title: this.$strings.MENU.CHOOSE_USER,
 
                 function: conversation => {
                     this.client.api.messages.addChatUser({

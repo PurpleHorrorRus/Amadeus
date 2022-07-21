@@ -1,16 +1,17 @@
 const root = "~plugins";
 const plugins = [
-    "globalComponents",
-    "directives",
-    "plyr",
-    "tooltip"
+    "globalComponents.js",
+    "i18n.ts",
+    "directives.js",
+    "plyr.js",
+    "tooltip.js"
 ];
 
 // eslint-disable-next-line no-undef
 module.exports = () => {
     return plugins.map(plugin => {
         return {
-            src: `${root}/${plugin}.js`,
+            src: `${root}/${plugin}`,
             mode: "client"
         };
     });

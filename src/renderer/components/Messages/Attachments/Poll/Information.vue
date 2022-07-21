@@ -3,7 +3,7 @@
         <span 
             v-if="poll.closed"
             class="attachments-item-poll-information-ended" 
-            v-text="'Голосованиез завершено'" 
+            v-text="$strings.CHAT.ATTACHMENTS.POLL.ENDED" 
         />
 
         <span 
@@ -15,13 +15,13 @@
             <span 
                 v-if="poll.anonymous"
                 class="attachments-item-poll-information-meta-anonymous" 
-                v-text="'Анонимное голосование'" 
+                v-text="$strings.CHAT.ATTACHMENTS.POLL.ANONYMOUS" 
             />
 
             <span 
                 v-if="poll.multiple"
                 class="attachments-item-poll-information-meta-multiple" 
-                v-text="'Множественный выбор'" 
+                v-text="$strings.CHAT.ATTACHMENTS.POLL.MANY" 
             />
         </div>
     </div>

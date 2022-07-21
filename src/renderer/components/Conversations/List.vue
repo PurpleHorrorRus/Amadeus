@@ -78,8 +78,8 @@ export default {
 
         muteLabel() {
             return this.menu.target?.muted
-                ? "Включить уведомления" 
-                : "Отключить уведомления";
+                ? this.$strings.MENU.CONVERSATIONS.UNMUTE
+                : this.$strings.MENU.CONVERSATIONS.MUTE;
         }
     },
 
@@ -109,7 +109,7 @@ export default {
         setMenuItems() {
             this.menu.items = [{
                 id: "read",
-                label: "Прочитать",
+                label: this.$strings.MENU.CONVERSATIONS.READ,
                 show: this.menu.target.information.unread_count > 0,
                 function: () => this.readConversation(this.menu.target)
             },
@@ -122,7 +122,7 @@ export default {
         
             {
                 id: "delete",
-                label: "Удалить чат",
+                label: this.$strings.MENU.CONVERSATIONS.DELETE,
                 function: () => this.openDeleteConfirmation(this.menu.target)
             }];
         }

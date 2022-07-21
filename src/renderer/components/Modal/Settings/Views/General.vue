@@ -1,19 +1,21 @@
 <template>
     <div id="settings-view-general" class="settings-view">
+        <span class="modal-view-title" v-text="$strings.SETTINGS.GENERAL.TITLE" />
+
         <ToggleButton 
-            text="Не прочитывать сообщения при открытии чата" 
+            :text="$strings.SETTINGS.GENERAL.DONT_READ" 
             :value="settings.vk.disable_read"
             @change="deepChange(settings.vk, 'disable_read')"
         />
 
         <ToggleButton 
-            text="Не отправлять статус о наборе текста в чат" 
+            :text="$strings.SETTINGS.GENERAL.DONT_WRITE" 
             :value="settings.vk.disable_write"
             @change="deepChange(settings.vk, 'disable_write')"
         />
 
         <ToggleButton 
-            text="Отправлять статус offline после отправки сообщения" 
+            :text="$strings.SETTINGS.GENERAL.SEND_OFFLINE" 
             :value="settings.vk.send_offline"
             @change="deepChange(settings.vk, 'send_offline')"
         />
@@ -21,14 +23,14 @@
         <Dropdown 
             :options="getDeviceNames(inputDevices)"
             :selected="selectedInputDevice"
-            text="Устройство записи"
+            :text="$strings.SETTINGS.GENERAL.INPUT_DEVICE"
             @change="changeDevice('inputDevice', inputDevices, $event)"
         />
 
         <Dropdown 
             :options="getDeviceNames(outputDevices)"
             :selected="selectedOutputDevice"
-            text="Устройство вывода"
+            :text="$strings.SETTINGS.GENERAL.OUTPUT_DEVICE"
             @change="changeDevice('outputDevice', outputDevices, $event)"
         />
     </div>

@@ -1,6 +1,9 @@
 <template>
     <div id="message-input-blocked">
-        <span id="message-input-blocked-label" v-text="'Отправка сообщений заблокирована'" />
+        <span 
+            id="message-input-blocked-label" 
+            v-text="$strings.CHAT.BLOCKED" 
+        />
     </div>
 </template>
 

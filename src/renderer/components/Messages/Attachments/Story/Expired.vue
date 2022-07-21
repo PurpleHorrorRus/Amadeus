@@ -3,12 +3,12 @@
         <BlockIcon class="icon" />
         <span 
             class="attachmnets-item-story-preview-expired-label small-text" 
-            v-text="'Срок публикации истёк'" 
+            v-text="$strings.CHAT.ATTACHMENTS.STORY_EXPIRED" 
         />
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
         BlockIcon: () => import("~icons/block.svg")

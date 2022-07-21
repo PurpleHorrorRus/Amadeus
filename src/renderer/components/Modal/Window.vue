@@ -59,8 +59,9 @@ export default {
             row-gap: 5px;
 
             &-title {
-                margin: 5px;
+                padding: 5px;
 
+                border-bottom: 1px solid var(--border);
                 font-size: 14px;
             }
         }

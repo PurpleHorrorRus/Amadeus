@@ -1,6 +1,6 @@
 <template>
     <div id="general-page" class="page">
-        <span id="general-page-label" v-text="'Выберите диалог'" />
+        <span id="general-page-label" v-text="$strings.CHOOSE_DIALOG" />
     </div>
 </template>
 

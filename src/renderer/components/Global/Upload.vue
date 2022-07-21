@@ -50,8 +50,8 @@ export default {
 
         text() {
             return !this.uploading
-                ? "Выберите или перетащите файл для загрузки"
-                : "Загрузка вложений...";
+                ? this.$strings.UPLOADER.DRAG
+                : this.$strings.UPLOADER.UPLOADING;
         }
     },
 

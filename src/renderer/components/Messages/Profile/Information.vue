@@ -96,7 +96,7 @@ export default {
 
         removeAvatar() {
             this.confirmation({
-                text: "Удалить фотографию чата?",
+                text: this.$strings.MENU.CONFIRMATION.DELETE_PHOTO,
                 accept: () => this.client.api.messages.deleteChatPhoto({
                     chat_id: this.current.local_id
                 })

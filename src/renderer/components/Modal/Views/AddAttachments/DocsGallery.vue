@@ -2,7 +2,7 @@
     <div id="docs-gallery">
         <div id="docs-gallery-search">
             <SingleInput 
-                placeholder="Поиск документов" 
+                :placeholder="$strings.CHAT.ADD_ATTACHMENT.SEARCH.DOCS" 
                 @input="search.query = $event"
             />
         </div>

@@ -8,13 +8,13 @@
 
         <SingleInput 
             id="video-gallery-search" 
-            placeholder="Поиск видеозаписей" 
+            :placeholder="$strings.CHAT.ADD_ATTACHMENT.SEARCH.VIDEO" 
             @input="search.query = $event"
         />
 
         <ToggleButton 
             v-if="search.query.length > 0"
-            text="Безопасный поиск" 
+            :text="$strings.CHAT.ADD_ATTACHMENT.VIDEO.SAFE" 
             :value="search.safe"
             @change="search.safe = !search.safe"
         />
@@ -25,7 +25,7 @@
                 id="video-gallery-search-results"
                 ref="search"
                 :items="search.items"
-                label="Результаты поиска"
+                :label="$strings.CHAT.ADD_ATTACHMENT.VIDEO.RESULTS"
             />
 
             <VideoResults 
@@ -33,7 +33,7 @@
                 id="video-gallery-my"
                 ref="my"
                 :items="items"
-                label="Мои видеозаписи"
+                :label="$strings.CHAT.ADD_ATTACHMENT.VIDEO.MY"
             />
         </div>
 

@@ -70,7 +70,7 @@ export default {
         this.buttons = [{
             id: "share",
             icon: () => import("~icons/reply.svg"),
-            tooltip: "Поделиться",
+            tooltip: this.$strings.TOOLTIP.SHARE,
             action: this.share
         }];
 
@@ -90,7 +90,8 @@ export default {
         setMenuItems() {
             this.menu.items = [{
                 id: "share",
-                label: "Поделиться",
+                label: this.$strings.MEDIA.SHARE,
+
                 function: () => {
                     this.close();
                     this.share();
@@ -99,13 +100,13 @@ export default {
 
             {
                 id: "copy",
-                label: "Копировать ссылку",
+                label: this.$strings.MEDIA.COPY_LINK,
                 function: () => this.copy("src")
             },
 
             {
                 id: "copy",
-                label: "Копировать изображение",
+                label: this.$strings.MEDIA.COPY_IMAGE,
                 function: () => this.copy("image")
             }];
         },

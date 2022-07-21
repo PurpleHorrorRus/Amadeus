@@ -13,8 +13,6 @@
 <script>
 import DateMixin from "~/mixins/date";
 
-import common from "~/plugins/common";
-
 export default {
     components: {
         PhoneIcon: () => import("~icons/phone.svg")
@@ -69,42 +67,23 @@ export default {
     methods: {
         updateLastSeen() {
             if (this.conversation.isChat) {
-                this.lastSeenText = `${this.conversation.users.length} участников`;
-                return false;
+                // eslint-disable-next-line max-len
+                this.lastSeenText = this.$i18n(this.$strings.CHAT.STATUS.MEMBERS, "count", this.conversation.users.length);
+            } else if (!this.conversation.profile.last_seen) {
+                this.lastSeenText = this.$strings.CHAT.STATUS.UNDEFINED;
+                return;
+            } else if (this.conversation.profile.online) {
+                this.lastSeenText = this.$strings.CHAT.STATUS.ONLINE;
+                return;
+            } else {
+                this.lastSeenText = this.$i18n(
+                    this.$strings.CHAT.STATUS.RELATIVE, 
+                    "relativeDate", 
+                    this.relativeDate(this.conversation.profile.last_seen.time)
+                );
             }
 
-            if (!this.conversation.profile.last_seen) {
-                this.lastSeenText = "был в сети давно";
-                return false;
-            }
-
-            if (this.conversation.profile.online) {
-                this.lastSeenText = "онлайн";
-                return true;
-            }
-
-            const date = new Date(this.conversation.profile.last_seen.time * 1000);
-            const diff = this.dateDiff({ date: this.conversation.profile.last_seen.time });
-
-            if (Math.floor(diff.years()) > 0) {
-                this.lastSeenText = `был в сети ${common.formatTimeToDayAndMonth(date)} ${date.getFullYear()} г.`;
-                return true;
-            }
-
-            switch (Math.round(diff.days())) {
-                case 0: {
-                    this.lastSeenText = `был в сети в ${common.timestampFormat(date)}`;
-                    return true;
-                }
-
-                case 1: {
-                    this.lastSeenText = `был в сети вчера в ${common.timestampFormat(date)}`;
-                    return true;
-                }
-            }
-
-            this.lastSeenText = `был в сети ${common.formatTimeToDayAndMonth(date)} ${common.timestampFormat(date)}`;
-            return true;
+            return this.lastSeenText;
         }
     }
 };

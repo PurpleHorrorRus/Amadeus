@@ -85,14 +85,14 @@ export default {
 
             this.menu.items = [{
                 id: "reply",
-                label: "Ответить",
+                label: this.$strings.MENU.MESSAGE.REPLY,
                 show: !this.current.information.restricted,
                 function: () => this.action("reply", message)
             },
             
             {
                 id: "edit",
-                label: "Редактировать",
+                label: this.$strings.MENU.MESSAGE.EDIT,
                 show: this.menu.target
                     && hours < 24
                     && !this.checkBlockedAttachments(this.menu.target),
@@ -102,13 +102,13 @@ export default {
             
             {
                 id: "delete",
-                label: "Удалить",
+                label: this.$strings.MENU.MESSAGE.DELETE,
                 function: () => this.action("delete", message)
             },
             
             {
                 id: "delete-for-all",
-                label: "Удалить для всех",
+                label: this.$strings.MENU.MESSAGE.DELETE_FOR_ALL,
                 show: message.out
                     && hours < 24
                     && this.current.id !== this.user.id,

@@ -3,7 +3,7 @@
         <span 
             id="message-page-input-edit-label"
             class="small-text"
-            v-text="'Редактирование сообщения'" 
+            v-text="$strings.CHAT.EDITING" 
         />
 
         <XIcon class="icon clickable" @click="clearEdit" />

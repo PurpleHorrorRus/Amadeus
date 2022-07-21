@@ -2,13 +2,13 @@
     <div id="conversations-header-alerts">
         <AlertIcon 
             v-if="!$parent.settings.vk.disable_notifications"
-            v-tooltip.bottom="'Уведомления включены'"
+            v-tooltip.bottom="$strings.TOOLTIP.NOTIFICATIONS.ENABLED"
             class="icon amadeus clickable"
         />
 
         <AlertOffIcon 
             v-else
-            v-tooltip.bottom="'Уведомления отключены'"
+            v-tooltip.bottom="$strings.TOOLTIP.NOTIFICATIONS.DISABLED"
             class="icon amadeus clickable"
         />
     </div>

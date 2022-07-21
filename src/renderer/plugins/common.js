@@ -1,15 +1,7 @@
-const monthsShort = [
-    "января", "февраля", 
-    "марта", "апреля", "мая", 
-    "июня", "июля", "августа", 
-    "сентября", "октября", "ноября", 
-    "декабря"
-];
-
 class Common {
-    static formatTimeToDayAndMonth(time) {
+    static formatTimeToDayAndMonth(time, months) {
         const day = time.getDate();
-        const month = monthsShort[time.getMonth()];
+        const month = months[time.getMonth()];
         return `${day} ${month}`;
     }
 

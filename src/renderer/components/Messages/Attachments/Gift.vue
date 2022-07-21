@@ -1,7 +1,10 @@
 <template>
     <div class="attachments-item attachments-item-gift">
         <img :src="item.image" class="attachments-item-gift-image">
-        <span class="attachments-item-gift-label" v-text="'Подарок'" />
+        <span 
+            class="attachments-item-gift-label" 
+            v-text="$strings.CONVERSATIONS.ATTACHMENTS.GIFT" 
+        />
     </div>
 </template>
 

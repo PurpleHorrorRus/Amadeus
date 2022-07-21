@@ -24,20 +24,7 @@ export default {
     mixins: [ModalMixin],
 
     data: () => ({
-        categories: [{
-            id: "photos",
-            label: "Фотографии"
-        },
-        
-        {
-            id: "videos",
-            label: "Видеозаписи"
-        },
-        
-        {
-            id: "docs",
-            label: "Документы"
-        }],
+        categories: [],
 
         current: "photos" as string,
         selected: [] as Attachment[]
@@ -72,6 +59,21 @@ export default {
     },
 
     created() {
+        this.categories = [{
+            id: "photos",
+            label: this.$strings.CHAT.ADD_ATTACHMENT.CATEGORIES.PHOTO
+        },
+        
+        {
+            id: "videos",
+            label: this.$strings.CHAT.ADD_ATTACHMENT.CATEGORIES.VIDEO
+        },
+        
+        {
+            id: "docs",
+            label: this.$strings.CHAT.ADD_ATTACHMENT.CATEGORIES.DOCS
+        }];
+
         this.current = this.modal.target || "photos";
     },
 

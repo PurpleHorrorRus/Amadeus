@@ -8,7 +8,7 @@
 
         <StopIcon
             v-if="recording"
-            v-tooltip.top-start="'Прервать запись'"
+            v-tooltip.top-start="$strings.TOOLTIP.VOICE_MESSAGE.INTERRUPT"
             class="icon amadeus clickable"
             @click="reset"
         />
@@ -70,8 +70,8 @@ export default {
 
         recordText() {
             return !this.recording
-                ? "Записать голосовое сообщение"
-                : "Отправить голосовое сообщение";
+                ? this.$strings.TOOLTIP.VOICE_MESSAGE.RECORD
+                : this.$strings.TOOLTIP.VOICE_MESSAGE.SEND;
         }
     },
 

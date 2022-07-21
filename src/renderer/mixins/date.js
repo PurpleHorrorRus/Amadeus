@@ -10,21 +10,27 @@ export default {
 
             const yearsDiff = Math.floor(diff.years());
             if (yearsDiff > 0) {
-                return `${common.formatTimeToDayAndMonth(date)}, ${date.getFullYear()} г.`;
+                return this.$i18n(this.$strings.RELATIVE_DATE.YEARS, ["dateMonthDay", "dateYear"], [
+                    common.formatTimeToDayAndMonth(date, this.$strings.RELATIVE_DATE.MONTHS),
+                    date.getFullYear()
+                ]);
             }
 
-            const daysDiff = Math.round(diff.days());
+            const daysDiff = Math.floor(diff.days());
             switch (daysDiff) {
                 case 0: {
                     return common.timestampFormat(date);
                 }
 
                 case 1: {
-                    return `вчера, ${common.timestampFormat(date)}`;
+                    return this.$i18n(this.$strings.RELATIVE_DATE.YESTERDAY, "dateTime", common.timestampFormat(date));
                 }
             }
 
-            return `${common.formatTimeToDayAndMonth(date)}, ${common.timestampFormat(date)}`;
+            return this.$i18n(this.$strings.RELATIVE_DATE.DAYS, ["dateMonthDay", "dateTime"], [
+                common.formatTimeToDayAndMonth(date, this.$strings.RELATIVE_DATE.MONTHS),
+                common.timestampFormat(date)
+            ]);
         },
 
         dateDiff(message) {

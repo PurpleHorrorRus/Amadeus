@@ -3,19 +3,19 @@
         <div id="profile-information-actions-mute" @click="turnMute(conversation)">
             <AlertIcon 
                 v-if="!conversation.muted"
-                v-tooltip.left="'Уведомления включены'" 
+                v-tooltip.bottom="$strings.TOOLTIP.NOTIFICATIONS.ENABLED"
                 class="icon amadeus clickable"
             />
 
             <AlertOffIcon 
                 v-else
-                v-tooltip.left="'Уведомления включены'" 
+                v-tooltip.bottom="$strings.TOOLTIP.NOTIFICATIONS.DISABLED"
                 class="icon amadeus clickable"
             />
         </div>
 
         <TrashIcon 
-            v-tooltip.left="'Очистить историю'" 
+            v-tooltip.left="$strings.TOOLTIP.CLEAR_HISTORY" 
             class="icon amadeus clickable"
             @click="openDeleteConfirmation(conversation)"
         />
@@ -23,8 +23,6 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
 import CoreMixin from "~/mixins/core";
 import ProfileMixin from "~/mixins/profile";
 import ConversationsMixin from "~/mixins/conversations";

@@ -1,7 +1,7 @@
 <template>
     <div id="conversations-header">
         <SingleInput 
-            placeholder="Поиск" 
+            :placeholder="$strings.CONVERSATIONS.HEADER.SEARCH" 
             @input="query = $event" 
             @keydown.enter.native="search"
         />

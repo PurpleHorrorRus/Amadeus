@@ -1,7 +1,9 @@
 <template>
     <div id="settings-view-appearance" class="settings-view">
+        <span class="modal-view-title" v-text="$strings.SETTINGS.APPEARANCE.TITLE" />
+
         <FileChoosing
-            text="Фон сообщений"
+            :text="$strings.SETTINGS.APPEARANCE.BACKGROUND"
             :value="messagesBackground"
             :canClear="true"
             @choose="changeMessagesBackground"
@@ -13,19 +15,19 @@
             class="settings-view-category"
         >
             <RangeItem 
-                text="Ширина фона"
+                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_WIDTH"
                 :value="settings.appearance.messages.background.width"
                 @change="deepChange(settings.appearance.messages.background, 'width', $event)"
             />
 
             <RangeItem 
-                text="Высота фона"
+                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_HEIGHT"
                 :value="settings.appearance.messages.background.height"
                 @change="deepChange(settings.appearance.messages.background, 'height', $event)"
             />
 
             <RangeItem 
-                text="Приближение фона"
+                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_ZOOM"
                 :value="settings.appearance.messages.background.zoom"
                 :min="1"
                 :max="10"
@@ -33,7 +35,7 @@
             />
 
             <RangeItem 
-                text="Позиция фона по горизонтали"
+                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_X"
                 :value="settings.appearance.messages.background.x"
                 :max="100"
                 :min="-100"
@@ -41,7 +43,7 @@
             />
 
             <RangeItem 
-                text="Позиция фона по вертикали"
+                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_Y"
                 :value="settings.appearance.messages.background.y"
                 :max="100"
                 :min="-100"
@@ -51,21 +53,21 @@
 
         <div id="settings-view-appearance-colors" class="settings-view-category">
             <Dropdown 
-                text="Цветовая схема"
+                :text="$strings.SETTINGS.APPEARANCE.THEME"
                 :options="themeNames"
                 :selected="choosedThemeIndex"
                 @change="changeTheme"
             />
 
             <ColorPicker 
-                text="Цвет фона входящих сообщений"
+                :text="$strings.SETTINGS.APPEARANCE.THEME_MESSAGES.IN"
                 :variable="'message'"
                 :value="settings.appearance.colors.message"
                 @input="saveColor"
             />
 
             <ColorPicker 
-                text="Цвет фона исходящих сообщений"
+                :text="$strings.SETTINGS.APPEARANCE.THEME_MESSAGES.OUT"
                 :variable="'out'"
                 :value="settings.appearance.colors.out"
                 @input="saveColor"
@@ -73,7 +75,7 @@
         </div>
 
         <ToggleButton
-            text="Светлая тема для стикеров"
+            :text="$strings.SETTINGS.APPEARANCE.STICKERS"
             :value="settings.appearance.stickersTheme"
             @change="deepChange(settings.appearance, 'stickersTheme')"
         />

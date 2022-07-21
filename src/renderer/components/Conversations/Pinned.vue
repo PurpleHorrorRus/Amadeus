@@ -4,7 +4,7 @@
             v-if="!settings.appearance.minimized"
             id="conversations-list-pinned-label" 
             class="small-text"
-            v-text="'Закрепленные чаты'" 
+            v-text="$strings.CONVERSATIONS.PINNED" 
         />
 
         <Conversation

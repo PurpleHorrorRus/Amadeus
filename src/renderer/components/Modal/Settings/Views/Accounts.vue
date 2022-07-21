@@ -1,6 +1,6 @@
 <template>
     <div id="settings-view-accounts" class="settings-view">
-        <span class="modal-view-title" v-text="'Менеджер аккаунтов'" />
+        <span class="modal-view-title" v-text="$strings.SETTINGS.ACCOUNTS.TITLE" />
 
         <div v-if="loaded" id="modal-view-accounts-list">
             <AccountProfile
@@ -15,7 +15,7 @@
 
         <SolidButton 
             id="settings-view-accounts-add" 
-            label="Добавить аккаунт" 
+            :label="$strings.SETTINGS.ACCOUNTS.ADD" 
             @click.native="openLogin"
         />
     </div>
@@ -125,8 +125,11 @@ export default {
 
 <style lang="scss">
 #settings-view-accounts {
+    display: grid;
+    grid-template-rows: 30px 1fr 30px;
+
     &-add {
-        align-self: flex-end;
+        justify-self: flex-end;
     }
 }
 </style>

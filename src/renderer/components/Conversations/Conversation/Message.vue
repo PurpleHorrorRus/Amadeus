@@ -105,47 +105,47 @@ export default {
 
             const yearsDiff = Math.floor(diff.years());
             if (yearsDiff > 0) {
-                this.dateText = `${yearsDiff} г.`;
+                this.dateText = this.$i18n(this.$strings.CONVERSATIONS.DATE.YEARS, "years", yearsDiff);
                 return true;
             }
 
             const monthsDiff = Math.floor(diff.months());
             if (monthsDiff > 0) {
-                this.dateText = `${monthsDiff} мес.`;
+                this.dateText = this.$i18n(this.$strings.CONVERSATIONS.DATE.MONTHS, "months", monthsDiff);
                 return true;
             }
 
             const weeksDiff = Math.floor(diff.weeks());
             if (weeksDiff > 0) {
-                this.dateText = `${weeksDiff} нед.`;
+                this.dateText = this.$i18n(this.$strings.CONVERSATIONS.DATE.WEEKS, "weeks", weeksDiff);
                 return true;
             }
 
             const daysDiff = Math.floor(diff.days());
             if (daysDiff > 0) {
-                this.dateText = `${daysDiff} д.`;
+                this.dateText = this.$i18n(this.$strings.CONVERSATIONS.DATE.DAYS, "days", daysDiff);
                 return true;
             }
 
             const hoursDiff = Math.floor(diff.hours());
             if (hoursDiff > 0) {
-                this.dateText = `${hoursDiff} ч.`;
+                this.dateText = this.$i18n(this.$strings.CONVERSATIONS.DATE.HOURS, "hours", hoursDiff);
                 return true;
             }
 
             const minsDiff = Math.floor(diff.minutes());
             if (minsDiff > 0) {
-                this.dateText = `${minsDiff} мин.`;
+                this.dateText = this.$i18n(this.$strings.CONVERSATIONS.DATE.MINS, "mins", minsDiff);
                 return true;
             }
 
             const secondsDiff = Math.floor(diff.seconds());
             if (secondsDiff >= 5) {
-                this.dateText = `${secondsDiff} сек.`;
+                this.dateText = this.$i18n(this.$strings.CONVERSATIONS.DATE.SECS, "secs", secondsDiff);
                 return true;
             }
 
-            this.dateText = "сейчас";
+            this.dateText = this.$strings.CONVERSATIONS.DATE.NOW;
             return true;
         },
 

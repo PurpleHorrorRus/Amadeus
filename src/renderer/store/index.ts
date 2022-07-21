@@ -9,6 +9,7 @@ import input from "~/store/modules/input";
 import audio from "~/store/modules/audio";
 import audio_message from "~/store/modules/audio_message";
 import modal from "~/store/modules/modal";
+import i18n from "~/store/modules/i18n";
 import updater from "~/store/modules/updater";
 
 export default () => {
@@ -59,6 +60,7 @@ export default () => {
             audio,
             audio_message,
             modal,
+            i18n,
             updater
         }
     });

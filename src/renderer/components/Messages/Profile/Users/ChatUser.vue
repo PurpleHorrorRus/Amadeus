@@ -13,7 +13,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions } from "vuex";
 
 import CoreMixin from "~/mixins/core";
@@ -50,10 +50,12 @@ export default {
         setMenuItems(profile) {
             this.menu.items = [{
                 id: "kick",
-                label: "Исключить пользователя",
+                label: this.$strings.MENU.KICK_USER,
+
                 function: () => {
                     this.confirmation({
-                        text: `Исключить пользователя ${this.name(profile)} из беседы?`,
+                        text: this.$i18n(this.$strings.MENU.CONFIRMATION.KICK_USER, "name", profile.name),
+
                         accept: () => {
                             this.client.api.messages.removeChatUser({
                                 chat_id: this.$parent.conversation.local_id,

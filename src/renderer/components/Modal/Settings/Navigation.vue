@@ -17,26 +17,30 @@ export default {
     },
 
     data: () => ({
-        items: [
+        items: []
+    }),
+
+    created() {
+        this.items = [
             {
                 id: "general",
-                label: "Основные",
+                label: this.$strings.SETTINGS.NAVIGATION.GENERAL,
                 icon: () => import("~icons/settings.svg")
             },
 
             {
                 id: "appearance",
-                label: "Внешний вид",
+                label: this.$strings.SETTINGS.NAVIGATION.APPEARANCE,
                 icon: () => import("~icons/color.svg")
             },
 
             {
                 id: "accounts",
-                label: "Аккаунты",
+                label: this.$strings.SETTINGS.NAVIGATION.ACCOUNTS,
                 icon: () => import("~icons/person.svg")
             }
-        ]
-    })
+        ];
+    }
 };
 </script>
 

@@ -5,7 +5,7 @@
             ref="textarea"
             v-model="message" 
             v-autogrow
-            placeholder="Введите сообщение..."
+            :placeholder="$strings.CHAT.INPUT"
             :disabled="disabled"
             @keypress.enter="send"
             @keydown.up="hotkeyEdit"

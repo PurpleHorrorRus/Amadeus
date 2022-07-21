@@ -13,7 +13,7 @@ export default {
 
     layout: "empty",
 
-    created() {
+    async created() {
         ipcRenderer.once("normal", async () => {
             const data = await ipcRenderer.invoke("config");
 
@@ -40,12 +40,14 @@ export default {
             return true;
         });
 
+        await this.loadLanguage("ru");
         ipcRenderer.send("dom-ready");
     },
     
     methods: {
         ...mapActions({
             setConfig: "SET_CONFIG",
+            loadLanguage: "i18n/LOAD",
 
             auth: "vk/AUTH",
             ipc: "ipc/REGISTER"

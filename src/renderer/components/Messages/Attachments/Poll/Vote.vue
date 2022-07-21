@@ -3,7 +3,7 @@
         <span 
             v-if="showFirst"
             class="attachments-item-poll-answers-vote-first" 
-            v-text="'Проголосуйте первым!'" 
+            v-text="$strings.CHAT.ATTACHMENTS.POLL.FIRST" 
         />
 
         <SolidButton 

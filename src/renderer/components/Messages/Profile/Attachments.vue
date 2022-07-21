@@ -48,22 +48,7 @@ export default {
 
         type: {},
 
-        types: [
-            {
-                id: "photo",
-                title: "Изображения"
-            },
-
-            {
-                id: "video",
-                title: "Видеозаписи"
-            },
-
-            {
-                id: "doc",
-                title: "Документы"
-            }
-        ],
+        types: [],
 
         attachments: [],
         nextFrom: ""
@@ -81,6 +66,23 @@ export default {
     },
 
     created() {
+        this.types = [
+            {
+                id: "photo",
+                title: this.$strings.CHAT.PROFILE.ATTACHMENTS.IMAGES
+            },
+
+            {
+                id: "video",
+                title: this.$strings.CHAT.PROFILE.ATTACHMENTS.VIDEO
+            },
+
+            {
+                id: "doc",
+                title: this.$strings.CHAT.PROFILE.ATTACHMENTS.DOCS
+            }
+        ];
+
         this.update(0);
     },
 

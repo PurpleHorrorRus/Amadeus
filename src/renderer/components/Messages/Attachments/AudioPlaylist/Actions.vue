@@ -6,7 +6,7 @@
         />
 
         <SolidButton 
-            v-tooltip="'Скоро'" 
+            v-tooltip="$strings.TOOLTIP.SOON" 
             label="Открыть в Meridius"
             :disabled="true"
             @click.stop.native

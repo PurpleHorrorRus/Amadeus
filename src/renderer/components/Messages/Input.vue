@@ -131,21 +131,21 @@ export default {
         setMenuItems() {
             this.menu.items = [{
                 id: "photos",
-                label: "Фотографии",
+                label: this.$strings.CHAT.MENU.PHOTO,
                 function: () => this.openAdd("photos"),
                 icon: () => import("~icons/image.svg")
             },
             
             {
                 id: "videos",
-                label: "Видеозаписи",
+                label: this.$strings.CHAT.MENU.VIDEO,
                 function: () => this.openAdd("videos"),
                 icon: () => import("~icons/video.svg")
             },
             
             {
                 id: "docs",
-                label: "Документы",
+                label: this.$strings.CHAT.MENU.DOCS,
                 function: () => this.openAdd("docs"),
                 icon: () => import("~icons/document.svg")
             }];
@@ -154,7 +154,6 @@ export default {
         openAdd(id = "photos") {
             return this.open({
                 view: "add-attachments",
-                label: "Прикрепить вложения",
                 target: id,
                 function: () => {}
             });

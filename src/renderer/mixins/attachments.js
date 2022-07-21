@@ -1,50 +1,3 @@
-const labels = {
-    photo: {
-        single: "Изображение",
-        unset: "Изображения",
-        low: "{{ count }} изображения",
-        many: "{{ count }} изображений"
-    },
-    
-    video: {
-        single: "Видеозапись",
-        unset: "Видеозаписи",
-        low: "{{ count }} видеозаписи",
-        many: "{{ count }} видеозаписей"
-    },
-
-    audio: {
-        single: "Аудиозапись",
-        unset: "Аудиозаписи",
-        low: "{{ count }} аудиозаписи",
-        many: "{{ count }} аудиозаписей"
-    },
-
-    doc: {
-        single: "Документ",
-        unset: "Документы",
-        low: "{{ count }} документа",
-        many: "{{ count }} документов"
-    },
-
-    fwd: {
-        single: "Пересланное сообщение",
-        unset: "Пересланные сообщения",
-        low: "{{ count }} пересланных сообщения",
-        many: "{{ count }} пересланных сообщений"
-    },
-
-    link: "Ссылка",
-    audio_message: "Голосовое сообщение",
-    audio_playlist: "Плейлист",
-    poll: "Голосование",
-    wall: "Запись со стены",
-    sticker: "Стикер",
-    graffiti: "Граффити",
-    story: "История",
-    default: "Вложение"
-};
-
 export default {
     props: {
         data: {
@@ -70,7 +23,7 @@ export default {
 
     methods: {
         formatAttachment(attachment, count, unset = true) {
-            const label = labels[attachment];
+            const label = this.$strings.CONVERSATIONS.ATTACHMENTS[attachment.toUpperCase()];
 
             if (!unset) {
                 if (typeof label !== "object") {
@@ -78,13 +31,13 @@ export default {
                 }
 
                 return count === 1
-                    ? label.single
-                    : (count < 5 ? label.low : label.many)
+                    ? label.SINGLE
+                    : (count < 5 ? label.LOW : label.MANY)
                         .replace("{{ count }}", count);
             }
 
             return typeof label === "object"
-                ? (count === 1 ? label.single : label.unset)
+                ? (count === 1 ? label.SINGLE : label.UNSET)
                 : label;
         },
 
@@ -110,7 +63,8 @@ export default {
 
             let formatted = [];
             if (message.fwd_messages?.length > 0) {
-                formatted.push(this.formatAttachment("fwd", message.fwd_messages.length, unset));
+                const forwarded = this.formatAttachment("fwd", message.fwd_messages.length, unset);
+                formatted.push(forwarded);
             }
 
             formatted = [...formatted, ...attachments];

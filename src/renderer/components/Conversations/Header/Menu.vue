@@ -42,20 +42,20 @@ export default {
         setMenuItems() {
             this.menu.items = [{
                 id: "important",
-                label: "Важные сообщения",
+                label: this.$strings.CONVERSATIONS.HEADER.MENU.IMPORTANT,
                 function: () => this.$router.replace("/important").catch(() => {})
             },
             
             {
                 id: "settings",
-                label: "Настройки",
+                label: this.$strings.CONVERSATIONS.HEADER.MENU.SETTINGS,
                 function: () => this.open({ layout: "settings" })
             }, 
             
             {
                 id: "update",
                 show: this.updater.available,
-                label: "Доступна новая версия",
+                label: this.$i18n(this.$strings.CONVERSATIONS.HEADER.MENU.UPDATE, "version", this.updater.version),
                 function: () => {
                     this.open({ view: "update" });
                 }

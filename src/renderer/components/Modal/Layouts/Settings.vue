@@ -65,6 +65,8 @@ export default {
         flex-direction: column;
         row-gap: 10px;
 
+        width: 50vw;
+        min-height: 52vh;
         max-height: 90vh;
 
         padding: 10px;
