@@ -22,7 +22,7 @@ class AudioPlaylist extends Attachment {
         this.title = playlist.title;
         this.listens = playlist.plays;
         this.followers = playlist.followers;
-        this.cover = playlist.photo?.photo_300 || "./no-cover.png";
+        this.cover = playlist.photo?.photo_300 || "/no-cover.png";
     }
 
     get link() {
