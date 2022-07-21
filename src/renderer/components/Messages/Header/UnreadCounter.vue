@@ -23,8 +23,8 @@ export default {
     justify-self: center;
     align-self: center;
 
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
 
     background: var(--secondary);
     border-radius: 100%;
