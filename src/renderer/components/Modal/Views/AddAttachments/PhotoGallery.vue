@@ -144,7 +144,10 @@ export default {
             this.uploading = true;
 
             await Promise.each(files, async file => {
-                return await this.addPhotoPath(file);
+                return await this.addPhotoPath({
+                    file,
+                    temp: false
+                });
             });
 
             this.close();

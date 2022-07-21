@@ -230,7 +230,10 @@ export default {
             if (payload.length > 0) {
                 await Promise.each(payload, async file => {
                     if (allowUpload.image.includes(file.extension)) {
-                        return await this.addPhotoPath(file.path);
+                        return await this.addPhotoPath({
+                            file: file.path,
+                            temp: false
+                        });
                     }
 
                     if (allowUpload.video.includes(file.extension)) {

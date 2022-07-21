@@ -50,7 +50,7 @@ export default {
             return state.attachments;
         },
 
-        ADD_PHOTO_PATH: async ({ dispatch, rootState }, file: string) => { 
+        ADD_PHOTO_PATH: async ({ dispatch, rootState }, data) => { 
             const photo: Photo = new Photo({
                 album_id: -1,
                 date: Math.floor(Date.now() / 1000),
@@ -61,11 +61,11 @@ export default {
                 sizes: [{
                     width: 1,
                     height: 1,
-                    url: file
+                    url: data.file
                 }]
             }, {
-                path: file,
-                temp: false
+                path: data.file,
+                temp: data.temp
             });
 
             return await dispatch("ADD_ATTACHMENT", photo);
@@ -81,29 +81,10 @@ export default {
             const buffer = Buffer.from(arrayBuffer);
             fs.writeFileSync(savePath, buffer, "binary");
 
-            const attachment: Attachment = new Photo({
-                id: Date.now(),
-                owner_id: rootState.vk.user.id,
-                album_id: -1,
-                has_tags: false,
-                date: Math.floor(Date.now() / 1000),
-
-                sizes: [{
-                    width: 1,
-                    height: 1,
-
-                    url: await new Promise(resolve => { 
-                        const reader = new FileReader();
-                        reader.onload = event => resolve(String(event.target.result));
-                        reader.readAsDataURL(blob);
-                    })
-                }]
-            }, {
-                path: savePath,
+            return await dispatch("ADD_PHOTO_PATH", {
+                file: savePath,
                 temp: true
             });
-
-            return await dispatch("ADD_ATTACHMENT", attachment);
         },
 
         SET_FORWARD: ({ state }, messages: TMessage[]) => {
