@@ -24,15 +24,18 @@ export default {
     computed: {
         text() {
             if (this.conversation.isUser || this.conversation.isGroup) {
-                return "набирает сообщение";
+                return this.$strings.CONVERSATIONS.TYPING.SINGLE;
             }
 
             if (this.conversation.writers.length > 1) {
-                const names = this.conversation.writers.map(writer => writer.first_name);
-                return names.join(", ") + " набирают сообщение";
+                const names = this.conversation.writers.map(writer => {
+                    return writer.first_name;
+                });
+
+                return this.$i18n(this.$strings.CONVERSATIONS.TYPING.MANY, "users", names.join(", "));
             }
 
-            return this.conversation.writers[0].name + " набирает сообщение";
+            return `${this.conversation.writers[0].name} ${this.$strings.CONVERSATIONS.TYPING.SINGLE}`;
         }
     }
 };
