@@ -58,6 +58,8 @@ export default {
             flex-direction: column;
             row-gap: 5px;
 
+            max-width: 90vw;
+
             &-title {
                 padding: 5px;
 
