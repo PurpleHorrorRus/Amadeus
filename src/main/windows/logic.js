@@ -23,9 +23,19 @@ class WindowLogic {
     }
 
     send(window, event, content = {}) {
-        if (this.isWindowAlive(window)) {
-            window.webContents.send(event, content);
+        if (!this.isWindowAlive(window)) {
+            return false;
         }
+
+        return window.webContents.send(event, content);
+    }
+
+    hide(window) {
+        window.hide();
+        window.blur();
+        window.setSkipTaskbar(true);
+
+        return true;
     }
 
     restore(window) {
@@ -33,45 +43,27 @@ class WindowLogic {
             window.show();
             window.setSkipTaskbar(false);
             window.focus();
-            this.send(window, "throttle", false);
+
+            return true;
         }
+
+        return false;
+    }
+
+    close(window) {
+        if (window.webContents.isDevToolsOpened()) {
+            window.webContents.closeDevTools();
+        }
+
+        window.removeAllListeners("close");
+        window.close();
+
+        return true;
     }
 
     closeAll() {
         BrowserWindow.getAllWindows().forEach(window => this.close(window));
         return true;
-    }
-
-    close(window, event, hide, closeAll = false) {
-        if (hide) {
-            if (event !== null) {
-                event.preventDefault();
-            }
-
-            this.send(window, "throttle", true);
-
-            if (window) {
-                window.hide();
-                window.blur();
-                window.setSkipTaskbar(true);
-            }
-        } else {
-            window.removeAllListeners("close");
-            window.close();
-
-            if (closeAll) {
-                BrowserWindow.getAllWindows().forEach(window => {
-                    if (window.webContents.isDevToolsOpened) {
-                        window.webContents.closeDevTools();
-                    }
-
-                    window.removeAllListeners("close");
-                    window.close();
-                });
-
-                app.quit();
-            }
-        }
     }
 }
 

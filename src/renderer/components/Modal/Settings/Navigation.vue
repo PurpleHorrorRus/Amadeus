@@ -27,6 +27,12 @@ export default {
                 label: this.$strings.SETTINGS.NAVIGATION.GENERAL,
                 icon: () => import("~icons/settings.svg")
             },
+            
+            {
+                id: "vk",
+                label: this.$strings.SETTINGS.NAVIGATION.VK,
+                icon: () => import("~icons/brands/vk.svg")
+            },
 
             {
                 id: "appearance",
@@ -42,7 +48,7 @@ export default {
 
             {
                 id: "about",
-                label: "О приложении",
+                label: this.$strings.SETTINGS.NAVIGATION.ABOUT,
                 icon: () => import("~icons/info.svg")
             }
         ];

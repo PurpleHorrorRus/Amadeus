@@ -14,6 +14,10 @@ const clear = {
         inputDevice: "default",
         outputDevice: "default",
 
+        startup: false,
+        hideOnClose: true,
+        devtools: false,
+
         vk: {
             mute: [],
             disable_write_whitelist: [],
@@ -52,9 +56,7 @@ const clear = {
 
         player: {
             volume: 50
-        },
-        
-        hideOnClose: false
+        }
     },
 
     vk: {

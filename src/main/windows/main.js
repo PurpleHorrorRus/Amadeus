@@ -70,8 +70,8 @@ class VKGramWindow {
             return { action: "deny" };
         });
 
-        if (common.isDev) {
-            this.window.webContents.openDevTools();
+        if (common.storage.config.settings.devtools) {
+            this.window.webContents.openDevTools({ mode: "undocked" });
         }
 
         this.window.show();

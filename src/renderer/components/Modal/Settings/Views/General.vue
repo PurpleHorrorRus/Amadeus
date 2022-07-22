@@ -3,21 +3,21 @@
         <span class="modal-view-title" v-text="$strings.SETTINGS.GENERAL.TITLE" />
 
         <ToggleButton 
-            :text="$strings.SETTINGS.GENERAL.DONT_READ" 
-            :value="settings.vk.disable_read"
-            @change="deepChange(settings.vk, 'disable_read')"
+            :text="$strings.SETTINGS.GENERAL.STARTUP" 
+            :value="settings.startup"
+            @change="turnStartup"
         />
 
         <ToggleButton 
-            :text="$strings.SETTINGS.GENERAL.DONT_WRITE" 
-            :value="settings.vk.disable_write"
-            @change="deepChange(settings.vk, 'disable_write')"
+            :text="$strings.SETTINGS.GENERAL.HIDE_ON_CLOSE" 
+            :value="settings.hideOnClose"
+            @change="deepChange(settings, 'hideOnClose')"
         />
 
         <ToggleButton 
-            :text="$strings.SETTINGS.GENERAL.SEND_OFFLINE" 
-            :value="settings.vk.send_offline"
-            @change="deepChange(settings.vk, 'send_offline')"
+            :text="$strings.SETTINGS.GENERAL.DEVTOOLS" 
+            :value="settings.devtools"
+            @change="turnDevTools"
         />
 
         <Dropdown 
@@ -37,6 +37,8 @@
 </template>
 
 <script lang="ts">
+import { ipcRenderer } from "electron";
+
 import CoreMixin from "~/mixins/core";
 
 export default {
@@ -70,6 +72,16 @@ export default {
             const devices = await navigator.mediaDevices.enumerateDevices();
             this.inputDevices = this.getDevices(devices, "audioinput");
             this.outputDevices = this.getDevices(devices, "audiooutput");
+        },
+
+        turnStartup() {
+            ipcRenderer.send("changeStartup", !this.settings.startup);
+            return this.deepChange(this.settings, "startup");
+        },
+
+        turnDevTools() {
+            ipcRenderer.send(this.settings.devtools ? "closeDevTools" : "openDevTools");
+            return this.deepChange(this.settings, "devtools");
         },
 
         getDevices(devices: MediaDeviceInfo[], kind: string) {

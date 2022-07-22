@@ -9,6 +9,7 @@ import Updater from "../../updater";
 class IPC {
     constructor(window) {
         this.window = window;
+        this.mediaWindow = new MediaWindow();
 
         this.handlers = {};
         this.events = {};
@@ -53,13 +54,27 @@ class IPC {
             return common.storage.save(args.type, args.content);
         };
 
-        this.events.openMedia = media => new MediaWindow().create(media, this.window);
+        this.events.openMedia = media => {
+            return this.mediaWindow.create(media, this.window);
+        };
 
-        this.events.minimize = () => this.window.minimize();
+        this.events.minimize = () => {
+            return this.window.minimize();
+        };
+
         this.events.maximize = () => {
             return !this.window.isMaximized()
                 ? this.window.maximize()
                 : this.window.unmaximize(); 
+        };
+
+        this.events.close = () => {
+            if (!common.storage.config.settings.hideOnClose) {
+                common.windows.closeAll();
+                return app.quit();
+            }
+    
+            return common.windows.hide(this.window);
         };
 
         this.events.buildNotificationIcon = count => {
@@ -79,6 +94,9 @@ class IPC {
             this.window.updater = new Updater(this.window);
             this.window.updater.init();
         };
+
+        this.events.openDevTools = () => this.window.openDevTools({ mode: "undocked" });
+        this.events.closeDevTools = () => this.window.closeDevTools();
     }
 }
 

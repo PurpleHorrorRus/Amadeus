@@ -19,6 +19,7 @@ export default {
         renderView() {
             switch (this.view) {
                 case "general": return () => import("~/components/Modal/Settings/Views/General.vue");
+                case "vk": return () => import("~/components/Modal/Settings/Views/VK.vue");
                 case "appearance": return () => import("~/components/Modal/Settings/Views/Appearance.vue");
                 case "accounts": return () => import("~/components/Modal/Settings/Views/Accounts.vue");
                 case "about": return () => import("~/components/Modal/Settings/Views/About.vue");
