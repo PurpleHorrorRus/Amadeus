@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import { app, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 
 import common from "./common";
 import protocol from "./protocol";
