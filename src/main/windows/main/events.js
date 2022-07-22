@@ -1,10 +1,23 @@
-import { ipcMain } from "electron";
+import { app, ipcMain } from "electron";
 
 import common from "../../common";
 
 class MainWindowEvents {
     constructor(window) {
         this.window = window;
+    }
+
+    close(event) {
+        if (event) {
+            event.preventDefault();
+        }
+
+        if (!common.storage.config.settings.hideOnClose) {
+            common.windows.closeAll();
+            return app.quit();
+        }
+
+        return common.windows.hide(this.window);
     }
 
     resized() {

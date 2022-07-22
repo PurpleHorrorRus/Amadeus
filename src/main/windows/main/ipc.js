@@ -68,12 +68,7 @@ class IPC {
         };
 
         this.events.close = () => {
-            if (!common.storage.config.settings.hideOnClose) {
-                common.windows.closeAll();
-                return app.quit();
-            }
-    
-            return common.windows.hide(this.window);
+            return this.window.events.close();
         };
 
         this.events.buildNotificationIcon = count => {

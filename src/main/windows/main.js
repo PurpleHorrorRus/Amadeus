@@ -41,13 +41,8 @@ class VKGramWindow {
         this.window.tray = new AmadeusTray(this.window);
         this.window.tray.build();
 
-        this.window.on("resized", () => {
-            const [width, height] = this.window.getSize();
-            common.storage.config.settings.width = width;
-            common.storage.config.settings.height = height;
-            common.storage.save("settings", common.storage.config.settings);
-            return true;
-        });
+        this.window.on("close", event => this.window.events.close(event));
+        this.window.on("resized", () => this.window.events.resized());
 
         for (const handle of Object.keys(this.window.ipc.handlers)) {
             ipcMain.handle(handle, this.window.ipc.handlers[handle]);
