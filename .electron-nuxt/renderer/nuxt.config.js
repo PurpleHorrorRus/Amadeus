@@ -44,9 +44,6 @@ const baseExtend = (config, { isClient }) => {
 
     config.module = config.module || {};
     config.module.rules = config.module.rules || [];
-    
-    config.resolve.alias.vue = "vue/dist/vue.common";
-    console.log(config.resolve.alias.vue);
 };
 
 const mergeConfig = customConfig => {

@@ -23,7 +23,6 @@ module.exports = {
 
     build: {
         extend(config, { isClient }) {
-            // config.resolve.alias.vue = "vue/dist/vue.min";
             config.devtool = (isDev ? "eval-source-map" : false);
 
             if (isClient) {
@@ -37,6 +36,8 @@ module.exports = {
 
             config.module.rules.find(rule => rule.test.test(".svg")).test = /\.(gif|webp)$/;
             config.module.rules = config.module.rules.concat(webpackRules);
+
+            console.log(config.resolve.alias.vue);
         },
 
         standalone: true,
@@ -49,7 +50,14 @@ module.exports = {
     },
 
     alias: {
-        "~icons": path.resolve("./src/renderer/assets/icons")
+        "~icons": path.resolve("./src/renderer/assets/icons"),
+        vue: isDev ? "vue/dist/vue.common" : "vue/dist/vue.min"
+    },
+
+    resolve: {
+        alias: {
+            vue: isDev ? "vue/dist/vue.common" : "vue/dist/vue.min"
+        }
     },
 
     vue: vueConfig(isDev),
