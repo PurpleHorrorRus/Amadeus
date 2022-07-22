@@ -1,7 +1,10 @@
 /* eslint-disable no-undef */
-import { app, BrowserWindow, ipcMain } from "electron";
+import path from "path";
+import { BrowserWindow, ipcMain } from "electron";
+import common from "../common";
 
 const isDev = process.env.NODE_ENV === "development";
+const pathToOverlayIcons = path.normalize("build/icons/win32/overlay");
 class WindowLogic {
     isWindowAlive(window) {
         return window && !window.isDestroyed();
@@ -43,6 +46,7 @@ class WindowLogic {
             window.show();
             window.setSkipTaskbar(false);
             window.focus();
+            this.updateOverlayIcon(window);
 
             return true;
         }
@@ -64,6 +68,15 @@ class WindowLogic {
     closeAll() {
         BrowserWindow.getAllWindows().forEach(window => this.close(window));
         return true;
+    }
+
+    updateOverlayIcon(window) {
+        if (!common.isWindows) {
+            return false;
+        }
+
+        const overlayIcon = path.join(pathToOverlayIcons, `overlay-${window.notificationsCount}.png`);
+        window.setOverlayIcon(overlayIcon, String(window.notificationsCount));
     }
 }
 

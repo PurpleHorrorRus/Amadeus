@@ -9,6 +9,11 @@ import VKGramWindow from "./windows/main";
 if (!app.requestSingleInstanceLock()) {
     app.quit();
 } else {
+    app.on("second-instance", () => {
+        const window = BrowserWindow.getAllWindows()[0];
+        common.windows.restore(window);
+    });
+
     // app.commandLine.appendSwitch("js-flags", "--max-old-space-size=512 --stack-size=128");
     app.commandLine.appendSwitch("enable-features", "SharedArrayBuffer");
 
