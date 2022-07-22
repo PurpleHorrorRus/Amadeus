@@ -18,8 +18,14 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
+import ContextMenuItem from "~/components/Menu/Item.vue";
+
 export default {
+    components: {
+        ContextMenuItem
+    },
+
     props: {
         menu: {
             type: Object,

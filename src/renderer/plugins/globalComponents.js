@@ -13,7 +13,6 @@ Object.entries({
     Dropdown: () => import("~/components/Global/Dropdown.vue"),
     Upload: () => import("~/components/Global/Upload.vue"),
     ContextMenu: () => import("~/components/Global/ContextMenu.vue"),
-    ContextMenuItem: () => import("~/components/Menu/Item.vue"),
     Skeleton: () => import("~/components/Global/Skeleton.vue")
 }).forEach(([name, component]) => Vue.component(name, component));
 
