@@ -27,7 +27,7 @@ const webPreferences = {
 
 const getIcon = file => {
     return process.platform === "win32"
-        ? path.resolve(`build/icons/win32/${file}.ico`)
+        ? path.normalize(`build/icons/win32/${file}.ico`)
         : path.resolve(__dirname, `../../../../build/icons/linux/${file}.png`);
 };
 
