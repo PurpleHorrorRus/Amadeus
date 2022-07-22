@@ -8,7 +8,7 @@
             :placeholder="$strings.CHAT.INPUT"
             :disabled="disabled"
             @keypress.enter="send"
-            @keydown.up.prevent="hotkeyEdit"
+            @keydown.up="hotkeyEdit"
         />
 
         <InputStickers v-if="stickersExist" />
@@ -172,10 +172,14 @@ export default {
             }
         },
 
-        hotkeyEdit() {
+        hotkeyEdit(event) {
             if (!this.canEdit) {
                 return false;
             }
+
+            if (this.message.length === 0) {
+                event.preventDefault();
+            } 
 
             const messages: Message[] = this.cache[this.current.id].messages;
             for (const message of messages) {
