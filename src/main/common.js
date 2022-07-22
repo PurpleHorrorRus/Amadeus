@@ -27,12 +27,11 @@ const webPreferences = {
 
 const getIcon = file => {
     return process.platform === "win32"
-        ? path.normalize(`build/icons/win32/${file}.ico`)
+        ? path.resolve(`build/icons/win32/${file}.ico`)
         : path.resolve(__dirname, `../../../../build/icons/linux/${file}.png`);
 };
 
 export default {
-    icon: getIcon("amadeus-default"),
     isDev: process.env.NODE_ENV === "development",
     getIcon,
     webPreferences,

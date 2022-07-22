@@ -14,7 +14,7 @@ const minHeight = 380;
 
 const params = {
     title: "Amadeus",
-    icon: common.icon,
+    icon: common.getIcon("amadeus-default"),
 
     width: Math.max(common.storage.config.settings.width, minWidth),
     height: Math.max(common.storage.config.settings.height, minHeight),
