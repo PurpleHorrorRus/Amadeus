@@ -61,12 +61,13 @@ export default {
     justify-content: flex-start;
     align-items: center;
     flex-wrap: wrap;
-    gap: 5px;
+    gap: 2vw;
 
     width: 100%;
-    max-height: 280px;
+    min-height: 150px;
+    max-height: 40vh;
 
-    padding: 0px 1vw;
+    padding: 1vw;
 
     overflow-x: hidden;
     overflow-y: auto;

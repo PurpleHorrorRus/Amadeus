@@ -52,7 +52,7 @@ export default {
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 1.1vw;
 
         padding: 0px 0px 10px 1vw;
 

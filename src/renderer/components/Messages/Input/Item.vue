@@ -61,7 +61,13 @@ export default {
     position: relative;
 
     width: 130px;
-    height: auto;
+    height: 130px;
+
+    background: var(--backdrop);
+
+    img {
+        object-fit: contain !important;
+    }
 
     .attachments-item {
         &.attachments-item-doc {
@@ -79,8 +85,8 @@ export default {
 
     .remove-icon {
         position: absolute;
-        top: 3px; right: 3px;
-        
+        top: -5px; right: -10px;
+
         width: 30px;
         padding: 7px;
 

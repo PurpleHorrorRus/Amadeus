@@ -39,23 +39,17 @@ export default {
 
 <style lang="scss">
 #messages-header-back {
-    position: relative;
-
     display: flex;
     justify-content: center;
     align-items: center;
 
-    width: 100%;
+    width: max-content;
+    max-width: 45px;
 
     cursor: pointer;
 
     .icon {
         width: 14px;
-    }
-
-    .unread-counter {
-        position: absolute;
-        bottom: 5px; right: -8px;
     }
 }
 </style>

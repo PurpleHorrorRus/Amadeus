@@ -55,7 +55,6 @@ export default {
 #message-page-input-field-send {
     display: flex;
     justify-content: center;
-    align-items: center;
 
     width: 23px;
     height: 100%;

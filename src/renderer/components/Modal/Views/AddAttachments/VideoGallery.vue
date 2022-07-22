@@ -63,7 +63,7 @@ const searchFields = {
 
 export default {
     components: {
-        VideoResults: () => import("~/components/Modal/Views/AddAttachments/Components/Video/Results.vue")
+        VideoResults: () => import("./Components/Video/Results.vue")
     },
 
     mixins: [CoreMixin, ScrollMixin],
@@ -87,7 +87,6 @@ export default {
     }),
 
     computed: {
-
         canScroll() {
             if (this.search.query > 0) {
                 return this.search.items.length < this.search.count;
@@ -237,15 +236,32 @@ export default {
 
 <style lang="scss">
 #video-gallery {
+    grid-area: container;
+
     display: grid;
-    grid-template-rows: 80px 1fr;
+    grid-template-rows: 80px 40px 1fr;
+    grid-template-areas: "upload"
+                        "search"
+                        "gallery";
     align-items: center;
     row-gap: 10px;
 
+    overflow: hidden;
+
     &-search {
+        grid-area: search;
+
         display: flex;
         flex-direction: column;
         row-gap: 10px;
+    }
+
+    &-loaded {
+        grid-area: gallery;
+
+        height: 100%;
+
+        overflow-y: hidden;
     }
 }
 </style>

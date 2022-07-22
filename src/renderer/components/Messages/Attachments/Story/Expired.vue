@@ -32,6 +32,10 @@ export default {
     background: var(--backdrop);
     border-radius: 4px;
 
+    &-label {
+        text-align: center;
+    }
+
     .icon {
         width: 36px;
 

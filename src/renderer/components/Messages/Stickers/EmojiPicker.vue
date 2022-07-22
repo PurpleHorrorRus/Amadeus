@@ -58,10 +58,11 @@ export default {
 
     height: 100%;
 
-    overflow-y: auto;
+    overflow-y: hidden;
 
     .emoji-picker {
-        display: flex;
+        display: grid;
+        grid-template-rows: max-content 1fr;
 
         width: 100%;
         height: 100%;
@@ -69,7 +70,7 @@ export default {
         background: none;
         border: none;
 
-        overflow-y: auto;
+        overflow-y: hidden;
 
         --ep-color-active: var(--secondary);
 
@@ -91,32 +92,27 @@ export default {
         }
 
         #Emojis {
-            height: 100%;
+            align-self: flex-start;
 
+            height: 100%;
             overflow-y: auto;
 
             .container-emoji {
                 height: 100%;
+                overflow: auto;
 
-                overflow: hidden;
-            }
-
-            .grid-emojis {
-                display: flex;
-                justify-content: space-evenly;
-                flex-wrap: wrap;
-                grid-gap: 1.1%;
-
-                height: 100%;
-
-                padding: 0px 5px;
-
-                overflow-y: auto;
-
-                .emoji {
+                .grid-emojis {
                     display: flex;
-                    justify-content: center;
-                    align-items: center;
+                    flex-wrap: wrap;
+                    grid-gap: 1.8vw;
+
+                    padding: 0px 5px;
+
+                    .emoji {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                    }
                 }
             }
 

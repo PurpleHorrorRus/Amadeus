@@ -206,7 +206,6 @@ export default {
 #recorder {
     display: flex;
     justify-content: center;
-    align-items: center;
 
     height: 100%;
 

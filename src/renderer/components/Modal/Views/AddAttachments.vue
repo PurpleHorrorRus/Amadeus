@@ -1,5 +1,9 @@
 <template>
-    <div id="modal-view-add-attachments" class="modal-view">
+    <div 
+        id="modal-view-add-attachments" 
+        class="modal-view"
+        :class="addAttachmentsClass"
+    >
         <Dropdown 
             :selected="currentIndex"
             :options="categoriesNames" 
@@ -31,6 +35,12 @@ export default {
     }),
 
     computed: {
+        addAttachmentsClass() {
+            return {
+                attach: this.selected.length > 0
+            };
+        },
+
         currentIndex() {
             return this.categories.findIndex(category => {
                 return category.id === this.current;
@@ -54,7 +64,7 @@ export default {
         },
 
         attachLabel() {
-            return `Прикрепить ${this.selected.length} вложений`;
+            return this.$i18n(this.$strings.CHAT.ADD_ATTACHMENT.ATTACH, "count", this.selected.length);
         }
     },
 
@@ -103,12 +113,10 @@ export default {
         },
 
         attach() {
-            const attachments: Attachment[] = this.selected.map(selected => {
+            this.selected.map(selected => {
                 return selected.attachment;
-            });
-
-            attachments.forEach(() => {
-                this.addAttachment(attachments);
+            }).forEach(attachment => {
+                this.addAttachment(attachment);
             });
 
             this.close();
@@ -119,17 +127,33 @@ export default {
 
 <style lang="scss">
 #modal-view-add-attachments {
-    display: grid;
+    display: grid !important;
     grid-template-rows: 40px auto;
-    row-gap: 20px !important;
+    grid-template-areas: "switcher"
+                        "container";
+    row-gap: 10px !important;
 
-    width: 60vw;
+    width: 80vw;
 
-    padding: 5px;
+    overflow: hidden;
+
+    &.attach {
+        grid-template-rows: 40px auto 40px !important;
+        grid-template-areas: "switcher"
+                            "container"
+                            "attach";
+    }
 
     &-buttons {
+        grid-area: attach;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
         justify-self: flex-end;
         align-self: flex-end;
+
+        height: 100%;
     }
 
     .toggle-button {

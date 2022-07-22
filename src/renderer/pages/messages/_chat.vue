@@ -274,6 +274,8 @@ export default {
     grid-template-areas: "header"
                         "container"
                         "input";
+
+    overflow: hidden;
                 
     &.first {
         #chat-page-container {

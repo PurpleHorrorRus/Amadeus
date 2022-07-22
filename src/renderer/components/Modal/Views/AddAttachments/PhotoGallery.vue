@@ -158,8 +158,16 @@ export default {
 
 <style lang="scss">
 #photo-gallery {
+    grid-area: container;
+
     display: grid;
     grid-template-rows: 80px 1fr;
+    grid-template-areas: "upload"
+                        "albums";
     row-gap: 10px;
+
+    height: 100%;
+
+    overflow: hidden;
 }
 </style>

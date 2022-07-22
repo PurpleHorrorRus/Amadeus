@@ -76,7 +76,7 @@ export default {
         if (text.length > 0) {
             this.formatted.push({
                 type: types.text,
-                data: text
+                data: text.trim()
             });
         }
     },
@@ -121,6 +121,7 @@ export default {
         overflow-wrap: break-word;
         word-wrap: break-word;
         word-break: break-word;
+        white-space: pre-line;
 
         &.text {
             color: var(--contrast);

@@ -53,8 +53,6 @@ export default {
         },
 
         close() {
-            console.log("close");
-            
             ipcRenderer.send("close");
         }
     }

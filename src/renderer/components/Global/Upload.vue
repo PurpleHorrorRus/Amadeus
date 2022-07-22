@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="upload" 
+        class="upload nowrap" 
         :class="uploadClass" 
         @click="open" 
         @drop.prevent.stop="open" 
@@ -10,7 +10,7 @@
         <UploadIcon v-if="!uploading" class="icon amadeus" />
         <LoaderIcon v-else class="icon loader-icon spin" />
 
-        <span class="upload-label" v-text="text" />
+        <span class="upload-label nowrap" v-text="text" />
     </div>
 </template>
 
@@ -84,14 +84,18 @@ export default {
 
 <style lang="scss">
 .upload {
+    grid-area: upload;
+
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    column-gap: 10px;
+    column-gap: 5px;
 
     width: 100%;
     height: 100%;
+
+    padding: 0px 10px;
 
     border: 2px dashed var(--border);
 
@@ -121,6 +125,10 @@ export default {
 
     &.uploading {
         cursor: not-allowed;
+    }
+
+    &-label {
+        flex: max-content 0;
     }
 }
 </style>

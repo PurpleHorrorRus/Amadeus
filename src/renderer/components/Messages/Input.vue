@@ -4,6 +4,7 @@
 
         <div id="message-page-input-main">
             <AddIcon 
+                id="add-attachments"
                 class="icon amadeus clickable" 
                 @click="openAdd" 
                 @mouseenter="openMenu($event, null, true, true)"
@@ -18,6 +19,7 @@
 
             <InputField :disabled="sending" />
         </div>
+
         <InputAttachments v-if="showAttachments" />
     </div>
 </template>
@@ -175,14 +177,21 @@ export default {
     align-items: flex-start;
     gap: 10px;
 
-    padding: 10px 10px 10px 5px;
+    padding: 7px;
 
     &-main {
-        display: flex;
-        flex-direction: row;
+        display: grid;
+        grid-template-columns: 30px 1fr;
+        justify-content: center;
+        align-items: center;
         column-gap: 5px;
 
         width: 100%;
+
+        #add-attachments {
+            justify-self: center;
+            align-self: center;
+        }
     }
 }
 </style>

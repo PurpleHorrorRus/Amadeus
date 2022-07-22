@@ -1,9 +1,9 @@
 <template>
-    <div id="messages-header">
-        <div id="messages-header-main">
+    <div id="messages-header" :class="headerClass">
+        <div id="messages-header-main" class="nowrap" :class="mainClass">
             <MessagesHeaderBack v-if="!extended" />
 
-            <div id="messages-header-main-profile" @click="$parent.turnProfile">
+            <div id="messages-header-main-profile" class="nowrap" @click="$parent.turnProfile">
                 <img id="messages-header-main-profile-avatar" :src="conversation.avatar">
                 <MessagesHeaderInformation :conversation="conversation" />
             </div>
@@ -38,6 +38,18 @@ export default {
             extended: (state: any) => state.extendedView
         }),
 
+        headerClass() {
+            return {
+                selected: this.isSelectedMessages
+            };
+        },
+
+        mainClass() {
+            return {
+                extended: this.extended
+            };
+        },
+
         isSelectedMessages() {
             return this.$parent.chat.messages.some(message => {
                 return message.selected;
@@ -51,24 +63,25 @@ export default {
 #messages-header {
     grid-area: header;
 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    grid-template-areas: "main actions";
     align-items: center;
     column-gap: 5px;
     flex-wrap: nowrap;
-
-    padding: 0px 10px;
 
     > * {
         cursor: pointer;
     }
 
     &-main {
+        grid-area: main;
+
         display: flex;
-        flex-direction: row;
         align-items: center;
-        column-gap: 5px;
+
+        width: 100%;
+        height: 100%;
 
         &-profile {
             display: flex;
@@ -81,6 +94,10 @@ export default {
         
                 border-radius: 100%;
             }
+        }
+
+        #messages-header-back {
+            margin: 0px 5px 0px 10px;
         }
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div id="messages-header-main-profile-information">
+    <div id="messages-header-main-profile-information" class="nowrap">
         <span
             id="messages-header-main-profile-information-name" 
             class="nowrap"

@@ -3,7 +3,7 @@
         <span class="file-choosing-item-text" v-text="text" />
         
         <div class="file-choosing-item-container">
-            <div class="file-choosing-item-container-block flex-spaced">
+            <div class="file-choosing-item-container-block nowrap flex-spaced">
                 <span class="file-choosing-item-container-block-data nowrap" v-text="value" />
                 <div class="file-choosing-item-container-block-button clickable" @click="open">
                     <MoreHorizontalIcon class="icon amadeus" />
@@ -88,7 +88,8 @@ export default {
             flex-direction: row;
             align-items: center;
 
-            width: 200px;
+            width: 25vw;
+            max-width: 200px;
             height: 20px;
 
             padding-left: 10px;

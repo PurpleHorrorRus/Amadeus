@@ -31,7 +31,7 @@ import MenuMixin from "~/mixins/menu";
 
 export default {
     components: {
-        MediaPageStory: () => import("~/components/Media/Story.vue"),
+        MediaPageStory: () => import("~/components/Media/Story.vue")
     },
 
     mixins: [GalleryMixin, MenuMixin],

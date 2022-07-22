@@ -2,7 +2,7 @@
     <div class="video-gallery-results">
         <span 
             v-if="label"
-            class="video-gallery-results-label" 
+            class="video-gallery-results-label small-text" 
             v-text="label" 
         />
                     
@@ -51,21 +51,30 @@ export default {
     flex-direction: column;
     row-gap: 10px;
 
+    height: 100%;
+
+    &-label {
+        padding: 10px;
+    }
+
     &-list {
         display: flex;
         flex-wrap: wrap;
-        column-gap: 1.7vw;
-        row-gap: 15px;
+        flex-wrap: wrap;
+        gap: 25px 3.1vw;
 
         max-height: 50vh;
-
-        padding: 0px 0px 10px 10px;
 
         overflow-x: hidden;
         overflow-y: auto;
 
         .attachments-item-video {
             grid-template-rows: 10vw 20px;
+
+            .video-blocked {
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 }

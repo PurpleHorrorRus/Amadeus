@@ -111,8 +111,6 @@ export default {
     },
 
     mounted() {
-        console.log(this);
-
         this.typingThrottle = lodash.throttle(() => {
             this.sendTyping({
                 id: this.current.id,
@@ -145,8 +143,11 @@ export default {
                 return false;
             }
 
-            if (event && !event.shiftKey) {
-                event.preventDefault();
+            if (!event || (event && !event.shiftKey)) {
+                if (event) {
+                    event.preventDefault();
+                }
+                
                 const message = this.message;
                 this.message = "";
                 return this.$parent.send(message);
@@ -206,9 +207,9 @@ export default {
 
 <style lang="scss">
 #message-page-input-field {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr repeat(3, max-content);
     align-items: center;
-    flex-direction: row;
     column-gap: 10px;
     
     width: 100%;
@@ -218,8 +219,8 @@ export default {
         align-items: center;
 
         width: 100%;
-        max-height: 160px;
-        min-height: 48px;
+        min-height: 30px;
+        max-height: 40vw;
             
         padding: 7px;
 

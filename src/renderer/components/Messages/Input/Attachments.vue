@@ -106,15 +106,7 @@ export default {
         }),
 
         sort({ moved }) {
-            const oldIndex = this.input.attachments.findIndex(attachment => {
-                return attachment.id === this.galleryItems[moved.oldIndex].id;
-            });
-
-            const newIndex = this.input.attachments.findIndex(attachment => {
-                return attachment.id === this.galleryItems[moved.newIndex].id;
-            });
-
-            return this.moveAttachments({ oldIndex, newIndex });
+            return this.moveAttachments(moved);
         }
     }
 };
@@ -125,7 +117,6 @@ export default {
     grid-area: attachments;
 
     width: 100%;
-    max-height: 40vh;
 
     overflow: hidden;
 

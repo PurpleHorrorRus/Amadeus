@@ -7,7 +7,7 @@ import { app } from "electron";
 import storage from "./storage";
 import WindowsLogic from "./windows/logic";
 
-app.getVersion = () => "0.0.1";
+app.getVersion = () => "1.0.0-rc1";
 
 const isWindows11 = process.platform === "win32" 
     && os.release().substring(0, 6) === "10.0.2";

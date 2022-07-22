@@ -115,9 +115,13 @@ export default {
 
 <style lang="scss">
 #messages-header-actions {
+    grid-area: actions;
+
     display: flex;
     flex-direction: row;
     column-gap: 15px;
+
+    padding: 0px 10px;
 
     .icon {
         width: 20px;

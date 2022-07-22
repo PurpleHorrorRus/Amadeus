@@ -79,10 +79,12 @@ export default {
     }
 
     &-list {
+        grid-area: photo;
+
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
-        gap: 10px;
+        gap: 1vw;
 
         overflow-x: hidden;
         overflow-y: auto;

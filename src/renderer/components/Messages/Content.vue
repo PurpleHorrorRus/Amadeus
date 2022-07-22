@@ -21,13 +21,13 @@
 
             <PenIcon
                 v-if="message.edited"
-                v-tooltip.top-start="`Отредактировано ${relativeDate(message.update_time)}`"
+                v-tooltip.top-start="editedText"
                 class="icon amadeus message-content-info-edit"
             />
 
             <CheckIcon 
                 v-if="showCheckIcon"
-                v-tooltip.top-start="'Прочитано'" 
+                v-tooltip.top-start="$strings.CHAT.MESSAGE.READED" 
                 class="icon message-content-info-read"
                 :class="checkIconClass"
             />
@@ -62,6 +62,14 @@ export default {
 
         isNotRead() {
             return this.provideData.conversation.information.out_read < this.message.id;
+        },
+
+        editedText() {
+            return this.$i18n(
+                this.$strings.CHAT.MESSAGE.EDITED, 
+                "relativeDate", 
+                this.relativeDate(this.message.update_time)
+            );
         },
 
         checkIconClass() {

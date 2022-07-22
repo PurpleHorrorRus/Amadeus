@@ -1,8 +1,8 @@
 <template>
-    <div class="mention-user">
+    <div class="mention-user nowrap">
         <img :src="user.photo_100" class="mention-user-avatar">
-        <span class="mention-user-name" v-text="user.name" />
-        <span class="mention-user-short small-text" v-text="'@' + user.screen_name" />
+        <span class="mention-user-name nowrap" v-text="user.name" />
+        <span class="mention-user-short small-text nowrap" v-text="'@' + user.screen_name" />
     </div>
 </template>
 
@@ -19,8 +19,7 @@ export default {
 
 <style lang="scss">
 .mention-user {
-    display: grid;
-    grid-template-columns: 30px max-content max-content;
+    display: flex;
     align-items: center;
     column-gap: 10px;
 

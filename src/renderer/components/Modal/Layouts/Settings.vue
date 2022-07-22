@@ -43,15 +43,9 @@ export default {
 </script>
 
 <style lang="scss">
-.layout:not(.extended) {
-    #modal-layout-settings .settings-view {
-        width: 80vw;
-    }
-}
-
 #modal-layout-settings {
-    display: grid;
-    grid-template-columns: max-content 60vw;
+    display: grid !important;
+    grid-template-columns: max-content 60vw !important;
     grid-template-rows: 1fr;
     grid-template-areas: "navigation view";
     column-gap: 10px;
@@ -67,7 +61,6 @@ export default {
         flex-direction: column;
         row-gap: 10px;
 
-        width: 50vw;
         min-height: 52vh;
         max-height: 90vh;
 
