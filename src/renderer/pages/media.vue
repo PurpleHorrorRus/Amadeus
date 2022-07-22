@@ -52,6 +52,11 @@ export default {
             this.media.index = index;
         },
 
+        share() {
+            ipcRenderer.send("share", this.item);
+            this.close();
+        },
+
         close() {
             ipcRenderer.send("closeMedia");
         }
