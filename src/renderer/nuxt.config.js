@@ -22,6 +22,8 @@ module.exports = {
     dev: isDev,
 
     build: {
+        publicPath: "./_nuxt/",
+
         extend(config, { isClient }) {
             config.devtool = (isDev ? "eval-source-map" : false);
 
