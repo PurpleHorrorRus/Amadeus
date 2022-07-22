@@ -53,7 +53,7 @@ export default {
         },
 
         close() {
-            ipcRenderer.send("close");
+            ipcRenderer.send("closeMedia");
         }
     }
 };

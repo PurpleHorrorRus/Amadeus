@@ -42,7 +42,7 @@ class MediaWindow {
             return media;
         });
 
-        ipcMain.once("close", () => {
+        ipcMain.once("closeMedia", () => {
             return this.close();
         });
 
