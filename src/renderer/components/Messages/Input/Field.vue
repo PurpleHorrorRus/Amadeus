@@ -69,7 +69,7 @@ export default {
         }),
 
         canSend() {
-            return this.message.length > 0
+            return this.message.trim().length > 0
                 || this.input.attachments.length > 0
                 || this.input.fwd_messages.length > 0;
         },
@@ -138,15 +138,18 @@ export default {
         }),
 
         send(event) {
-            event?.preventDefault();
-
             if (!this.canSend) {
                 return false;
             }
 
-            const message = this.message;
-            this.message = "";
-            return this.$parent.send(message);
+            if (!event.shiftKey) {
+                event.preventDefault();
+                const message = this.message;
+                this.message = "";
+                return this.$parent.send(message);
+            }
+
+            return;
         },
 
         focus(event) {

@@ -110,7 +110,6 @@ export default {
     flex-direction: column;
     row-gap: 10px;
 
-    max-width: 70vw;
     height: max-content !important;
     min-height: 0px !important;
 

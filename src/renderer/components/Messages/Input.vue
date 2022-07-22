@@ -88,9 +88,13 @@ export default {
             open: "modal/OPEN"
         }),
 
-        async send(text) {
+        async send(text = "") {
             if (this.input.attachments.length > 0) {
                 this.sending = true;
+            }
+
+            if (text.length > 0) {
+                text = text.trim();
             }
 
             const attachments: Attachment[][] = lodash.chunk(this.input.attachments, 10);

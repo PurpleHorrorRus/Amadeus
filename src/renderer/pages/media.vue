@@ -1,28 +1,6 @@
 <template>
     <div id="media-page" @click.self="close">
-        <div v-if="~media.index" id="media-page-item" @click.right="openMenu">
-            <img
-                v-if="item.type === 'photo'"
-                id="photo"
-                class="media-page-item-frame"
-                :src="item.sizes.max"
-            >
-
-            <iframe 
-                v-else-if="item.type === 'video'"
-                id="video"
-                class="media-page-item-frame"
-                :src="item.player" 
-            />
-
-            <MediaPageStory 
-                v-else-if="item.type === 'story'" 
-                :story="item"
-            />
-
-            <ContextMenu v-if="menu.show" :menu="menu" />
-        </div>
-
+        <MediaPageItem v-if="~media.index" :item="item" />
         <MediaPageNavigation />
         <MediaPageBottom />
     </div>
@@ -31,17 +9,12 @@
 <script lang="ts">
 import { ipcRenderer } from "electron";
 
-import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
-import MenuMixin from "~/mixins/menu";
-
 export default {
     components: {
-        MediaPageStory: () => import("~/components/Media/Story.vue"),
+        MediaPageItem: () => import("~/components/Media/Item.vue"),
         MediaPageNavigation: () => import("~/components/Media/Navigation.vue"),
         MediaPageBottom: () => import("~/components/Media/Bottom.vue")
     },
-
-    mixins: [GalleryMixin, MenuMixin],
 
     layout: "empty",
 
@@ -79,41 +52,10 @@ export default {
             this.media.index = index;
         },
 
-        setMenuItems() {
-            this.menu.items = [{
-                id: "share",
-                label: this.$strings.MEDIA.SHARE,
-
-                function: () => {
-                    this.close();
-                    this.share();
-                }
-            },
-
-            {
-                id: "copy",
-                label: this.$strings.MEDIA.COPY_LINK,
-                function: () => this.copy("src")
-            },
-
-            {
-                id: "copy",
-                label: this.$strings.MEDIA.COPY_IMAGE,
-                function: () => this.copy("image")
-            }];
-        },
-
         close() {
+            console.log("close");
+            
             ipcRenderer.send("close");
-        },
-
-        share() {
-            ipcRenderer.send("share", this.item);
-            this.close();
-        },
-
-        copy(event) {
-            ipcRenderer.send(event, this.item.sizes.max);
         }
     }
 };
@@ -133,35 +75,6 @@ export default {
 
     background: #24242480;
 
-    &-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        row-gap: 10px;
-
-        width: max-content;
-        height: max-content;
-        max-height: 60vh;
-
-        .media-page-item-frame {
-            display: flex;
-            align-items: center;
-
-            &#video, &#story {
-                border: none;
-            }
-
-            &#video {
-                width: 60vw;
-                height: 60vh;
-            }
-
-            &#photo {
-                width: auto;
-                max-height: 80vh;
-            }
-        }
-    }
+    pointer-events: all;
 }
 </style>

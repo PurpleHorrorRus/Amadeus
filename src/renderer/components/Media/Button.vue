@@ -2,7 +2,7 @@
     <div class="media-page-button">
         <Component
             :is="icon"
-            v-tooltip.bottom="tooltip"
+            v-tooltip.top="tooltip"
             class="icon amadeus clickable"
         />
     </div>

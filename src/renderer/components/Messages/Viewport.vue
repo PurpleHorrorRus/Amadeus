@@ -90,6 +90,7 @@ export default {
             
             handler: function() {
                 if (this.scrollPercent <= this.percentToRead) {
+                    this.scrollToBottom();
                     this.readOnBottom();
                 }
             }

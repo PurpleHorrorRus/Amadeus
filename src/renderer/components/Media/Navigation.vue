@@ -50,6 +50,8 @@ export default {
     width: 100%;
     height: 100%;
 
+    pointer-events: none;
+
     .media-navigation-item {
         display: flex;
         justify-content: center;
@@ -61,6 +63,7 @@ export default {
         background: var(--secondary-opacity-half);
         
         cursor: pointer;
+        pointer-events: all;
 
         &:hover {
             background: var(--secondary);
@@ -72,10 +75,12 @@ export default {
 
         &#left {
             left: 0px;
+            border-radius: 0px 4px 4px 0px;
         }
 
         &#right {
             right: 0px;
+            border-radius: 4px 0px 0px 4px;
         }
     }
 }
