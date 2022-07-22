@@ -3773,7 +3773,7 @@ core-js@2, core-js@^2.6.5:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.12.tgz#d9333dfa7b065e347cc5682219d6f690859cc2ec"
   integrity sha512-Kb2wC0fvsWfQrgk8HU5lW6U/Lcs8+9aaYcy4ZFc6DDlo4nZ7n70dEgE5rtR0oG6ufKDUnrwfWL1mXR5ljDatrQ==
 
-core-js@^3.22.0, core-js@^3.8.2:
+core-js@^3.22.0:
   version "3.23.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.23.3.tgz#3b977612b15da6da0c9cc4aec487e8d24f371112"
   integrity sha512-oAKwkj9xcWNBAvGbT//WiCdOMpb9XQG92/Fe3ABFM/R16BsHgePG00mFOgKf7IsCtfj8tA1kHtf/VwErhriz5Q==
@@ -10982,13 +10982,6 @@ vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
-
-vue-textarea-autogrow-directive@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/vue-textarea-autogrow-directive/-/vue-textarea-autogrow-directive-0.2.0.tgz#2cf942165098fbd28fb3350b2c0a55b87feda541"
-  integrity sha512-4Q1DFUlqCN8FYph76d76n6hqsDcDTOfL6eawoQRWM6AEGUbi7f46El88uPvIQ9GlaacEKM2Ii2d1zSIK9H0i3A==
-  dependencies:
-    core-js "^3.8.2"
 
 vue-yandex-maps@^0.11.11:
   version "0.11.11"

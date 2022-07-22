@@ -4,7 +4,7 @@
             id="message-page-input-field-textarea"
             ref="textarea"
             v-model="message" 
-            v-autogrow
+            v-autosize
             :placeholder="$strings.CHAT.INPUT"
             :disabled="disabled"
             @keypress.enter="send"
@@ -25,7 +25,7 @@
 <script lang="ts">
 import { mapActions, mapState } from "vuex";
 import lodash from "lodash";
-import { TextareaAutogrowDirective } from "vue-textarea-autogrow-directive";
+import TextareaAutosizeDirective from "./Field/Autosize";
 
 import AttachmentsMixin from "~/mixins/attachments";
 import ActionsMixin from "~/mixins/actions";
@@ -41,7 +41,7 @@ export default {
     },
 
     directives: {
-        autogrow: TextareaAutogrowDirective
+        autosize: TextareaAutosizeDirective
     },
 
     mixins: [AttachmentsMixin, ActionsMixin, DateMixin],
@@ -99,6 +99,7 @@ export default {
         message: {
             handler: function(message) {
                 this.setMessage(message);
+                this.$refs.textarea.resize();
 
                 if (message.length === 0 || this.input.editing.enable) {
                     return false;
@@ -110,6 +111,8 @@ export default {
     },
 
     mounted() {
+        console.log(this);
+
         this.typingThrottle = lodash.throttle(() => {
             this.sendTyping({
                 id: this.current.id,
@@ -142,14 +145,14 @@ export default {
                 return false;
             }
 
-            if (!event.shiftKey) {
+            if (event && !event.shiftKey) {
                 event.preventDefault();
                 const message = this.message;
                 this.message = "";
                 return this.$parent.send(message);
             }
 
-            return;
+            return false;
         },
 
         focus(event) {
@@ -216,13 +219,14 @@ export default {
 
         width: 100%;
         max-height: 160px;
+        min-height: 48px;
             
         padding: 7px;
 
+        background: var(--field);
         border: none;
         border-radius: 4px;
-
-        background: var(--field);
+        overflow: hidden;
 
         font-size: 14px;
 
