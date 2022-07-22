@@ -75,7 +75,10 @@ class WindowLogic {
             return false;
         }
 
-        const overlayIcon = path.join(pathToOverlayIcons, `overlay-${window.notificationsCount}.png`);
+        const overlayIcon = window.notificationsCount > 0
+            ? path.join(pathToOverlayIcons, `overlay-${window.notificationsCount}.png`)
+            : null;
+
         window.setOverlayIcon(overlayIcon, String(window.notificationsCount));
     }
 }
