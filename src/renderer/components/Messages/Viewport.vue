@@ -85,9 +85,7 @@ export default {
             }
         },
 
-        "chat.messages": {
-            deep: true,
-            
+        "chat.messages.length": {
             handler: function() {
                 if (this.scrollPercent <= this.percentToRead) {
                     this.scrollToBottom();
