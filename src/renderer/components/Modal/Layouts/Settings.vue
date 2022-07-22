@@ -45,7 +45,7 @@ export default {
 <style lang="scss">
 #modal-layout-settings {
     display: grid !important;
-    grid-template-columns: max-content 60vw !important;
+    grid-template-columns: max-content 75vw !important;
     grid-template-rows: 1fr;
     grid-template-areas: "navigation view";
     column-gap: 10px;

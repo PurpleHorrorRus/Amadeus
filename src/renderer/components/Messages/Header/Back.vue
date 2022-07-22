@@ -14,7 +14,7 @@ import { mapState } from "vuex";
 export default {
     components: {
         ArrowLeftIcon: () => import("~icons/arrow-left.svg"),
-        UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter.vue")
+        UnreadCounter: () => import("./UnreadCounter.vue")
     },
 
     computed: {
@@ -45,6 +45,7 @@ export default {
 
     width: max-content;
     max-width: 45px;
+    height: 100%;
 
     cursor: pointer;
 

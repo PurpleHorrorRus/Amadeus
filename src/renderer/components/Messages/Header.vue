@@ -97,7 +97,7 @@ export default {
         }
 
         #messages-header-back {
-            margin: 0px 5px 0px 10px;
+            padding: 0px 5px 0px 10px;
         }
     }
 }
