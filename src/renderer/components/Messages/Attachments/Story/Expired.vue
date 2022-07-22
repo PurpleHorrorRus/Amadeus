@@ -2,7 +2,7 @@
     <div class="attachments-item-story-preview-expired">
         <BlockIcon class="icon" />
         <span 
-            class="attachmnets-item-story-preview-expired-label small-text" 
+            class="attachments-item-story-preview-expired-label small-text" 
             v-text="$strings.CHAT.ATTACHMENTS.STORY_EXPIRED" 
         />
     </div>
