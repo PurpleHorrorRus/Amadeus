@@ -82,7 +82,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import fs from "fs-extra";
 
 import CoreMixin from "~/mixins/core";
@@ -90,7 +90,7 @@ import AppearanceMixin from "~/mixins/appearance";
 
 export default {
     components: {
-        ColorPicker: () => import("~/components/Global/ColorPicker")
+        ColorPicker: () => import("~/components/Global/ColorPicker.vue")
     },
 
     mixins: [CoreMixin, AppearanceMixin],

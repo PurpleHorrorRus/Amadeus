@@ -26,13 +26,13 @@ export default {
     },
 
     data: () => ({
-        mutated: "",
-        ctrl: false
+        mutated: "" as string,
+        ctrl: false as boolean
     }),
 
     watch: {
-        value: function(newVal) {
-            this.mutated = newVal;
+        value: function(value) {
+            this.mutated = value;
         }
     },
 

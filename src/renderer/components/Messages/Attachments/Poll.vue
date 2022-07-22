@@ -26,16 +26,16 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        PollInformation: () => import("~/components/Messages/Attachments/Poll/Information"),
-        PollAnswer: () => import("~/components/Messages/Attachments/Poll/Answer"),
-        PollVote: () => import("~/components/Messages/Attachments/Poll/Vote")
+        PollInformation: () => import("~/components/Messages/Attachments/Poll/Information.vue"),
+        PollAnswer: () => import("~/components/Messages/Attachments/Poll/Answer.vue"),
+        PollVote: () => import("~/components/Messages/Attachments/Poll/Vote.vue")
     },
 
     mixins: [AttachmentMixin],
@@ -51,7 +51,7 @@ export default {
 
     computed: {
         ...mapState({
-            current: state => state.vk.messages.current
+            current: (state: any) => state.vk.messages.current
         }),
 
         pollClass() {

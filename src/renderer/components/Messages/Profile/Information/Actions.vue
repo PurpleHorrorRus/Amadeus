@@ -22,7 +22,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import ProfileMixin from "~/mixins/profile";
 import ConversationsMixin from "~/mixins/conversations";

@@ -32,7 +32,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
 import AttachmentsMixin from "~/mixins/attachments";

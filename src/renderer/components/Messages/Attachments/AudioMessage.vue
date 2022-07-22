@@ -9,14 +9,14 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        Waveform: () => import("~/components/Messages/Attachments/AudioMessage/Waveform"),
+        Waveform: () => import("~/components/Messages/Attachments/AudioMessage/Waveform.vue"),
         PlayIcon: () => import("~icons/play.svg"),
         PauseIcon: () => import("~icons/pause.svg")
     },
@@ -31,9 +31,9 @@ export default {
 
     computed: {
         ...mapState({
-            voice: state => state.audio_message.voice,
-            playing: state => state.audio_message.playing,
-            time: state => state.audio_message.time
+            voice: (state: any) => state.audio_message.voice,
+            playing: (state: any) => state.audio_message.playing,
+            time: (state: any) => state.audio_message.time
         }),
 
         isSame() {

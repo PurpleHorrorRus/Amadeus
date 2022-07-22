@@ -18,12 +18,12 @@
     </div>
 </template>
 
-<script>
-import VideoComponent from "~/components/Messages/Attachments/Gallery/Video";
+<script lang="ts">
+import VideoComponent from "~/components/Messages/Attachments/Gallery/Video.vue";
 
 export default {
     components: {
-        SelectableItem: () => import("~/components/Modal/Views/AddAttachments/Components/Item")
+        SelectableItem: () => import("~/components/Modal/Views/AddAttachments/Components/Item.vue")
     },
 
     props: {

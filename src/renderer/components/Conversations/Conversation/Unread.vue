@@ -21,10 +21,10 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
-        UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter"),
+        UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter.vue"),
         MentionIcon: () => import("~icons/mention.svg")
     },
 

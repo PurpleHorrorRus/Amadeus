@@ -23,15 +23,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { shell } from "electron";
 
 import ProfileMixin from "~/mixins/profile";
 
 export default {
     components: {
-        ProfileInformationActions: () => import("~/components/Messages/Profile/Information/Actions"),
-        MessagesHeaderOnline: () => import("~/components/Messages/Header/Online")
+        ProfileInformationActions: () => import("~/components/Messages/Profile/Information/Actions.vue"),
+        MessagesHeaderOnline: () => import("~/components/Messages/Header/Online.vue")
     },
 
     mixins: [ProfileMixin],

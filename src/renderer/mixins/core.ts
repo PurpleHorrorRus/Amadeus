@@ -5,13 +5,13 @@ const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 export default {
     computed: {
         ...mapState({
-            config: state => state.config,
-            paths: state => state.paths,
-            extended: state => state.extendedView,
-            client: state => state.vk.client,
-            user: state => state.vk.user,
-            settings: state => state.settings.settings,
-            current: state => state.vk.messages.current
+            config: (state: any) => state.config,
+            paths: (state: any) => state.paths,
+            extended: (state: any) => state.extendedView,
+            client: (state: any) => state.vk.client,
+            user: (state: any) => state.vk.user,
+            settings: (state: any) => state.settings.settings,
+            current: (state: any) => state.vk.messages.current
         })
     },
 
@@ -21,7 +21,7 @@ export default {
             saveCustom: "settings/SAVE_CUSTOM"
         }),
 
-        deepChange(category, option, value = "") {
+        deepChange(category: any, option: string, value: string | number | boolean = "") {
             switch (typeof category[option]) {
                 case "boolean": {
                     category[option] = !category[option];
@@ -43,7 +43,7 @@ export default {
             return category[option];
         },
 
-        formatText(text) {
+        formatText(text: string): string {
             return text.split(" ").map(word => {
                 return mentionRegex.test(word)
                     ? "@" + word.match(mentionRegex)[2]

@@ -17,7 +17,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
         VolumeHighIcon: () => import("~icons/volume-high.svg"),

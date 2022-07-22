@@ -12,12 +12,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        StoryExpired: () => import("~/components/Messages/Attachments/Story/Expired")
+        StoryExpired: () => import("~/components/Messages/Attachments/Story/Expired.vue")
     },
 
     mixins: [AttachmentMixin],

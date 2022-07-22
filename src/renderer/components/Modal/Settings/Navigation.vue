@@ -10,10 +10,10 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
-        NavigationItem: () => import("~/components/Modal/Settings/Navigation/Item")
+        NavigationItem: () => import("~/components/Modal/Settings/Navigation/Item.vue")
     },
 
     data: () => ({

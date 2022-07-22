@@ -16,15 +16,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import AttachmentsMixin from "~/mixins/attachments";
 
 export default {
     components: {
-        MessageReply: () => import("~/components/Messages/Reply"),
-        MessageText: () => import("~/components/Messages/Text"),
-        MessageForwardedMessages: () => import("~/components/Messages/ForwardedMessages"),
-        MessageAttachments: () => import("~/components/Messages/Attachments")
+        MessageReply: () => import("~/components/Messages/Reply.vue"),
+        MessageText: () => import("~/components/Messages/Text.vue"),
+        MessageForwardedMessages: () => import("~/components/Messages/ForwardedMessages.vue"),
+        MessageAttachments: () => import("~/components/Messages/Attachments.vue")
     },
 
     mixins: [AttachmentsMixin],

@@ -21,7 +21,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import ModalMixin from "~/mixins/modal";
@@ -30,7 +30,7 @@ import User from "~/instances/User";
 
 export default {
     components: {
-        AccountProfile: () => import("~/components/Modal/Settings/Views/Accounts/Profile")
+        AccountProfile: () => import("~/components/Modal/Settings/Views/Accounts/Profile.vue")
     },
 
     mixins: [ModalMixin],
@@ -42,9 +42,9 @@ export default {
 
     computed: {
         ...mapState({
-            config: state => state.config,
-            user: state => state.vk.user,
-            client: state => state.vk.client
+            config: (state: any) => state.config,
+            user: (state: any) => state.vk.user,
+            client: (state: any) => state.vk.client
         })
     },
 

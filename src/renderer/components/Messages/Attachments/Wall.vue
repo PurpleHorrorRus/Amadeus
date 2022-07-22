@@ -15,13 +15,13 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        WallRepost: () => import("~/components/Messages/Attachments/Wall/Repost"),
-        MessageAttachments: () => import("~/components/Messages/Attachments")
+        WallRepost: () => import("~/components/Messages/Attachments/Wall/Repost.vue"),
+        MessageAttachments: () => import("~/components/Messages/Attachments.vue")
     },
 
     mixins: [AttachmentMixin],

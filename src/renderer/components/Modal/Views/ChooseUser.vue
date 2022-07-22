@@ -13,21 +13,21 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from "vuex";
 
 import ModalMixin from "~/mixins/modal";
 
 export default {
     components: {
-        ForwardProfile: () => import("~/components/Modal/Views/Forward/Profile")
+        ForwardProfile: () => import("~/components/Modal/Views/Forward/Profile.vue")
     },
 
     mixins: [ModalMixin],
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.cache
+            conversations: (state: any) => state.vk.conversations.cache
         })
     }
 };

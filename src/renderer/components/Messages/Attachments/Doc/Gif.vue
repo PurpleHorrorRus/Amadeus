@@ -5,13 +5,13 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 
 export default {
     components: {
-        GifPreview: () => import("~/components/Messages/Attachments/Doc/Gif/Preview"),
-        GifPlaying: () => import("~/components/Messages/Attachments/Doc/Gif/Playing")
+        GifPreview: () => import("~/components/Messages/Attachments/Doc/Gif/Preview.vue"),
+        GifPlaying: () => import("~/components/Messages/Attachments/Doc/Gif/Playing.vue")
     },
 
     mixins: [CoreMixin],

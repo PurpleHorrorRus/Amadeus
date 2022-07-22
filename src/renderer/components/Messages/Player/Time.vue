@@ -2,7 +2,7 @@
     <span id="messages-player-time" v-text="time" />
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from "vuex";
 
 import common from "~/plugins/common";
@@ -10,7 +10,7 @@ import common from "~/plugins/common";
 export default {
     computed: {
         ...mapState({
-            currentTime: state => state.audio.time
+            currentTime: (state: any) => state.audio.time
         }),
 
         time() {

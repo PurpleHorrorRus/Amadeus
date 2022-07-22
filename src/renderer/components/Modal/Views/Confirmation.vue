@@ -19,7 +19,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import ModalMixin from "~/mixins/modal";
 
 export default {

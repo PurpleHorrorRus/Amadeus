@@ -21,7 +21,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer } from "electron";
 import { mapActions, mapState } from "vuex";
 
@@ -35,7 +35,7 @@ const filter = {
 
 export default {
     components: {
-        ProfileInformationMeta: () => import("~/components/Messages/Profile/Information/Meta"),
+        ProfileInformationMeta: () => import("~/components/Messages/Profile/Information/Meta.vue"),
         XIcon: () => import("~icons/x.svg")
     },
 
@@ -50,7 +50,7 @@ export default {
 
     computed: {
         ...mapState({
-            defaults: state => state.vk.defaults
+            defaults: (state: any) => state.vk.defaults
         }),
 
         avatarClass() {

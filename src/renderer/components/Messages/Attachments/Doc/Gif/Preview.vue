@@ -5,7 +5,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import DocMixin from "~/components/Messages/Attachments/Doc/Mixin";
 
 export default {

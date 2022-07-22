@@ -15,7 +15,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import PageMixin from "~/mixins/page";
@@ -23,8 +23,8 @@ import ScrollMixin from "~/mixins/scroll";
 
 export default {
     components: {
-        MessagesHeaderBack: () => import("~/components/Messages/Header/Back"),
-        ImportantMessage: () => import("~/components/Messages/Important")
+        MessagesHeaderBack: () => import("~/components/Messages/Header/Back.vue"),
+        ImportantMessage: () => import("~/components/Messages/Important.vue")
     },
 
     mixins: [PageMixin, ScrollMixin],
@@ -37,7 +37,7 @@ export default {
 
     computed: {
         ...mapState({
-            extended: state => state.extendedView
+            extended: (state: any) => state.extendedView
         }),
 
         canScroll() {

@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions } from "vuex";
 
 import CoreMixin from "~/mixins/core";

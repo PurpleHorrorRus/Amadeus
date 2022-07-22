@@ -7,8 +7,8 @@ export default {
     
     computed: {
         ...mapState({
-            playing: state => state.audio.playing,
-            song: state => state.audio.song
+            playing: (state: any) => state.audio.playing,
+            song: (state: any) => state.audio.song
         })
     },
 

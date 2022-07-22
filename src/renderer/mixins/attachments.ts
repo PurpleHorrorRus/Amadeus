@@ -1,3 +1,5 @@
+import Message from "~/instances/Messages/Message";
+
 export default {
     props: {
         data: {
@@ -11,18 +13,18 @@ export default {
     }),
 
     computed: {
-        showAttachments() {
+        showAttachments(): boolean {
             return this.message.attachments.length > 0
                 || this.message.geo;
         },
 
-        showForwardedMessages() {
+        showForwardedMessages(): boolean {
             return this.message.fwd_messages?.length > 0;
         }
     },
 
     methods: {
-        formatAttachment(attachment, count, unset = true) {
+        formatAttachment(attachment: string, count: number, unset: boolean = true) {
             const label = this.$strings.CONVERSATIONS.ATTACHMENTS[attachment.toUpperCase()];
 
             if (!unset) {
@@ -41,7 +43,7 @@ export default {
                 : label;
         },
 
-        formatAttachmentsString(message, unset = true) {
+        formatAttachmentsString(message: Message, unset: boolean = true): string {
             if (message.attachments?.length === 0 && message.fwd_messages?.length === 0) {
                 return "";
             }
@@ -71,7 +73,7 @@ export default {
             return formatted.join(", ");
         },
 
-        checkBlockedAttachments(message) {
+        checkBlockedAttachments(message: Message): boolean {
             return this.blockedAttachments.includes(message.attachments[0]?.type);
         }
     }

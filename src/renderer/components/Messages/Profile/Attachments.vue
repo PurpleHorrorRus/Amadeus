@@ -22,7 +22,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
 
@@ -30,7 +30,7 @@ import AttachmentGenerator from "~/instances/Messages/Attachments/Generator";
 
 export default {
     components: {
-        ProfileAttachment: () => import("~/components/Messages/Profile/Attachments/Attachment")
+        ProfileAttachment: () => import("~/components/Messages/Profile/Attachments/Attachment.vue")
     },
 
     mixins: [CoreMixin, ScrollMixin],

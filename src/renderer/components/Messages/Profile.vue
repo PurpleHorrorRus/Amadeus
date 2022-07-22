@@ -6,12 +6,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
-        ProfileInformation: () => import("~/components/Messages/Profile/Information"),
-        ProfileUsers: () => import("~/components/Messages/Profile/Users"),
-        ProfileAttachments: () => import("~/components/Messages/Profile/Attachments")
+        ProfileInformation: () => import("~/components/Messages/Profile/Information.vue"),
+        ProfileUsers: () => import("~/components/Messages/Profile/Users.vue"),
+        ProfileAttachments: () => import("~/components/Messages/Profile/Attachments.vue")
     },
 
     props: {

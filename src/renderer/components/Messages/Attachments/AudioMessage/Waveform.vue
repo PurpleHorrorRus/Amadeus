@@ -13,12 +13,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions } from "vuex";
 
 export default {
     components: {
-        WaveformPeak: () => import("~/components/Messages/Attachments/AudioMessage/Peak")
+        WaveformPeak: () => import("~/components/Messages/Attachments/AudioMessage/Peak.vue")
     },
 
     props: {

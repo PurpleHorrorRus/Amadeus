@@ -35,7 +35,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer } from "electron";
 
 export default {

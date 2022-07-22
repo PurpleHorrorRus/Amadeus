@@ -12,7 +12,7 @@
     >
 </template>
 
-<script>
+<script lang="ts">
 import InputMixin from "~/mixins/Input";
 
 export default {

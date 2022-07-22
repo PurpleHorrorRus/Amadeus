@@ -19,7 +19,7 @@
     </SkeletonTheme>
 </template>
 
-<script>
+<script lang="ts">
 import { SkeletonTheme, Skeleton } from "vue-loading-skeleton";
 
 export default {

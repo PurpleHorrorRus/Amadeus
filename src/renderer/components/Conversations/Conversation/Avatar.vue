@@ -6,7 +6,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
         PhoneIcon: () => import("~icons/phone.svg")

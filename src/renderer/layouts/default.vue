@@ -40,20 +40,20 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
-import Resizable from "~/components/Global/Resizable";
+import Resizable from "~/components/Global/Resizable.vue";
 
 import CoreMixin from "~/mixins/core";
 import AppearanceMixin from "~/mixins/appearance";
 
 export default {
     components: {
-        Titlebar: () => import("~/components/Titlebar/Titlebar"),
-        Player: () => import("~/components/Messages/Player"),
-        ConversationsList: () => import("~/components/Conversations/List"),
-        ModalWindow: () => import("~/components/Modal/Window"),
+        Titlebar: () => import("~/components/Titlebar/Titlebar.vue"),
+        Player: () => import("~/components/Messages/Player.vue"),
+        ConversationsList: () => import("~/components/Conversations/List.vue"),
+        ModalWindow: () => import("~/components/Modal/Window.vue"),
         Resizable
     },
 
@@ -69,12 +69,12 @@ export default {
 
     computed: {
         ...mapState({
-            extended: state => state.extendedView,
-            current: state => state.vk.messages.current,
+            extended: (state: any) => state.extendedView,
+            current: (state: any) => state.vk.messages.current,
 
-            song: state => state.audio.song,
+            song: (state: any) => state.audio.song,
 
-            modalShow: state => state.modal.show
+            modalShow: (state: any) => state.modal.show
         }),
 
         layoutClass() {

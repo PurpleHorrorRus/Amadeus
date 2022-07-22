@@ -28,7 +28,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { debounce } from "lodash";
 
 const deb = debounce((context, value) => context.$emit("change", value), 500);

@@ -24,17 +24,17 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import AudioMixin from "~/mixins/audio";
 
 export default {
     components: {
-        Timeline: () => import("~/components/Messages/Player/Timeline"),
+        Timeline: () => import("~/components/Messages/Player/Timeline.vue"),
 
-        PlayerTime: () => import("~/components/Messages/Player/Time"),
-        PlayerVolume: () => import("~/components/Messages/Player/Volume"),
+        PlayerTime: () => import("~/components/Messages/Player/Time.vue"),
+        PlayerVolume: () => import("~/components/Messages/Player/Volume.vue"),
         
         PlayIcon: () => import("~icons/play.svg"),
         PauseIcon: () => import("~icons/pause.svg"),
@@ -45,7 +45,7 @@ export default {
 
     computed: {
         ...mapState({
-            playerInitialized: state => state.audio.init
+            playerInitialized: (state: any) => state.audio.init
         }),
 
         title() {

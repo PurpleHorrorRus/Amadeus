@@ -21,7 +21,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";
@@ -31,9 +31,9 @@ import ScrollMixin from "~/mixins/scroll";
 
 export default {
     components: {
-        ConversationsHeader: () => import("~/components/Conversations/Header"),
-        PinnedConversations: () => import("~/components/Conversations/Pinned"),
-        Conversation: () => import("~/components/Conversations/Conversation")
+        ConversationsHeader: () => import("~/components/Conversations/Header.vue"),
+        PinnedConversations: () => import("~/components/Conversations/Pinned.vue"),
+        Conversation: () => import("~/components/Conversations/Conversation.vue")
     },
 
     mixins: [CoreMixin, MenuMixin, ConversationsMixin, ScrollMixin],
@@ -44,9 +44,9 @@ export default {
 
     computed: {
         ...mapState({
-            extended: state => state.extendedView,
-            conversations: state => state.vk.conversations.cache,
-            count: state => state.vk.conversations.count
+            extended: (state: any) => state.extendedView,
+            conversations: (state: any) => state.vk.conversations.cache,
+            count: (state: any) => state.vk.conversations.count
         }),
         
         conversationClass() {

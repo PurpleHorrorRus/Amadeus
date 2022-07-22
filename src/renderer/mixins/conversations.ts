@@ -1,4 +1,5 @@
 import { mapActions } from "vuex";
+import Conversation from "~/instances/Conversations/Convesration";
 
 import CoreMixin from "~/mixins/core";
 import ModalMixin from "~/mixins/modal";
@@ -11,7 +12,7 @@ export default {
             deleteConversation: "vk/conversations/DELETE"
         }),
 
-        async readConversation(conversation) {
+        async readConversation(conversation: Conversation) {
             conversation.readIn(conversation.message.id);
             return await this.client.api.messages.markAsRead({
                 peer_id: conversation.id,
@@ -19,11 +20,11 @@ export default {
             });
         },
 
-        profileInMute(conversation) {
+        profileInMute(conversation: Conversation): boolean {
             return this.settings.vk.mute.includes(conversation.id);
         },
 
-        turnMute(conversation) {
+        turnMute(conversation: Conversation): void {
             conversation.setMute(!conversation.muted);
 
             if (conversation.muted) {
@@ -39,7 +40,7 @@ export default {
             this.saveSettings(this.settings);
         },
 
-        openDeleteConfirmation(conversation) {
+        openDeleteConfirmation(conversation: Conversation): void {
             this.confirmation({
                 text: "Вы действительно хотите удалить историю сообщений?",
                 accept: () => {

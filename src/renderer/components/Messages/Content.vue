@@ -35,12 +35,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import DateMixin from "~/mixins/date";
 
 export default {
     components: {
-        AllAttachments: () => import("~/components/Messages/AllAttachments"),
+        AllAttachments: () => import("~/components/Messages/AllAttachments.vue"),
         PenIcon: () => import("~icons/pen.svg"),
         CheckIcon: () => import("~icons/check.svg")
     },

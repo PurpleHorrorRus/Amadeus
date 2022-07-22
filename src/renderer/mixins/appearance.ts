@@ -21,15 +21,15 @@ export default {
             setBackground: "SET_BACKGROUND"
         }),
 
-        setTheme(name) {
+        setTheme(name: string) {
             this.$nuxt.$colorMode.preference = name;
         },
 
-        setStyleVariable(variable, value) {
+        setStyleVariable(variable: string, value: string): void {
             document.documentElement.style.setProperty(`--${variable}`, value);
         },
 
-        generateContrast(color) {
+        generateContrast(color: string) {
             return contrastColor({ 
                 bgColor: color,
                 threshold: 180

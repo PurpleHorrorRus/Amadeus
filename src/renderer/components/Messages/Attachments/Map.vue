@@ -21,7 +21,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { yandexMap, ymapMarker } from "vue-yandex-maps";
 
 export default {

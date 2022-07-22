@@ -22,14 +22,14 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import ProfileMixin from "~/mixins/profile";
 import DateMixin from "~/mixins/date";
 import AttachmentsMixin from "~/mixins/attachments";
 
 export default {
     components: {
-        AllAttachments: () => import("~/components/Messages/AllAttachments")
+        AllAttachments: () => import("~/components/Messages/AllAttachments.vue")
     },
 
     mixins: [ProfileMixin, DateMixin, AttachmentsMixin],

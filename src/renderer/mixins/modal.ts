@@ -3,7 +3,7 @@ import { mapActions, mapState } from "vuex";
 export default {
     computed: {
         ...mapState({
-            modal: state => state.modal
+            modal: (state: any) => state.modal
         })
     },
 

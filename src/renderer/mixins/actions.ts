@@ -13,7 +13,7 @@ export default {
             markImportant: "vk/messages/MARK_IMPORTANT"
         }),
 
-        async action(name, message) {
+        async action(name: string, message: string) {
             message = message || this.message || this.menu.target;
             
             if (this.modal.show) {

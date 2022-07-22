@@ -19,7 +19,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {

@@ -9,15 +9,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import AttachmentsMixin from "~/mixins/attachments";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        FwdRepost: () => import("~/components/Messages/Attachments/Wall/Repost"),
-        AllAttachments: () => import("~/components/Messages/AllAttachments")
+        FwdRepost: () => import("~/components/Messages/Attachments/Wall/Repost.vue"),
+        AllAttachments: () => import("~/components/Messages/AllAttachments.vue")
     },
 
     mixins: [CoreMixin, AttachmentsMixin, AttachmentMixin],

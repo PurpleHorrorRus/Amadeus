@@ -1,10 +1,11 @@
 import DateDiff from "date-diff";
+import Message from "~/instances/Messages/Message";
 
 import common from "~/plugins/common";
 
 export default {
     methods: {
-        relativeDate(messageDate) {
+        relativeDate(messageDate: number): string {
             const date = new Date(messageDate * 1000);
             const diff = this.dateDiff({ date: messageDate });
 
@@ -33,7 +34,7 @@ export default {
             ]);
         },
 
-        dateDiff(message) {
+        dateDiff(message: Message): DateDiff {
             return new DateDiff(new Date(), new Date(message.date * 1000));
         }
     }

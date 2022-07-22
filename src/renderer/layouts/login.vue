@@ -5,13 +5,13 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import AppearanceMixin from "~/mixins/appearance";
 
 export default {
     components: {
-        Titlebar: () => import("~/components/Titlebar/Titlebar")
+        Titlebar: () => import("~/components/Titlebar/Titlebar.vue")
     },
     
     mixins: [CoreMixin, AppearanceMixin],

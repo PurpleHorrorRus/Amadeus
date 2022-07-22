@@ -17,12 +17,12 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 
 export default {
     components: {
-        Conversation: () => import("~/components/Conversations/Conversation")
+        Conversation: () => import("~/components/Conversations/Conversation.vue")
     },
 
     mixins: [CoreMixin],

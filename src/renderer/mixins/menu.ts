@@ -4,7 +4,7 @@ import ScrollMixin from "~/mixins/scroll";
 
 export default {
     data: () => ({
-        hold: false,
+        hold: false as boolean,
 
         menu: { 
             show: false,
@@ -18,15 +18,15 @@ export default {
     mixins: [ScrollMixin],
 
     mounted() {
-        // window.addEventListener("blur", this.closeMenu);
+        window.addEventListener("blur", this.closeMenu);
     },
 
     beforeDestroy() {
-        // window.removeEventListener("blur", this.closeMenu);
+        window.removeEventListener("blur", this.closeMenu);
     },
 
     methods: {
-        openMenu(event, target, atElement = false, hold = false) {
+        openMenu(event: any, target: any, atElement: boolean = false, hold: boolean = false) {
             if (this.menu.show && !hold) {
                 this.closeMenu();
                 if (atElement) return true;

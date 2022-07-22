@@ -25,15 +25,15 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {
-        GalleryPhoto: () => import("~/components/Messages/Attachments/Gallery/Photo"),
-        GalleryVideo: () => import("~/components/Messages/Attachments/Gallery/Video"),
-        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio"),
-        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc")
+        GalleryPhoto: () => import("~/components/Messages/Attachments/Gallery/Photo.vue"),
+        GalleryVideo: () => import("~/components/Messages/Attachments/Gallery/Video.vue"),
+        AttachmentAudio: () => import("~/components/Messages/Attachments/Audio.vue"),
+        AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc.vue")
     },
     
     mixins: [AttachmentMixin],

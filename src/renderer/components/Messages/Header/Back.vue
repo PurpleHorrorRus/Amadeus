@@ -8,18 +8,18 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from "vuex";
 
 export default {
     components: {
         ArrowLeftIcon: () => import("~icons/arrow-left.svg"),
-        UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter")
+        UnreadCounter: () => import("~/components/Messages/Header/UnreadCounter.vue")
     },
 
     computed: {
         ...mapState({
-            conversations: state => state.vk.conversations.cache
+            conversations: (state: any) => state.vk.conversations.cache
         }),
 
         unreadCount() {

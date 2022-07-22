@@ -18,7 +18,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 

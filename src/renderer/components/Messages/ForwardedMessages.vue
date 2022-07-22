@@ -8,10 +8,10 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
-        ForwardedMessage: () => import("~/components/Messages/ForwardedMessage")
+        ForwardedMessage: () => import("~/components/Messages/ForwardedMessage.vue")
     },
 
     props: {

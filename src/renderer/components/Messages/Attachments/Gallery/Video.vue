@@ -35,8 +35,8 @@
     </div>
 </template>
 
-<script>
-import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
+<script lang="ts">
+import GalleryMixin from "~/components/Messages/Attachments/Gallery.vue";
 
 export default {
     components: {

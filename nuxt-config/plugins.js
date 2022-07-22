@@ -1,10 +1,10 @@
 const root = "~plugins";
 const plugins = [
-    "globalComponents.js",
+    "globalComponents.ts",
     "i18n.ts",
-    "directives.js",
-    "plyr.js",
-    "tooltip.js"
+    "directives.ts",
+    "plyr.ts",
+    "tooltip.ts"
 ];
 
 // eslint-disable-next-line no-undef

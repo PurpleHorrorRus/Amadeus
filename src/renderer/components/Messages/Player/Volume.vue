@@ -17,7 +17,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "vuex";
 
 import VolumeHighIcon from "~icons/volume-high.svg";
@@ -28,14 +28,14 @@ import CoreMixin from "~/mixins/core";
 
 export default {
     components: {
-        VolumeLine: () => import("~/components/Global/Line")
+        VolumeLine: () => import("~/components/Global/Line.vue")
     },
 
     mixins: [CoreMixin],
 
     computed: {
         ...mapState({
-            volume: state => state.audio.volume
+            volume: (state: any) => state.audio.volume
         }),
 
         render() {

@@ -10,7 +10,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import DateMixin from "~/mixins/date";
 
 export default {

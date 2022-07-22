@@ -6,7 +6,7 @@
     >
 </template>
 
-<script>
+<script lang="ts">
 import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
 
 export default {

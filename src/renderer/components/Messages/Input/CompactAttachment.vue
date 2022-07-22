@@ -14,7 +14,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from "vuex";
 
 import ProfileMixin from "~/mixins/profile";
@@ -47,8 +47,8 @@ export default {
 
     computed: {
         ...mapState({
-            current: state => state.vk.messages.current,
-            user: state => state.vk.user
+            current: (state: any) => state.vk.messages.current,
+            user: (state: any) => state.vk.user
         })
     },
 

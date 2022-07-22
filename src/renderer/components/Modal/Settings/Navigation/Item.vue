@@ -9,7 +9,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from "vuex";
 
 export default {
@@ -28,7 +28,7 @@ export default {
 
     computed: {
         ...mapState({
-            extended: state => state.extendedView
+            extended: (state: any) => state.extendedView
         }),
 
         settingsNavigationItemClass() {

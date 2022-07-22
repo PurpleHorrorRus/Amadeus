@@ -7,7 +7,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import ModalMixin from "~/mixins/modal";
 
 export default {
@@ -16,10 +16,10 @@ export default {
     computed: {
         renderLayout() {
             switch (this.modal.layout) {
-                case "settings": return () => import("~/components/Modal/Layouts/Settings");
+                case "settings": return () => import("~/components/Modal/Layouts/Settings.vue");
             }
 
-            return () => import("~/components/Modal/Layouts/Default");
+            return () => import("~/components/Modal/Layouts/Default.vue");
         }
     }
 };

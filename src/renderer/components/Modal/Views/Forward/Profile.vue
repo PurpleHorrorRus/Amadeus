@@ -5,7 +5,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import ProfileMixin from "~/mixins/profile";
 
 export default {

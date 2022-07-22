@@ -19,7 +19,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { resolve } from "path";
 import { ipcRenderer } from "electron";
 

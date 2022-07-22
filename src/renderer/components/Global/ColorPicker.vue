@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
         ColorPicker: () => import("@uscreen-video/v-color")

@@ -24,7 +24,7 @@
         "vue-plyr/plyr": "github:sampotts/plyr#master"
     },
     "devDependencies": {
-        "@babel/eslint-parser": "^7.18.2",
+        "@babel/eslint-parser": "^7.18.9",
         "@nuxt/types": "^2.15.8",
         "@nuxt/typescript-build": "^2.1.0",
         "@nuxtjs/eslint-config": "10.0.0",
@@ -38,22 +38,22 @@
         "@xpda-dev/webpack-step": "^0.1.6",
         "cross-env": "^7.0.3",
         "deepmerge": "^4.2.2",
-        "electron": "^19.0.7",
+        "electron": "^19.0.9",
         "electron-builder": "^23.1.0",
-        "eslint": "^8.19.0",
+        "eslint": "^8.20.0",
         "eslint-plugin-vue": "^9.2.0",
         "nuxt": "^2.15.8",
         "sass-loader": "10.2.1",
-        "ts-loader": "~8.2.0",
+        "ts-loader": "8.2.0",
         "typescript": "^4.7.4",
         "vue-svg-loader": "^0.16.0",
         "webpack": "4.44.2",
         "webpack-node-externals": "2.5.2"
     },
     "dependencies": {
-        "@lottiefiles/vue-lottie-player": "^1.0.8",
+        "@lottiefiles/vue-lottie-player": "^1.0.9",
         "@nuxt/typescript-runtime": "^2.1.0",
-        "@nuxtjs/color-mode": "^2.1.1",
+        "@nuxtjs/color-mode": "2.1.1",
         "@nuxtjs/style-resources": "^1.2.1",
         "@types/dom-mediacapture-record": "^1.0.11",
         "@uscreen-video/v-color": "^1.0.0",
@@ -74,7 +74,7 @@
         "vue-range-component": "https://github.com/xwpongithub/vue-range-slider",
         "vue-scroll-outside": "^1.0.1",
         "vue-textarea-autogrow-directive": "^0.2.0",
-        "vue-yandex-maps": "^0.11.9",
+        "vue-yandex-maps": "^0.11.11",
         "vuedraggable": "^2.24.3"
     }
 }

@@ -9,7 +9,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
         PhotoAlbum: () => import("~/components/Modal/Views/AddAttachments/Components/Photo/Album.vue")

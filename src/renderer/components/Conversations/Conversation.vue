@@ -15,7 +15,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";
@@ -24,10 +24,10 @@ import ProfileMixin from "~/mixins/profile";
 
 export default {
     components: {
-        ConversationAvatar: () => import("~/components/Conversations/Conversation/Avatar"),
-        ConversationMessage: () => import("~/components/Conversations/Conversation/Message"),
-        ConversationTyping: () => import("~/components/Conversations/Conversation/Typing"),
-        ConversationUnread: () => import("~/components/Conversations/Conversation/Unread"),
+        ConversationAvatar: () => import("~/components/Conversations/Conversation/Avatar.vue"),
+        ConversationMessage: () => import("~/components/Conversations/Conversation/Message.vue"),
+        ConversationTyping: () => import("~/components/Conversations/Conversation/Typing.vue"),
+        ConversationUnread: () => import("~/components/Conversations/Conversation/Unread.vue"),
         VolumeMuteIcon: () => import("~icons/volume-mute.svg")
     },
 
@@ -42,8 +42,8 @@ export default {
 
     computed: {
         ...mapState({
-            current: state => state.vk.messages.current,
-            extended: state => state.extendedView
+            current: (state: any) => state.vk.messages.current,
+            extended: (state: any) => state.extendedView
         }),
 
         conversationClass() {

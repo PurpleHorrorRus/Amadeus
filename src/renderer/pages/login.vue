@@ -40,7 +40,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer } from "electron";
 import { CallbackService } from "vk-io";
 import { DirectAuthorization, officialAppCredentials } from "@vk-io/authorization";
@@ -53,8 +53,8 @@ export default {
     components: {
         VKIcon: () => import("~icons/brands/vk.svg"),
 
-        LoginCredits: () => import("~/components/Login/Credits"),
-        LoginCaptcha: () => import("~/components/Login/Captcha")
+        LoginCredits: () => import("~/components/Login/Credits.vue"),
+        LoginCaptcha: () => import("~/components/Login/Captcha.vue")
     },
 
     layout: "login",
@@ -161,6 +161,7 @@ export default {
 
         async authVK() {
             this.DirectData = await new DirectAuthorization({
+                apiVersion: "5.154",
                 callbackService,
 
                 scope: "all",

@@ -6,11 +6,11 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 export default {
     components: {
-        MessageContent: () => import("~/components/Messages/Content"),
-        MessageActions: () => import("~/components/Messages/Actions")
+        MessageContent: () => import("~/components/Messages/Content.vue"),
+        MessageActions: () => import("~/components/Messages/Actions.vue")
     },
 
     provide() {

@@ -14,7 +14,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import CoreMixin from "~/mixins/core";
 import ActionsMixin from "~/mixins/actions";
 

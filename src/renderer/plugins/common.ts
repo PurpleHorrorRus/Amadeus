@@ -1,11 +1,11 @@
 class Common {
-    static formatTimeToDayAndMonth(time, months) {
+    static formatTimeToDayAndMonth(time: Date, months: string[]): string {
         const day = time.getDate();
         const month = months[time.getMonth()];
         return `${day} ${month}`;
     }
 
-    static formatDuration(time) {
+    static formatDuration(time: number) {
         if (time === null) {
             return null;
         }
@@ -17,7 +17,7 @@ class Common {
         };
     }
 
-    static fancyTimeFormat(time) {
+    static fancyTimeFormat(time?: number): string {
         if (!time) {
             return "0:00";
         }
@@ -28,35 +28,37 @@ class Common {
         return ret + `${mins}:${seconds < 10 ? "0" : ""}${seconds}`;
     }
 
-    static timestampFormat(time) {
+    static timestampFormat(time?: Date): string {
         if (!time) {
             return "00:00";
         }
 
-        let hours = time.getHours();
+        let hours: number | string = time.getHours();
         if (hours < 10) hours = `0${hours}`;
 
-        let mins = time.getMinutes();
+        let mins: number | string = time.getMinutes();
         if (mins < 10) mins = `0${mins}`;
 
         return `${hours}:${mins}`;
     }
 
-    static getRandom(min, max) {
+    static getRandom(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    static wait(timeout) {
-        return new Promise(resolve => setTimeout(resolve, timeout));    
+    static wait(timeout): Promise<any> {
+        return new Promise(resolve => {
+            return setTimeout(resolve, timeout);
+        });    
     }
 
-    static async repeat(handler, timeout) {
+    static async repeat(handler: Function, timeout: number): Promise<void> {
         const interval = setInterval(handler, 0);
         await Common.wait(timeout);
         clearInterval(interval);
     }
 
-    static arrayMove(arr, oldIndex, newIndex) {
+    static arrayMove(arr: any[], oldIndex: number, newIndex: number): any[] {
         if (newIndex >= arr.length) {
             let k = newIndex - arr.length + 1;
             while (k--) arr.push(undefined);

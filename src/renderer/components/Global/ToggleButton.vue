@@ -20,7 +20,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ToggleButton } from "vue-js-toggle-button";
 
 export default {
