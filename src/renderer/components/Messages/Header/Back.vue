@@ -45,7 +45,7 @@ export default {
     justify-content: center;
     align-items: center;
 
-    width: 20px;
+    width: 100%;
 
     cursor: pointer;
 
@@ -55,7 +55,7 @@ export default {
 
     .unread-counter {
         position: absolute;
-        bottom: 5px; right: -3px;
+        bottom: 5px; right: -8px;
     }
 }
 </style>

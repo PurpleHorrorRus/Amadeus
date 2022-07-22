@@ -14,23 +14,27 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
 import { ipcRenderer } from "electron";
 
 export default {
     components: {
-        AppButton: () => import("~/components/Titlebar/AppButton")
+        AppButton: () => import("./AppButton.vue")
     },
 
     data: () => ({
         AppButtons: [{
             icon: () => import("~icons/minus.svg"),
             event: "minimize"
-        }, {
+        },
+
+        {
             icon: () => import("~icons/square.svg"),
             event: "maximize",
             class: "maximize"
-        }, {
+        },
+
+        {
             icon: () => import("~icons/x.svg"),
             event: "close",
             class: "close"

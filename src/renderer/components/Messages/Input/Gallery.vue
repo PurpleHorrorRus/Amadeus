@@ -66,7 +66,7 @@ export default {
     width: 100%;
     max-height: 280px;
 
-    padding: 10px 0px;
+    padding: 0px 1vw;
 
     overflow-x: hidden;
     overflow-y: auto;

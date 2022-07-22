@@ -32,12 +32,14 @@ export default {
     flex-direction: column;
     row-gap: 20px;
 
-    width: 350px;
+    width: 80%;
+    max-width: 350px;
     height: 100%;
 
     padding: 10px;
 
     background: var(--primary);
+    border-left: 1px solid var(--border);
     
     overflow-y: overlay;
 }
