@@ -134,6 +134,7 @@ export default {
 
     padding: 10px;
 
+    overflow-x: hidden;
     overflow-y: auto;
     
     .scroll-arrow {

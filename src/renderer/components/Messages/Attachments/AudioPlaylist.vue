@@ -23,6 +23,17 @@ export default {
 </script>
 
 <style lang="scss">
+@media screen and (max-width: 990px) {
+    .attachments-item-playlist {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: auto !important;
+        grid-template-areas: "cover"
+                            "information" !important;
+                
+        width: 200px;
+    }
+}
+
 .attachments-item-playlist {
     display: grid;
     grid-template-columns: 120px 1fr;
@@ -47,7 +58,6 @@ export default {
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 1fr 1fr;
-        row-gap: 10px;
 
         padding: 10px;
     }
