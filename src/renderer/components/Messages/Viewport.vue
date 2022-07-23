@@ -67,7 +67,8 @@ export default {
         },
 
         canScroll() {
-            return this.chat.messages.length < this.chat.count
+            return !this.chat.search
+                && this.chat.messages.length < this.chat.count
                 && !this.loadMore;
         },
 
