@@ -230,7 +230,7 @@ export default {
             if (conversationIndex > 0) {
                 state.cache = common.arrayMove(state.cache, conversationIndex, 0);
             }
-            
+
             dispatch("UPDATE_ICON");
             return conversation;
         },
@@ -241,7 +241,7 @@ export default {
             data.isInbox
                 ? conversation.readIn(data.payload.local_id)
                 : conversation.readOut(data.payload.local_id);
-            
+
             dispatch("UPDATE_ICON");
             return true;
         },
@@ -250,7 +250,7 @@ export default {
             const notificationsCount = state.cache.filter(conversation => {
                 return conversation.information.unread_count > 0;
             }).length;
-            
+
             return ipcRenderer.send("buildNotificationIcon", notificationsCount);
         },
 
