@@ -50,6 +50,6 @@ module.exports = {
         owner: "PurpleHorrorRus",
         repo: "Amadeus",
         releaseType: "release",
-        private: false
+        private: true
     }
 };

@@ -23,7 +23,7 @@ class Updater {
             provider: "github",
             repo: "Amadeus",
             owner: "PurpleHorrorRus",
-            private: false
+            private: true
         });
     }
 
