@@ -19,7 +19,7 @@ class Link extends Attachment implements IPreview {
         this.caption = link.caption;
         this.description = link.description;
 
-        this.sizes = this.calculateSize(link.photo.sizes);
+        this.sizes = this.calculateSize(link.photo?.sizes);
     }
 }
 
