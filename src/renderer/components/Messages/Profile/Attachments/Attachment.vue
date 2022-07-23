@@ -60,7 +60,8 @@ export default {
 
 <style lang="scss">
 .profile-attachments-item {
-    height: max-content;
+    width: 31%;
+    height: 7rem;
 
     cursor: pointer;
 
@@ -69,8 +70,8 @@ export default {
     }
 
     .attachments-item-photo {
-        width: 95px;
-        height: 95px;
+        width: 100%;
+        height: 100%;
 
         border-radius: 8px;
     }

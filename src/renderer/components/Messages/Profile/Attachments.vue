@@ -136,8 +136,6 @@ export default {
         flex-wrap: wrap;
         gap: 1vh;
 
-        padding: 10px;
-
         overflow-x: hidden;
         overflow-y: auto;
     }

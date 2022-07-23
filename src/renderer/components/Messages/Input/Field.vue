@@ -233,6 +233,14 @@ export default {
 
         outline: none;
         resize: none;
+
+        &::placeholder {
+            width: auto;
+            max-width: 100%;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
     }
 }
 </style>

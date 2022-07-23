@@ -99,7 +99,7 @@ export default {
             border-radius: 50px;
 
             &-data {
-                width: 75%;
+                width: 13vw;
 
                 font-size: 11pt;
                 font-weight: 300;

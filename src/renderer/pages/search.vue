@@ -116,6 +116,10 @@ export default {
 
     padding: 10px;
 
+    #messages-header-back {
+        height: 30px;
+    }
+
     &-list {
         display: flex;
         flex-direction: column;
