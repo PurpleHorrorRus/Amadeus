@@ -15,6 +15,7 @@ class Updater {
         this.window = window;
 
         autoUpdater.currentVersion = app.getVersion();
+        autoUpdater.allowPrerelease = true;
         autoUpdater.autoDownload = false;
         autoUpdater.autoInstallOnAppQuit = false;
         autoUpdater.on("error", () => ({}));

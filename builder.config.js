@@ -49,7 +49,7 @@ module.exports = {
         provider: "github",
         owner: "PurpleHorrorRus",
         repo: "Amadeus",
-        releaseType: "release",
+        releaseType: "prerelease",
         private: true
     }
 };
