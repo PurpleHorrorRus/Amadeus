@@ -4,7 +4,6 @@ import { BrowserWindow, ipcMain } from "electron";
 import common from "../common";
 
 const isDev = process.env.NODE_ENV === "development";
-const pathToOverlayIcons = path.normalize("build/icons/win32/overlay");
 class WindowLogic {
     isWindowAlive(window) {
         return window && !window.isDestroyed();
@@ -76,7 +75,7 @@ class WindowLogic {
         }
 
         const overlayIcon = window.notificationsCount > 0
-            ? path.join(pathToOverlayIcons, `overlay-${window.notificationsCount}.png`)
+            ? path.normalize(`build/icons/win32/overlay/overlay-${window.notificationsCount}.png`)
             : null;
 
         window.setOverlayIcon(overlayIcon, String(window.notificationsCount));
