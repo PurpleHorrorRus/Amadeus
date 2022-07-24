@@ -9,8 +9,9 @@ import WindowsLogic from "./windows/logic";
 
 app.getVersion = () => "1.0.0-beta.1";
 
-const isWindows11 = process.platform === "win32" 
-    && os.release().substring(0, 6) === "10.0.2";
+const isDev = process.env.NODE_ENV === "development";
+const isWindows = process.platform === "win32";
+const isWindows11 = isWindows && os.release().substring(0, 6) === "10.0.2";
 
 const webPreferences = {
     contextIsolation: false,
@@ -26,18 +27,23 @@ const webPreferences = {
 };
 
 const getIcon = file => {
-    return process.platform === "win32"
-        ? path.normalize(`build/icons/win32/${file}.ico`)
-        : path.resolve(__dirname, `../../../../build/icons/linux/${file}.png`);
+    if (isWindows) {
+        const pathToFile = `build/icons/win32/${file}`;
+        return isDev
+            ? path.join(process.execPath, "../../../..", pathToFile)
+            : path.join(process.execPath, "..", pathToFile);
+    }
+
+    return path.resolve(__dirname, "../../../..", `build/icons/linux/${file}.png`);
 };
 
 export default {
-    isDev: process.env.NODE_ENV === "development",
+    isDev,
     getIcon,
     webPreferences,
     storage,
     windows: new WindowsLogic(),
 
-    isWindows: process.platform === "win32",
+    isWindows,
     isWindows11
 };

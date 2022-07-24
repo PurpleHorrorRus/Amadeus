@@ -2,7 +2,7 @@ import { app, Tray, Menu } from "electron";
 
 import common from "./common";
 
-const trayIcon = common.getIcon("amadeus-default");
+const trayIcon = common.getIcon("amadeus-default.ico");
 
 class AmadeusTray {
     constructor(mainWindow) {

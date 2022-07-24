@@ -75,7 +75,7 @@ class WindowLogic {
         }
 
         const overlayIcon = window.notificationsCount > 0
-            ? path.normalize(`build/icons/win32/overlay/overlay-${window.notificationsCount}.png`)
+            ? common.getIcon(`overlay/overlay-${window.notificationsCount}.png`) 
             : null;
 
         window.setOverlayIcon(overlayIcon, String(window.notificationsCount));

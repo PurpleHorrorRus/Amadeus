@@ -75,7 +75,7 @@ class IPC {
             if (count > 9) count = "9-plus";
             else if (count === 0) count = "default";
 
-            const icon = common.getIcon(`amadeus-${count}`);
+            const icon = common.getIcon(`amadeus-${count}.ico`);
             this.window.tray.setIcon(icon);
             this.window.notificationsCount = count;
             common.windows.updateOverlayIcon(this.window);
