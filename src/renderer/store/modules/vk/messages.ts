@@ -283,7 +283,7 @@ export default {
 
                     const [deleteForAll, rest] = lodash.partition(data.messages, (message: Message) => {
                         const diff = new DateDiff(now, new Date(message.date * 1000));
-                        return diff.hours() < 24;
+                        return message.out && diff.hours() < 24;
                     });
 
                     if (deleteForAll.length > 0) {
