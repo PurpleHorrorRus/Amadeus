@@ -231,7 +231,10 @@ export default {
                 state.cache = common.arrayMove(state.cache, conversationIndex, 0);
             }
 
-            dispatch("UPDATE_ICON");
+            if (!message.out) {
+                dispatch("UPDATE_ICON");
+            }
+
             return conversation;
         },
 
