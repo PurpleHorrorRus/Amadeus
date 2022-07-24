@@ -44,6 +44,16 @@ module.exports = {
             console.log(config.resolve.alias.vue);
         },
 
+        babel: {
+            presets() {
+                return [
+                    ["@nuxt/babel-preset-app", {
+                        corejs: { version: 3 }
+                    }]
+                ];
+            }
+        },
+
         standalone: true,
 
         html: isDev ? optimizationConfig.html : {},
