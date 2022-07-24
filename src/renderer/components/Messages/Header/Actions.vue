@@ -27,6 +27,8 @@ import CoreMixin from "~/mixins/core";
 import ModalMixin from "~/mixins/modal";
 import DateMixin from "~/mixins/date";
 
+import Message from "~/instances/Messages/Message";
+
 export default {
     components: {
         XIcon: () => import("~icons/x.svg"),
@@ -51,26 +53,19 @@ export default {
         }),
 
         deleteMessages() {
-            let messages = this.messages;
+            const messages: Message[] = [...this.messages];
 
             const options = [];
-            const isOutSelected = messages.some(message => {
-                return message.out;
-            });
 
-            if (isOutSelected && this.$parent.conversation.id !== this.user.id) {
-                messages = messages.filter(message => {
-                    return message.out;
+            if (this.$parent.conversation.id !== this.user.id) {
+                const isNotExpired = messages.filter(message => {
+                    return message.out && this.dateDiff(message).hours() < 24;
                 });
 
-                const isNotExpiredExist = messages.some(message => {
-                    return this.dateDiff(message).hours() < 24;
-                });
-
-                if (isNotExpiredExist) {
+                if (isNotExpired.length > 0) {
                     options[0] = {
                         id: "delete-for-all",
-                        text: "Удалить для всех",
+                        text: `Удалить для всех (${isNotExpired.length} сообщений)`,
                         checked: false
                     };
                 }
@@ -98,14 +93,15 @@ export default {
                 title: this.$strings.MENU.FORWARD_MESSAGES,
 
                 function: async conversation => {
-                    const fwd_messages = [...this.messages.filter(message => {
+                    const forwardMessages: Message[] = this.messages.filter(message => {
                         return message.selected;
-                    })];
+                    });
 
-                    await this.$router.replace(`/messages/${conversation.id}?type=${conversation.type}`)
+                    await this.$router
+                        .replace(`/messages/${conversation.id}?type=${conversation.type}`)
                         .catch(() => {});
 
-                    this.setForward(fwd_messages);
+                    this.setForward(forwardMessages);
                 }
             });
         }

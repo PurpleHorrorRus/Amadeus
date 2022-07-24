@@ -10,8 +10,8 @@
         </div>
 
         <MessagesHeaderActions 
-            v-if="isSelectedMessages" 
-            :messages="$parent.chat.messages"
+            v-if="selectedMessages.length > 0" 
+            :messages="selectedMessages"
         />
     </div>
 </template>
@@ -50,8 +50,8 @@ export default {
             };
         },
 
-        isSelectedMessages() {
-            return this.$parent.chat.messages.some(message => {
+        selectedMessages() {
+            return this.$parent.chat.messages.filter(message => {
                 return message.selected;
             });
         }
