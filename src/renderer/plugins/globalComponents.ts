@@ -1,6 +1,6 @@
 import Vue from "vue";
 
-import LottieVuePlayer from "@lottiefiles/vue-lottie-player";
+import LottieVuePlayer from "@lottiefiles/vue-lottie-player/dist/vue-lottie-player.umd.min.js";
 
 Object.entries({
     LoaderIcon: () => import("~icons/loader.svg"),
