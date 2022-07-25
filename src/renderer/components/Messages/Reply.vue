@@ -69,6 +69,16 @@ export default {
 </script>
 
 <style lang="scss">
+.message:not(.out) {
+    .message-content-reply {
+        border-left: 4px solid var(--secondary);
+
+        &-name {
+            color: var(--secondary) !important;
+        }
+    }
+}
+
 .message-content-reply {
     display: flex;
     flex-direction: column;
@@ -85,6 +95,10 @@ export default {
 
     &-attachments, &-text {
         font-size: 12px;
+    }
+
+    &-name {
+        font-size: 14px;
     }
 }
 </style>

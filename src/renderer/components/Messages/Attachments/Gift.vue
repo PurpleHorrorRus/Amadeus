@@ -25,6 +25,9 @@ export default {
     row-gap: 10px;
 
     &-image {
+        width: 100%;
+        height: 100%;
+
         border: 2px solid var(--secondary);
         border-radius: 12px;
     }

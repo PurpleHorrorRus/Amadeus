@@ -75,13 +75,11 @@ export default {
     justify-content: center;
     align-items: flex-start;
 
-    padding-left: 10px;
+    padding: 5px 10px;
 
     border-left: 4px solid var(--secondary);
 
-    span {
-        user-select: text;
-    }
+    cursor: pointer;
 
     &-attachments, &-text {
         font-size: 12px;

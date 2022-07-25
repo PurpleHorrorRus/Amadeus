@@ -49,6 +49,7 @@ export default {
                 noBackground: this.message.attachments.length >= 1
                     && !this.message.text
                     && !this.isWallAttachment
+                    && this.message.fwd_messages.length === 0
             };
         },
 
@@ -120,12 +121,14 @@ export default {
             background: var(--out);
         }
 
-        span.clickable:hover, .clickable:hover span {
-            color: var(--out-contrast) !important;
-        }
+        &:not(.noBackground) {
+            span.clickable:hover, .clickable:hover span {
+                color: var(--out-contrast) !important;
+            }
 
-        svg.clickable:hover path, .clickable:hover svg path {
-            fill: var(--out-contrast);
+            svg.clickable:hover path, .clickable:hover svg path {
+                fill: var(--out-contrast);
+            }
         }
     }
 
