@@ -49,7 +49,7 @@ export default {
             }
 
             let attachments = [];
-            if (message.attachments.length > 0) {
+            if (message.attachments?.length > 0) {
                 const atts = {};
 
                 for (const attachment of message.attachments) {

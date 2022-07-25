@@ -93,7 +93,9 @@ export default {
         },
 
         forwardMessagesText() {
-            return this.formatAttachmentsString(this.input, false);
+            return this.formatAttachmentsString({
+                fwd_messages: this.input.fwd_messages
+            }, false);
         }
     },
 
