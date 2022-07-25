@@ -11,7 +11,7 @@
         "build:all": "yarn build && yarn build:linux",
         "postinstall": "electron-builder install-app-deps",
         "docker": "docker build -t amadeus-linux .",
-        "deps": "yarn && yarn postinstall && modclean -r",
+        "deps": "yarn && yarn postinstall",
         "lint": "eslint --ext .ts,.vue --ignore-path .eslintignore src/renderer"
     },
     "keywords": [],
