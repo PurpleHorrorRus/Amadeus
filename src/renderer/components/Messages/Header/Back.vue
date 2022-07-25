@@ -44,7 +44,7 @@ export default {
     align-items: center;
 
     width: max-content;
-    max-width: 45px;
+    max-width: 50px;
     height: 100%;
 
     cursor: pointer;
