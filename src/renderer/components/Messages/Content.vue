@@ -14,11 +14,6 @@
                 v-text="relativeDate(message.date)"
             />
 
-            <LoaderIcon
-                v-if="message.syncing === 1"
-                class="icon loader-icon spin message-content-info-syncing"
-            />
-
             <PenIcon
                 v-if="message.edited"
                 v-tooltip.top-start="editedText"
