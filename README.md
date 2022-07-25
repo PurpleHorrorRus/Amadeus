@@ -1,10 +1,21 @@
 # Amadeus [β]
 
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-shield]][cc-by-nc-sa]
+
 Amadeus - это бесплатный, функциональный мессенджер для VK с открытым исходным кодом.
 
 > Приложение абсолютно бесплатное и не преследует коммерческих целей, **а так же не допускает редактирование кода с целью распространения с любой коммерческой целью.**
 
 > **[β]** Проекту необходимы тестирование и доработка, с дорожной картой проекта, известными багами, а так же узнать, чем можно помочь вы можете во вкладке Projects в репозитории на GitHub.
+
+This work is licensed under a
+[Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License][cc-by-nc-sa].
+
+[![CC BY-NC-SA 4.0][cc-by-nc-sa-image]][cc-by-nc-sa]
+
+[cc-by-nc-sa]: http://creativecommons.org/licenses/by-nc-sa/4.0/
+[cc-by-nc-sa-image]: https://licensebuttons.net/l/by-nc-sa/4.0/88x31.png
+[cc-by-nc-sa-shield]: https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg
 
 ## ⚒️ Development and Build
 
