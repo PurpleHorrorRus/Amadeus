@@ -3,7 +3,7 @@ import Promise from "bluebird";
 import lodash from "lodash";
 import DateDiff from "date-diff";
 
-import { MessagesEditParams, MessagesSendParams } from "vk-io/lib/api/schemas/params";
+import { MessagesDeleteParams, MessagesEditParams, MessagesSendParams } from "vk-io/lib/api/schemas/params";
 import { MessagesGetByIdResponse, MessagesGetHistoryResponse } from "vk-io/lib/api/schemas/responses";
 
 import Message from "~/instances/Messages/Message";
@@ -58,8 +58,12 @@ export default {
         },
 
         APPEND: async ({ dispatch, state, rootState }, id) => {
+            const offset = state.cache[id].messages.filter((message: Message) => {
+                return !message.deleted;
+            }).length;
+
             const history: MessagesGetHistoryResponse = await rootState.vk.client.api.messages.getHistory({
-                offset: state.cache[id].messages.length,
+                offset,
                 peer_id: id,
                 ...fields
             });
@@ -157,7 +161,7 @@ export default {
                 return false;
             }
 
-            state.cache[message.peer_id].count--;
+            state.cache[message.peer_id].count += deleted ? -1 : 1;
             if (!state.cache[message.peer_id].messages) {
                 return false;
             }
@@ -269,42 +273,7 @@ export default {
             data.spam = Number(data.spam) || 0;
 
             if (data.messages) {
-                data.messages.forEach(message => {
-                    dispatch("SYNC_DELETE", message);
-                });
-
-                if (data.delete_for_all) {
-                    /*
-                        Делим сообщения на те, которые можно удалить для всех и тех, которые нельзя.
-                        Отправляем два разных запроса, но удаляем все отмеченные сообщения.
-                    */
-
-                    const now = new Date();
-
-                    const [deleteForAll, rest] = lodash.partition(data.messages, (message: Message) => {
-                        const diff = new DateDiff(now, new Date(message.date * 1000));
-                        return message.out && diff.hours() < 24;
-                    });
-
-                    if (deleteForAll.length > 0) {
-                        await rootState.vk.client.api.messages.delete({
-                            message_ids: deleteForAll.map(message => message.id).join(","),
-                            delete_for_all: 1
-                        });
-                    }
-
-                    if (rest.length > 0) {
-                        await rootState.vk.client.api.messages.delete({
-                            message_ids: rest.map(message => message.id).join(","),
-                            delete_for_all: 0
-                        });
-                    }
-                }
-
-                return await rootState.vk.client.api.messages.delete({
-                    message_ids: data.messages.map(message => message.id).join(","),
-                    ...data
-                });
+                return await dispatch("DELETE_MANY", data);
             }
 
             dispatch("SYNC_DELETE", data.message);
@@ -313,6 +282,52 @@ export default {
                 peer_id: data.message.peer_id,
                 ...data
             });
+        },
+
+        DELETE_MANY: async ({ dispatch }, data) => {
+            data.messages.forEach(message => {
+                dispatch("SYNC_DELETE", message);
+            });
+
+            if (data.delete_for_all) {
+                /*
+                    Делим сообщения на те, которые можно удалить для всех и тех, которые нельзя.
+                    Делим сообщения на чанки по 100.
+                    Отправляем два разных запроса, но удаляем все отмеченные сообщения.
+                */
+
+                const now = new Date();
+
+                const [deleteForAll, rest] = lodash.partition(data.messages, (message: Message) => {
+                    const diff = new DateDiff(now, new Date(message.date * 1000));
+                    return message.out && diff.hours() < 24;
+                });
+
+                await dispatch("DELETE_CHUNKS", {
+                    messages: deleteForAll,
+                    params: { delete_for_all: 1 }
+                });
+
+                return await dispatch("DELETE_CHUNKS", {
+                    messages: rest,
+                    params: {}
+                });
+            }
+
+            return await dispatch("DELETE_CHUNKS", {
+                messages: data.messages,
+                params: {}
+            });
+        },
+
+        DELETE_CHUNKS: async ({ rootState }, data: { messages: Message[], params: MessagesDeleteParams }) => {
+            const chunks: Message[][] = lodash.chunk(data.messages, 100);
+            for await (const chunk of chunks) {
+                await rootState.vk.client.api.messages.delete({
+                    message_ids: chunk.map(message => message.id).join(","),
+                    ...data.params
+                });
+            }
         },
 
         HANDLE_ERROR: ({ dispatch }, { error, data }) => {
