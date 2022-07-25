@@ -19,10 +19,12 @@ export default {
 
     mounted() {
         window.addEventListener("blur", this.closeMenu);
+        window.addEventListener("resize", this.closeMenu);
     },
 
     beforeDestroy() {
         window.removeEventListener("blur", this.closeMenu);
+        window.removeEventListener("resize", this.closeMenu);
     },
 
     methods: {
