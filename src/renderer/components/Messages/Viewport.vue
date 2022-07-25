@@ -80,7 +80,7 @@ export default {
     watch: {
         scrollPercent: {
             handler: function(scrollPercent) {
-                return this.chat.conversation.information.unread_count > 0
+                return this.chat.conversation.unread > 0
                     && scrollPercent <= this.percentToRead
                     && this.readOnBottom();
             }

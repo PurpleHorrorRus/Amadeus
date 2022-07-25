@@ -251,7 +251,7 @@ export default {
 
         UPDATE_ICON: ({ state }) => {
             const notificationsCount = state.cache.filter(conversation => {
-                return conversation.information.unread_count > 0;
+                return conversation.unread > 0;
             }).length;
 
             return ipcRenderer.send("buildNotificationIcon", notificationsCount);

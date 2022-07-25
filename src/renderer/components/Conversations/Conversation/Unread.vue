@@ -1,21 +1,16 @@
 <template>
     <div class="conversation-unread">
-        <LoaderIcon
-            v-if="isSyncing"
-            class="icon spin loader-icon conversation-message-syncing"
-        />
-
-        <div v-else-if="showMention" class="conversation-unread-mention">
+        <div v-if="showMention" class="conversation-unread-mention">
             <MentionIcon class="icon amadeus" />
         </div>
 
         <UnreadCounter
-            v-else-if="conversation.information.unread_count > 0"
-            :count="conversation.information.unread_count"
+            v-else-if="$parent.inUnread"
+            :count="conversation.unread"
         />
 
         <div
-            v-else-if="outUnread"
+            v-else-if="$parent.outUnread"
             class="conversation-unread-out"
         />
     </div>
@@ -36,18 +31,9 @@ export default {
     },
 
     computed: {
-        isSyncing() {
-            return this.conversation.message.syncing === 1;
-        },
-
         isMention() {
             return this.conversation.mention
-                && this.inUnread;
-        },
-
-        outUnread() {
-            return this.conversation.information.out_read < this.conversation.information.last_message_id
-                && this.conversation.message.out;
+                && this.$parent.inUnread;
         }
     }
 };
@@ -65,6 +51,8 @@ export default {
 
         width: 4px;
         height: 4px;
+
+        margin: 0px 9px 0px 7px;
 
         background: var(--secondary);
         border-radius: 100%;

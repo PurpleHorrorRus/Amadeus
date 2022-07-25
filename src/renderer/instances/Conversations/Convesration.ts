@@ -22,6 +22,7 @@ abstract class Conversation {
     public muted = false;
     public mention = false;
     public restricted = false;
+    public unread = 0;
 
     public isUser = false;
     public isGroup = false;
@@ -36,8 +37,6 @@ abstract class Conversation {
     };
 
     constructor(item: MessagesConversationWithMessage) {
-        item.conversation.unread_count = item.conversation.unread_count || 0;
-
         this.message = item.last_message;
         this.information = item.conversation;
         this.id = item.conversation.peer.id;
@@ -47,6 +46,7 @@ abstract class Conversation {
         this.restricted = !item.conversation.can_write.allowed;
         this.muted = item.muted;
         this.mention = mentionRegex.test(this.message.text);
+        this.unread = item.conversation.unread_count || 0;
 
         this.typing = {
             enable: false,
@@ -62,7 +62,7 @@ abstract class Conversation {
         this.stopTyping();
 
         if (!message.out) {
-            this.information.unread_count++;
+            this.unread++;
         }
     }
 
@@ -103,7 +103,7 @@ abstract class Conversation {
     }
 
     readIn(id: number): void {
-        this.information.unread_count = 0;
+        this.unread = 0;
         this.information.in_read = id;
     }
 

@@ -9,8 +9,15 @@
         </div>
 
         <div class="conversation-icons">
-            <VolumeMuteIcon v-if="conversation.muted" class="icon amadeus mute-icon" />
-            <ConversationUnread :conversation="conversation" />
+            <VolumeMuteIcon
+                v-if="conversation.muted"
+                class="icon amadeus mute-icon"
+            />
+
+            <ConversationUnread
+                v-if="inUnread || outUnread"
+                :conversation="conversation"
+            />
         </div>
     </div>
 </template>
@@ -51,6 +58,15 @@ export default {
                 active: this.current?.id === this.conversation.id,
                 minimized: this.settings.appearance.minimized && this.extended
             };
+        },
+
+        inUnread() {
+            return this.conversation.unread > 0;
+        },
+
+        outUnread() {
+            return this.conversation.information.out_read < this.conversation.information.last_message_id
+                && this.conversation.message.out;
         }
     }
 };

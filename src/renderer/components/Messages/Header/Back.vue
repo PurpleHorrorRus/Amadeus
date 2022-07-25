@@ -24,7 +24,7 @@ export default {
 
         unreadCount() {
             return this.conversations.filter(conversation => {
-                return conversation.information.unread_count > 0;
+                return conversation.unread > 0;
             }).length;
         }
     },

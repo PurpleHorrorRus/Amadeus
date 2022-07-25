@@ -136,8 +136,7 @@ export default {
         flex-wrap: wrap;
         gap: 1vh;
 
-        overflow-x: hidden;
-        overflow-y: auto;
+        overflow: hidden;
     }
 
     .loader-icon {

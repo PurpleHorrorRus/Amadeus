@@ -345,7 +345,7 @@ export default {
             const canRead: boolean = !rootState.settings.settings.vk.disable_read
                 && !chat.search
                 && chat.messages.length > 0
-                && chat.conversation.information.unread_count > 0
+                && chat.conversation.unread > 0
                 && await ipcRenderer.invoke("focused");
 
             if (!canRead) {

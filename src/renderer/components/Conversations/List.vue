@@ -110,7 +110,7 @@ export default {
             this.menu.items = [{
                 id: "read",
                 label: this.$strings.MENU.CONVERSATIONS.READ,
-                show: this.menu.target.information.unread_count > 0,
+                show: this.menu.target.unread > 0,
                 function: () => this.readConversation(this.menu.target)
             },
 
