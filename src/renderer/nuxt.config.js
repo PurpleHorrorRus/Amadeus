@@ -22,8 +22,6 @@ module.exports = {
     telemetry: false,
     dev: isDev,
 
-    env: require("../../_env.json"),
-
     build: {
         publicPath: "./_nuxt/",
 

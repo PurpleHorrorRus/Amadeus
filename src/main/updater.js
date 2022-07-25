@@ -6,12 +6,6 @@ import common from "./common";
 
 class Updater {
     constructor(window) {
-        Object.defineProperty(app, "isPackaged", {
-            get() {
-                return true;
-            }
-        });
-
         this.window = window;
 
         autoUpdater.currentVersion = app.getVersion();
@@ -20,12 +14,20 @@ class Updater {
         autoUpdater.autoInstallOnAppQuit = false;
         autoUpdater.on("error", () => ({}));
 
-        autoUpdater.setFeedURL({
-            provider: "github",
-            repo: "Amadeus",
-            owner: "PurpleHorrorRus",
-            private: true
-        });
+        if (common.isDev) {
+            Object.defineProperty(app, "isPackaged", {
+                get() {
+                    return true;
+                }
+            });
+
+            autoUpdater.setFeedURL({
+                provider: "github",
+                repo: "Amadeus",
+                owner: "PurpleHorrorRus",
+                private: true
+            });
+        }
     }
 
     init() {

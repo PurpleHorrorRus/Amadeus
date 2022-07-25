@@ -29,7 +29,7 @@ export default {
         }),
 
         progressText() {
-            return `${this.updater.progress}%`;
+            return `${Math.ceil(this.updater.progress)}%`;
         }
     },
 
