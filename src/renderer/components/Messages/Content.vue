@@ -1,17 +1,17 @@
 <template>
     <div class="message-content">
-        <span 
-            v-if="showName" 
-            class="message-content-name" 
-            v-text="name" 
+        <span
+            v-if="showName"
+            class="message-content-name"
+            v-text="name"
         />
 
         <AllAttachments :message="message" />
 
         <div class="message-content-info">
-            <span 
-                class="message-content-info-date" 
-                v-text="relativeDate(message.date)" 
+            <span
+                class="message-content-info-date"
+                v-text="relativeDate(message.date)"
             />
 
             <LoaderIcon
@@ -25,9 +25,9 @@
                 class="icon amadeus message-content-info-edit"
             />
 
-            <CheckIcon 
+            <CheckIcon
                 v-if="showCheckIcon"
-                v-tooltip.top-start="$strings.CHAT.MESSAGE.READED" 
+                v-tooltip.top-start="$strings.CHAT.MESSAGE.READED"
                 class="icon message-content-info-read"
                 :class="checkIconClass"
             />
@@ -51,8 +51,8 @@ export default {
 
     computed: {
         showName() {
-            return this.$parent.first 
-                && !this.message.out 
+            return this.$parent.first
+                && !this.message.out
                 && this.provideData.conversation.isChat;
         },
 
@@ -66,8 +66,8 @@ export default {
 
         editedText() {
             return this.$i18n(
-                this.$strings.CHAT.MESSAGE.EDITED, 
-                "relativeDate", 
+                this.$strings.CHAT.MESSAGE.EDITED,
+                "relativeDate",
                 this.relativeDate(this.message.update_time)
             );
         },
@@ -80,7 +80,7 @@ export default {
 
         showCheckIcon() {
             return this.message.out
-                && !this.message.syncing 
+                && !this.message.syncing
                 && !this.isNotRead;
         }
     }
@@ -101,7 +101,7 @@ export default {
     background: var(--message);
     border: 1px solid var(--message-bg);
     border-radius: 8px;
-        
+
     &-name {
         color: var(--contrast);
         font-size: 12px;

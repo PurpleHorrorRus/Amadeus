@@ -1,22 +1,22 @@
 <template>
     <div class="attachments-item attachments-item-map">
-        <YandexMap 
-            ymap-class 
-            :settings="settings" 
-            :coords="coords" 
-            :zoom="16" 
+        <YandexMap
+            ymap-class
+            :settings="settings"
+            :coords="coords"
+            :zoom="16"
             @click.native.stop="{}"
         >
             <YandexMapMarker
-                marker-id="1" 
+                marker-id="1"
                 :coords="coords"
                 :icon="markerIcon"
             />
         </YandexMap>
 
-        <span 
-            class="attachments-item-title attachments-item-map-title nowrap" 
-            v-text="geo.place.title" 
+        <span
+            class="attachments-item-title attachments-item-map-title nowrap"
+            v-text="geo.place.title"
         />
     </div>
 </template>

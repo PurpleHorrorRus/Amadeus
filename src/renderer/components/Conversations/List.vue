@@ -3,9 +3,9 @@
         <ConversationsHeader v-if="showHeader" />
 
         <div id="conversations-list" ref="conversations">
-            <PinnedConversations 
-                v-if="pinned.length > 0" 
-                :conversations="pinned" 
+            <PinnedConversations
+                v-if="pinned.length > 0"
+                :conversations="pinned"
             />
 
             <Conversation
@@ -48,7 +48,7 @@ export default {
             conversations: (state: any) => state.vk.conversations.cache,
             count: (state: any) => state.vk.conversations.count
         }),
-        
+
         conversationClass() {
             return {
                 minimized: this.settings.appearance.minimized
@@ -103,7 +103,7 @@ export default {
 
         async open(conversation) {
             const { id, type } = conversation.information.peer;
-            return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => {});
+            return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => (false));
         },
 
         setMenuItems() {
@@ -113,13 +113,13 @@ export default {
                 show: this.menu.target.information.unread_count > 0,
                 function: () => this.readConversation(this.menu.target)
             },
-        
+
             {
                 id: "mute",
                 label: this.muteLabel,
                 function: () => this.turnMute(this.menu.target)
             },
-        
+
             {
                 id: "delete",
                 label: this.$strings.MENU.CONVERSATIONS.DELETE,

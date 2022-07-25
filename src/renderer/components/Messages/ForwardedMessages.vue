@@ -1,6 +1,6 @@
 <template>
     <div class="message-content-forwarded-messages">
-        <ForwardedMessage 
+        <ForwardedMessage
             v-for="message of messages"
             :key="message.id"
             :message="message"

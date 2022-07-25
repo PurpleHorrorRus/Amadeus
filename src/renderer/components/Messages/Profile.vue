@@ -40,7 +40,7 @@ export default {
 
     background: var(--primary);
     border-left: 1px solid var(--border);
-    
+
     overflow-y: overlay;
 }
 </style>

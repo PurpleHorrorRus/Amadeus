@@ -1,7 +1,7 @@
 <template>
-    <div 
+    <div
         :id="contact.id"
-        v-tooltip="contact.tooltip" 
+        v-tooltip="contact.tooltip"
         class="modal-window-about-view-contacts-item"
         @click="open"
     >

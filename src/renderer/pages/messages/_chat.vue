@@ -1,6 +1,6 @@
 <template>
-    <div 
-        id="chat-page" 
+    <div
+        id="chat-page"
         :class="chatClass"
         @dragenter.prevent="onDragEnter"
         @dragover.prevent
@@ -15,10 +15,10 @@
         <MessageInput v-if="canWrite" ref="input" />
         <MessageNotAllowed v-else-if="showBlocked" />
 
-        <Upload 
+        <Upload
             v-if="drag"
             :uploading="uploading"
-            @dragleave.prevent.native="onDragLeave" 
+            @dragleave.prevent.native="onDragLeave"
             @dragover.prevent
             @choose="uploadAttachments"
         />
@@ -47,7 +47,7 @@ export default {
     components: {
         MessagesHeader: () => import("~/components/Messages/Header.vue"),
         MessagesViewport: () => import("~/components/Messages/Viewport.vue"),
-        
+
         MessageInput: () => import("~/components/Messages/Input.vue"),
         MessageNotAllowed: () => import("~/components/Messages/Input/NotAllowed.vue")
     },
@@ -100,7 +100,7 @@ export default {
 
         chatViewportStyle() {
             const background = this.settings.appearance.messages.background;
-            
+
             return {
                 backgroundSize: `${background.width * background.zoom}vw ${background.height * background.zoom}vh`,
                 backgroundPositionX: -background.x + "vw",
@@ -147,9 +147,9 @@ export default {
         if (!this.first) {
             this.unselectAll();
             return !this.chat.search
-                ? this.flush(this.current) 
+                ? this.flush(this.current)
                 : this.clear(this.current);
-        } 
+        }
     },
 
     destroyed() {
@@ -190,7 +190,7 @@ export default {
             if (this.opened) return this.turnProfile();
             if (this.input.editing.enable) return this.clearEdit();
             if (this.modal.show) return this.close();
-            this.$router.replace("/general").catch(() => {});
+            this.$router.replace("/general").catch(() => (false));
             return true;
         },
 
@@ -211,12 +211,12 @@ export default {
         },
 
         async uploadAttachments(files) {
-            if (files?.length === 0) { 
+            if (files?.length === 0) {
                 return false;
             }
 
             this.uploading = true;
-            
+
             const payload: TUploadingPath[] = [...files].filter(attachment => {
                 const extension = path.extname(attachment.path);
                 return allowUploadExtensions.includes(extension);
@@ -254,7 +254,7 @@ export default {
                     return await this.uploadDoc(file.path);
                 });
             }
-            
+
             this.uploading = false;
             this.drag = false;
         }
@@ -265,7 +265,7 @@ export default {
 <style lang="scss">
 #chat-page {
     grid-area: page;
-    
+
     position: relative;
 
     display: grid;
@@ -276,7 +276,7 @@ export default {
                         "input";
 
     overflow: hidden;
-                
+
     &.first {
         #chat-page-container {
             display: flex;
@@ -284,7 +284,7 @@ export default {
             align-items: center;
         }
     }
-    
+
     &:not(.extended) {
         #chat-page-container {
             background-size: cover !important;

@@ -1,12 +1,12 @@
 <template>
-    <div 
+    <div
         class="sticker"
         @mouseenter="turnAnimation(true)"
         @mouseleave="turnAnimation(false)"
     >
-        <img 
+        <img
             v-if="!sticker.animated || !animate"
-            :src="preview" 
+            :src="preview"
             class="sticker-image"
         >
 

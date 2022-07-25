@@ -24,7 +24,7 @@ export default {
     },
 
     methods: {
-        formatAttachment(attachment: string, count: number, unset: boolean = true) {
+        formatAttachment(attachment: string, count: number, unset = true) {
             const label = this.$strings.CONVERSATIONS.ATTACHMENTS[attachment.toUpperCase()];
 
             if (!unset) {
@@ -43,7 +43,7 @@ export default {
                 : label;
         },
 
-        formatAttachmentsString(message: Message, unset: boolean = true): string {
+        formatAttachmentsString(message: Message, unset = true): string {
             if (message.attachments?.length === 0 && message.fwd_messages?.length === 0) {
                 return "";
             }

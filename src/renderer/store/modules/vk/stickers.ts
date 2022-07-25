@@ -1,7 +1,12 @@
 import { StoreGetProductsParams, StoreGetStickersKeywordsParams } from "vk-io/lib/api/schemas/params";
-import { StoreGetFavoriteStickersResponse, StoreGetStickersKeywordsResponse } from "vk-io/lib/api/schemas/responses";
+import { StoreGetStickersKeywordsResponse } from "vk-io/lib/api/schemas/responses";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import StickersCollection from "~/instances/Messages/StickersCollection";
+
+type TFavoriteResponse = {
+    count: number
+    items: Sticker[]
+};
 
 const params: StoreGetProductsParams = {
     type: "stickers",
@@ -20,9 +25,9 @@ export default {
 
     state: () => ({
         stickersExist: false,
-        
+
         favorite: {},
-        
+
         emoji: new StickersCollection({
             id: -2,
             title: "",
@@ -39,7 +44,7 @@ export default {
         FETCH: async ({ state, rootState }) => {
             const [response, favorite, keywordsResponse]: [
                 StoreGetStickersKeywordsResponse,
-                StoreGetFavoriteStickersResponse,
+                TFavoriteResponse,
                 StoreGetStickersKeywordsResponse
             ] =
                 await Promise.all([
@@ -55,17 +60,15 @@ export default {
                     return new StickersCollection(collection);
                 });
 
-                state.collections.sort((a, b) => { 
+                state.collections.sort((a, b) => {
                     return b.purchase_date - a.purchase_date;
                 });
 
-                // @ts-ignore
                 if (favorite.count > 0) {
                     state.favorite = new StickersCollection({
                         id: -1,
                         title: "",
                         preview: "",
-                        // @ts-ignore
                         stickers: favorite.items
                     });
                 }
@@ -75,7 +78,7 @@ export default {
                         if (!(word in state.words)) state.words[word] = [];
                         state.words[word] = dict.user_stickers.map(sticker => {
                             return new Sticker(sticker);
-                        }); 
+                        });
                     });
                 });
             }

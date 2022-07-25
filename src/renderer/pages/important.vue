@@ -56,7 +56,7 @@ export default {
                 if (this.loadMore || !this.canScroll) {
                     return false;
                 }
-            
+
                 this.loadMore = true;
                 const more = await this.fetch(this.messages.length);
                 this.messages = this.messages.concat(more.messages);
@@ -94,7 +94,7 @@ export default {
         display: flex;
         flex-direction: column;
         row-gap: 20px;
-        
+
         overflow-x: hidden;
         overflow-y: overlay;
     }

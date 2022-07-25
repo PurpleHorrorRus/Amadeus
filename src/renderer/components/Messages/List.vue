@@ -2,13 +2,13 @@
     <div id="chat-page-messages-list">
         <MessagesChunk
             v-for="(chunk, index) of chunks"
-            :key="index" 
+            :key="index"
             :chunk="chunk"
         />
 
-        <ContextMenu 
-            v-if="menu.show" 
-            :menu="menu" 
+        <ContextMenu
+            v-if="menu.show"
+            :menu="menu"
         />
     </div>
 </template>
@@ -50,8 +50,8 @@ export default {
                 if (current.length === 0) {
                     current.push(message);
                     continue;
-                } 
-                
+                }
+
                 if (current[current.length - 1].from_id !== message.from_id) {
                     chunks.push(current);
                     current = [message];
@@ -89,7 +89,7 @@ export default {
                 show: !this.current.information.restricted,
                 function: () => this.action("reply", message)
             },
-            
+
             {
                 id: "edit",
                 label: this.$strings.MENU.MESSAGE.EDIT,
@@ -99,13 +99,13 @@ export default {
 
                 function: () => this.action("edit", message)
             },
-            
+
             {
                 id: "delete",
                 label: this.$strings.MENU.MESSAGE.DELETE,
                 function: () => this.action("delete", message)
             },
-            
+
             {
                 id: "delete-for-all",
                 label: this.$strings.MENU.MESSAGE.DELETE_FOR_ALL,
@@ -136,7 +136,7 @@ export default {
 
     overflow-x: hidden;
     overflow-y: auto;
-    
+
     .scroll-arrow {
         position: absolute;
         bottom: 10px; right: 10px;

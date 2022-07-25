@@ -1,6 +1,6 @@
 <template>
     <div id="messages-header-actions">
-        <XIcon 
+        <XIcon
             v-tooltip.bottom-start="$strings.TOOLTIP.ACTIONS.UNSELECT"
             class="icon amadeus clickable"
             @click="unselectAll"
@@ -12,10 +12,10 @@
             @click="deleteMessages"
         />
 
-        <ForwardIcon 
+        <ForwardIcon
             v-tooltip.bottom-start="$strings.TOOLTIP.ACTIONS.FORWARD"
-            class="icon amadeus clickable" 
-            @click="forwardMessages" 
+            class="icon amadeus clickable"
+            @click="forwardMessages"
         />
     </div>
 </template>
@@ -99,7 +99,7 @@ export default {
 
                     await this.$router
                         .replace(`/messages/${conversation.id}?type=${conversation.type}`)
-                        .catch(() => {});
+                        .catch(() => (false));
 
                     this.setForward(forwardMessages);
                 }

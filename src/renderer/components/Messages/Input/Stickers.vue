@@ -1,13 +1,13 @@
 <template>
     <div id="stickers">
-        <EmojiIcon 
-            class="icon amadeus clickable" 
-            @click="openMenu($event, null, true)" 
+        <EmojiIcon
+            class="icon amadeus clickable"
+            @click="openMenu($event, null, true)"
         />
 
         <transition name="fade">
-            <ContextMenu 
-                v-if="menu.show" 
+            <ContextMenu
+                v-if="menu.show"
                 id="stickers-menu"
                 :menu="menu"
             >
@@ -55,7 +55,7 @@ export default {
 
     &-menu {
         position: absolute;
-        left: unset !important; 
+        left: unset !important;
         top: unset !important;
 
         bottom: 70px !important;

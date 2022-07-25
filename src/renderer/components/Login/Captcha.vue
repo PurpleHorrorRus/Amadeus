@@ -6,7 +6,7 @@
             id="captcha-solve"
             placeholder="Решение"
             type="text"
-            :disabled="$parent.loading" 
+            :disabled="$parent.loading"
             @input="$parent.captcha.value = $event"
             @keypress.enter.native="$parent.auth"
         />

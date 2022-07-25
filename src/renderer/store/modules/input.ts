@@ -23,12 +23,12 @@ export default {
     }),
 
     actions: {
-        SET_MESSAGE: ({ state }, text: string) => { 
+        SET_MESSAGE: ({ state }, text: string) => {
             state.message = text;
             return state.message;
         },
 
-        INSERT_MESSAGE: ({ state }, text) => { 
+        INSERT_MESSAGE: ({ state }, text) => {
             state.message += text;
             return state.message;
         },
@@ -37,13 +37,13 @@ export default {
             state.attachments = attachments;
             return state.attachments;
         },
-        
+
         ADD_ATTACHMENT: ({ state }, attachment: Attachment) => {
             state.attachments.push(attachment);
             return true;
         },
 
-        MOVE_ATTACHMENTS: ({ state }, moved) => { 
+        MOVE_ATTACHMENTS: ({ state }, moved) => {
             state.attachments = common.arrayMove(state.attachments, moved.oldIndex, moved.newIndex);
         },
 
@@ -56,7 +56,7 @@ export default {
             return state.attachments;
         },
 
-        ADD_PHOTO_PATH: async ({ dispatch, rootState }, data) => { 
+        ADD_PHOTO_PATH: async ({ dispatch, rootState }, data) => {
             const photo: Photo = new Photo({
                 album_id: -1,
                 date: Math.floor(Date.now() / 1000),

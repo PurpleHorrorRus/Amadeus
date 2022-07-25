@@ -1,15 +1,15 @@
 <template>
     <div class="message-actions">
-        <ReplyIcon 
+        <ReplyIcon
             v-if="canReply"
-            class="icon amadeus" 
-            @click.stop="action('reply')" 
+            class="icon amadeus"
+            @click.stop="action('reply')"
         />
 
-        <StarIcon 
-            class="icon amadeus star" 
+        <StarIcon
+            class="icon amadeus star"
             :class="starClass"
-            @click.stop="action('important')" 
+            @click.stop="action('important')"
         />
     </div>
 </template>
@@ -30,8 +30,8 @@ export default {
 
     computed: {
         starClass() {
-            return { 
-                filled: this.message.important 
+            return {
+                filled: this.message.important
             };
         },
 

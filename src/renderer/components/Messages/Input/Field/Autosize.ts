@@ -1,12 +1,11 @@
-// @ts-nocheck
 export default {
     name: "autosize",
 
-    inserted: function (el: Element) {
+    inserted: function (el: HTMLElement & { resize?: () => void }) {
         const style = getComputedStyle(el);
         const minHeight = parseInt(style.getPropertyValue("min-height"));
         const maxHeight = parseInt(style.getPropertyValue("max-height"));
-  
+
         const resize = () => {
             el.style.height = "auto";
 

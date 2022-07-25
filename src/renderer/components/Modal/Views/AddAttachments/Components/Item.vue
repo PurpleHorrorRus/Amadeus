@@ -4,8 +4,8 @@
             <CheckIcon v-if="item.selected" class="icon" />
         </div>
 
-        <Component 
-            :is="component" 
+        <Component
+            :is="component"
             :item="item.attachment"
             :canQuickPlay="false"
         />
@@ -72,7 +72,7 @@ export default {
     cursor: pointer;
 
     z-index: 1;
-    
+
     &-select {
         position: absolute;
         top: 5px; right: 5px;
@@ -81,7 +81,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        
+
         border: 2px solid #ffffff;
         border-radius: 100%;
 
@@ -95,7 +95,7 @@ export default {
             width: 10px;
         }
     }
-    
+
     .attachments-item {
         pointer-events: none;
     }

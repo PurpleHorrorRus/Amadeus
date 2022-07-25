@@ -1,13 +1,13 @@
 <template>
     <div id="photo-gallery-items">
-        <Dropdown 
+        <Dropdown
             :options="albumTitles"
             :selected="selectedAlbum"
             @change="$parent.changeAlbum($parent.albums.items[$event])"
         />
 
         <div id="photo-gallery-items-list" ref="list">
-            <SelectableItem 
+            <SelectableItem
                 v-for="item of items"
                 :key="item.id"
                 :component="GalleryPhoto"

@@ -46,8 +46,8 @@ export default {
                 out: this.message.out,
                 last: this.last,
                 selected: this.message.selected,
-                noBackground: this.message.attachments.length >= 1 
-                    && !this.message.text 
+                noBackground: this.message.attachments.length >= 1
+                    && !this.message.text
                     && !this.isWallAttachment
             };
         },
@@ -59,7 +59,7 @@ export default {
         },
 
         showAvatar() {
-            return this.last 
+            return this.last
                 && this.provideData.conversation.isChat;
         },
 

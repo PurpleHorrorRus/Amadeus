@@ -11,7 +11,7 @@ export default {
         UPLOAD_VIDEO: async ({ dispatch, rootState }, file) => {
             const video = new Video({
                 owner_id: rootState.vk.user.id
-            }, { 
+            }, {
                 path: file,
                 temp: false
             });
@@ -30,7 +30,7 @@ export default {
             return await dispatch("input/ADD_ATTACHMENT", upload, { root: true });
         },
 
-        UPLOAD_AUDIO_MESSAGE: async ({ rootState }, file) => { 
+        UPLOAD_AUDIO_MESSAGE: async ({ rootState }, file) => {
             const audioMessage = new AudioMessage({}, {
                 path: file,
                 temp: true

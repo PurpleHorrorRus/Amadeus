@@ -3,10 +3,10 @@
         <img :src="profile.photo_100" class="chat-user-avatar">
         <span class="chat-user-name nowrap" v-text="profile.name" />
 
-        <MoreHorizontalIcon 
-            v-if="showActions" 
-            class="icon amadeus clickable" 
-            @click="openMenu($event, profile)" 
+        <MoreHorizontalIcon
+            v-if="showActions"
+            class="icon amadeus clickable"
+            @click="openMenu($event, profile)"
         />
 
         <ContextMenu v-if="menu.show" :menu="menu" />

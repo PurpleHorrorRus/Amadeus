@@ -1,24 +1,24 @@
 <template>
     <div id="photo-gallery">
-        <Upload 
+        <Upload
             :uploading="uploading"
             :properties="uploadProperties"
-            @choose="uploadPhoto" 
+            @choose="uploadPhoto"
         />
 
-        <LoaderIcon 
-            v-if="load" 
-            class="icon loader-icon spin" 
+        <LoaderIcon
+            v-if="load"
+            class="icon loader-icon spin"
         />
 
         <PhotoAlbums
-            v-else-if="current.id === -1" 
+            v-else-if="current.id === -1"
             :items="albums.items"
         />
 
-        <PhotoItems 
+        <PhotoItems
             v-else-if="data.length > 0"
-            :items="data" 
+            :items="data"
         />
     </div>
 </template>
@@ -107,7 +107,7 @@ export default {
             if (!this.count) {
                 this.count = list.count;
             }
-            
+
             return list.items.map(item => {
                 return {
                     attachment: new Photo(item),

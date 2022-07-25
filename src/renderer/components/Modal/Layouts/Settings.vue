@@ -53,7 +53,7 @@ export default {
     span {
         font-size: 12px;
     }
-    
+
     .settings-view {
         grid-area: view;
 

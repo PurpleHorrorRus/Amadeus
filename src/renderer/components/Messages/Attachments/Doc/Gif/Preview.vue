@@ -32,7 +32,7 @@ export default {
     &-size {
         position: absolute;
         top: 5px; left: 5px;
-            
+
         display: flex;
         justify-content: center;
         align-items: center;

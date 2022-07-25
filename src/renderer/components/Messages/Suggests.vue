@@ -1,13 +1,13 @@
 <template>
     <div id="suggests">
         <SuggestsMention
-            v-if="showMention" 
-            :users="current.users" 
+            v-if="showMention"
+            :users="current.users"
         />
 
-        <SuggestsSticker 
-            v-if="stickers.length > 0" 
-            :stickers="stickers" 
+        <SuggestsSticker
+            v-if="stickers.length > 0"
+            :stickers="stickers"
         />
     </div>
 </template>

@@ -15,7 +15,7 @@ export default {
 
         async action(name: string, message: string) {
             message = message || this.message || this.menu.target;
-            
+
             if (this.modal.show) {
                 this.close();
             }
@@ -34,9 +34,9 @@ export default {
                 }
 
                 case "delete-for-all": {
-                    return await this.delete({ 
+                    return await this.delete({
                         delete_for_all: true,
-                        message 
+                        message
                     });
                 }
 

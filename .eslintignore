@@ -1,0 +1,8 @@
+node_modules
+.electron-nuxt
+dist
+.vscode
+build
+./*
+src/renderer/types/*
+src/renderer/.nuxt

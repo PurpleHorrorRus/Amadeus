@@ -1,14 +1,14 @@
 <template>
     <div class="attachments-item-poll-answers-vote">
-        <span 
+        <span
             v-if="showFirst"
-            class="attachments-item-poll-answers-vote-first" 
-            v-text="$strings.CHAT.ATTACHMENTS.POLL.FIRST" 
+            class="attachments-item-poll-answers-vote-first"
+            v-text="$strings.CHAT.ATTACHMENTS.POLL.FIRST"
         />
 
-        <SolidButton 
+        <SolidButton
             v-else-if="item.readyToVote"
-            label="Проголосовать" 
+            label="Проголосовать"
             @click.native.stop="$parent.voteLocal"
         />
     </div>

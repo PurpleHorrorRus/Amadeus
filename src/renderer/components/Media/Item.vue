@@ -7,15 +7,15 @@
             :src="item.sizes.max"
         >
 
-        <iframe 
+        <iframe
             v-else-if="item.type === 'video'"
             id="video"
             class="media-page-item-frame"
-            :src="item.player" 
+            :src="item.player"
         />
 
-        <MediaPageStory 
-            v-else-if="item.type === 'story'" 
+        <MediaPageStory
+            v-else-if="item.type === 'story'"
             :story="item"
         />
 

@@ -8,11 +8,11 @@
             />
         </div>
 
-        <VolumeLine 
+        <VolumeLine
             id="messages-player-actions-volume-line"
             :value="settings.player.volume"
             :width="120"
-            @change="setVolume" 
+            @change="setVolume"
         />
     </div>
 </template>
@@ -45,7 +45,7 @@ export default {
                     id: "volume-mute"
                 };
             }
-            
+
             if (this.volume < 50) {
                 return {
                     icon: VolumeLowIcon,

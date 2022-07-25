@@ -1,18 +1,18 @@
 <template>
     <div id="media-page-navigation">
-        <div 
-            v-if="canPrevious" 
-            id="left" 
+        <div
+            v-if="canPrevious"
+            id="left"
             class="media-navigation-item"
             @click.stop="$parent.changeMedia(-1)"
         >
             <ChevronLeftIcon class="icon" />
         </div>
-        
-        <div 
-            v-if="canNext" 
+
+        <div
+            v-if="canNext"
             id="right"
-            class="media-navigation-item" 
+            class="media-navigation-item"
             @click.stop="$parent.changeMedia(1)"
         >
             <ChevronRightIcon class="icon" />
@@ -61,14 +61,14 @@ export default {
         height: 60px;
 
         background: var(--secondary-opacity-half);
-        
+
         cursor: pointer;
         pointer-events: all;
 
         &:hover {
             background: var(--secondary);
         }
-        
+
         &#left, &#right {
             position: absolute;
         }

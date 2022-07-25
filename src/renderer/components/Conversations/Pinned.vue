@@ -1,10 +1,10 @@
 <template>
     <div id="conversations-list-pinned">
-        <span 
+        <span
             v-if="!settings.appearance.minimized"
-            id="conversations-list-pinned-label" 
+            id="conversations-list-pinned-label"
             class="small-text"
-            v-text="$strings.CONVERSATIONS.PINNED" 
+            v-text="$strings.CONVERSATIONS.PINNED"
         />
 
         <Conversation

@@ -3,7 +3,7 @@
         <span id="media-page-bottom-current" v-text="currentText" />
 
         <div id="media-page-bottom-buttons">
-            <MediaPageButton 
+            <MediaPageButton
                 v-for="button of buttons"
                 :key="button.id"
                 :icon="button.icon"

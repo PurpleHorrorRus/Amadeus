@@ -35,8 +35,8 @@ export default {
 
     methods: {
         MessageComponent(message) {
-            return !("action" in message) 
-                ? Message 
+            return !("action" in message)
+                ? Message
                 : System;
         },
 

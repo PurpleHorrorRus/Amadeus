@@ -7,7 +7,7 @@ import User from "~/instances/User";
 class ChatUser extends User implements UsersUser {
     public typing: {
         enable: boolean
-        debounce: Function
+        debounce: lodash.DebouncedFunc<any>
     };
 
     public screen_name?: string;

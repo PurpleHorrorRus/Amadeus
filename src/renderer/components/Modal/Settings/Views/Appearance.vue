@@ -9,24 +9,24 @@
             @choose="changeMessagesBackground"
         />
 
-        <div 
-            v-if="settings.appearance.messages.background.url" 
-            id="settings-view-appearance-background" 
+        <div
+            v-if="settings.appearance.messages.background.url"
+            id="settings-view-appearance-background"
             class="settings-view-category"
         >
-            <RangeItem 
+            <RangeItem
                 :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_WIDTH"
                 :value="settings.appearance.messages.background.width"
                 @change="deepChange(settings.appearance.messages.background, 'width', $event)"
             />
 
-            <RangeItem 
+            <RangeItem
                 :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_HEIGHT"
                 :value="settings.appearance.messages.background.height"
                 @change="deepChange(settings.appearance.messages.background, 'height', $event)"
             />
 
-            <RangeItem 
+            <RangeItem
                 :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_ZOOM"
                 :value="settings.appearance.messages.background.zoom"
                 :min="1"
@@ -34,7 +34,7 @@
                 @change="deepChange(settings.appearance.messages.background, 'zoom', $event)"
             />
 
-            <RangeItem 
+            <RangeItem
                 :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_X"
                 :value="settings.appearance.messages.background.x"
                 :max="100"
@@ -42,7 +42,7 @@
                 @change="deepChange(settings.appearance.messages.background, 'x', $event)"
             />
 
-            <RangeItem 
+            <RangeItem
                 :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_Y"
                 :value="settings.appearance.messages.background.y"
                 :max="100"
@@ -52,21 +52,21 @@
         </div>
 
         <div id="settings-view-appearance-colors" class="settings-view-category">
-            <Dropdown 
+            <Dropdown
                 :text="$strings.SETTINGS.APPEARANCE.THEME"
                 :options="themeNames"
                 :selected="choosedThemeIndex"
                 @change="changeTheme"
             />
 
-            <ColorPicker 
+            <ColorPicker
                 :text="$strings.SETTINGS.APPEARANCE.THEME_MESSAGES.IN"
                 :variable="'message'"
                 :value="settings.appearance.colors.message"
                 @input="saveColor"
             />
 
-            <ColorPicker 
+            <ColorPicker
                 :text="$strings.SETTINGS.APPEARANCE.THEME_MESSAGES.OUT"
                 :variable="'out'"
                 :value="settings.appearance.colors.out"
@@ -97,7 +97,7 @@ export default {
 
     computed: {
         messagesBackground() {
-            return this.settings.appearance.messages.background.url 
+            return this.settings.appearance.messages.background.url
                 || "Не задано";
         },
 

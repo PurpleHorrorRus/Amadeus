@@ -101,8 +101,8 @@ export default {
                 const response: MessagesGetByIdResponse = await rootState.vk.client.api.messages.getById({
                     message_ids: data.payload.message.id
                 });
-                
-                const message = new Message(response.items[0]); 
+
+                const message = new Message(response.items[0]);
                 dispatch("SYNC", message);
                 state.cache[message.peer_id].count++;
                 return state.cache[message.peer_id];
@@ -117,7 +117,7 @@ export default {
                 : data.payload.message.peer_id;
 
             data.payload.message.random_id = data.payload.message.random_id || common.getRandom(10, 99999999);
-            data.payload.message.out = Number(data.payload.message.out 
+            data.payload.message.out = Number(data.payload.message.out
                 || data.payload.message.from_id === rootState.vk.user.id);
 
             return data;
@@ -140,7 +140,7 @@ export default {
                     return msg.random_id === message.random_id;
                 });
             }
-            
+
             if (~messageIndex) {
                 const cacheMessage: Message = messages[messageIndex];
                 cacheMessage.id = message.id;
@@ -171,19 +171,19 @@ export default {
         },
 
         SYNC_DELETE: async ({ dispatch }, message) => {
-            return await dispatch("SYNC_VISIBLE", { 
+            return await dispatch("SYNC_VISIBLE", {
                 message,
                 deleted: true
             });
         },
 
         SYNC_RESTORE: async ({ dispatch }, message) => {
-            return await dispatch("SYNC_VISIBLE", { 
+            return await dispatch("SYNC_VISIBLE", {
                 message,
                 deleted: false
             });
         },
-        
+
         SEND: async ({ dispatch, rootState }, data) => {
             const toSend: MessagesSendParams = {
                 attachment: "",
@@ -212,7 +212,7 @@ export default {
             }
 
             dispatch("SYNC", message);
-            dispatch("vk/conversations/ADD_MESSAGE", { 
+            dispatch("vk/conversations/ADD_MESSAGE", {
                 payload: { message },
                 text: message.text
             }, { root: true });
@@ -235,7 +235,7 @@ export default {
                 .catch(error => dispatch("HANDLE_ERROR", { error, data }));
         },
 
-        SEND_STICKER: async ({ dispatch, state }, sticker: Sticker) => { 
+        SEND_STICKER: async ({ dispatch, state }, sticker: Sticker) => {
             return await dispatch("SEND", {
                 attachments: [sticker],
                 peer_id: state.current.id
@@ -267,7 +267,7 @@ export default {
         DELETE: async ({ dispatch, rootState }, data) => {
             data.delete_for_all = Number(data.delete_for_all) || 0;
             data.spam = Number(data.spam) || 0;
-            
+
             if (data.messages) {
                 data.messages.forEach(message => {
                     dispatch("SYNC_DELETE", message);
@@ -315,7 +315,7 @@ export default {
             });
         },
 
-        HANDLE_ERROR: ({ dispatch }, { error, data }) => { 
+        HANDLE_ERROR: ({ dispatch }, { error, data }) => {
             switch (error.code) {
                 case 7: { // Ban or other restrictions
                     return dispatch("vk/conversations/RESTRICT", data.peer_id, { root: true });
@@ -342,8 +342,8 @@ export default {
         },
 
         READ: async ({ rootState }, chat: TChat) => {
-            const canRead: boolean = !rootState.settings.settings.vk.disable_read 
-                && !chat.search 
+            const canRead: boolean = !rootState.settings.settings.vk.disable_read
+                && !chat.search
                 && chat.messages.length > 0
                 && chat.conversation.information.unread_count > 0
                 && await ipcRenderer.invoke("focused");
@@ -356,7 +356,7 @@ export default {
             if (message.out) {
                 return false;
             }
-            
+
             chat.conversation.readIn(message.id);
             return await rootState.vk.client.api.messages.markAsRead({
                 peer_id: message.peer_id,
@@ -409,7 +409,7 @@ export default {
             });
         }
     },
-    
+
     modules: {
         stickers
     }

@@ -6,8 +6,8 @@
             <img :src="profile.photo_100" class="attachments-item-repost-block-avatar">
 
             <div class="attachments-item-repost-block-information nowrap">
-                <span 
-                    class="attachments-item-repost-block-information-name nowrap clickable" 
+                <span
+                    class="attachments-item-repost-block-information-name nowrap clickable"
                     @click.stop="() => profile.openExternal()"
                     v-text="profile.name"
                 />

@@ -9,7 +9,7 @@ export default {
     state: () => ({
         registered: false
     }),
-    
+
     actions: {
         REGISTER: ({ dispatch, state }) => {
             if (state.registered) {

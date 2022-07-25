@@ -1,13 +1,13 @@
 <template>
     <div id="stickers-block-collection" @click.stop>
-        <span 
-            id="stickers-block-collection-title" 
+        <span
+            id="stickers-block-collection-title"
             class="small-text"
-            v-text="collection.title" 
+            v-text="collection.title"
         />
 
         <div id="stickers-block-collection-list">
-            <Sticker 
+            <Sticker
                 v-for="sticker of collection.stickers"
                 :key="sticker.id"
                 :sticker="sticker"
@@ -47,7 +47,7 @@ export default {
 
         margin: 10px 0px 0px 10px;
     }
-        
+
     &-list {
         display: flex;
         justify-content: flex-start;

@@ -6,7 +6,7 @@ export default {
     data: () => ({
         hold: false as boolean,
 
-        menu: { 
+        menu: {
             show: false,
             event: null,
             target: null,
@@ -26,7 +26,7 @@ export default {
     },
 
     methods: {
-        openMenu(event: any, target: any, atElement: boolean = false, hold: boolean = false) {
+        openMenu(event: any, target: any, atElement = false, hold = false) {
             if (this.menu.show && !hold) {
                 this.closeMenu();
                 if (atElement) return true;

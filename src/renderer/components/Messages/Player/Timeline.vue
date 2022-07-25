@@ -13,7 +13,7 @@ export default {
     mounted() {
         this.setPlayer(this.$refs.plyr);
     },
-    
+
     methods: {
         ...mapActions({
             setPlayer: "audio/SET_PLAYER"
@@ -44,7 +44,7 @@ export default {
 
     .plyr__controls {
         display: block;
-        
+
         width: 100%;
 
         &:hover {

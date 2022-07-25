@@ -1,13 +1,13 @@
 <template>
-    <div 
-        id="modal-view-add-attachments" 
+    <div
+        id="modal-view-add-attachments"
         class="modal-view"
         :class="addAttachmentsClass"
     >
-        <Dropdown 
+        <Dropdown
             :selected="currentIndex"
-            :options="categoriesNames" 
-            @change="changeCategory" 
+            :options="categoriesNames"
+            @change="changeCategory"
         />
 
         <Component :is="renderComponent" @select="select" />
@@ -73,12 +73,12 @@ export default {
             id: "photos",
             label: this.$strings.CHAT.ADD_ATTACHMENT.CATEGORIES.PHOTO
         },
-        
+
         {
             id: "videos",
             label: this.$strings.CHAT.ADD_ATTACHMENT.CATEGORIES.VIDEO
         },
-        
+
         {
             id: "docs",
             label: this.$strings.CHAT.ADD_ATTACHMENT.CATEGORIES.DOCS

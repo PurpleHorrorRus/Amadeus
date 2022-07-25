@@ -14,7 +14,7 @@
             :value="value"
             :withSuggestions="false"
             :style="pickerStyle"
-            class="color-picker-object" 
+            class="color-picker-object"
             @input="input"
         />
     </div>
@@ -74,7 +74,7 @@ export default {
             };
         }
     },
-    
+
     methods: {
         turnPicker(event) {
             this.position.left = event.clientX - 50;
@@ -93,7 +93,7 @@ export default {
         },
 
         input(value) {
-            return this.$emit("input", { 
+            return this.$emit("input", {
                 variable: this.variable,
                 value
             });

@@ -1,5 +1,5 @@
 <template>
-    <div 
+    <div
         class="attachments-item-audiomessage-waveform-peak"
         :class="peakClass"
         :style="peakStyle"
@@ -22,14 +22,14 @@ export default {
 
     computed: {
         peakClass() {
-            return { 
-                played: this.index <= this.$parent.$parent.playedIndex 
-                    || !this.$parent.$parent.isSame 
+            return {
+                played: this.index <= this.$parent.$parent.playedIndex
+                    || !this.$parent.$parent.isSame
             };
         },
 
         peakStyle() {
-            return { 
+            return {
                 height: Math.floor(Math.max(this.peak, 2) / 1.1) + "px"
             };
         }

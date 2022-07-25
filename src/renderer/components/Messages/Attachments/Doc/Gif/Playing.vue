@@ -43,7 +43,7 @@ export default {
                 });
 
                 return this.item.add(gif);
-            } 
+            }
 
             await this.client.api.docs.delete({
                 doc_id: this.addedGif,

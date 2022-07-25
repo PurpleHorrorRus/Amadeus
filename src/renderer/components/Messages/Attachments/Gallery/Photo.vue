@@ -1,6 +1,6 @@
 <template>
-    <img 
-        :src="item.preview" 
+    <img
+        :src="item.preview"
         class="attachments-item attachments-item-photo"
         :style="itemStyle"
     >

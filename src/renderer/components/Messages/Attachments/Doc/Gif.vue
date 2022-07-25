@@ -25,8 +25,8 @@ export default {
 
     methods: {
         turnPlaying() {
-            !this.item.playing 
-                ? this.item.play() 
+            !this.item.playing
+                ? this.item.play()
                 : this.item.stop();
         }
     }

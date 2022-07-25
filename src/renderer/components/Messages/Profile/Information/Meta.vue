@@ -1,22 +1,22 @@
 <template>
     <div id="profile-information-meta">
-        <span 
+        <span
             id="profile-information-meta-name"
             :class="nameClass"
             @click.stop="openInBrowser"
             v-text="conversation.name"
         />
 
-        <span 
+        <span
             v-if="conversation.profile.status"
-            id="profile-information-meta-status" 
-            class="small-text" 
-            v-text="conversation.profile.status" 
+            id="profile-information-meta-status"
+            class="small-text"
+            v-text="conversation.profile.status"
         />
 
-        <MessagesHeaderOnline 
-            v-if="showLastSeen" 
-            :conversation="conversation" 
+        <MessagesHeaderOnline
+            v-if="showLastSeen"
+            :conversation="conversation"
         />
 
         <ProfileInformationActions :conversation="conversation" />

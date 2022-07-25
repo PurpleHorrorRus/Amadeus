@@ -13,9 +13,9 @@
             />
         </div>
 
-        <SolidButton 
-            id="settings-view-accounts-add" 
-            :label="$strings.SETTINGS.ACCOUNTS.ADD" 
+        <SolidButton
+            id="settings-view-accounts-add"
+            :label="$strings.SETTINGS.ACCOUNTS.ADD"
             @click.native="openLogin"
         />
     </div>
@@ -117,7 +117,7 @@ export default {
 
         openLogin() {
             this.close();
-            return this.$router.replace("/login").catch(() => {});
+            return this.$router.replace("/login").catch(() => (false));
         }
     }
 };

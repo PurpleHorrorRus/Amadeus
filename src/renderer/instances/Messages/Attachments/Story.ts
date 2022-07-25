@@ -32,7 +32,7 @@ class Story extends Attachment implements IPreview {
         if (this._is_expired || this._is_deleted) {
             return true;
         }
-        
+
         const diff = new DateDiff(new Date(), new Date(this._date * 1000));
         return Math.floor(diff.hours()) >= 24;
     }

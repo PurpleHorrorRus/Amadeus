@@ -1,20 +1,20 @@
 <template>
     <SkeletonTheme class="skeleton">
         <div v-if="count > 1" class="skeleton-list">
-            <Skeleton 
-                v-for="index of count" 
-                :key="index" 
-                :width="width" 
-                :height="height" 
-                class="skeleton-loading" 
+            <Skeleton
+                v-for="index of count"
+                :key="index"
+                :width="width"
+                :height="height"
+                class="skeleton-loading"
             />
         </div>
 
-        <Skeleton 
-            v-else 
-            :width="width" 
-            :height="height" 
-            class="skeleton-loading" 
+        <Skeleton
+            v-else
+            :width="width"
+            :height="height"
+            class="skeleton-loading"
         />
     </SkeletonTheme>
 </template>

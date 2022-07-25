@@ -30,7 +30,7 @@ export default {
         },
 
         generateContrast(color: string) {
-            return contrastColor({ 
+            return contrastColor({
                 bgColor: color,
                 threshold: 180
             });

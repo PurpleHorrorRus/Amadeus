@@ -20,7 +20,7 @@ class Doc extends Attachment implements IUpload {
 
     constructor(doc: DocsDoc | DocsSaveResponse, upload?: IUpload) {
         super(doc, "doc", upload);
-    
+
         this.owner_id = doc.owner_id;
         this.title = doc.title;
         this.size = doc.size;
@@ -34,7 +34,7 @@ class Doc extends Attachment implements IUpload {
 
     async upload(client: VK): Promise<Attachment | MessagesMessageAttachment> {
         const server = await this.getServer(client.api);
-        
+
         const upload = await this.uploadOnServer(client.upload, this.path, server, "file");
         const saved = await client.api.docs.save({
             file: upload.file

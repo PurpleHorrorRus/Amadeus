@@ -15,7 +15,7 @@ class Sticker extends Attachment implements BaseSticker, IPreview {
     public animated?: boolean = false;
     public animations?: BaseStickerAnimation[];
 
-    constructor(sticker: BaseSticker) { 
+    constructor(sticker: BaseSticker) {
         super({
             ...sticker,
             id: sticker.sticker_id
@@ -28,7 +28,7 @@ class Sticker extends Attachment implements BaseSticker, IPreview {
         if (this.animated) {
             this.animations = sticker.animations;
         }
-  
+
         this.sizes = this.calculateSize(sticker.images);
         this.sizesBackground = this.calculateSize(sticker.images_with_background);
     }

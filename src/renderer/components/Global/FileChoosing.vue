@@ -1,7 +1,7 @@
 <template>
     <div class="file-choosing-item">
         <span class="file-choosing-item-text" v-text="text" />
-        
+
         <div class="file-choosing-item-container">
             <div class="file-choosing-item-container-block nowrap flex-spaced">
                 <span class="file-choosing-item-container-block-data nowrap" v-text="value" />
@@ -10,9 +10,9 @@
                 </div>
             </div>
 
-            <XIcon 
-                v-if="canClear" 
-                class="icon clickable" 
+            <XIcon
+                v-if="canClear"
+                class="icon clickable"
                 @click="$emit('choose', '')"
             />
         </div>

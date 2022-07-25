@@ -1,19 +1,19 @@
 <template>
     <div id="messages-header-main-profile-information" class="nowrap">
         <span
-            id="messages-header-main-profile-information-name" 
+            id="messages-header-main-profile-information-name"
             class="nowrap"
-            v-text="conversation.name" 
+            v-text="conversation.name"
         />
 
-        <ConversationTyping 
-            v-if="conversation.isTyping" 
-            :conversation="conversation" 
+        <ConversationTyping
+            v-if="conversation.isTyping"
+            :conversation="conversation"
         />
 
-        <MessagesHeaderOnline 
-            v-else-if="showLastSeen" 
-            :conversation="conversation" 
+        <MessagesHeaderOnline
+            v-else-if="showLastSeen"
+            :conversation="conversation"
         />
     </div>
 </template>

@@ -1,13 +1,13 @@
 <template>
     <div class="message-content-all-attachments">
-        <MessageReply 
+        <MessageReply
             v-if="showReply"
             :message="message.reply_message"
         />
-        
+
         <MessageText v-if="message.text" :message="message" />
 
-        <MessageForwardedMessages 
+        <MessageForwardedMessages
             v-if="showForwardedMessages"
             :messages="message.fwd_messages"
         />

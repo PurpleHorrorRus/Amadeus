@@ -4,16 +4,16 @@
         <span id="modal-view-update-notes" v-html="updater.notes" />
 
         <div id="modal-view-update-buttons">
-            <SolidButton 
+            <SolidButton
                 v-if="!updater.active"
-                label="Обновить" 
+                label="Обновить"
                 @click.stop.native="update"
             />
 
-            <span 
+            <span
                 v-else
-                id="modal-view-update-buttons-progress" 
-                v-text="progressText" 
+                id="modal-view-update-buttons-progress"
+                v-text="progressText"
             />
         </div>
     </div>
@@ -27,7 +27,7 @@ export default {
         ...mapState({
             updater: (state: any) => state.updater
         }),
-        
+
         progressText() {
             return `${this.updater.progress}%`;
         }

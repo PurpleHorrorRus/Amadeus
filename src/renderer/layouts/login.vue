@@ -13,7 +13,7 @@ export default {
     components: {
         Titlebar: () => import("~/components/Titlebar/Titlebar.vue")
     },
-    
+
     mixins: [CoreMixin, AppearanceMixin],
 
     created() {

@@ -1,8 +1,8 @@
 <template>
     <div id="message-page-input-field-send" @click="send">
-        <SendIcon 
+        <SendIcon
             v-if="!loading"
-            id="message-page-input-field-send-icon" 
+            id="message-page-input-field-send-icon"
             class="icon"
             :class="sendIconClass"
         />
@@ -58,7 +58,7 @@ export default {
 
     width: 23px;
     height: 100%;
-            
+
     cursor: pointer;
 
     &.disabled {

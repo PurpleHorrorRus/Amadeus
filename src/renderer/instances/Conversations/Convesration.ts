@@ -7,32 +7,34 @@ import {
 
 import { TProfile } from "../Types/Conversation";
 import { ConversationMessageType } from "../Types/ConversationMessage";
+import ChatUser from "./ChatUser";
 
 const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 
 abstract class Conversation {
-    [x: string]: any;
-
     public message: ConversationMessageType;
     public profile: TProfile;
     public information: MessagesConversation;
     public id: number;
     public type: string;
 
-    public pinned: boolean = false;
-    public muted: boolean = false;
-    public mention: boolean = false;
-    public restricted: boolean = false;
+    public pinned = false;
+    public muted = false;
+    public mention = false;
+    public restricted = false;
 
-    public isUser: boolean = false;
-    public isGroup: boolean = false;
-    public isChat: boolean = false;
+    public isUser = false;
+    public isGroup = false;
+    public isChat = false;
+
+    public users?: ChatUser[];
 
     public typing: {
         enable: boolean
-        debounce: Function
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        debounce: lodash.DebouncedFunc<any>
     };
-    
+
     constructor(item: MessagesConversationWithMessage) {
         item.conversation.unread_count = item.conversation.unread_count || 0;
 
@@ -48,7 +50,7 @@ abstract class Conversation {
 
         this.typing = {
             enable: false,
-            debounce: lodash.debounce(function () { 
+            debounce: lodash.debounce(function () {
                 this.enable = false;
             }, 6000)
         };
@@ -64,7 +66,7 @@ abstract class Conversation {
         }
     }
 
-    setMessage(message: ConversationMessageType): void { 
+    setMessage(message: ConversationMessageType): void {
         this.message = message;
         this.setLastMessageId(message.id);
     }
@@ -73,22 +75,22 @@ abstract class Conversation {
         this.information.last_message_id = id;
     }
 
-    updateMention(text: string): boolean { 
+    updateMention(text: string): boolean {
         this.mention = mentionRegex.test(text);
         return this.mention;
     }
 
-    setOnline(online, online_mobile): void { 
+    setOnline(online, online_mobile): void {
         this.profile.online = online;
         this.profile.online_mobile = online_mobile;
     }
 
-    triggerTyping(..._args: any): void { 
+    triggerTyping(..._args: any): void {
         this.typing.enable = true;
         this.typing.debounce();
     }
 
-    stopTyping(): void { 
+    stopTyping(): void {
         this.typing.enable = false;
     }
 
@@ -113,11 +115,15 @@ abstract class Conversation {
         this.profile.photo_100 = avatar;
     }
 
-    restrict(restricted: boolean = true) {
+    updateTitle(title: string): void {
+        this.profile.title = title;
+    }
+
+    restrict(restricted = true) {
         this.restricted = restricted;
     }
-    
-    get name(): string { 
+
+    get name(): string {
         return "none";
     }
 

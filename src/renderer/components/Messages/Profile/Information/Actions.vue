@@ -1,21 +1,21 @@
 <template>
     <div id="profile-information-actions">
         <div id="profile-information-actions-mute" @click="turnMute(conversation)">
-            <AlertIcon 
+            <AlertIcon
                 v-if="!conversation.muted"
                 v-tooltip.bottom="$strings.TOOLTIP.NOTIFICATIONS.ENABLED"
                 class="icon amadeus clickable"
             />
 
-            <AlertOffIcon 
+            <AlertOffIcon
                 v-else
                 v-tooltip.bottom="$strings.TOOLTIP.NOTIFICATIONS.DISABLED"
                 class="icon amadeus clickable"
             />
         </div>
 
-        <TrashIcon 
-            v-tooltip.left="$strings.TOOLTIP.CLEAR_HISTORY" 
+        <TrashIcon
+            v-tooltip.left="$strings.TOOLTIP.CLEAR_HISTORY"
             class="icon amadeus clickable"
             @click="openDeleteConfirmation(conversation)"
         />

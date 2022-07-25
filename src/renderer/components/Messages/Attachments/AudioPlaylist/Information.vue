@@ -1,18 +1,18 @@
 <template>
     <div class="attachments-item-playlist-main-information nowrap">
-        <span 
-            class="attachments-item-playlist-main-information-title nowrap" 
-            v-text="item.title" 
+        <span
+            class="attachments-item-playlist-main-information-title nowrap"
+            v-text="item.title"
         />
 
         <div class="attachments-item-playlist-main-information-meta nowrap">
-            <span 
-                class="attachments-item-playlist-main-information-meta-listens small-text nowrap" 
+            <span
+                class="attachments-item-playlist-main-information-meta-listens small-text nowrap"
                 v-text="listensText"
             />
 
-            <span 
-                class="attachments-item-playlist-main-information-meta-followers small-text nowrap" 
+            <span
+                class="attachments-item-playlist-main-information-meta-followers small-text nowrap"
                 v-text="followersText"
             />
         </div>

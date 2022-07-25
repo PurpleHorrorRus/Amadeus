@@ -1,8 +1,8 @@
 <template>
-    <div 
+    <div
         ref="resizable"
         :class="resizableClass"
-        :style="resizableStyle" 
+        :style="resizableStyle"
     >
         <slot name="thumb" />
         <slot name="default" />
@@ -42,12 +42,12 @@ export default {
     },
 
     data: () => ({
-        resizableRef: { 
+        resizableRef: {
             clickThumb: false,
             resize: false,
-            holdThumb: () => {},
-            releaseThumb: () => {},
-            calculate: () => {}
+            holdThumb: () => (false),
+            releaseThumb: () => (false),
+            calculate: () => (false)
         },
 
         clickThumb: false,
@@ -79,8 +79,8 @@ export default {
         holdThumb() {
             this.clickThumb = true;
             setTimeout(() => {
-                return !this.clickThumb 
-                    ? this.$emit("clicked") 
+                return !this.clickThumb
+                    ? this.$emit("clicked")
                     : this.resize = true;
             }, 100);
         },
@@ -99,7 +99,7 @@ export default {
         calculate(e) {
             if (this.resize) {
                 this.valueMutated = Math.min(
-                    Math.max(this.direction === "horizontal" ? e.pageX : e.pageY, this.min), 
+                    Math.max(this.direction === "horizontal" ? e.pageX : e.pageY, this.min),
                     this.max
                 );
 

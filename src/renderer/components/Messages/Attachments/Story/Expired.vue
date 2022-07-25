@@ -1,9 +1,9 @@
 <template>
     <div class="attachments-item-story-preview-expired">
         <BlockIcon class="icon" />
-        <span 
-            class="attachments-item-story-preview-expired-label small-text" 
-            v-text="$strings.CHAT.ATTACHMENTS.STORY_EXPIRED" 
+        <span
+            class="attachments-item-story-preview-expired-label small-text"
+            v-text="$strings.CHAT.ATTACHMENTS.STORY_EXPIRED"
         />
     </div>
 </template>

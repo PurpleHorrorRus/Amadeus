@@ -1,12 +1,12 @@
 <template>
     <div class="attachments-item-playlist-main-actions">
-        <SolidButton 
-            label="Открыть на сайте" 
-            @click.stop.native="$parent.openExternal(item.link)" 
+        <SolidButton
+            label="Открыть на сайте"
+            @click.stop.native="$parent.openExternal(item.link)"
         />
 
-        <SolidButton 
-            v-tooltip="$strings.TOOLTIP.SOON" 
+        <SolidButton
+            v-tooltip="$strings.TOOLTIP.SOON"
             label="Открыть в Meridius"
             :disabled="true"
             @click.stop.native

@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 import lodash from "lodash";
@@ -94,7 +95,7 @@ export default {
             }
 
             state.song = song;
-            if (!state.init) state.init = true; 
+            if (!state.init) state.init = true;
             else await dispatch("CREATE_PLAYER");
 
             return state.song;
@@ -149,7 +150,7 @@ export default {
             sound.player.media.volume = result;
             state.volume = volume;
             rootState.settings.settings.player.volume = Math.floor(volume);
-        
+
             saveVolumeDebounce(dispatch, rootState.settings.settings);
             return true;
         },

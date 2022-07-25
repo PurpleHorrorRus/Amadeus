@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable no-undef */
 const path = require("path");
 
@@ -20,7 +21,7 @@ module.exports = {
     loading: false,
     telemetry: false,
     dev: isDev,
-    
+
     env: require("../../_env.json"),
 
     build: {
@@ -34,7 +35,7 @@ module.exports = {
                 config.optimization.splitChunks.maxSize = optimizationConfig.maxSize;
                 console.log(config.target);
             }
-            
+
             config.mode = process.env.NODE_ENV;
             config.performance = optimizationConfig.performance;
 

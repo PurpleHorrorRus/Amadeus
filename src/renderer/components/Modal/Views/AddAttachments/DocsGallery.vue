@@ -1,15 +1,15 @@
 <template>
     <div id="docs-gallery">
         <div id="docs-gallery-search">
-            <SingleInput 
-                :placeholder="$strings.CHAT.ADD_ATTACHMENT.SEARCH.DOCS" 
+            <SingleInput
+                :placeholder="$strings.CHAT.ADD_ATTACHMENT.SEARCH.DOCS"
                 @input="search.query = $event"
             />
         </div>
 
         <div v-if="!load" id="docs-gallery-list" ref="list">
             <div v-if="search.query" id="docs-gallery-list-search">
-                <InlineDoc 
+                <InlineDoc
                     v-for="item of search.items"
                     :key="item.id"
                     :item="item"
@@ -18,7 +18,7 @@
             </div>
 
             <div v-else id="docs-gallery-list-my">
-                <InlineDoc 
+                <InlineDoc
                     v-for="item of items"
                     :key="item.id"
                     :item="item"
@@ -58,7 +58,7 @@ export default {
 
     data: () => ({
         load: true as boolean,
-        
+
         items: [] as Doc[],
         count: 0 as number,
 
@@ -88,7 +88,7 @@ export default {
                     this.search.items = [];
                     this.search.count = 0;
                 }
-                
+
                 query.length > 0
                     ? this.search.debounce()
                     : this.fetch();

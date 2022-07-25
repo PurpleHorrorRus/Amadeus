@@ -35,16 +35,16 @@ class ProfileGenerator {
         const id = Math.abs(item.last_message.peer_id);
 
         switch (type) {
-            case "user": { 
+            case "user": {
                 const profile: UsersUserFull = ProfileGenerator.findProfile(id, profiles) as UsersUserFull;
                 return new ConversationUser(item, profile);
-            } 
+            }
 
             case "group": case "page": {
                 const group: GroupsGroupFull = ProfileGenerator.findProfile(id, groups) as GroupsGroupFull;
                 return new ConversationGroup(item, group);
             }
-    
+
             case "chat": {
                 return new ConversationChat(item);
             }

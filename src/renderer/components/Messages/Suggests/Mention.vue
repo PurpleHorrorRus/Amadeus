@@ -1,6 +1,6 @@
 <template>
     <SuggestBlock id="suggests-mention">
-        <MentionUser 
+        <MentionUser
             v-for="user of users"
             :key="user.id"
             :user="user"
@@ -18,7 +18,7 @@ export default {
         SuggestBlock: () => import("./Block.vue"),
         MentionUser: () => import("./Mention/User.vue")
     },
-    
+
     props: {
         users: {
             type: Array,

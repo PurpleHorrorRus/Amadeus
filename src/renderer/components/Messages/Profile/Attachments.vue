@@ -1,6 +1,6 @@
 <template>
     <div id="profile-attachments">
-        <Dropdown 
+        <Dropdown
             :options="typeNames"
             :selected="0"
             @change="update"
@@ -9,15 +9,15 @@
         <div v-if="!loading" id="profile-attachments-list">
             <ProfileAttachment
                 v-for="(item, index) of attachments"
-                :key="index" 
-                :item="item" 
+                :key="index"
+                :item="item"
                 :index="index"
             />
         </div>
 
-        <LoaderIcon 
+        <LoaderIcon
             v-else
-            class="icon loader-icon spin" 
+            class="icon loader-icon spin"
         />
     </div>
 </template>

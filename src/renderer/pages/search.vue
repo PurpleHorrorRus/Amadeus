@@ -124,7 +124,7 @@ export default {
         display: flex;
         flex-direction: column;
         row-gap: 20px;
-        
+
         overflow-x: hidden;
         overflow-y: overlay;
     }

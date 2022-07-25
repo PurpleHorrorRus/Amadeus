@@ -60,11 +60,11 @@ type TUpload =
     | DocsDocUploadResponse
     | DocsSaveParams;
 
-abstract class Attachment implements IUpload { 
+abstract class Attachment implements IUpload {
     public readonly id: number;
     public readonly owner_id: number;
     public readonly type: string;
-    
+
     // Uploading properties
     public path?: string;
     public temp?: boolean;
@@ -100,7 +100,7 @@ abstract class Attachment implements IUpload {
         };
     }
 
-    async upload(_client: VK): Promise<any> { 
+    async upload(_client: VK): Promise<any> {
         return new Promise(resolve => {
             return resolve("Unknown upload");
         });
@@ -116,9 +116,10 @@ abstract class Attachment implements IUpload {
         uploader: Upload,
         file: string,
         server: string,
-        field: string = "file"
-    ): Promise<TUpload> { 
+        field = "file"
+    ): Promise<TUpload> {
         return await uploader.upload(server, {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             formData: this.prepareFormdata(file, field),
             timeout: 0,

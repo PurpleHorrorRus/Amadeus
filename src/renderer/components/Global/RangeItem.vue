@@ -2,8 +2,8 @@
     <div class="range-item">
         <div class="range-item-main">
             <span
-                class="range-item-main-text" 
-                v-text="text" 
+                class="range-item-main-text"
+                v-text="text"
             />
 
             <VueRangeComponent
@@ -20,10 +20,10 @@
             />
         </div>
 
-        <span 
-            v-if="tip" 
-            class="modal-window-tip" 
-            v-text="tip" 
+        <span
+            v-if="tip"
+            class="modal-window-tip"
+            v-text="tip"
         />
     </div>
 </template>

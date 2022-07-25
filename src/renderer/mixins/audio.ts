@@ -4,7 +4,7 @@ import CoreMixin from "~/mixins/core";
 
 export default {
     mixins: [CoreMixin],
-    
+
     computed: {
         ...mapState({
             playing: (state: any) => state.audio.playing,

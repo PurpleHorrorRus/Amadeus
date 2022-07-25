@@ -46,7 +46,7 @@ export default {
         position: absolute;
         right: 0px; bottom: 2px;
     }
-    
+
     &-online {
         width: 10px;
         height: 10px;

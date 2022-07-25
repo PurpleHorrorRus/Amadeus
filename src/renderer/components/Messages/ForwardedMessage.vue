@@ -1,6 +1,6 @@
 <template>
     <div class="attachments-item attachments-item-fwd">
-        <FwdRepost 
+        <FwdRepost
             :item="message"
             :icon="icon"
         />

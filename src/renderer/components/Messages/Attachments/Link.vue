@@ -5,15 +5,15 @@
         <div class="attachments-item-link-information">
             <span class="attachments-item-link-information-title" v-text="item.title" />
 
-            <span 
-                v-if="item.description" 
+            <span
+                v-if="item.description"
                 class="attachments-item-link-information-description"
-                v-text="item.description" 
+                v-text="item.description"
             />
 
-            <span 
-                class="attachments-item-link-information-caption small-text" 
-                v-text="item.caption" 
+            <span
+                class="attachments-item-link-information-caption small-text"
+                v-text="item.caption"
             />
         </div>
     </div>

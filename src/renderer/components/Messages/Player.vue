@@ -10,15 +10,15 @@
         <div v-if="playerInitialized" id="messages-player-actions">
             <PlayerTime />
             <PlayerVolume />
-            <XIcon 
-                id="messages-player-actions-remove" 
+            <XIcon
+                id="messages-player-actions-remove"
                 class="icon clickable"
-                @click="clear" 
+                @click="clear"
             />
         </div>
 
-        <Timeline 
-            v-if="playerInitialized" 
+        <Timeline
+            v-if="playerInitialized"
             id="messages-player-timeline"
         />
     </div>
@@ -35,7 +35,7 @@ export default {
 
         PlayerTime: () => import("~/components/Messages/Player/Time.vue"),
         PlayerVolume: () => import("~/components/Messages/Player/Volume.vue"),
-        
+
         PlayIcon: () => import("~icons/play.svg"),
         PauseIcon: () => import("~icons/pause.svg"),
         XIcon: () => import("~icons/x.svg")
@@ -59,7 +59,7 @@ export default {
             pause: "audio/PAUSE",
             clear: "audio/CLEAR"
         }),
-        
+
         action() {
             return this.playing
                 ? this.pause()

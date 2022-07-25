@@ -14,7 +14,7 @@ class Wall extends Attachment implements WallWallpostFull {
     public attachments?: Attachment[] | MessagesMessageAttachment[] = [];
     public copy_history?: WallWallpostFull[] = [];
 
-    constructor(wall: WallWallpostFull) { 
+    constructor(wall: WallWallpostFull) {
         super(wall, "wall");
 
         this.id = wall.id;
@@ -31,7 +31,7 @@ class Wall extends Attachment implements WallWallpostFull {
                 wall: wall.copy_history[0]
             });
         }
-        
+
         if (wall.attachments?.length > 0) {
             this.attachments = AttachmentGenerator.generateList(wall.attachments);
         }

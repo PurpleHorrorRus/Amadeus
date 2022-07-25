@@ -3,20 +3,20 @@
         <img :src="message.profile.photo_100" class="important-message-avatar">
         <div class="important-message-information">
             <div class="important-message-information-placeholder">
-                <span 
-                    class="important-message-information-placeholder-name" 
-                    v-text="message.profile.name" 
+                <span
+                    class="important-message-information-placeholder-name"
+                    v-text="message.profile.name"
                 />
 
-                <span 
-                    class="important-message-information-placholder-date small-text" 
-                    v-text="relativeDate(message.date)" 
+                <span
+                    class="important-message-information-placholder-date small-text"
+                    v-text="relativeDate(message.date)"
                 />
             </div>
 
-            <AllAttachments 
-                :message="message" 
-                :exclude="['reply']"    
+            <AllAttachments
+                :message="message"
+                :exclude="['reply']"
             />
         </div>
     </div>

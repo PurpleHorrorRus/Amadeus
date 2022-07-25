@@ -12,11 +12,11 @@
         "postinstall": "electron-builder install-app-deps",
         "docker": "docker build -t amadeus-linux .",
         "deps": "yarn && yarn postinstall && modclean -r",
-        "lint": "eslint --ext .ts,.js,.vue ."
+        "lint": "eslint --ext .ts,.vue --ignore-path .eslintignore src/renderer"
     },
     "keywords": [],
     "author": "Maxim <purplehorrorrus@gmail.com>",
-    "license": "CC BY-NC-SA 4.0",
+    "license": "CC-BY-NC-SA-4.0",
     "engines": {
         "node": ">=16.8.0"
     },
@@ -28,7 +28,7 @@
         "@babel/runtime-corejs3": "^7.18.9",
         "@nuxt/types": "^2.15.8",
         "@nuxt/typescript-build": "^2.1.0",
-        "@nuxtjs/eslint-config": "10.0.0",
+        "@nuxtjs/eslint-config": "^10.0.0",
         "@nuxtjs/eslint-config-typescript": "^10.0.0",
         "@types/bluebird": "^3.5.36",
         "@types/lodash": "^4.14.182",

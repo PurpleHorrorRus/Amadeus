@@ -19,7 +19,7 @@ export default {
             await this.setConfig(data);
 
             if (!~data.config.vk.active || data.config.vk.accounts.length === 0) {
-                this.$router.replace("/login").catch(() => {});
+                this.$router.replace("/login").catch(() => ({}));
                 ipcRenderer.send("dom-ready");
                 return false;
             }
@@ -30,19 +30,19 @@ export default {
             this.ipc();
             this.registerUpdater();
 
-            this.$router.replace("/general").catch(() => {});
+            this.$router.replace("/general").catch(() => ({}));
             return true;
         });
 
         ipcRenderer.once("media", () => {
-            this.$router.replace("/media").catch(() => {});
+            this.$router.replace("/media").catch(() => ({}));
             return true;
         });
 
         await this.loadLanguage("ru");
         ipcRenderer.send("dom-ready");
     },
-    
+
     methods: {
         ...mapActions({
             setConfig: "SET_CONFIG",

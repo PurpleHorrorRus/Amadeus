@@ -49,10 +49,10 @@ class Common {
     static wait(timeout): Promise<any> {
         return new Promise(resolve => {
             return setTimeout(resolve, timeout);
-        });    
+        });
     }
 
-    static async repeat(handler: Function, timeout: number): Promise<void> {
+    static async repeat(handler: () => void, timeout: number): Promise<void> {
         const interval = setInterval(handler, 0);
         await Common.wait(timeout);
         clearInterval(interval);

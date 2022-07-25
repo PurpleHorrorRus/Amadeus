@@ -1,12 +1,12 @@
 <template>
-    <div 
-        v-tooltip="collection.title" 
+    <div
+        v-tooltip="collection.title"
         class="stickers-navigation-item"
         :class="itemClass"
     >
-        <img 
+        <img
             v-if="!icon"
-            :src="collection.preview" 
+            :src="collection.preview"
             class="stickers-navigation-item-preview"
         >
 

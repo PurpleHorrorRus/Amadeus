@@ -60,13 +60,13 @@ class Poll extends Attachment implements IPreview {
                 && Boolean(this.multiple);
     }
 
-    vote(answer: TPollChoice): boolean { 
+    vote(answer: TPollChoice): boolean {
         if (this.choice(answer)) {
             this.votes++;
             this._can_vote = false;
             return true;
         }
-        
+
         return false;
     }
 
@@ -84,7 +84,7 @@ class Poll extends Attachment implements IPreview {
         }
 
         if (this.multiple) {
-            return this.choiced.length > 0 
+            return this.choiced.length > 0
                 || (this.choiced.length === 0 && this.votes > 0);
         }
 
@@ -103,7 +103,7 @@ class Poll extends Attachment implements IPreview {
                 poll: {
                     backgroundImage: `url("${this.sizes.max}")`
                 },
-    
+
                 foreground: {
                     background: `linear-gradient(
                         transparent -100%,

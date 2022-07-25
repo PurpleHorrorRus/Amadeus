@@ -1,6 +1,6 @@
 <template>
     <div id="settings-navigation">
-        <NavigationItem 
+        <NavigationItem
             v-for="item of items"
             :key="item.id"
             :item="item"
@@ -27,7 +27,7 @@ export default {
                 label: this.$strings.SETTINGS.NAVIGATION.GENERAL,
                 icon: () => import("~icons/settings.svg")
             },
-            
+
             {
                 id: "vk",
                 label: this.$strings.SETTINGS.NAVIGATION.VK,

@@ -1,11 +1,11 @@
 <template>
     <div class="line" :style="lineStyle">
         <div
-            class="line-click" 
-            @click="calculate" 
-            @mousedown="hold" 
+            class="line-click"
+            @click="calculate"
+            @mousedown="hold"
             @mouseup="release"
-            @mousemove="move" 
+            @mousemove="move"
             @mouseleave="release"
         />
 
@@ -14,7 +14,7 @@
                 <div class="line-range-progress-dot" />
             </div>
         </div>
-    </div> 
+    </div>
 </template>
 
 <script lang="ts">
@@ -32,7 +32,7 @@ export default {
             default: 100
         }
     },
-    
+
     data: () => ({
         mutated: 0,
         clicked: false
@@ -72,10 +72,10 @@ export default {
                 this.clicked = false;
                 return true;
             }
-            
+
             return false;
         },
-        
+
         move(event) {
             if (!this.clicked) {
                 return false;
@@ -98,7 +98,6 @@ export default {
     grid-area: line;
 
     position: relative;
-
 
     display: flex;
     align-items: center;

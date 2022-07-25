@@ -9,12 +9,16 @@ export default {
         target: null,
         busy: false,
 
-        function: () => {},
+        function: () => {
+            return false;
+        },
 
         confirmation: {
             text: "Окно подтверждения",
             options: [],
-            accept: () => {}
+            accept: () => {
+                return false;
+            }
         }
     }),
 
@@ -38,7 +42,7 @@ export default {
 
         CONFIRMATION: async ({ dispatch, state }, data) => {
             state.confirmation.text = data.text;
-            
+
             if (data.options) {
                 state.confirmation.options = data.options;
             }
@@ -47,7 +51,7 @@ export default {
                 data.accept();
                 return dispatch("CLOSE");
             };
-            
+
             return await dispatch("OPEN", {
                 layout: "default",
                 view: "confirmation"
@@ -69,15 +73,20 @@ export default {
             if (state.view === "confirmation") {
                 state.confirmation.text = [];
                 state.confirmation.options = [];
-                state.confirmation.accept = () => {};
+
+                state.confirmation.accept = () => {
+                    return false;
+                };
             } else {
-                state.function = () => {};
+                state.function = () => {
+                    return false;
+                };
             }
 
             state.layout = "none";
             state.view = "none";
             state.target = null;
-            
+
             return true;
         }
     }

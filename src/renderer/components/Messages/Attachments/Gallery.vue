@@ -1,6 +1,6 @@
 <template>
     <div class="gallery" :class="galleryClass">
-        <Component 
+        <Component
             :is="render(attachment)"
             v-for="(attachment, index) of data"
             :key="index"

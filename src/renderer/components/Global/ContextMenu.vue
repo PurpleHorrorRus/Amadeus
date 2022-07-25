@@ -1,15 +1,15 @@
 <template>
-    <div 
-        ref="menu" 
-        v-scroll-outside="$parent.closeMenu" 
-        v-click-away="$parent.closeMenu" 
+    <div
+        ref="menu"
+        v-scroll-outside="$parent.closeMenu"
+        v-click-away="$parent.closeMenu"
         class="context-menu"
         :style="contextMenuStyle"
         @click="$parent.closeMenu"
     >
         <slot v-if="$slots.default" />
 
-        <ContextMenuItem 
+        <ContextMenuItem
             v-for="item of validItems"
             :key="item.id"
             :item="item"
@@ -63,7 +63,7 @@ export default {
         this.$nextTick(() => {
             const { width, height } = this.$refs.menu.getBoundingClientRect();
             this.position = [
-                Math.min(this.menu.position[0] + this.margins[0], window.innerWidth - width - this.margin), 
+                Math.min(this.menu.position[0] + this.margins[0], window.innerWidth - width - this.margin),
                 Math.min(this.menu.position[1] + this.margins[1], window.innerHeight - height - this.margin)
             ];
         });

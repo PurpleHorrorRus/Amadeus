@@ -44,7 +44,7 @@ export default {
             this.confirmation({
                 text: "Вы действительно хотите удалить историю сообщений?",
                 accept: () => {
-                    this.$router.replace("/general").catch(() => {});
+                    this.$router.replace("/general").catch(() => (false));
                     this.deleteConversation(conversation.id);
                 }
             });

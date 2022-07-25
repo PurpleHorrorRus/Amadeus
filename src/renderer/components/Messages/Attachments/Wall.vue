@@ -2,10 +2,10 @@
     <div class="attachments-item attachments-item-wall">
         <WallRepost :item="item" />
 
-        <span 
+        <span
             v-if="item.text"
-            class="attachments-item-wall-text" 
-            v-text="item.text" 
+            class="attachments-item-wall-text"
+            v-text="item.text"
         />
 
         <MessageAttachments

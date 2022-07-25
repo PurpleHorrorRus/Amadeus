@@ -10,7 +10,7 @@ export default {
         name: "",
         notes: "",
         version: "0.0.0",
-        
+
         active: false,
         progress: 0
     }),
@@ -28,7 +28,7 @@ export default {
             ipcRenderer.on("update-progress", (_, progress) => {
                 state.progress = progress.percent;
             });
-            
+
             state.active = true;
             return ipcRenderer.send("install-update");
         }

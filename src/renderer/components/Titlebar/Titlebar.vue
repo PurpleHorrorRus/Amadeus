@@ -3,12 +3,12 @@
         <span id="titlebar-title" v-text="'Amadeus'" />
 
         <div id="titlebar-buttons">
-            <AppButton 
+            <AppButton
                 v-for="button of AppButtons"
                 :key="button.event"
-                :icon="button.icon" 
+                :icon="button.icon"
                 :class="button.class"
-                @click.native="send(button.event)" 
+                @click.native="send(button.event)"
             />
         </div>
     </div>

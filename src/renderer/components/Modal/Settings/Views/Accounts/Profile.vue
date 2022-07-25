@@ -6,9 +6,9 @@
         </div>
 
         <CheckIcon v-if="active" class="icon amadeus" />
-        <XIcon 
-            v-else 
-            class="icon clickable account-profile-delete" 
+        <XIcon
+            v-else
+            class="icon clickable account-profile-delete"
             @click="$emit('remove')"
         />
     </div>
@@ -32,7 +32,7 @@ export default {
             required: true
         }
     },
-    
+
     computed: {
         accountProfileClass() {
             return {

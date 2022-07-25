@@ -2,32 +2,32 @@
     <div id="settings-view-general" class="settings-view">
         <span class="modal-view-title" v-text="$strings.SETTINGS.GENERAL.TITLE" />
 
-        <ToggleButton 
-            :text="$strings.SETTINGS.GENERAL.STARTUP" 
+        <ToggleButton
+            :text="$strings.SETTINGS.GENERAL.STARTUP"
             :value="settings.startup"
             @change="turnStartup"
         />
 
-        <ToggleButton 
-            :text="$strings.SETTINGS.GENERAL.HIDE_ON_CLOSE" 
+        <ToggleButton
+            :text="$strings.SETTINGS.GENERAL.HIDE_ON_CLOSE"
             :value="settings.hideOnClose"
             @change="deepChange(settings, 'hideOnClose')"
         />
 
-        <ToggleButton 
-            :text="$strings.SETTINGS.GENERAL.DEVTOOLS" 
+        <ToggleButton
+            :text="$strings.SETTINGS.GENERAL.DEVTOOLS"
             :value="settings.devtools"
             @change="turnDevTools"
         />
 
-        <Dropdown 
+        <Dropdown
             :options="getDeviceNames(inputDevices)"
             :selected="selectedInputDevice"
             :text="$strings.SETTINGS.GENERAL.INPUT_DEVICE"
             @change="changeDevice('inputDevice', inputDevices, $event)"
         />
 
-        <Dropdown 
+        <Dropdown
             :options="getDeviceNames(outputDevices)"
             :selected="selectedOutputDevice"
             :text="$strings.SETTINGS.GENERAL.OUTPUT_DEVICE"

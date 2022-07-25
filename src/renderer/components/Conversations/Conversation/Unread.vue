@@ -9,14 +9,14 @@
             <MentionIcon class="icon amadeus" />
         </div>
 
-        <UnreadCounter 
+        <UnreadCounter
             v-else-if="conversation.information.unread_count > 0"
             :count="conversation.information.unread_count"
         />
-    
-        <div 
-            v-else-if="outUnread" 
-            class="conversation-unread-out" 
+
+        <div
+            v-else-if="outUnread"
+            class="conversation-unread-out"
         />
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
-    <Draggable 
-        v-bind="dragOptions" 
-        id="message-page-input-attachments-gallery" 
+    <Draggable
+        v-bind="dragOptions"
+        id="message-page-input-attachments-gallery"
         @change="$emit('sort', $event)"
     >
         <AttachmentItem
@@ -71,7 +71,7 @@ export default {
 
     overflow-x: hidden;
     overflow-y: auto;
-    
+
     .gallery-item {
         border-radius: 0px;
     }

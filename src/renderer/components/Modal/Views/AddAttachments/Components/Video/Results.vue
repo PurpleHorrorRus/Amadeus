@@ -1,13 +1,13 @@
 <template>
     <div class="video-gallery-results">
-        <span 
+        <span
             v-if="label"
-            class="video-gallery-results-label small-text" 
-            v-text="label" 
+            class="video-gallery-results-label small-text"
+            v-text="label"
         />
-                    
+
         <div ref="list" class="video-gallery-results-list">
-            <SelectableItem 
+            <SelectableItem
                 v-for="item of items"
                 :key="item.id"
                 :component="VideoComponent"

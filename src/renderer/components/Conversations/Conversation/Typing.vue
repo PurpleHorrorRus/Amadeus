@@ -1,9 +1,9 @@
 <template>
     <div class="convermsation-message-typing nowrap">
         <PenIcon class="icon pen" />
-        <span 
-            class="convermsation-message-typing-text small-text nowrap" 
-            v-text="text" 
+        <span
+            class="convermsation-message-typing-text small-text nowrap"
+            v-text="text"
         />
     </div>
 </template>

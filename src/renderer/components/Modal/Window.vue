@@ -1,8 +1,8 @@
 <template>
     <div id="modal-window" @mousedown.self="close">
-        <Component 
-            :is="renderLayout" 
-            :view="modal.view" 
+        <Component
+            :is="renderLayout"
+            :view="modal.view"
         />
     </div>
 </template>

@@ -7,7 +7,7 @@
             <ConversationMessage v-if="!conversation.isTyping" :message="conversation.message" />
             <ConversationTyping v-else :conversation="conversation" />
         </div>
-    
+
         <div class="conversation-icons">
             <VolumeMuteIcon v-if="conversation.muted" class="icon amadeus mute-icon" />
             <ConversationUnread :conversation="conversation" />
@@ -69,7 +69,7 @@ export default {
 
     margin: 5px;
     padding-left: 8px;
-    
+
     border-radius: 4px;
 
     span {
@@ -78,7 +78,7 @@ export default {
 
     &.minimized {
         grid-template-columns: 1fr;
-        
+
         padding-left: 0px;
 
         .conversation-avatar {

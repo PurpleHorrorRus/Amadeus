@@ -1,6 +1,6 @@
 import Vue from "vue";
-    
-export default (_context, inject) => { 
+
+export default (_context, inject) => {
     const i18n = (string: string, find?: string | string[], replace?: string | string[]): string => {
         if (find && replace) {
             if (Array.isArray(find)) {

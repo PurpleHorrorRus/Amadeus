@@ -3,19 +3,19 @@
         <div class="toggle-button-main">
             <span class="toggle-button-main-text" v-text="text" />
 
-            <ToggleButton 
-                ref="toggle-button" 
+            <ToggleButton
+                ref="toggle-button"
                 :value="value"
-                :width="30" 
-                :height="15" 
-                @change="$emit('change')" 
+                :width="30"
+                :height="15"
+                @change="$emit('change')"
             />
         </div>
 
-        <span 
-            v-if="tip" 
-            class="modal-window-tip" 
-            v-text="tip" 
+        <span
+            v-if="tip"
+            class="modal-window-tip"
+            v-text="tip"
         />
     </div>
 </template>

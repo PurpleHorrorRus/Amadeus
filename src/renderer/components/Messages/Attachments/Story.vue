@@ -6,7 +6,7 @@
                 :src="item.sizes.max"
                 class="attachments-item-story-preview-image"
             >
-    
+
             <StoryExpired v-else />
         </div>
     </div>
@@ -24,7 +24,7 @@ export default {
 
     computed: {
         storyClass() {
-            return { 
+            return {
                 expired: this.item.restriction,
                 clickable: !this.item.restriction
             };

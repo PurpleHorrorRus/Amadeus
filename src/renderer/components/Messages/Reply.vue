@@ -1,20 +1,20 @@
 <template>
     <div class="message-content-reply nowrap">
-        <span 
+        <span
             class="message-content-reply-name nowrap"
             v-text="profile.name"
         />
 
-        <span 
+        <span
             v-if="showAttachments"
-            class="message-content-reply-attachments" 
-            v-text="formatAttachmentsString(message)" 
+            class="message-content-reply-attachments"
+            v-text="formatAttachmentsString(message)"
         />
 
-        <span 
+        <span
             v-if="message.text"
-            class="message-content-reply-text nowrap" 
-            v-text="formatText(message.text)" 
+            class="message-content-reply-text nowrap"
+            v-text="formatText(message.text)"
         />
     </div>
 </template>

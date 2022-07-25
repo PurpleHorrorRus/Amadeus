@@ -71,7 +71,7 @@ export default {
         }),
 
         action() {
-            if (!this.isSame) { 
+            if (!this.isSame) {
                 return this.play(this.item);
             }
 

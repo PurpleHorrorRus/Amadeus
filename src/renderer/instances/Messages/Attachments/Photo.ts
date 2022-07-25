@@ -16,7 +16,7 @@ class Photo extends Attachment implements IPreview, IUpload {
     public path?: string;
     public temp?: boolean;
 
-    constructor(private photo: PhotosPhoto, upload?: IUpload) { 
+    constructor(private photo: PhotosPhoto, upload?: IUpload) {
         super(photo, "photo", upload);
         this.sizes = this.calculateSize(this.photo.sizes);
     }
@@ -27,7 +27,7 @@ class Photo extends Attachment implements IPreview, IUpload {
             || this.sizes.min;
     }
 
-    async upload(client: VK): Promise<Photo> { 
+    async upload(client: VK): Promise<Photo> {
         const url = await this.getServer(client.api);
         const uploaded = await this.uploadOnServer(client.upload, this.path, url, "photo");
         const [saved] = await client.api.photos.saveMessagesPhoto(uploaded as PhotosSaveMessagesPhotoParams);
@@ -39,7 +39,7 @@ class Photo extends Attachment implements IPreview, IUpload {
         return new Photo(saved);
     }
 
-    async getServer(api: API): Promise<string> { 
+    async getServer(api: API): Promise<string> {
         const server: PhotosGetMessagesUploadServerResponse = await api.photos.getMessagesUploadServer({});
         return server.upload_url;
     }

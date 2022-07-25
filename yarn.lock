@@ -1528,7 +1528,7 @@
     eslint-import-resolver-typescript "^2.7.1"
     eslint-plugin-import "^2.26.0"
 
-"@nuxtjs/eslint-config@10.0.0":
+"@nuxtjs/eslint-config@10.0.0", "@nuxtjs/eslint-config@^10.0.0":
   version "10.0.0"
   resolved "https://registry.yarnpkg.com/@nuxtjs/eslint-config/-/eslint-config-10.0.0.tgz#6b4a9ad3bcdcc7d24314c86812ddb471e4879f53"
   integrity sha512-5umb4Nyd/D9azWyFPGe3ru0E5v8SSVzgtZeJwTaCpqjsQDrr51P7QPtBTVdJXIbhdY1lws67x9Emkb7oKwh4zw==

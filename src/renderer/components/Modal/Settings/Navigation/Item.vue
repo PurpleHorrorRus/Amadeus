@@ -1,10 +1,10 @@
 <template>
     <div class="settings-navigation-item" :class="settingsNavigationItemClass">
         <Component :is="item.icon" class="icon" />
-        <span 
-            v-if="extended" 
-            class="settings-navigation-item-label nowrap" 
-            v-text="item.label" 
+        <span
+            v-if="extended"
+            class="settings-navigation-item-label nowrap"
+            v-text="item.label"
         />
     </div>
 </template>

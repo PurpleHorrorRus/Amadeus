@@ -95,7 +95,7 @@ export default {
                 return false;
             }
 
-            const list = await rootState.vk.client.api.messages.getHistory({ 
+            const list = await rootState.vk.client.api.messages.getHistory({
                 peer_id: data.peerId,
                 count: 1,
                 extended: 1
@@ -106,7 +106,7 @@ export default {
                 conversation.updateAvatar(chat.photo?.photo_100);
                 conversation.updateTitle(chat.title);
             }
-            
+
             const message: ConversationMessageType = await dispatch("FORMAT_MESSAGE", list.items[0]);
             conversation.setMessage(message);
             state.cache.sort((a, b) => b.message.date - a.message.date);
@@ -156,13 +156,13 @@ export default {
             const index = state.cache.findIndex(chat => {
                 return chat.id === peer_id;
             });
-            
+
             if (~index) {
                 state.count--;
                 state.cache.splice(index, 1);
                 return true;
             }
-            
+
             return false;
         },
 
@@ -196,8 +196,8 @@ export default {
                 if (state.cache[i].id === id) return state.cache[i];
                 if (state.cache[j].id === id) return state.cache[j];
             }
-            
-            console.log("Can't find conversation cache", id); 
+
+            console.log("Can't find conversation cache", id);
             return null;
         },
 
@@ -223,7 +223,7 @@ export default {
                 typingUser.stopTyping();
             }
 
-            const conversationIndex = state.cache.findIndex(conversation => { 
+            const conversationIndex = state.cache.findIndex(conversation => {
                 return conversation.id === data.peerId;
             });
 
@@ -238,9 +238,9 @@ export default {
             return conversation;
         },
 
-        UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => { 
+        UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
-        
+
             data.isInbox
                 ? conversation.readIn(data.payload.local_id)
                 : conversation.readOut(data.payload.local_id);
@@ -249,7 +249,7 @@ export default {
             return true;
         },
 
-        UPDATE_ICON: ({ state }) => { 
+        UPDATE_ICON: ({ state }) => {
             const notificationsCount = state.cache.filter(conversation => {
                 return conversation.information.unread_count > 0;
             }).length;
@@ -267,7 +267,7 @@ export default {
             return conversation?.setOnline(data.isOnline, Number(data.isOnline && data.platform < 6));
         },
 
-        RESTRICT: async ({ dispatch }, id: number) => { 
+        RESTRICT: async ({ dispatch }, id: number) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", id);
             return conversation.restrict();
         },

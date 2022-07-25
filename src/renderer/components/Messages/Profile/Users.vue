@@ -1,17 +1,17 @@
 <template>
     <div id="profile-users">
         <div id="profile-users-list">
-            <ChatUser 
+            <ChatUser
                 v-for="user of conversation.users"
                 :key="user.id"
                 :profile="user"
             />
-            
+
             <div id="profile-users-list-add">
                 <AddIcon class="icon amadeus clickable" @click="add" />
-                <span 
-                    id="profile-users-list-add-label" 
-                    v-text="$strings.CHAT.PROFILE.ADD_USER" 
+                <span
+                    id="profile-users-list-add-label"
+                    v-text="$strings.CHAT.PROFILE.ADD_USER"
                 />
             </div>
         </div>
@@ -64,7 +64,7 @@ export default {
 <style lang="scss">
 #profile-users {
     border-bottom: 1px solid var(--border);
-    
+
     &-list {
         display: flex;
         flex-direction: column;

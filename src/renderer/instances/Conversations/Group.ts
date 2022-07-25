@@ -4,7 +4,7 @@ import Group from "../Group";
 import Conversation from "./Convesration";
 
 class ConversationGroup extends Conversation {
-    public isGroup: boolean = true;
+    public isGroup = true;
 
     constructor(item: MessagesConversationWithMessage, group: GroupsGroupFull) {
         super(item);

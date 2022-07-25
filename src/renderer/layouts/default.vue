@@ -1,7 +1,7 @@
 <template>
-    <div 
-        id="default-layout" 
-        class="layout" 
+    <div
+        id="default-layout"
+        class="layout"
         :class="layoutClass"
         @mousemove="resizableRef.calculate"
         @mouseup="resizableRef.releaseThumb"
@@ -78,7 +78,7 @@ export default {
         }),
 
         layoutClass() {
-            return { 
+            return {
                 extended: this.extended,
                 chat: this.isChat,
                 minimized: this.settings.appearance.minimized && this.extended,
@@ -95,18 +95,18 @@ export default {
         },
 
         showConversations() {
-            return (!this.extended && !this.isChat) 
+            return (!this.extended && !this.isChat)
                 || this.extended;
         },
 
         showPage() {
-            return (!this.extended && this.isChat) 
+            return (!this.extended && this.isChat)
                 || this.extended;
         },
 
         conversationStyle() {
-            return { 
-                width: this.extended 
+            return {
+                width: this.extended
                     ? this.settings.appearance.conversationsWidth + "px"
                     : "100%"
             };
@@ -118,7 +118,7 @@ export default {
         this.detectView();
 
         for (const variable of Object.keys(this.settings.appearance.colors)) {
-            this.calculateContrasts({ 
+            this.calculateContrasts({
                 variable,
                 value: this.settings.appearance.colors[variable]
             });
@@ -198,7 +198,7 @@ export default {
 
     &:not(.extended) {
         grid-template-columns: 1fr;
-        
+
         &.chat {
             grid-template-areas: "titlebar"
                     "page";

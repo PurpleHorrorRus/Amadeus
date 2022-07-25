@@ -30,7 +30,7 @@ export default () => {
 
                 // state.background = data.background;
                 await dispatch("SET_BACKGROUND", state.background.length > 0);
-            
+
                 await dispatch("settings/SET", data.config.settings);
                 return state.config;
             },

@@ -10,10 +10,10 @@
         </span>
 
         <div id="modal-window-about-view-contacts">
-            <Contact 
+            <Contact
                 v-for="contact of contacts"
                 :key="contact.id"
-                :contact="contact" 
+                :contact="contact"
             />
         </div>
 

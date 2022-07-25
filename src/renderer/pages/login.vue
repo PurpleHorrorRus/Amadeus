@@ -9,10 +9,10 @@
         </div>
 
         <div id="login-page-form">
-            <span 
-                v-if="loginError" 
-                id="login-page-form-error" 
-                v-text="loginError" 
+            <span
+                v-if="loginError"
+                id="login-page-form-error"
+                v-text="loginError"
             />
 
             <LoginCredits v-if="type === 'credits'" />
@@ -21,7 +21,7 @@
                 v-else-if="type === 'tfa'"
                 type="password"
                 placeholder="Код двухфакторной аутентификации"
-                :disabled="loading" 
+                :disabled="loading"
                 @input="tfa.code = $event"
                 @keypress.enter.native="auth"
             />
@@ -32,9 +32,9 @@
             />
         </div>
 
-        <SolidButton 
-            label="Войти" 
-            :disabled="disabled" 
+        <SolidButton
+            label="Войти"
+            :disabled="disabled"
             @click.native="auth"
         />
     </div>
@@ -98,7 +98,7 @@ export default {
                 || this.loading;
         }
     },
-    
+
     mounted() {
         callbackService.onTwoFactor(async (_, retry) => {
             this.type = "tfa";
@@ -192,7 +192,7 @@ export default {
         async success() {
             const { config } = await ipcRenderer.invoke("config");
             const accountExist = config.vk.accounts.some(account => account.user === this.DirectData.user);
-            
+
             if (accountExist) {
                 this.loginError = "Этот аккаунт уже добавлен";
                 return this.reset();
@@ -212,7 +212,7 @@ export default {
             });
 
             await common.wait(1000);
-            return this.$router.replace("/").catch(() => {});
+            return this.$router.replace("/").catch(() => (false));
         },
 
         setCaptcha(payload, retry) {

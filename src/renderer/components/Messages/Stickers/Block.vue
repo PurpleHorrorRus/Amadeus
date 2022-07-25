@@ -1,10 +1,10 @@
 <template>
     <div id="stickers-block">
         <EmojiPicker v-if="currentCollection.id === -2" />
-        <StickersCollection 
-            v-else 
-            :collection="currentCollection" 
-            @send="send($event)" 
+        <StickersCollection
+            v-else
+            :collection="currentCollection"
+            @send="send($event)"
         />
 
         <StickersNavigation />
@@ -29,8 +29,8 @@ export default {
     mixins: [CoreMixin],
 
     data: () => ({
-        currentCollection: { 
-            id: -2 
+        currentCollection: {
+            id: -2
         } as StickersCollection
     }),
 
@@ -55,7 +55,7 @@ export default {
             this.$parent.$parent.closeMenu();
             this.sendSticker(sticker);
         },
-        
+
         changeCollection(collection: StickersCollection) {
             this.currentCollection = collection;
         }

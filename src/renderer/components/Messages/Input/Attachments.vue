@@ -1,13 +1,13 @@
 <template>
     <div id="message-page-input-attachments">
-        <CompactAttachment 
+        <CompactAttachment
             v-if="input.reply"
             :message="input.reply"
             :text="replyText"
             @click.native="removeReply"
         />
 
-        <CompactAttachment 
+        <CompactAttachment
             v-else-if="showForwardMessages"
             :message="input"
             :text="forwardMessagesText"
@@ -15,33 +15,33 @@
             @click.native="removeForward"
         />
 
-        <CompactAttachment 
+        <CompactAttachment
             v-else-if="input.attachments[0].type === 'wall'"
             :message="input"
             :text="$strings.CHAT.ATTACHMENTS.WALL"
             @click.native="removeAttachment(0)"
         />
 
-        <CompactAttachment 
+        <CompactAttachment
             v-else-if="input.attachments[0].type === 'audio_playlist'"
             :message="input"
             :text="$strings.CHAT.ATTACHMENTS.AUDIO_PLAYLIST"
             @click.native="removeAttachment(0)"
         />
 
-        <CompactAttachment 
+        <CompactAttachment
             v-if="input.geo"
             :message="input"
             :text="$strings.CHAT.ATTACHMENTS.MAP"
         />
-        
+
         <AttachmentsDocs
             v-if="docItems.length > 0"
             :items="docItems"
             @remove="removeDoc"
         />
 
-        <MessageAttachmentsGallery 
+        <MessageAttachmentsGallery
             v-if="galleryItems.length > 0"
             :attachments="galleryItems"
             @sort="sort"

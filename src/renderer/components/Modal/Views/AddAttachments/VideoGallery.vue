@@ -1,26 +1,26 @@
 <template>
     <div id="video-gallery">
-        <Upload 
+        <Upload
             v-if="search.query.length === 0"
-            :uploading="uploading" 
-            @choose="upload" 
+            :uploading="uploading"
+            @choose="upload"
         />
 
-        <SingleInput 
-            id="video-gallery-search" 
-            :placeholder="$strings.CHAT.ADD_ATTACHMENT.SEARCH.VIDEO" 
+        <SingleInput
+            id="video-gallery-search"
+            :placeholder="$strings.CHAT.ADD_ATTACHMENT.SEARCH.VIDEO"
             @input="search.query = $event"
         />
 
-        <ToggleButton 
+        <ToggleButton
             v-if="search.query.length > 0"
-            :text="$strings.CHAT.ADD_ATTACHMENT.VIDEO.SAFE" 
+            :text="$strings.CHAT.ADD_ATTACHMENT.VIDEO.SAFE"
             :value="search.safe"
             @change="search.safe = !search.safe"
         />
 
         <div v-if="!load" id="video-gallery-loaded">
-            <VideoResults 
+            <VideoResults
                 v-if="search.items.length > 0"
                 id="video-gallery-search-results"
                 ref="search"
@@ -28,7 +28,7 @@
                 :label="$strings.CHAT.ADD_ATTACHMENT.VIDEO.RESULTS"
             />
 
-            <VideoResults 
+            <VideoResults
                 v-else-if="items.length > 0"
                 id="video-gallery-my"
                 ref="my"
@@ -150,17 +150,17 @@ export default {
                 }
 
                 this.loadMore = true;
-                    
+
                 const more = await this.fetchMore();
                 this.items = [
-                    ...this.items, 
+                    ...this.items,
                     ...this.formatItems(more.items)
                 ];
 
                 this.loadMore = false;
             }, percent => percent > 80);
         },
-        
+
         async fetchMore() {
             return await this.client.api.video.get({
                 owner_id: this.user.id,
@@ -190,10 +190,10 @@ export default {
                 }
 
                 this.loadMore = true;
-            
+
                 const more = await this.searchMore();
                 this.search.items = [
-                    ...this.search.items, 
+                    ...this.search.items,
                     ...this.formatItems(more.items)
                 ];
 

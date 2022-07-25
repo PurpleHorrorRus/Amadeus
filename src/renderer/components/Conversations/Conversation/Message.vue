@@ -1,31 +1,31 @@
 <template>
     <div class="conversation-message-body nowrap">
-        <span 
+        <span
             v-if="showSender"
-            class="conversation-message-body-out small-text highlight" 
-            v-text="sender" 
+            class="conversation-message-body-out small-text highlight"
+            v-text="sender"
         />
 
-        <span 
+        <span
             v-if="showAttachments"
-            class="conversation-message-body-attachments small-text highlight nowrap" 
-            v-text="formatAttachmentsString(message, false)" 
+            class="conversation-message-body-attachments small-text highlight nowrap"
+            v-text="formatAttachmentsString(message, false)"
         />
 
-        <span 
+        <span
             v-if="message.action"
-            class="conversation-message-body-action small-text highlight nowrap" 
-            v-text="message.text" 
+            class="conversation-message-body-action small-text highlight nowrap"
+            v-text="message.text"
         />
 
-        <span 
-            v-else-if="message.text" 
+        <span
+            v-else-if="message.text"
             :key="message.text"
-            class="conversation-message-body-text small-text nowrap" 
-            v-text="formatText(message.text)" 
+            class="conversation-message-body-text small-text nowrap"
+            v-text="formatText(message.text)"
         />
 
-        <span 
+        <span
             class="conversation-message-body-date small-text highlight"
             v-text="dateText"
         />
@@ -60,7 +60,7 @@ export default {
         },
 
         showSender() {
-            return !("action" in this.message) 
+            return !("action" in this.message)
                 && (this.message.out || this.$parent.conversation.isChat);
         },
 
@@ -167,7 +167,7 @@ export default {
             if (diff.days() >= 1) {
                 return 1000 * 60 * 60 * 60; // one hour
             }
-            
+
             if (diff.hours() >= 1) {
                 return 1000 * 60 * 60; // one minute
             }

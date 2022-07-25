@@ -1,15 +1,15 @@
 <template>
     <div id="profile-information">
         <div id="profile-information-avatar">
-            <img 
-                id="profile-information-avatar-image" 
-                :src="conversation.avatar" 
-                :class="avatarClass" 
+            <img
+                id="profile-information-avatar-image"
+                :src="conversation.avatar"
+                :class="avatarClass"
                 @click="choosePhoto"
             >
 
-            <div 
-                v-if="showRemovingAvatar" 
+            <div
+                v-if="showRemovingAvatar"
                 id="profile-information-avatar-remove"
                 @click="removeAvatar"
             >

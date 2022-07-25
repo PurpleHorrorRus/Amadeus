@@ -1,6 +1,6 @@
 <template>
     <div id="photo-gallery-albums">
-        <PhotoAlbum 
+        <PhotoAlbum
             v-for="album of items"
             :key="album.id"
             :album="album"

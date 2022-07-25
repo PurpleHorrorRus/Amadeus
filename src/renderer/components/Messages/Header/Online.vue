@@ -1,9 +1,9 @@
 <template>
     <div id="messages-header-main-profile-information-online">
-        <span 
-            id="messages-header-main-profile-information-online-text" 
+        <span
+            id="messages-header-main-profile-information-online-text"
             class="small-text"
-            v-text="lastSeenText" 
+            v-text="lastSeenText"
         />
 
         <PhoneIcon v-if="onlineMobile" class="icon" />
@@ -37,7 +37,7 @@ export default {
                 return false;
             }
 
-            return this.conversation.profile.online_mobile 
+            return this.conversation.profile.online_mobile
                 || this.conversation.profile.last_seen?.platform < 6;
         }
     },
@@ -46,16 +46,16 @@ export default {
         "profile.users": {
             deep: true,
 
-            handler: function() { 
-                this.updateLastSeen(); 
+            handler: function() {
+                this.updateLastSeen();
             }
         },
 
         "profile.online": {
             deep: true,
 
-            handler: function() { 
-                this.updateLastSeen(); 
+            handler: function() {
+                this.updateLastSeen();
             }
         }
     },
@@ -77,8 +77,8 @@ export default {
                 return;
             } else {
                 this.lastSeenText = this.$i18n(
-                    this.$strings.CHAT.STATUS.RELATIVE, 
-                    "relativeDate", 
+                    this.$strings.CHAT.STATUS.RELATIVE,
+                    "relativeDate",
                     this.relativeDate(this.conversation.profile.last_seen.time)
                 );
             }

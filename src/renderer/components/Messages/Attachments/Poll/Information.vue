@@ -1,27 +1,27 @@
 <template>
     <div class="attachments-item-poll-information">
-        <span 
+        <span
             v-if="poll.closed"
-            class="attachments-item-poll-information-ended" 
-            v-text="$strings.CHAT.ATTACHMENTS.POLL.ENDED" 
+            class="attachments-item-poll-information-ended"
+            v-text="$strings.CHAT.ATTACHMENTS.POLL.ENDED"
         />
 
-        <span 
-            class="attachments-item-poll-information-question" 
-            v-text="poll.question" 
+        <span
+            class="attachments-item-poll-information-question"
+            v-text="poll.question"
         />
 
         <div class="attachments-item-poll-information-meta">
-            <span 
+            <span
                 v-if="poll.anonymous"
-                class="attachments-item-poll-information-meta-anonymous" 
-                v-text="$strings.CHAT.ATTACHMENTS.POLL.ANONYMOUS" 
+                class="attachments-item-poll-information-meta-anonymous"
+                v-text="$strings.CHAT.ATTACHMENTS.POLL.ANONYMOUS"
             />
 
-            <span 
+            <span
                 v-if="poll.multiple"
-                class="attachments-item-poll-information-meta-multiple" 
-                v-text="$strings.CHAT.ATTACHMENTS.POLL.MANY" 
+                class="attachments-item-poll-information-meta-multiple"
+                v-text="$strings.CHAT.ATTACHMENTS.POLL.MANY"
             />
         </div>
     </div>

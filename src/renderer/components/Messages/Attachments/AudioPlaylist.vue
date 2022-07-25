@@ -29,7 +29,7 @@ export default {
         grid-template-rows: auto !important;
         grid-template-areas: "cover"
                             "information" !important;
-                
+
         width: 200px;
     }
 }

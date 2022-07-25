@@ -1,9 +1,9 @@
 <template>
     <div id="message-page-input-field">
-        <textarea 
+        <textarea
             id="message-page-input-field-textarea"
             ref="textarea"
-            v-model="message" 
+            v-model="message"
             v-autosize
             :placeholder="$strings.CHAT.INPUT"
             :disabled="disabled"
@@ -14,7 +14,7 @@
         <InputStickers v-if="stickersExist" />
         <InputRecorder />
 
-        <InputFieldSend 
+        <InputFieldSend
             :loading="$parent.sending"
             :canSend="canSend"
             @send="send"
@@ -45,7 +45,7 @@ export default {
     },
 
     mixins: [AttachmentsMixin, ActionsMixin, DateMixin],
-    
+
     props: {
         disabled: {
             type: Boolean,
@@ -58,7 +58,7 @@ export default {
         message: "" as string,
         typingThrottle: null
     }),
-    
+
     computed: {
         ...mapState({
             current: (state: any) => state.vk.messages.current,
@@ -95,7 +95,7 @@ export default {
                 this.message = message;
             }
         },
-        
+
         message: {
             handler: function(message) {
                 this.setMessage(message);
@@ -147,7 +147,7 @@ export default {
                 if (event) {
                     event.preventDefault();
                 }
-                
+
                 const message = this.message;
                 this.message = "";
                 return this.$parent.send(message);
@@ -175,7 +175,7 @@ export default {
                     return this.addPhotoClipboard(item);
                 }
 
-                default: 
+                default:
             }
         },
 
@@ -186,7 +186,7 @@ export default {
 
             if (this.message.length === 0) {
                 event.preventDefault();
-            } 
+            }
 
             const messages: Message[] = this.cache[this.current.id].messages;
             for (const message of messages) {
@@ -211,7 +211,7 @@ export default {
     grid-template-columns: 1fr repeat(3, max-content);
     align-items: center;
     column-gap: 10px;
-    
+
     width: 100%;
 
     &-textarea {
@@ -221,7 +221,7 @@ export default {
         width: 100%;
         min-height: 30px;
         max-height: 40vw;
-            
+
         padding: 7px;
 
         background: var(--field);

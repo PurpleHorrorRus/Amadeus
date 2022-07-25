@@ -1,6 +1,6 @@
 <template>
     <div class="app-button">
-        <Component 
+        <Component
             :is="icon"
             class="icon"
         />
@@ -45,7 +45,7 @@ export default {
     &.close {
         &:hover {
             background: #910000;
-            
+
             svg {
                 stroke: #ffffff !important;
             }

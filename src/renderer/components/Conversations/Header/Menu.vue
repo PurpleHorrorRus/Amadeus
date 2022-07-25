@@ -1,19 +1,19 @@
 <template>
     <div id="conversations-header-menu">
-        <ExclamationRoundIcon 
-            v-if="updater.available" 
+        <ExclamationRoundIcon
+            v-if="updater.available"
             class="icon amadeus update-icon"
         />
-        
-        <DotsHorizontal 
-            class="icon amadeus clickable" 
-            @click="openMenu($event, null, true)" 
+
+        <DotsHorizontal
+            class="icon amadeus clickable"
+            @click="openMenu($event, null, true)"
         />
 
-        <ContextMenu 
-            v-if="menu.show" 
-            :menu="menu" 
-            :margins="[0, 20]" 
+        <ContextMenu
+            v-if="menu.show"
+            :menu="menu"
+            :margins="[0, 20]"
         />
     </div>
 </template>
@@ -31,7 +31,7 @@ export default {
     },
 
     mixins: [MenuMixin, ModalMixin],
-    
+
     computed: {
         ...mapState({
             updater: (state: any) => state.updater
@@ -43,15 +43,15 @@ export default {
             this.menu.items = [{
                 id: "important",
                 label: this.$strings.CONVERSATIONS.HEADER.MENU.IMPORTANT,
-                function: () => this.$router.replace("/important").catch(() => {})
+                function: () => this.$router.replace("/important").catch(() => (false))
             },
-            
+
             {
                 id: "settings",
                 label: this.$strings.CONVERSATIONS.HEADER.MENU.SETTINGS,
                 function: () => this.open({ layout: "settings" })
-            }, 
-            
+            },
+
             {
                 id: "update",
                 show: this.updater.available,

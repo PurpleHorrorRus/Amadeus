@@ -1,8 +1,8 @@
 <template>
     <div id="conversations-header">
-        <SingleInput 
-            :placeholder="$strings.CONVERSATIONS.HEADER.SEARCH" 
-            @input="query = $event" 
+        <SingleInput
+            :placeholder="$strings.CONVERSATIONS.HEADER.SEARCH"
+            @input="query = $event"
             @keydown.enter.native="search"
         />
 
@@ -32,7 +32,7 @@ export default {
             if (this.query.length === 0) {
                 return false;
             }
-            
+
             return this.$router.replace(`/search?q=${this.query}`);
         }
     }

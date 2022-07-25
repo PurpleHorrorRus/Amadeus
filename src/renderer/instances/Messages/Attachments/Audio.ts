@@ -10,7 +10,7 @@ class Audio extends Attachment implements AudioAudio {
     public duration: number;
     public url?: string;
 
-    constructor(audio: AudioAudio) { 
+    constructor(audio: AudioAudio) {
         super(audio, "audio");
 
         this.owner_id = audio.owner_id;

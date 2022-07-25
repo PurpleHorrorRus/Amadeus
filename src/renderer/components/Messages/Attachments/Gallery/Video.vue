@@ -1,35 +1,35 @@
 <template>
-    <div 
-        class="attachments-item attachments-item-video" 
-        :class="videoClass" 
+    <div
+        class="attachments-item attachments-item-video"
+        :class="videoClass"
         :style="itemStyle"
     >
         <div class="attachments-item-video-preview" :style="previewStyle">
             <VideoBlock v-if="item.restriction" />
 
-            <img 
-                v-else-if="!quick && item.sizes.medium" 
-                :src="item.sizes.medium" 
+            <img
+                v-else-if="!quick && item.sizes.medium"
+                :src="item.sizes.medium"
                 class="attachments-item-video-preview-image"
             >
 
-            <iframe 
-                v-else-if="quick" 
-                :src="item.player" 
+            <iframe
+                v-else-if="quick"
+                :src="item.player"
                 class="attachments-item-video-preview-quick"
             />
 
-            <PlayIcon 
-                v-if="canQuick" 
+            <PlayIcon
+                v-if="canQuick"
                 id="video-play-icon"
-                class="icon" 
-                @click.stop="quickPlay" 
+                class="icon"
+                @click.stop="quickPlay"
             />
         </div>
 
-        <span 
+        <span
             v-if="showTitle"
-            class="attachments-item-title attachments-item-video-title nowrap" 
+            class="attachments-item-title attachments-item-video-title nowrap"
             v-text="item.title"
         />
     </div>
@@ -72,8 +72,8 @@ export default {
         },
 
         canQuick() {
-            return this.canQuickPlay 
-                && !this.quick 
+            return this.canQuickPlay
+                && !this.quick
                 && !this.item.restriction;
         }
     },

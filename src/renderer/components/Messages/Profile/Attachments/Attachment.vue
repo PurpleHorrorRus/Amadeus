@@ -1,26 +1,26 @@
 <template>
     <div class="profile-attachments-item">
-        <GalleryPhoto 
-            v-if="item.type === 'photo'" 
+        <GalleryPhoto
+            v-if="item.type === 'photo'"
             :item="item" :index="index"
             @click.native.stop="openMedia(data, index)"
         />
 
-        <GalleryVideo 
-            v-else-if="item.type === 'video'" 
-            :item="item" 
+        <GalleryVideo
+            v-else-if="item.type === 'video'"
+            :item="item"
             :index="index" :canQuickPlay="false"
             @click.native.stop="openMedia(data, index)"
         />
 
-        <AttachmentAudio 
-            v-else-if="item.type === 'audio'" 
-            :item="item" 
+        <AttachmentAudio
+            v-else-if="item.type === 'audio'"
+            :item="item"
         />
 
-        <AttachmentsDoc 
-            v-else-if="item.type === 'doc'" 
-            :item="item" 
+        <AttachmentsDoc
+            v-else-if="item.type === 'doc'"
+            :item="item"
         />
     </div>
 </template>
@@ -35,7 +35,7 @@ export default {
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio.vue"),
         AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc.vue")
     },
-    
+
     mixins: [AttachmentMixin],
 
     props: {
@@ -84,7 +84,7 @@ export default {
         width: 95px;
         height: 95px;
     }
-    
+
     .attachments-item-doc-gif-playing {
         width: 20vw;
     }

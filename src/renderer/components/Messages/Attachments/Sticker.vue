@@ -9,10 +9,10 @@
             loop
         />
 
-        <img 
+        <img
             v-else
             :key="settings.appearance.stickersTheme"
-            :src="sticker" 
+            :src="sticker"
             class="attachments-item-sticker-image"
         >
     </div>

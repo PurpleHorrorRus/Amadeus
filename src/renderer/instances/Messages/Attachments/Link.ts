@@ -11,9 +11,9 @@ class Link extends Attachment implements IPreview {
     public caption?: string;
     public description?: string;
 
-    constructor(link: TLink) { 
+    constructor(link: TLink) {
         super(link, "link");
-        
+
         this.url = link.url;
         this.title = link.title;
         this.caption = link.caption;

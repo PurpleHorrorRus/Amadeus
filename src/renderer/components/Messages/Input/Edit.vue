@@ -1,9 +1,9 @@
 <template>
     <div id="message-page-input-edit">
-        <span 
+        <span
             id="message-page-input-edit-label"
             class="small-text"
-            v-text="$strings.CHAT.EDITING" 
+            v-text="$strings.CHAT.EDITING"
         />
 
         <XIcon class="icon clickable" @click="clearEdit" />

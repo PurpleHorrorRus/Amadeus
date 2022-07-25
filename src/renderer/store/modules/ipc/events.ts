@@ -10,7 +10,7 @@ export default {
 
     mutations: {
         REDIRECT(_, url) {
-            this.$router.replace(url).catch(() => {});
+            this.$router.replace(url).catch(() => ({}));
         }
     },
 
@@ -21,16 +21,16 @@ export default {
                 title: "Поделиться",
                 function: async conversation => {
                     commit("REDIRECT", `/messages/${conversation.id}?type=${conversation.type}`);
-                    
+
                     const generated: Attachment | MessagesMessageAttachment
                         = AttachmentGenerator.generate(attachment);
-                    
+
                     return dispatch("input/ADD_ATTACHMENT", generated, { root: true });
                 }
             }, { root: true });
         },
 
-        UPDATE: ({ dispatch }, release: UpdateInfo) => { 
+        UPDATE: ({ dispatch }, release: UpdateInfo) => {
             return dispatch("updater/NOTIFY", release, { root: true });
         }
     }

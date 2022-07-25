@@ -1,9 +1,9 @@
 <template>
-    <div 
-        class="upload nowrap" 
-        :class="uploadClass" 
-        @click="open" 
-        @drop.prevent.stop="open" 
+    <div
+        class="upload nowrap"
+        :class="uploadClass"
+        @click="open"
+        @drop.prevent.stop="open"
         @dragenter.prevent="onDragEnter"
         @dragleave.prevent="drag = false"
     >

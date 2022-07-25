@@ -1,7 +1,7 @@
 <template>
     <div id="messages-header-back" @click="back">
         <ArrowLeftIcon class="icon" />
-        <UnreadCounter 
+        <UnreadCounter
             v-if="unreadCount > 0"
             :count="unreadCount"
         />
@@ -31,7 +31,7 @@ export default {
 
     methods: {
         back() {
-            return this.$router.replace("/general").catch(() => {});
+            return this.$router.replace("/general").catch(() => (false));
         }
     }
 };

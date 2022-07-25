@@ -1,8 +1,8 @@
 <template>
     <div id="recorder" :class="recorderClass">
-        <MicIcon 
+        <MicIcon
             v-tooltip.top-start="recordText"
-            class="icon amadeus clickable mic" 
+            class="icon amadeus clickable mic"
             @click="turnRecord"
         />
 
@@ -24,18 +24,21 @@ import fs from "fs-extra";
 
 import CoreMixin from "~/mixins/core";
 
-const extension: string = ".ogg";
+const extension = ".ogg";
 
+// eslint-disable-next-line no-undef
 const params: MediaTrackConstraints = {
     channelCount: 1,
     sampleRate: 16000,
     sampleSize: 16
 };
 
+// eslint-disable-next-line no-undef
 const recorderParams: MediaRecorderOptions = {
     audioBitsPerSecond: 16000
 };
 
+// eslint-disable-next-line no-undef
 const BlobParams: BlobPropertyBag = {
     type: "audio/ogg; codecs=opus"
 };
@@ -130,7 +133,7 @@ export default {
             clearInterval(this.interval);
             this.interval = null;
             this.duration = 0;
-            
+
             if (this.interrupt) {
                 return false;
             }
@@ -147,18 +150,18 @@ export default {
         async initDevice() {
             return await navigator.mediaDevices.getUserMedia({
                 video: false,
-                
+
                 audio: {
                     deviceId: this.settings.inputDevice,
                     ...params
                 }
             });
         },
-        
+
         initRecorder(stream) {
             const chunks: Blob[] = [];
             const recorder = new MediaRecorder(stream, recorderParams);
-            
+
             recorder.ondataavailable = event => {
                 chunks.push(event.data);
             };

@@ -39,7 +39,7 @@ export default {
 
         scroll(event) {
             this.$refs.stickers.$el.scrollLeft += event.deltaY;
-        } 
+        }
     }
 };
 </script>

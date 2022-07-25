@@ -8,8 +8,8 @@ import { TSize } from "~/instances/Types/Attachments";
 class DocGif extends Doc implements IPreview {
     public sizes?: TSize;
 
-    public playing: boolean = false;
-    public added: boolean = false;
+    public playing = false;
+    public added = false;
     public addedGif?: DocsDoc | null = null;
 
     constructor(doc: DocsDoc) {

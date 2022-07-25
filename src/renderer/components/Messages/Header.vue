@@ -9,8 +9,8 @@
             </div>
         </div>
 
-        <MessagesHeaderActions 
-            v-if="selectedMessages.length > 0" 
+        <MessagesHeaderActions
+            v-if="selectedMessages.length > 0"
             :messages="selectedMessages"
         />
     </div>
@@ -91,7 +91,7 @@ export default {
             &-avatar {
                 width: 30px;
                 height: 30px;
-        
+
                 border-radius: 100%;
             }
         }

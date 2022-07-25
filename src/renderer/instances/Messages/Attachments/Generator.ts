@@ -16,7 +16,7 @@ import Graffiti from "./Graffiti";
 import AudioPlaylist from "./AudioPlaylist";
 import Gift from "./Gift";
 
-class AttachmentGenerator { 
+class AttachmentGenerator {
     static generateList(list: MessagesMessageAttachment[]): Attachment[] | MessagesMessageAttachment[] {
         return list.map(AttachmentGenerator.generate);
     }
@@ -41,10 +41,10 @@ class AttachmentGenerator {
                     ? new DocGif(attachment.doc)
                     : new Doc(attachment.doc);
             }
-                
+
             case "wall": return new Wall(attachment.wall);
-            
-            case "audio_message": { 
+
+            case "audio_message": {
                 if (attachment instanceof AudioMessage) {
                     return attachment as Attachment;
                 }
@@ -53,15 +53,15 @@ class AttachmentGenerator {
             }
 
             case "link": return new Link(attachment.link);
-            
-            case "sticker": { 
+
+            case "sticker": {
                 if (attachment instanceof Sticker) {
                     return attachment as Sticker;
                 }
 
                 return new Sticker(attachment.sticker);
             }
-                
+
             case "story": return new Story(attachment.story);
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);

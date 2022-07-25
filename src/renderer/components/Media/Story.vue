@@ -1,6 +1,6 @@
 <template>
     <div id="media-page-story">
-        <video 
+        <video
             id="story"
             ref="player"
             class="media-page-item-frame"

@@ -17,7 +17,7 @@ class Message implements TMessage {
     public attachments?: Attachment[] | MessagesMessageAttachment[] = [];
     public fwd_messages?: TMessage[] = [];
     public reply_message?: TMessage;
-    public action?: any; 
+    public action?: any;
     public random_id?: number;
     public important?: number | boolean;
     public geo?: TMap;

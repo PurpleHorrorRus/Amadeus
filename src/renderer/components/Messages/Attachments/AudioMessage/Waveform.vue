@@ -1,10 +1,10 @@
 <template>
-    <div 
-        ref="waveform" 
+    <div
+        ref="waveform"
         class="attachments-item-audiomessage-waveform"
         @click.stop="seekTo"
     >
-        <WaveformPeak 
+        <WaveformPeak
             v-for="(peak, index) of waveform"
             :key="index"
             :peak="peak"

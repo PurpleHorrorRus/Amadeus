@@ -3,16 +3,16 @@
         <InputEdit v-if="input.editing.enable" />
 
         <div id="message-page-input-main">
-            <AddIcon 
+            <AddIcon
                 id="add-attachments"
-                class="icon amadeus clickable" 
-                @click="openAdd" 
+                class="icon amadeus clickable"
+                @click="openAdd"
                 @mouseenter="openMenu($event, null, true, true)"
             />
 
-            <ContextMenu 
-                v-if="menu.show" 
-                ref="menu" 
+            <ContextMenu
+                v-if="menu.show"
+                ref="menu"
                 :menu="menu"
                 :margins="[-10, -120]"
             />
@@ -141,14 +141,14 @@ export default {
                 function: () => this.openAdd("photos"),
                 icon: () => import("~icons/image.svg")
             },
-            
+
             {
                 id: "videos",
                 label: this.$strings.CHAT.MENU.VIDEO,
                 function: () => this.openAdd("videos"),
                 icon: () => import("~icons/video.svg")
             },
-            
+
             {
                 id: "docs",
                 label: this.$strings.CHAT.MENU.DOCS,
@@ -161,7 +161,7 @@ export default {
             return this.open({
                 view: "add-attachments",
                 target: id,
-                function: () => {}
+                function: () => (false)
             });
         }
     }

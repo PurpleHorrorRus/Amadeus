@@ -8,14 +8,14 @@ import User from "../User";
 import Conversation from "./Convesration";
 
 class ConversationUser extends Conversation {
-    public isUser: boolean = true;
+    public isUser = true;
 
     constructor(item: MessagesConversationWithMessage, profile: UsersUserFull) {
         super(item);
         this.profile = new User(profile);
     }
 
-    get name(): string { 
+    get name(): string {
         return this.profile.name;
     }
 }

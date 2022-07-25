@@ -43,7 +43,7 @@ export default {
         RESUME: ({ state }) => {
             audio.play();
             state.playing = true;
-            return true;  
+            return true;
         },
 
         SEEK: ({ dispatch }, time) => {

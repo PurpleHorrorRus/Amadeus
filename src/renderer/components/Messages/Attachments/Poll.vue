@@ -1,12 +1,12 @@
 <template>
-    <div 
-        class="attachments-item attachments-item-poll" 
-        :class="pollClass" 
+    <div
+        class="attachments-item attachments-item-poll"
+        :class="pollClass"
         :style="item.style.poll"
     >
-        <div 
-            class="attachments-item-poll-foreground" 
-            :style="item.style.foreground" 
+        <div
+            class="attachments-item-poll-foreground"
+            :style="item.style.foreground"
         />
 
         <PollInformation :poll="item" />
@@ -62,7 +62,7 @@ export default {
             };
         }
     },
-    
+
     methods: {
         ...mapActions({
             vote: "vk/VOTE"
@@ -82,7 +82,7 @@ export default {
         },
 
         async voteLocal() {
-            this.vote({ 
+            this.vote({
                 poll: this.item,
                 answers: this.item.choiced
             });

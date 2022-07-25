@@ -13,5 +13,5 @@ export default {
             Object.assign(global.$nuxt.$strings, state.pack);
             return state.pack;
         }
-    }    
+    }
 };

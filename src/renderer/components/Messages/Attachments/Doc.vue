@@ -2,9 +2,9 @@
     <div class="attachments-item attachments-item-doc">
         <DocGif v-if="item.isGif" :item="item" />
 
-        <InlineDoc 
-            v-else :item="item" 
-            @click.native.stop="openExternal(item.url)" 
+        <InlineDoc
+            v-else :item="item"
+            @click.native.stop="openExternal(item.url)"
         />
     </div>
 </template>
@@ -29,7 +29,7 @@ export default {
 
     .inline-doc {
         border-bottom: none;
-        
+
         span {
             color: var(--contrast);
         }

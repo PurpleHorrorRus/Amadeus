@@ -1,11 +1,11 @@
 <template>
     <div class="message-content-text">
-        <span 
+        <span
             v-for="(item, index) of formatted"
             :key="index"
             class="message-content-text-item"
             :class="itemClass(item)"
-            @click.prevent="openItem(item)" 
+            @click.prevent="openItem(item)"
             v-text="itemText(item)"
         />
     </div>
@@ -56,10 +56,10 @@ export default {
                     type: types.mention,
                     data: { id: Number(id), mention }
                 });
-                
+
                 return mention;
-            } 
-            
+            }
+
             if (linkRegex.test(word)) {
                 this.formatted.push({
                     type: types.link,
@@ -91,7 +91,7 @@ export default {
         },
 
         itemClass(item) {
-            return { 
+            return {
                 [item.type]: true
             };
         },
@@ -129,7 +129,7 @@ export default {
 
         &.mention, &.link {
             color: var(--contrast);
-            
+
             &:hover {
                 cursor: pointer;
                 text-decoration: underline;

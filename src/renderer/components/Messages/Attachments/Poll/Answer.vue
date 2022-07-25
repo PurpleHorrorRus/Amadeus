@@ -1,13 +1,13 @@
 <template>
     <div class="attachments-item-poll-answers-list-item">
-        <span 
-            class="attachments-item-poll-answers-list-item-text" 
-            v-text="answer.text" 
+        <span
+            class="attachments-item-poll-answers-list-item-text"
+            v-text="answer.text"
         />
 
-        <CheckIcon 
-            v-if="answer.choiced" 
-            class="icon amadeus" 
+        <CheckIcon
+            v-if="answer.choiced"
+            class="icon amadeus"
         />
     </div>
 </template>

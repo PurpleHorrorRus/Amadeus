@@ -1,14 +1,14 @@
 <template>
     <div class="compact-attachment nowrap">
-        <span 
+        <span
             v-if="!hideName"
             class="compact-attachment-name nowrap"
             v-text="profile.name"
         />
 
-        <span 
+        <span
             v-if="text"
-            class="compact-attachment-text nowrap" 
+            class="compact-attachment-text nowrap"
             v-text="text"
         />
     </div>
@@ -33,7 +33,7 @@ export default {
             required: false,
             default: false
         },
-        
+
         text: {
             type: String,
             required: false,

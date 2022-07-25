@@ -7,7 +7,7 @@ import Conversation from "./Convesration";
 import ChatUser from "./ChatUser";
 
 class ConversationChat extends Conversation {
-    public isChat: boolean = true;
+    public isChat = true;
     public local_id?: number;
     public profile: MessagesChatFull;
     public users?: ChatUser[];
@@ -18,8 +18,8 @@ class ConversationChat extends Conversation {
         this.profile = item.profile;
 
         this.local_id = item.profile.id;
-        
-        this.users = this.profile.users.map(user => { 
+
+        this.users = this.profile.users.map(user => {
             return new ChatUser(user);
         });
 
@@ -31,7 +31,7 @@ class ConversationChat extends Conversation {
         return this.users;
     }
 
-    removeUser(member_id: number): ChatUser[] { 
+    removeUser(member_id: number): ChatUser[] {
         const userIndex = this.users.findIndex(user => {
             return user.id === member_id;
         });
@@ -49,22 +49,18 @@ class ConversationChat extends Conversation {
         return chatUser.typing.debounce();
     }
 
-    updateTitle(title: string): void {
-        this.profile.title = title;
-    }
-
-    get name(): string { 
+    get name(): string {
         return this.profile.title;
     }
 
-    get writers(): ChatUser[] { 
+    get writers(): ChatUser[] {
         return this.users.filter(user => {
             return user.typing.enable;
         });
     }
 
     get isTyping(): boolean {
-        return this.writers.length > 0;    
+        return this.writers.length > 0;
     }
 }
 

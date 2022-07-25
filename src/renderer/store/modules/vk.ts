@@ -35,7 +35,7 @@ export default {
             });
 
             state.user = new User(user);
-            
+
             await dispatch("conversations/FETCH");
             await dispatch("LISTEN");
             dispatch("messages/stickers/FETCH");
@@ -51,7 +51,7 @@ export default {
                     dispatch("messages/ADD_MESSAGE", data),
                     dispatch("conversations/ADD_MESSAGE", data)
                 ]);
-                
+
                 dispatch("conversations/PLAY_NOTIFICATION", data.payload.message.peer_id);
             });
 
@@ -91,7 +91,7 @@ export default {
                 dispatch("conversations/UPDATE_ONE", data);
             });
 
-            state.client.updates.on("chat_title_update", data => { 
+            state.client.updates.on("chat_title_update", data => {
                 dispatch("conversations/UPDATE_ONE", data);
             });
 
@@ -197,7 +197,7 @@ export default {
                         newUser.name
                     ];
                 }
-                    
+
                 case "chat_title_update": {
                     return [
                         user.name,

@@ -24,7 +24,7 @@ class Video extends Attachment implements IPreview, IUpload {
     public restriction?: boolean = false;
     public path?: string;
 
-    constructor(private video: TVideo, upload?: IUpload) { 
+    constructor(private video: TVideo, upload?: IUpload) {
         super(video, "video", upload);
         this.owner_id = video.owner_id;
 

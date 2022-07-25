@@ -1,21 +1,21 @@
 <template>
     <div id="chat-page-viewport" :class="chatViewportClass">
         <div id="chat-page-viewport-messages">
-            <MessagesList 
-                ref="messages" 
-                :messages="chat.messages" 
+            <MessagesList
+                ref="messages"
+                :messages="chat.messages"
             />
 
-            <ScrollArrow 
+            <ScrollArrow
                 v-if="showScrollArrow"
                 @click.native="scrollToBottom"
             />
 
             <transition name="slide-right">
-                <Profile 
-                    v-if="$parent.opened" 
+                <Profile
+                    v-if="$parent.opened"
                     v-click-away="closeProfile"
-                    :conversation="chat.conversation" 
+                    :conversation="chat.conversation"
                 />
             </transition>
         </div>
@@ -80,7 +80,7 @@ export default {
     watch: {
         scrollPercent: {
             handler: function(scrollPercent) {
-                return this.chat.conversation.information.unread_count > 0 
+                return this.chat.conversation.information.unread_count > 0
                     && scrollPercent <= this.percentToRead
                     && this.readOnBottom();
             }
@@ -141,7 +141,7 @@ export default {
         readOnBottom() {
             return this.read(this.chat);
         },
-        
+
         closeProfile() {
             this.$parent.turnProfile();
         }

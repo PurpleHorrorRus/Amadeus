@@ -2,42 +2,42 @@
     <div class="message-content-attachments">
         <div v-if="message.attachments.length > 0" class="message-content-attachments-list">
             <AttachmentWall
-                v-if="attachment.type === 'wall'" 
+                v-if="attachment.type === 'wall'"
                 :item="attachment"
             />
 
-            <Gallery 
+            <Gallery
                 v-if="galleryItems.length > 0"
-                :data="galleryItems" 
+                :data="galleryItems"
             />
 
-            <AttachmentSticker 
-                v-if="attachment.type === 'sticker'" 
+            <AttachmentSticker
+                v-if="attachment.type === 'sticker'"
                 :item="attachment"
             />
 
             <AttachmentPlaylist
-                v-if="attachment.type === 'audio_playlist'" 
+                v-if="attachment.type === 'audio_playlist'"
                 :item="attachment"
             />
 
             <AttachmentGraffiti
-                v-else-if="attachment.type === 'graffiti'" 
+                v-else-if="attachment.type === 'graffiti'"
                 :item="attachment"
             />
 
             <AttachmentAudioMessage
-                v-else-if="attachment.type === 'audio_message'" 
+                v-else-if="attachment.type === 'audio_message'"
                 :item="attachment"
             />
 
             <AttachmentStory
-                v-else-if="attachment.type === 'story'" 
+                v-else-if="attachment.type === 'story'"
                 :item="attachment"
             />
 
             <AttachmentGift
-                v-else-if="attachment.type === 'gift'" 
+                v-else-if="attachment.type === 'gift'"
                 :item="attachment"
             />
 
@@ -53,7 +53,7 @@
             </div>
 
             <div v-if="docItems.length > 0" class="message-content-attachments-docs">
-                <AttachmentsDoc 
+                <AttachmentsDoc
                     v-for="item of docItems"
                     :key="item.id"
                     :item="item"
@@ -108,7 +108,7 @@ export default {
     watch: {
         message: {
             deep: true,
-            
+
             handler: function() { this.updateAttachments(); }
         }
     },
@@ -134,7 +134,7 @@ export default {
 
             const isArray = Array.isArray(type);
             return this.message.attachments.filter(attachment => {
-                return isArray 
+                return isArray
                     ? type.includes(attachment.type)
                     : attachment.type === type;
             });

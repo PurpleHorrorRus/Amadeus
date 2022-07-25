@@ -4,20 +4,20 @@ export default {
     data: () => ({
         refComponent: null,
         scrollPercent: 0,
-        trigger: () => {},
-        handler: () => {}
+        trigger: () => (false) as boolean,
+        handler: () => ({ }) as unknown
     }),
 
     beforeDestroy() {
         this.refComponent?.removeEventListener("scroll", this.onScroll);
         this.refComponent = null;
         this.scrollPercent = 0;
-        this.trigger = () => {};
-        this.handler = () => {};
+        this.trigger = () => (false);
+        this.handler = () => (false);
     },
 
     methods: {
-        async registerScroll(refComponent: string | Object, handler: Function, trigger: Function) {
+        async registerScroll(refComponent: string | Element, handler: Promise<any>, trigger: boolean) {
             const element = typeof refComponent === "string"
                 ? await this.awaitElement(refComponent)
                 : refComponent;
@@ -30,7 +30,7 @@ export default {
 
         async onScroll(event) {
             this.scrollPercent = Math.abs((
-                event.target.scrollTop 
+                event.target.scrollTop
                 / (event.target.scrollHeight - event.target.clientHeight)) * 100);
 
             return this.trigger(this.scrollPercent)

@@ -2,32 +2,32 @@
     <div class="message-attachment-item">
         <XIcon class="icon remove-icon" @click="$emit('remove')" />
 
-        <WallRepost 
-            v-if="item.type === 'wall'" 
-            :item="item" 
+        <WallRepost
+            v-if="item.type === 'wall'"
+            :item="item"
         />
 
-        <GalleryPhoto 
-            v-else-if="item.type === 'photo'" 
-            :item="item" 
-            :index="index" 
+        <GalleryPhoto
+            v-else-if="item.type === 'photo'"
+            :item="item"
+            :index="index"
         />
 
-        <GalleryVideo 
-            v-else-if="item.type === 'video'" 
-            :item="item" 
-            :index="index" 
-            :showTitle="false" 
+        <GalleryVideo
+            v-else-if="item.type === 'video'"
+            :item="item"
+            :index="index"
+            :showTitle="false"
         />
 
-        <AttachmentAudio 
-            v-else-if="item.type === 'audio'" 
-            :item="item" 
+        <AttachmentAudio
+            v-else-if="item.type === 'audio'"
+            :item="item"
         />
 
-        <AttachmentsGif 
-            v-else-if="item.isGif" 
-            :item="item" 
+        <AttachmentsGif
+            v-else-if="item.isGif"
+            :item="item"
         />
     </div>
 </template>
@@ -97,7 +97,7 @@ export default {
 
         &:hover {
             cursor: pointer;
-            
+
             path {
                 stroke: var(--secondary);
             }

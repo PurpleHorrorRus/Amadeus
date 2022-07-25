@@ -1,7 +1,7 @@
 import { GiftsLayout } from "vk-io/lib/api/schemas/objects";
 import Attachment from "../Attachment";
 
-class Gift extends Attachment { 
+class Gift extends Attachment {
     private _id: number;
     public image?: string;
 
