@@ -11,6 +11,7 @@
 
 <script lang="ts">
 import { mapActions, mapState } from "vuex";
+
 import ChatUser from "~/instances/Conversations/ChatUser";
 
 export default {
@@ -38,7 +39,8 @@ export default {
         }),
 
         mention(user: ChatUser) {
-            this.setMessage(this.message + user.screen_name);
+            const substringMention = this.message.substring(0, this.message.length - 1);
+            this.setMessage(substringMention + `[id${user.id}|@${user.screen_name}]`);
         }
     }
 };
@@ -52,7 +54,7 @@ export default {
 
     width: 100%;
 
-    overflow-x: auto;
+    overflow-y: auto;
 
     &::-webkit-scrollbar {
         width: 3px;

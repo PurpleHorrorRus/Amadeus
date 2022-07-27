@@ -58,11 +58,11 @@ abstract class Conversation {
 
     addMessage(message: ConversationMessageType) {
         this.setMessage(message);
-        this.updateMention(message.text);
         this.stopTyping();
 
         if (!message.out) {
             this.unread++;
+            this.updateMention(message.text);
         }
     }
 
@@ -75,9 +75,8 @@ abstract class Conversation {
         this.information.last_message_id = id;
     }
 
-    updateMention(text: string): boolean {
+    updateMention(text: string): void {
         this.mention = mentionRegex.test(text);
-        return this.mention;
     }
 
     setOnline(online, online_mobile): void {

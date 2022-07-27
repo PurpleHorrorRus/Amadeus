@@ -22,6 +22,7 @@ export default {
     display: flex;
     align-items: center;
     column-gap: 10px;
+    flex: 0 0;
 
     padding: 5px;
 

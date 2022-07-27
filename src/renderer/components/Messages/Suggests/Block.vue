@@ -13,7 +13,7 @@ export default {
 <style lang="scss">
 .suggests-block {
     width: 100%;
-    max-height: 30vh;
+    max-height: 40vh;
 
     padding: 10px;
 

@@ -54,7 +54,10 @@ export default {
                 const [, id, mention] = word.match(mentionRegex);
                 this.formatted.push({
                     type: types.mention,
-                    data: { id: Number(id), mention }
+                    data: {
+                        id: Number(id),
+                        mention: `@${mention}`
+                    }
                 });
 
                 return mention;

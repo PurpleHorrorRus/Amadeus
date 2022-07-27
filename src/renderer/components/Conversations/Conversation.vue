@@ -166,7 +166,7 @@ export default {
         flex-direction: row;
         justify-content: flex-end;
         align-items: center;
-        column-gap: 10px;
+        column-gap: 5px;
 
         padding: 0px 10px;
 
