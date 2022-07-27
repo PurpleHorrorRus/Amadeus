@@ -50,12 +50,12 @@ export default {
     },
 
     created() {
-        this.percent = this.item.duration / 100;
-        this.percentPerPeak = this.item.duration / this.item.waveform.length;
-
         this.waveform = this.item.waveform.length > 0
-            ? this.item.waveform
-            : new Array(128).fill(2);
+            ? this.item.waveform.filter((_, index) => index % 2 === 0).splice(0, 64)
+            : new Array(64).fill(2);
+
+        this.percent = this.item.duration / 100;
+        this.percentPerPeak = this.item.duration / this.waveform.length;
     },
 
     beforeDestroy() {
@@ -90,6 +90,8 @@ export default {
     justify-content: center;
     align-items: center;
     column-gap: 10px;
+
+    width: 100vw;
 
     &-play {
         display: flex;
