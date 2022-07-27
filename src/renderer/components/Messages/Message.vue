@@ -149,8 +149,8 @@ export default {
     &-avatar {
         align-self: flex-end;
 
-        width: 40px;
-        height: 40px;
+        width: 10vw;
+        max-width: 40px;
 
         border-radius: 100%;
     }
