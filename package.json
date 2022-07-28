@@ -40,7 +40,7 @@
         "core-js": "^3.24.0",
         "cross-env": "^7.0.3",
         "deepmerge": "^4.2.2",
-        "electron": "^19.0.9",
+        "electron": "^19.0.10",
         "electron-builder": "^23.1.0",
         "eslint": "^8.20.0",
         "eslint-plugin-vue": "^9.3.0",
