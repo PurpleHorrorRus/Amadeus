@@ -17,3 +17,7 @@ Object.entries({
 }).forEach(([name, component]) => Vue.component(name, component));
 
 Vue.use(LottieVuePlayer);
+
+export default (_context, inject) => {
+    inject("isDev", process.env.NODE_ENV === "development");
+};
