@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-import path from "path";
 import { BrowserWindow, ipcMain } from "electron";
 import common from "../common";
 
@@ -14,10 +13,10 @@ class WindowLogic {
             ipcMain.on("dom-ready", () => {
                 if (this.isWindowAlive(window)) {
                     this.send(window, type);
-                    return resolve();
+                    return resolve(window);
                 }
             });
-            
+
             const url = isDev ? process.env.DEV_SERVER_URL : "amadeus://./index.html";
             window.loadURL(url);
             console.log("Load page", url);
@@ -75,7 +74,7 @@ class WindowLogic {
         }
 
         const overlayIcon = window.notificationsCount > 0
-            ? common.getIcon(`overlay/overlay-${window.notificationsCount}.png`) 
+            ? common.getIcon(`overlay/overlay-${window.notificationsCount}.png`)
             : null;
 
         window.setOverlayIcon(overlayIcon, String(window.notificationsCount));

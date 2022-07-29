@@ -25,6 +25,13 @@ const nativeImageFromURL = async url => {
     return nativeImage.createFromDataURL(`data:image/jpeg;base64,${buffer.toString("base64")}`);
 };
 
+const events = {
+    CLOSE: "closeMedia",
+    SHARE: "share",
+    SRC: "src",
+    IMAGE: "image"
+};
+
 class MediaWindow {
     constructor() {
         this.window = null;
@@ -42,19 +49,19 @@ class MediaWindow {
             return media;
         });
 
-        ipcMain.once("closeMedia", () => {
+        ipcMain.once(events.CLOSE, () => {
             return this.close();
         });
 
-        ipcMain.on("share", (_, attachment) => {
+        ipcMain.on(events.SHARE, (_, attachment) => {
             common.windows.send(this.mainWindow, "share", attachment);
         });
 
-        ipcMain.on("src", async (_, image) => {
+        ipcMain.on(events.SRC, async (_, image) => {
             clipboard.writeText(image);
         });
 
-        ipcMain.on("image", async (_, image) => {
+        ipcMain.on(events.IMAGE, async (_, image) => {
             clipboard.writeImage(await nativeImageFromURL(image));
         });
 
@@ -89,12 +96,16 @@ class MediaWindow {
             }
         });
 
-        return true;
+        return this.window;
     }
 
     close() {
         ipcMain.removeHandler("requestMedia");
-        ipcMain.removeAllListeners("close");
+
+        Object.values(events).forEach(event => {
+            return ipcMain.removeAllListeners(event);
+        });
+
         return this.window.close();
     }
 }

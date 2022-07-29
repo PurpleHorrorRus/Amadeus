@@ -70,9 +70,7 @@ class VKGramWindow {
         }
 
         this.window.show();
-
-        await common.windows.load(this.window, "normal");
-        return true;
+        return await common.windows.load(this.window, "normal");
     }
 }
 
