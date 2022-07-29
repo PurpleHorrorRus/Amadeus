@@ -83,7 +83,7 @@ export default {
 
             this.saveCustom({
                 type: "vk",
-                settings: config
+                content: config
             });
 
             this.setConfig(config);
@@ -108,7 +108,7 @@ export default {
             config.vk.accounts.splice(index, 1);
             this.saveCustom({
                 type: "vk",
-                settings: config
+                content: config
             });
 
             this.setConfig(config);

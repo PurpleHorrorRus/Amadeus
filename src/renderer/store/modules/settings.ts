@@ -24,17 +24,13 @@ export default {
             return settings;
         },
 
-        SAVE_CUSTOM: ({ state }, { type, settings }) => {
-            if (type === "settings") {
-                state.settings = settings;
+        SAVE_CUSTOM: ({ state }, data) => {
+            if (data.type === "settings") {
+                state.settings = data.settings;
             }
 
-            ipcRenderer.send("save", {
-                type,
-                content: settings
-            });
-
-            return settings;
+            ipcRenderer.send("save", data);
+            return data.content;
         }
     }
 };

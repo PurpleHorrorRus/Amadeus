@@ -12,9 +12,11 @@ const userNuxtConfig = require("../../src/renderer/nuxt.config");
 const baseConfig = {
     srcDir: RENDERER_PROCESS_DIR,
     rootDir: RENDERER_PROCESS_DIR,
+
     router: {
         mode: "hash"
     },
+
     generate: {
         dir: path.join(DIST_DIR, "renderer")
     }
@@ -38,7 +40,9 @@ const baseExtend = (config, { isClient }) => {
 
     config.plugins.push(
         new webpack.DefinePlugin({
-            "process.resourcesPath": isClient ? resourcesPath.nuxtClient() : resourcesPath.nuxtServer()
+            "process.resourcesPath": isClient 
+                ? resourcesPath.nuxtClient() 
+                : resourcesPath.nuxtServer()
         })
     );
 
@@ -47,17 +51,24 @@ const baseExtend = (config, { isClient }) => {
 };
 
 const mergeConfig = customConfig => {
-    const hasExtendFunction = customConfig.build !== undefined && customConfig.build.extend !== undefined;
+    const hasExtendFunction = customConfig.build !== undefined 
+        && customConfig.build.extend !== undefined;
+    
     if (hasExtendFunction) {
         const userExtend = customConfig.build.extend;
+
         customConfig.build.extend = function() {
             baseExtend(...arguments); // eslint-disable-line prefer-rest-params
             userExtend(...arguments); // eslint-disable-line prefer-rest-params
         };
     } else {
-        if (baseConfig.build === undefined) baseConfig.build = {};
+        if (baseConfig.build === undefined) {
+            baseConfig.build = {};
+        }
+    
         baseConfig.build.extend = baseExtend;
     }
+
     return deepmerge(baseConfig, customConfig);
 };
 

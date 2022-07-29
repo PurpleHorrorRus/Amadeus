@@ -14,11 +14,15 @@ function productionPath() {
 
 module.exports = {
     mainProcess() {
-        return isProduction ? productionPath() : devPath();
+        return isProduction 
+            ? productionPath() 
+            : devPath();
     },
 
     nuxtClient() {
-        return isProduction ? productionPath() : devPath();
+        return isProduction 
+            ? productionPath() 
+            : devPath();
     },
 
     nuxtServer: devPath

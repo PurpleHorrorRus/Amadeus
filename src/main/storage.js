@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
-import fs from "fs";
 import path from "path";
+import fs from "fs-extra";
 import { app } from "electron";
 
 const isDev = process.env.NODE_ENV === "development";
@@ -62,6 +62,12 @@ const clear = {
     vk: {
         active: -1,
         accounts: []
+    },
+
+    stickers: {
+        updated: 0,
+        collections: [],
+        words: {}
     }
 };
 
@@ -110,19 +116,21 @@ const nested = (settings, clear) => {
     return settings;
 };
 
-const readJSON = dir => JSON.parse(fs.readFileSync(dir, "UTF-8"));
-const writeJSON = (dir, content) => {
-    fs.writeFileSync(dir, JSON.stringify(content, null, 4));
-    return content;
-};
-
 const dataPath = filename => path.join(rootPath, filename);
-const dataNested = (path, clear) => (fs.existsSync(path) ? nested(readJSON(path), clear) : writeJSON(path, clear));
+const dataNested = (path, clear) => {
+    if (fs.existsSync) {
+        const content = fs.readJsonSync(path);
+        return nested(content, clear);
+    }
+
+    return fs.writeJsonSync(path, clear);
+};
 
 const paths = {
     rootPath,
     vk: path.join(rootPath, "vk.json"),
     settings: path.join(rootPath, "settings.json"),
+    stickers: path.join(rootPath, "stickers.json"),
     temp: path.join(app.getPath("temp"), "amadeus"),
     background: path.join(rootPath, "background")
 };
@@ -143,6 +151,7 @@ Object.keys(clear).map(key => {
 const config = {
     vk: dataNested(paths.vk, clear.vk),
     settings: dataNested(paths.settings, clear.settings),
+    stickers: dataNested(paths.stickers, clear.stickers),
     paths,
     background: fs.readFileSync(paths.background, "base64url")
 };
@@ -150,16 +159,16 @@ const config = {
 export default {
     paths,
     config,
-    readJSON,
-    writeJSON,
 
-    save: (type = "settings", content) => {
-        config[type] = content;
-        return writeJSON(paths[type], content);
+    save: data => {
+        config[data.type] = data.content;
+        return fs.writeJsonSync(paths[data.type], data.content, {
+            spaces: data.space === 0 ? 0 : (data.space || 4)
+        });
     },
 
     clear: type => {
         config[type] = clear[type];
-        return writeJSON(paths[type], config[type]);
+        return fs.writeFileSync(paths[type], config[type]);
     }
 };

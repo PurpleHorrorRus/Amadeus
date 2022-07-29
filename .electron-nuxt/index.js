@@ -38,10 +38,12 @@ const builder = new ElectronBuilder({
 
 const webpackConfig = Webpack.getBaseConfig({
     entry: path.join(MAIN_PROCESS_DIR, "index.js"),
+
     output: {
         filename: "index.js",
         path: path.join(DIST_DIR, "main")
     },
+
     plugins: [
         new webpack.DefinePlugin({
             "process.resourcesPath": resourcesPath.mainProcess(),

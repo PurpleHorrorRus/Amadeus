@@ -43,14 +43,15 @@ class IPC {
             }
 
             if (!args.type) {
-                args.type = "settings";
+                console.error("Settings saving type is undefined");
+                return;
             }
 
             if (args.type === "settings") {
                 common.storage.config.settings = args.content;
             }
 
-            return common.storage.save(args.type, args.content);
+            return common.storage.save(args);
         };
 
         this.events.openMedia = media => {

@@ -8,10 +8,11 @@ module.exports = [
         oneOf: [
             {
                 loader: "vue-svg-loader",
+
                 options: {
                     svgo: {
                         plugins: [
-                            { removeDimensions: true }, 
+                            { removeDimensions: true },
                             { removeViewBox: false }
                         ]
                     }
