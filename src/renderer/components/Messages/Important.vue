@@ -96,7 +96,7 @@ export default {
     }
 
     .message-content-attachments {
-        width: 30vw;
+        width: 100% !important;
     }
 }
 </style>
