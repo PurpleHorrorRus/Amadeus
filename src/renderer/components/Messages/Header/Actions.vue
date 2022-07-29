@@ -102,6 +102,7 @@ export default {
                         .catch(() => (false));
 
                     this.setForward(forwardMessages);
+                    this.unselectAll();
                 }
             });
         }
