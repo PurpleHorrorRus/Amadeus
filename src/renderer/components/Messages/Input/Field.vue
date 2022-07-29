@@ -125,6 +125,7 @@ export default {
     },
 
     beforeDestroy() {
+        this.setMessage("");
         document.onpaste = null;
         window.removeEventListener("focus", this.focus);
         window.removeEventListener("keypress", this.focus);
