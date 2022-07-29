@@ -1,5 +1,6 @@
 import common from "~/plugins/common";
 
+import ModalMixin from "~/mixins/modal";
 import ScrollMixin from "~/mixins/scroll";
 
 export default {
@@ -15,20 +16,16 @@ export default {
         }
     }),
 
-    mixins: [ScrollMixin],
-
-    mounted() {
-        window.addEventListener("blur", this.closeMenu);
-        window.addEventListener("resize", this.closeMenu);
-    },
+    mixins: [ModalMixin, ScrollMixin],
 
     beforeDestroy() {
-        window.removeEventListener("blur", this.closeMenu);
-        window.removeEventListener("resize", this.closeMenu);
+        this.closeEvents();
     },
 
     methods: {
         openMenu(event: any, target: any, atElement = false, hold = false) {
+            this.windowEvents(this.closeMenu);
+
             if (this.menu.show && !hold) {
                 this.closeMenu();
                 if (atElement) return true;
@@ -62,11 +59,12 @@ export default {
         async unhandleMenu() {
             this.handle = false;
             await common.wait(400);
-            if (!this.handle) return this.closeMenu();
-            return false;
+            return !this.handle && this.closeMenu();
         },
 
         closeMenu() {
+            this.closeEvents();
+
             this.menu.show = false;
             this.menu.event = null;
             this.menu.target = null;

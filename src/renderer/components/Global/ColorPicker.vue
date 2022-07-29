@@ -1,8 +1,8 @@
 <template>
     <div class="color-picker">
-        <span v-if="text" class="color-picker-item-text" v-text="text" />
+        <span v-if="text" class="color-picker-text nowrap" v-text="text" />
 
-        <div class="color-picker-preview" @click="turnPicker">
+        <div class="color-picker-preview" @click="openPicker">
             <div class="color-picker-preview-color" :style="previewColorStyle" />
             <span class="color-picker-preview-hex" v-text="value" />
         </div>
@@ -21,10 +21,14 @@
 </template>
 
 <script lang="ts">
+import ModalMixin from "~/mixins/modal";
+
 export default {
     components: {
         ColorPicker: () => import("@uscreen-video/v-color")
     },
+
+    mixins: [ModalMixin],
 
     props: {
         variable: {
@@ -76,20 +80,17 @@ export default {
     },
 
     methods: {
-        turnPicker(event) {
-            this.position.left = event.clientX - 50;
-            this.position.top = event.clientY + 20;
+        openPicker(event) {
+            this.position.left = Math.min(event.clientX - 50, window.innerWidth - 270);
+            this.position.top = Math.min(event.clientY + 20, window.innerHeight - 270);
 
-            this.show = !this.show;
+            this.show = true;
+            this.windowEvents(this.close);
         },
 
         close() {
-            if (!this.show) {
-                return false;
-            }
-
             this.show = false;
-            return true;
+            this.closeEvents();
         },
 
         input(value) {
@@ -108,6 +109,10 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+
+    &-text {
+        max-width: 65%;
+    }
 
     &-preview {
         display: grid;
