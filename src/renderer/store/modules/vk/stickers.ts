@@ -51,6 +51,7 @@ export default {
 
             state.collections = rootState.config.stickers.collections;
             state.words = rootState.config.stickers.words;
+            state.stickersExist = state.collections.length > 0;
 
             const diff = new DateDiff(
                 new Date(Date.now()),
@@ -72,8 +73,6 @@ export default {
                     }
                 }, { root: true });
             }
-
-            state.stickersExist = state.collections.length > 0;
 
             const favorite: TFavoriteResponse =
                 await rootState.vk.client.api.store.getFavoriteStickers();

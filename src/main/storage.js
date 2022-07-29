@@ -117,13 +117,14 @@ const nested = (settings, clear) => {
 };
 
 const dataPath = filename => path.join(rootPath, filename);
-const dataNested = (path, clear) => {
-    if (fs.existsSync) {
+const dataNested = (path, clear, skip = false) => {
+    if (fs.existsSync(path)) {
         const content = fs.readJsonSync(path);
-        return nested(content, clear);
+        return !skip ? nested(content, clear) : content;
     }
 
-    return fs.writeJsonSync(path, clear);
+    fs.writeJsonSync(path, clear);
+    return clear;
 };
 
 const paths = {
@@ -151,7 +152,7 @@ Object.keys(clear).map(key => {
 const config = {
     vk: dataNested(paths.vk, clear.vk),
     settings: dataNested(paths.settings, clear.settings),
-    stickers: dataNested(paths.stickers, clear.stickers),
+    stickers: dataNested(paths.stickers, clear.stickers, true),
     paths,
     background: fs.readFileSync(paths.background, "base64url")
 };
