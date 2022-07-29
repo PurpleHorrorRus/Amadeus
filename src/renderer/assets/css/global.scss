@@ -32,7 +32,16 @@ span, input, textarea, select, div {
     text-rendering: optimizeSpeed;
 
     &::selection {
-        background: var(--secondary) !important;
+        background: var(--backdrop) !important;
+    }
+
+    &.break {
+        user-select: text;
+        hyphens: auto;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: pre-line;
     }
 }
 

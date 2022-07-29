@@ -141,7 +141,6 @@ export default {
     },
 
     beforeDestroy() {
-        this.clearInput();
         document.removeEventListener("keydown", this.exit);
 
         if (!this.first) {
@@ -190,6 +189,7 @@ export default {
             if (this.opened) return this.turnProfile();
             if (this.input.editing.enable) return this.clearEdit();
             if (this.modal.show) return this.close();
+            this.clearInput();
             this.$router.replace("/general").catch(() => (false));
             return true;
         },

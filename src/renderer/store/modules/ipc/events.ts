@@ -18,7 +18,8 @@ export default {
         SHARE: ({ commit, dispatch }, attachment: MessagesMessageAttachment) => {
             dispatch("modal/OPEN", {
                 view: "choose-user",
-                title: "Поделиться",
+                title: global.$nuxt.$strings.MENU.SHARE,
+
                 function: async conversation => {
                     commit("REDIRECT", `/messages/${conversation.id}?type=${conversation.type}`);
 

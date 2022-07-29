@@ -54,7 +54,7 @@ class MediaWindow {
         });
 
         ipcMain.on(events.SHARE, (_, attachment) => {
-            common.windows.send(this.mainWindow, "share", attachment);
+            common.windows.send(this.mainWindow, events.SHARE, attachment);
         });
 
         ipcMain.on(events.SRC, async (_, image) => {

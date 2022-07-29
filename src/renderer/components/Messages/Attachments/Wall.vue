@@ -4,7 +4,7 @@
 
         <span
             v-if="item.text"
-            class="attachments-item-wall-text"
+            class="attachments-item-wall-text break"
             v-text="item.text"
         />
 
@@ -45,9 +45,6 @@ export default {
 
     &-text {
         font-size: 12px;
-
-        white-space: pre-line;
-        user-select: text;
 
         cursor: text;
     }

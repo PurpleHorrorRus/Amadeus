@@ -51,14 +51,5 @@ export default {
     .attachments-item-repost-icon {
         transform: scale(-1, -1);
     }
-
-    &-text {
-        font-size: 12px;
-
-        white-space: pre-line;
-        user-select: text;
-
-        cursor: text;
-    }
 }
 </style>

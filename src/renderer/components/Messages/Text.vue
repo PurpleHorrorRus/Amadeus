@@ -3,7 +3,7 @@
         <span
             v-for="(item, index) of formatted"
             :key="index"
-            class="message-content-text-item"
+            class="message-content-text-item break"
             :class="itemClass(item)"
             @click.prevent="openItem(item)"
             v-text="itemText(item)"
@@ -118,13 +118,6 @@ export default {
 
     &-item {
         font-size: 14px;
-
-        user-select: text;
-        hyphens: auto;
-        overflow-wrap: break-word;
-        word-wrap: break-word;
-        word-break: break-word;
-        white-space: pre-line;
 
         &.text {
             color: var(--contrast);

@@ -64,7 +64,7 @@ class IPC {
         this.events.maximize = () => {
             return !this.window.isMaximized()
                 ? this.window.maximize()
-                : this.window.unmaximize(); 
+                : this.window.unmaximize();
         };
 
         this.events.close = () => {
