@@ -3,12 +3,12 @@
         <CompactAttachment
             v-if="input.reply"
             :message="input.reply"
-            :text="replyText"
+            :text="replyText(input.reply)"
             @click.native="removeReply"
         />
 
         <CompactAttachment
-            v-else-if="showForwardMessages"
+            v-if="showForwardMessages"
             :message="input"
             :text="forwardMessagesText"
             :hideName="true"
@@ -16,14 +16,14 @@
         />
 
         <CompactAttachment
-            v-else-if="input.attachments[0].type === 'wall'"
+            v-if="firstAttachmentType === 'wall'"
             :message="input"
             :text="$strings.CHAT.ATTACHMENTS.WALL"
             @click.native="removeAttachment(0)"
         />
 
         <CompactAttachment
-            v-else-if="input.attachments[0].type === 'audio_playlist'"
+            v-else-if="firstAttachmentType === 'audio_playlist'"
             :message="input"
             :text="$strings.CHAT.ATTACHMENTS.AUDIO_PLAYLIST"
             @click.native="removeAttachment(0)"
@@ -52,8 +52,7 @@
 <script lang="ts">
 import { mapActions, mapState } from "vuex";
 
-import CoreMixin from "~/mixins/core";
-import AttachmentsMixin from "~/mixins/attachments";
+import ReplyMixin from "~/mixins/message/reply";
 
 export default {
     components: {
@@ -62,7 +61,7 @@ export default {
         MessageAttachmentsGallery: () => import("~/components/Messages/Input/Gallery.vue")
     },
 
-    mixins: [CoreMixin, AttachmentsMixin],
+    mixins: [ReplyMixin],
 
     computed: {
         ...mapState({
@@ -77,19 +76,18 @@ export default {
             }) || [];
         },
 
+        firstAttachmentType() {
+            return this.input.attachments[0]?.type;
+        },
+
         docItems() {
             return this.input.attachments.filter(attachment => {
                 return attachment.type === "doc" && attachment.doctype !== 3;
             });
         },
 
-        replyText() {
-            return `${this.formatAttachmentsString(this.input.reply, false)} 
-                ${this.formatText(this.input.reply.text)}`;
-        },
-
         showForwardMessages() {
-            return this.input.fwd_messages?.length > 0;
+            return this.input.fwd_messages.length > 0;
         },
 
         forwardMessagesText() {
@@ -97,6 +95,10 @@ export default {
                 fwd_messages: this.input.fwd_messages
             }, false);
         }
+    },
+
+    created() {
+        this.reply = this.input.reply;
     },
 
     methods: {
@@ -117,6 +119,10 @@ export default {
 <style lang="scss">
 #message-page-input-attachments {
     grid-area: attachments;
+
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
 
     width: 100%;
 

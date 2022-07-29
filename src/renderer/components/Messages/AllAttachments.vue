@@ -2,7 +2,7 @@
     <div class="message-content-all-attachments">
         <MessageReply
             v-if="showReply"
-            :message="message.reply_message"
+            :reply="message.reply_message"
         />
 
         <MessageText v-if="message.text" :message="message" />
@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import AttachmentsMixin from "~/mixins/attachments";
+import AttachmentsMixin from "~/mixins/message/attachments";
 
 export default {
     components: {

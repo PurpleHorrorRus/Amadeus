@@ -25,7 +25,7 @@
 <script lang="ts">
 import ProfileMixin from "~/mixins/profile";
 import DateMixin from "~/mixins/date";
-import AttachmentsMixin from "~/mixins/attachments";
+import AttachmentsMixin from "~/mixins/message/attachments";
 
 export default {
     components: {

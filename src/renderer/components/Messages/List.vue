@@ -17,10 +17,10 @@
 import { mapActions } from "vuex";
 
 import CoreMixin from "~/mixins/core";
-import AttachmentsMixin from "~/mixins/attachments";
+import AttachmentsMixin from "~/mixins/message/attachments";
 import MenuMixin from "~/mixins/menu";
 import DateMixin from "~/mixins/date";
-import ActionsMixin from "~/mixins/actions";
+import ActionsMixin from "~/mixins/message/actions";
 
 export default {
     components: {

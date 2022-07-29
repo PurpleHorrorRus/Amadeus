@@ -107,9 +107,13 @@ export default {
             return state.fwd_messages;
         },
 
-        ADD_REPLY: ({ state }, message: TMessage) => {
+        ADD_REPLY: async ({ dispatch, state }, message: TMessage) => {
             if (state.editing.enable) {
                 return false;
+            }
+
+            if (state.reply) {
+                await dispatch("REMOVE_REPLY");
             }
 
             state.reply = message;

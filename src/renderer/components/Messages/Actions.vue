@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import CoreMixin from "~/mixins/core";
-import ActionsMixin from "~/mixins/actions";
+import ActionsMixin from "~/mixins/message/actions";
 
 export default {
     components: {

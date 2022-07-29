@@ -35,7 +35,7 @@
 <script lang="ts">
 import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
-import AttachmentsMixin from "~/mixins/attachments";
+import AttachmentsMixin from "~/mixins/message/attachments";
 
 export default {
     mixins: [CoreMixin, DateMixin, AttachmentsMixin],

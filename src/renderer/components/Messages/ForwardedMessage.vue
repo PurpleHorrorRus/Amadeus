@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import CoreMixin from "~/mixins/core";
-import AttachmentsMixin from "~/mixins/attachments";
+import AttachmentsMixin from "~/mixins/message/attachments";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {

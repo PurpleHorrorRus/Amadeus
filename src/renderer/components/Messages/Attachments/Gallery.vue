@@ -17,7 +17,7 @@ import AttachmentPhoto from "~/components/Messages/Attachments/Gallery/Photo.vue
 import AttachmentVideo from "~/components/Messages/Attachments/Gallery/Video.vue";
 
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
-import AttachmentsMixin from "~/mixins/attachments";
+import AttachmentsMixin from "~/mixins/message/attachments";
 
 export default {
     mixins: [AttachmentMixin, AttachmentsMixin],

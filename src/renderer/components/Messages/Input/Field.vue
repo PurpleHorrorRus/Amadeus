@@ -27,8 +27,8 @@ import { mapActions, mapState } from "vuex";
 import lodash from "lodash";
 import TextareaAutosizeDirective from "./Field/Autosize";
 
-import AttachmentsMixin from "~/mixins/attachments";
-import ActionsMixin from "~/mixins/actions";
+import AttachmentsMixin from "~/mixins/message/attachments";
+import ActionsMixin from "~/mixins/message/actions";
 import DateMixin from "~/mixins/date";
 
 import Message from "~/instances/Messages/Message";

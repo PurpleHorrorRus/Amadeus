@@ -69,6 +69,12 @@ export default {
 </script>
 
 <style lang="scss">
+.message.out {
+    .compact-attachment {
+        border-left: 4px solid var(--text);
+    }
+}
+
 .compact-attachment {
     display: flex;
     flex-direction: column;

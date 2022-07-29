@@ -1,93 +1,37 @@
 <template>
     <div class="message-content-reply nowrap">
-        <span
-            class="message-content-reply-name nowrap"
-            v-text="profile.name"
-        />
-
-        <span
-            v-if="showAttachments"
-            class="message-content-reply-attachments"
-            v-text="formatAttachmentsString(message)"
-        />
-
-        <span
-            v-if="message.text"
-            class="message-content-reply-text nowrap"
-            v-text="formatText(message.text)"
+        <CompactAttachment
+            :message="reply"
+            :text="replyText(reply)"
         />
     </div>
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
-
-import CoreMixin from "~/mixins/core";
-import ProfileMixin from "~/mixins/profile";
-import AttachmentsMixin from "~/mixins/attachments";
+import ReplyMixin from "~/mixins/message/reply";
 
 export default {
-    mixins: [CoreMixin, ProfileMixin, AttachmentsMixin],
+    components: {
+        CompactAttachment: () => import("~/components/Messages/Input/CompactAttachment.vue")
+    },
+
+    mixins: [ReplyMixin],
 
     props: {
-        message: {
+        reply: {
             type: Object,
             required: true
         }
-    },
-
-    data: () => ({
-        profile: null
-    }),
-
-    computed: {
-        ...mapState({
-            current: (state: any) => state.vk.messages.current,
-            user: (state: any) => state.vk.user
-        }),
-
-        showAttachments() {
-            return this.message.attachments?.length > 0 ||
-                this.message.fwd_messages?.length > 0;
-        }
-    },
-
-    created() {
-        if (this.current?.isChat) {
-            this.profile = this.current.users.find(user => {
-                return user.id === this.message.from_id;
-            });
-
-            return this.profile;
-        }
-
-        this.profile = this.message.from_id !== this.user.id
-            ? this.current
-            : this.user;
     }
 };
 </script>
 
 <style lang="scss">
-.message:not(.out) {
-    .message-content-reply {
-        border-left: 4px solid var(--secondary);
-
-        &-name {
-            color: var(--secondary) !important;
-        }
-    }
-}
-
 .message-content-reply {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-
-    padding-left: 10px;
-
-    border-left: 4px solid var(--contrast);
 
     span {
         user-select: text;
