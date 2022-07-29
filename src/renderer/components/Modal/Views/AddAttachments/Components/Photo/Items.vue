@@ -82,9 +82,10 @@ export default {
         grid-area: photo;
 
         display: flex;
-        justify-content: center;
         flex-wrap: wrap;
-        gap: 1vw;
+        gap: 3vw;
+
+        padding-left: 1vw;
 
         overflow-x: hidden;
         overflow-y: auto;
