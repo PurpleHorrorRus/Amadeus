@@ -51,6 +51,6 @@ module.exports = {
         owner: "PurpleHorrorRus",
         repo: "Amadeus",
         releaseType: "prerelease",
-        private: true
+        private: false
     }
 };
