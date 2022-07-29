@@ -24,7 +24,11 @@ class MainWindowEvents {
         const [width, height] = this.window.getSize();
         common.storage.config.settings.width = width;
         common.storage.config.settings.height = height;
-        common.storage.save("settings", common.storage.config.settings);
+
+        common.storage.save({
+            type: "settings",
+            content: common.storage.config.settings
+        });
     }
 }
 
