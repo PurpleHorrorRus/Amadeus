@@ -2,10 +2,9 @@
     <div id="titlebar">
         <span id="titlebar-title" v-text="'Amadeus'" />
         <span
-            v-if="$isDev"
             id="titlebar-title-dev"
             class="small-text"
-            v-text="'development mode'"
+            v-text="devLabel"
         />
 
         <div id="titlebar-buttons">
@@ -46,6 +45,14 @@ export default {
             class: "close"
         }]
     }),
+
+    computed: {
+        devLabel() {
+            return this.$isDev
+                ? "development mode"
+                : "beta";
+        }
+    },
 
     methods: {
         send(event) {
