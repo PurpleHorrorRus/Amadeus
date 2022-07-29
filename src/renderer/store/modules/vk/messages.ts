@@ -191,7 +191,7 @@ export default {
         SEND: async ({ dispatch, rootState }, data) => {
             const toSend: MessagesSendParams = {
                 attachment: "",
-                peer_id: data.peer_id,
+                peer_ids: data.peer_id,
                 random_id: common.getRandom(10, 99999999),
                 message: data.text || "",
                 reply_to: data.reply_message?.id

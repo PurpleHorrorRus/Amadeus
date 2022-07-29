@@ -1,6 +1,13 @@
 import { ipcRenderer } from "electron";
 import Promise from "bluebird";
 
+import { MessagesGetConversationsByIdParams, MessagesGetConversationsParams } from "vk-io/lib/api/schemas/params";
+
+import {
+    MessagesGetConversationsByIdExtendedResponse,
+    MessagesGetConversationsResponse
+} from "vk-io/lib/api/schemas/responses";
+
 import Conversation from "~/instances/Conversations/Convesration";
 import Chat from "~/instances/Conversations/Chat";
 
@@ -10,11 +17,11 @@ import ChatUser from "~/instances/Conversations/ChatUser";
 import common from "~/plugins/common";
 import ProfileGenerator from "~/instances/Generator";
 
-const fields = {
+const fields: MessagesGetConversationsParams = {
+    extended: 1,
     count: 100,
     filter: "all",
-    extended: true,
-    fields: "photo_100,online,status,last_seen"
+    fields: ["photo_100", "online", "status", "last_seen"]
 };
 
 export default {
@@ -27,7 +34,7 @@ export default {
 
     actions: {
         FETCH: async ({ dispatch, state, rootState }, offset = 0) => {
-            const list = await rootState.vk.client.api.messages.getConversations({
+            const list: MessagesGetConversationsResponse = await rootState.vk.client.api.messages.getConversations({
                 offset,
                 ...fields
             });
@@ -68,9 +75,11 @@ export default {
             });
         },
 
-        FORMAT_ITEM: async ({ rootState }, { item, profiles, groups }) => {
-            item.muted = rootState.settings.settings.vk.mute.includes(item.conversation.peer.id);
-            return ProfileGenerator.conversationProfileByType(item.conversation.peer.type, item, profiles, groups);
+        FORMAT_ITEM: async (_, { item, profiles, groups }) => {
+            return ProfileGenerator.conversationProfileByType(
+                item.conversation.peer.type,
+                item, profiles, groups
+            );
         },
 
         FORMAT_MESSAGE: async ({ dispatch, rootState }, message) => {
@@ -121,6 +130,10 @@ export default {
             const chatOnly = chatList.filter(item => {
                 return item[1];
             });
+
+            if (chatOnly.length === 0) {
+                return list.items;
+            }
 
             const chatProfiles = await rootState.vk.client.api.messages.getChat({
                 chat_ids: chatOnly.map(item => item[2]),
@@ -201,37 +214,66 @@ export default {
             return null;
         },
 
+        ADD_CONVERSATION: async ({ dispatch, state, rootState }, data) => {
+            const params: MessagesGetConversationsByIdParams = {
+                peer_ids: data.peerId,
+                ...fields
+            };
+
+            const response: MessagesGetConversationsByIdExtendedResponse =
+                await rootState.vk.client.api.messages.getConversationsById(params);
+
+            const list: MessagesGetConversationsResponse = {
+                count: state.count + 1,
+
+                items: [{
+                    conversation: response.items[0],
+                    last_message: data.payload.message
+                }],
+
+                groups: response.groups,
+                profiles: response.profiles
+            };
+
+            const [conversation] = await dispatch("FORMAT", list);
+            conversation.message = await dispatch("FORMAT_MESSAGE", conversation.message);
+            return conversation;
+        },
+
         ADD_MESSAGE: async ({ dispatch, state }, data) => {
-            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
+            let conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
+
             if (!conversation) {
-                return await dispatch("FETCH");
-            }
-
-            const message: ConversationMessageType = await dispatch("FORMAT_MESSAGE", {
-                ...data.payload.message,
-                date: Math.floor(Date.now() / 1000),
-                text: data.text // Fix unescaped characters in message,
-            });
-
-            conversation.addMessage(message);
-
-            if (conversation.isChat) {
-                const typingUser: ChatUser = conversation.users.find(user => {
-                    return user.id === message.from_id;
+                conversation = await dispatch("ADD_CONVERSATION", data);
+                state.count++;
+                state.cache.unshift(conversation);
+            } else {
+                const message: ConversationMessageType = await dispatch("FORMAT_MESSAGE", {
+                    ...data.payload.message,
+                    date: Math.floor(Date.now() / 1000),
+                    text: data.text // Fix unescaped characters in message,
                 });
 
-                typingUser.stopTyping();
+                conversation.addMessage(message);
+
+                if (conversation.isChat) {
+                    const typingUser: ChatUser = conversation.users.find(user => {
+                        return user.id === message.from_id;
+                    });
+
+                    typingUser.stopTyping();
+                }
+
+                const conversationIndex = state.cache.findIndex(conversation => {
+                    return conversation.id === data.peerId;
+                });
+
+                if (conversationIndex > 0) {
+                    state.cache = common.arrayMove(state.cache, conversationIndex, 0);
+                }
             }
 
-            const conversationIndex = state.cache.findIndex(conversation => {
-                return conversation.id === data.peerId;
-            });
-
-            if (conversationIndex > 0) {
-                state.cache = common.arrayMove(state.cache, conversationIndex, 0);
-            }
-
-            if (!message.out) {
+            if (!conversation.message.out) {
                 dispatch("UPDATE_ICON");
             }
 
