@@ -49,8 +49,9 @@ export default {
                 (кроме избранных)
             */
 
-            state.collections = rootState.config.stickers.collections;
-            state.words = rootState.config.stickers.words;
+            const formatted = await dispatch("FORMAT", rootState.config.stickers);
+            state.collections = formatted.collections;
+            state.words = formatted.words;
             state.stickersExist = state.collections.length > 0;
 
             const diff = new DateDiff(
@@ -59,17 +60,19 @@ export default {
             );
 
             if (diff.minutes() >= 30) {
-                const response = await dispatch("FETCH_REMOTE");
-                state.collections = response.collections;
-                state.words = response.words;
+                const { response, keywordsResponse } = await dispatch("FETCH_REMOTE");
+                const formatted = await dispatch("FORMAT", { response, keywordsResponse });
+                state.collections = formatted.collections;
+                state.words = formatted.words;
+                state.stickersExist = state.collections.length > 0;
 
                 dispatch("settings/SAVE_CUSTOM", {
                     type: "stickers",
                     space: 0,
                     content: {
                         updated: Date.now(),
-                        collections: state.collections,
-                        words: state.words
+                        response,
+                        keywordsResponse
                     }
                 }, { root: true });
             }
@@ -93,16 +96,18 @@ export default {
             const [response, keywordsResponse]: [
                 { items?: StoreProduct[] },
                 StoreGetStickersKeywordsResponse
-            ] =
-                await Promise.all([
-                    rootState.vk.client.api.store.getProducts(params),
-                    rootState.vk.client.api.store.getStickersKeywords(keywordsParams)
-                ]);
+            ] = await Promise.all([
+                rootState.vk.client.api.store.getProducts(params),
+                rootState.vk.client.api.store.getStickersKeywords(keywordsParams)
+            ]);
 
+            return { response, keywordsResponse };
+        },
+
+        FORMAT: (_, { response, keywordsResponse }) => {
             let collections = [];
-            const words = {};
 
-            if (response.items?.length > 0) {
+            if (response.items.length > 0) {
                 collections = response.items.map(collection => {
                     return new StickersCollection(collection);
                 });
@@ -110,7 +115,10 @@ export default {
                 collections.sort((a, b) => {
                     return b.purchase_date - a.purchase_date;
                 });
+            }
 
+            const words = {};
+            if (keywordsResponse.dictionary.length > 0) {
                 keywordsResponse.dictionary.forEach(dict => { // Во имя императора...
                     dict.words.forEach(word => {
                         if (!(word in words)) words[word] = [];

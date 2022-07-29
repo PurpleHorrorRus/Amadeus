@@ -4,19 +4,20 @@
         @mouseenter="turnAnimation(true)"
         @mouseleave="turnAnimation(false)"
     >
-        <img
-            v-if="!sticker.animated || !animate"
-            :src="preview"
-            class="sticker-image"
-        >
-
         <lottie-vue-player
-            v-else
+            v-if="animate"
             :src="image"
             class="sticker-image"
             autoplay
             loop
         />
+
+        <img
+            v-else
+            :key="settings.appearance.stickersTheme"
+            :src="image"
+            class="sticker-image"
+        >
     </div>
 </template>
 
@@ -38,13 +39,13 @@ export default {
     }),
 
     computed: {
-        preview() {
-            return this.settings.appearance.stickersTheme === 1
-                ? this.sticker.sizesBackground.medium
-                : this.sticker.sizes.medium;
-        },
-
         image() {
+            if (!this.animate) {
+                return this.settings.appearance.stickersTheme === 1
+                    ? this.sticker.sizesBackground.max
+                    : this.sticker.sizes.max;
+            }
+
             return this.settings.appearance.stickersTheme === 1
                 ? this.sticker.dark
                 : this.sticker.light;

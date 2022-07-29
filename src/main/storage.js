@@ -66,8 +66,8 @@ const clear = {
 
     stickers: {
         updated: 0,
-        collections: [],
-        words: {}
+        response: { items: [] },
+        keywordsResponse: { dictionary: [] }
     }
 };
 
