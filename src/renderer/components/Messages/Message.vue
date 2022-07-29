@@ -134,6 +134,12 @@ export default {
 
     &:not(.out) {
         --contrast: var(--message-contrast);
+
+        span {
+            &::selection {
+                background: var(--secondary) !important;
+            }
+        }
     }
 
     &.noBackground {

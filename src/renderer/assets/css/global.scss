@@ -31,10 +31,6 @@ span, input, textarea, select, div {
     -webkit-font-smoothing: subpixel-antialiased;
     text-rendering: optimizeSpeed;
 
-    &::selection {
-        background: var(--backdrop) !important;
-    }
-
     &.break {
         user-select: text;
         hyphens: auto;
@@ -42,6 +38,16 @@ span, input, textarea, select, div {
         word-wrap: break-word;
         word-break: break-word;
         white-space: pre-line;
+    }
+
+    &::selection {
+        background: var(--backdrop);
+    }
+}
+
+input, textarea {
+    &::selection {
+        background: var(--secondary) !important;
     }
 }
 
