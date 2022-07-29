@@ -70,7 +70,7 @@ export default {
     display: grid;
     grid-template-columns: 22px 1fr;
     align-items: center;
-    column-gap: 5px;
+    column-gap: 10px;
 
     cursor: default;
 
@@ -86,7 +86,7 @@ export default {
         display: grid;
         grid-template-columns: 40px 1fr;
         align-items: center;
-        column-gap: 5px;
+        column-gap: 10px;
 
         &-avatar {
             width: 40px;
