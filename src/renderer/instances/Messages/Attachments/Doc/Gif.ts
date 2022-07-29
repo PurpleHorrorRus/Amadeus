@@ -34,6 +34,12 @@ class DocGif extends Doc implements IPreview {
     stop(): void {
         this.playing = false;
     }
+
+    get preview(): string {
+        return this.sizes.medium
+            || this.sizes.min
+            || this.sizes.max;
+    }
 }
 
 export default DocGif;

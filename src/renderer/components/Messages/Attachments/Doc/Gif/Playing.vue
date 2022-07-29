@@ -70,7 +70,7 @@ export default {
 
     &-add {
         position: absolute;
-        top: 10px; right: 10px;
+        top: 3px; right: 3px;
 
         display: flex;
         justify-content: center;

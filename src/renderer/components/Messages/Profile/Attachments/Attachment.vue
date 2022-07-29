@@ -10,6 +10,7 @@
             v-else-if="item.type === 'video'"
             :item="item"
             :index="index" :canQuickPlay="false"
+            :showTitle="false"
             @click.native.stop="openMedia(data, index)"
         />
 
@@ -61,7 +62,7 @@ export default {
 <style lang="scss">
 .profile-attachments-item {
     width: 31%;
-    height: 7rem;
+    min-height: 80px;
 
     cursor: pointer;
 
@@ -71,22 +72,13 @@ export default {
 
     .attachments-item-photo {
         width: 100%;
-        height: 100%;
+        height: 80px;
 
         border-radius: 8px;
     }
 
     .attachments-item-doc-file {
         width: 20rem;
-    }
-
-    .attachments-item-doc-gif-preview {
-        width: 95px;
-        height: 95px;
-    }
-
-    .attachments-item-doc-gif-playing {
-        width: 20vw;
     }
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="attachments-item-doc-gif-preview">
         <span class="attachments-item-doc-gif-preview-size" v-text="size" />
-        <img :src="item.sizes.medium" class="attachments-item-doc-gif-preview-image">
+        <img :src="item.preview" class="attachments-item-doc-gif-preview-image">
     </div>
 </template>
 

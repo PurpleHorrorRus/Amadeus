@@ -35,6 +35,10 @@ export default {
 
 <style lang="scss">
 .attachments-item-doc-gif {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
     width: 100%;
     height: 100%;
 }
