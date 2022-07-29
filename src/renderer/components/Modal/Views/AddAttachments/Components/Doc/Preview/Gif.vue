@@ -1,6 +1,6 @@
 <template>
     <div class="inline-doc-preview-gif">
-        <img :src="item.sizes.medium" class="inline-doc-preview-gif-image">
+        <img :src="item.preview" class="inline-doc-preview-gif-image">
     </div>
 </template>
 
