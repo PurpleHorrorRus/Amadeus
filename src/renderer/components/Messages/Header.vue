@@ -70,10 +70,6 @@ export default {
     column-gap: 5px;
     flex-wrap: nowrap;
 
-    > * {
-        cursor: pointer;
-    }
-
     &-main {
         grid-area: main;
 
@@ -87,6 +83,8 @@ export default {
             display: flex;
             align-items: center;
             column-gap: 10px;
+
+            cursor: pointer;
 
             &-avatar {
                 width: 30px;
