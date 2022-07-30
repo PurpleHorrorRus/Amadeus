@@ -5,6 +5,9 @@
     ],
     "extensions.ignoreRecommendations": true,
     "files.autoSave": "off",
-    "debug.allowBreakpointsEverywhere": true
+    "debug.allowBreakpointsEverywhere": true,
+    "yaml.schemas": {
+        "https://json.schemastore.org/github-workflow.json": "file:///e%3A/Projects/Amadeus/.github/workflows/dev.yml"
+    }
 }
   

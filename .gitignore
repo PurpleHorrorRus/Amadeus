@@ -2,5 +2,6 @@
 dist
 build/*
 !build/icons
+!build/resources
 node_modules
 _env.json
