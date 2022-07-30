@@ -24,6 +24,7 @@ const params = {
 
     frame: false,
     transparent: false,
+    background: "#131313",
     webPreferences: common.webPreferences
 };
 
@@ -65,12 +66,14 @@ class VKGramWindow {
             return { action: "deny" };
         });
 
+        this.window.show();
+        await common.windows.load(this.window, "normal");
+
         if (common.storage.config.settings.devtools) {
             this.window.webContents.openDevTools({ mode: "undocked" });
         }
 
-        this.window.show();
-        return await common.windows.load(this.window, "normal");
+        return true;
     }
 }
 
