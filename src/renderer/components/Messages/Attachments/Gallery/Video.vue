@@ -105,6 +105,8 @@ export default {
         align-items: center;
         justify-content: center;
 
+        height: 30vh;
+
         background: var(--backdrop);
         background-size: cover !important;
         background-position: center center !important;

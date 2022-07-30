@@ -44,8 +44,7 @@ export default {
     }
 
     &-preview {
-        width: 30vw;
-        height: 45vw;
+        height: 20rem;
 
         &-image {
             width: 100%;

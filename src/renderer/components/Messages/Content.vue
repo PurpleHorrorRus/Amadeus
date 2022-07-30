@@ -46,7 +46,7 @@ export default {
 
     computed: {
         showName() {
-            return this.$parent.first
+            return this.$parent.last
                 && !this.message.out
                 && this.provideData.conversation.isChat;
         },
@@ -89,7 +89,7 @@ export default {
     align-self: center;
     row-gap: 5px;
 
-    max-width: 38vw;
+    max-width: 20rem;
 
     padding: 10px;
 

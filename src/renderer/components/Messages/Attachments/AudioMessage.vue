@@ -91,8 +91,6 @@ export default {
     align-items: center;
     column-gap: 10px;
 
-    width: 100vw;
-
     &-play {
         display: flex;
         justify-content: center;

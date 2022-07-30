@@ -119,6 +119,8 @@ export default {
     &-item {
         font-size: 14px;
 
+        cursor: text !important;
+
         &.text {
             color: var(--contrast);
         }
