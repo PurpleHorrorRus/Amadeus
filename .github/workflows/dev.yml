@@ -5,7 +5,7 @@ on:
     branches: [ development ]
 
 jobs:
-  build:
+  windows:
     runs-on: windows-2019
 
     steps:
@@ -30,3 +30,29 @@ jobs:
         with:
           name: amadeus.exe
           path: build/amadeus-*.exe
+
+  linux:
+   runs-on: ubuntu-22.04
+
+   steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v3
+
+      - name: Initialize Environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.8.0
+
+      - name: Install Dependencies
+        run: yarn
+
+      - name: Build Application
+        run: yarn build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: amadeus.tar.gz
+          path: build/amadeus-*.tar.gz
