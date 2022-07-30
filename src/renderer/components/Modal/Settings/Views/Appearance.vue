@@ -140,6 +140,8 @@ export default {
             console.log("");
             this.settings.appearance.messages.background.x = x;
             this.settings.appearance.messages.background.y = y;
+
+            this.saveSettings(this.settings);
         },
 
         changeTheme(index) {
