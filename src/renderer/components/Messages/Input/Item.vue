@@ -70,6 +70,10 @@ export default {
     }
 
     .attachments-item {
+        &.attachments-item-photo {
+            height: 100% !important;
+        }
+
         &.attachments-item-doc {
             width: 100%;
         }
