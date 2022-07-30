@@ -40,9 +40,6 @@ const clear = {
             messages: {
                 background: {
                     url: "",
-                    width: 100,
-                    height: 100,
-                    zoom: 1,
                     x: 0,
                     y: 0
                 }

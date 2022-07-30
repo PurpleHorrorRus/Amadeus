@@ -102,9 +102,8 @@ export default {
             const background = this.settings.appearance.messages.background;
 
             return {
-                backgroundSize: `${background.width * background.zoom}vw ${background.height * background.zoom}vh`,
-                backgroundPositionX: -background.x + "vw",
-                backgroundPositionY: background.y + "vh",
+                backgroundPositionX: background.x + "%",
+                backgroundPositionY: background.y + "%",
                 backgroundImage: this.background
             };
         },
@@ -285,19 +284,13 @@ export default {
         }
     }
 
-    &:not(.extended) {
-        #chat-page-container {
-            background-size: cover !important;
-            background-position: center !important;
-        }
-    }
-
     &-container {
         grid-area: container;
 
         width: 100%;
         height: 100%;
 
+        background-size: cover;
         background-repeat: no-repeat;
     }
 

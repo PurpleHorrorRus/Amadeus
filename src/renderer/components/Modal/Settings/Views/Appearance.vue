@@ -9,47 +9,10 @@
             @choose="changeMessagesBackground"
         />
 
-        <div
-            v-if="settings.appearance.messages.background.url"
-            id="settings-view-appearance-background"
-            class="settings-view-category"
-        >
-            <RangeItem
-                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_WIDTH"
-                :value="settings.appearance.messages.background.width"
-                @change="deepChange(settings.appearance.messages.background, 'width', $event)"
-            />
-
-            <RangeItem
-                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_HEIGHT"
-                :value="settings.appearance.messages.background.height"
-                @change="deepChange(settings.appearance.messages.background, 'height', $event)"
-            />
-
-            <RangeItem
-                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_ZOOM"
-                :value="settings.appearance.messages.background.zoom"
-                :min="1"
-                :max="10"
-                @change="deepChange(settings.appearance.messages.background, 'zoom', $event)"
-            />
-
-            <RangeItem
-                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_X"
-                :value="settings.appearance.messages.background.x"
-                :max="100"
-                :min="-100"
-                @change="deepChange(settings.appearance.messages.background, 'x', $event)"
-            />
-
-            <RangeItem
-                :text="$strings.SETTINGS.APPEARANCE.BACKGROUND_Y"
-                :value="settings.appearance.messages.background.y"
-                :max="100"
-                :min="-100"
-                @change="deepChange(settings.appearance.messages.background, 'y', $event)"
-            />
-        </div>
+        <Crop
+            :image="settings.appearance.messages.background.url"
+            @crop="resizeBackground"
+        />
 
         <div id="settings-view-appearance-colors" class="settings-view-category">
             <Dropdown
@@ -83,6 +46,7 @@
 </template>
 
 <script lang="ts">
+import { mapState } from "vuex";
 import fs from "fs-extra";
 
 import CoreMixin from "~/mixins/core";
@@ -90,12 +54,17 @@ import AppearanceMixin from "~/mixins/appearance";
 
 export default {
     components: {
+        Crop: () => import("./Appearance/Crop.vue"),
         ColorPicker: () => import("~/components/Global/ColorPicker.vue")
     },
 
     mixins: [CoreMixin, AppearanceMixin],
 
     computed: {
+        ...mapState({
+            background: (state: any) => state.background
+        }),
+
         messagesBackground() {
             return this.settings.appearance.messages.background.url
                 || "Не задано";
@@ -129,6 +98,50 @@ export default {
             return true;
         },
 
+        resizeBackground({ aspectRatio, area, image }) {
+            console.log("arw =", aspectRatio.width, "arh =", aspectRatio.height);
+
+            const leftBorder = area.x;
+            const rightBorder = area.x + area.width - 10;
+            const topBorder = Math.max(area.y, 0);
+            const bottomBorder = Math.min(area.y + area.height, image.height);
+            console.log(
+                "lb =", leftBorder,
+                "rb =", rightBorder,
+                "tb =", topBorder,
+                "bb =", bottomBorder
+            );
+
+            const leftBorderPercent = Math.floor(Math.max((leftBorder / image.width) * 100, 1));
+            const rightBorderPercent = Math.ceil((rightBorder / image.width) * 100);
+            const topBorderPercent = Math.floor(Math.max((topBorder / image.height) * 100, 1));
+            const bottomBorderPercent = Math.floor((bottomBorder / image.height) * 100);
+            console.log(
+                "lbp =", leftBorderPercent,
+                "rbp =", rightBorderPercent,
+                "tbp =", topBorderPercent,
+                "bbp =", bottomBorderPercent
+            );
+
+            const centerX = Math.floor((leftBorderPercent + rightBorderPercent) / 2);
+            const centerY = Math.floor((topBorderPercent + bottomBorderPercent) / 2);
+            console.log("cx =", centerX, "cy =", centerY);
+
+            const x = leftBorderPercent > 1
+                ? rightBorderPercent === 100 ? 100 : centerX
+                : 0;
+
+            const y = topBorderPercent > 1
+                ? bottomBorderPercent === 100 ? 100 : centerY
+                : 0;
+
+            console.log("x =", x, "y =", y);
+
+            console.log("");
+            this.settings.appearance.messages.background.x = x;
+            this.settings.appearance.messages.background.y = y;
+        },
+
         changeTheme(index) {
             this.setTheme(this.themes[index].id);
             this.deepChange(this.settings.appearance, "theme", this.themes[index].id);
@@ -143,3 +156,11 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+.cropper {
+    height: 600px;
+    width: 600px;
+    background: #DDD;
+}
+</style>

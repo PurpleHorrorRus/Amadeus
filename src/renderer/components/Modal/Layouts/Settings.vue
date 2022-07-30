@@ -66,6 +66,9 @@ export default {
 
         padding: 10px;
 
+        overflow-x: hidden;
+        overflow-y: auto;
+
         &-category {
             display: flex;
             flex-direction: column;
