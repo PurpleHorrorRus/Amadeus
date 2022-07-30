@@ -15,8 +15,15 @@
         "lint": "eslint --ext .ts,.vue --ignore-path .eslintignore src/renderer"
     },
     "keywords": [],
-    "author": "Maxim <purplehorrorrus@gmail.com>",
+    "author": {
+        "name": "Maxim",
+        "email": "purplehorrorrus@gmail.com",
+        "url": "https://purplehorrorrus.github.io"
+    },
     "license": "CC-BY-NC-SA-4.0",
+    "repository": {
+        "url": "https://github.com/PurpleHorrorRus/Amadeus"
+    },
     "engines": {
         "node": ">=16.8.0"
     },
