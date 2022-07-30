@@ -7,7 +7,7 @@
             :message="message"
             :first="index === 0"
             :last="index === visibleMessages.length - 1"
-            @click.left.native="select(message)"
+            @click.left.native="select($event, message)"
             @click.right.native="openMenu($event, message)"
         />
     </div>
@@ -40,7 +40,17 @@ export default {
                 : System;
         },
 
-        select(message) {
+        select(event, message) {
+            if (window.getSelection().toString().length > 0) {
+                const element = window.getSelection()
+                    .getRangeAt(0)
+                    .startContainer.parentNode;
+
+                return element !== event.target
+                    ? window.getSelection().empty()
+                    : false;
+            }
+
             if ("action" in message) {
                 return false;
             }
