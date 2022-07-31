@@ -98,6 +98,10 @@ export default {
 
     .attachments-item {
         pointer-events: none;
+
+        .attachments-item-video-preview {
+            height: 100%;
+        }
     }
 }
 </style>

@@ -18,6 +18,7 @@
             :item="item"
             :index="index"
             :showTitle="false"
+            :canQuickPlay="false"
         />
 
         <AttachmentAudio
@@ -72,6 +73,12 @@ export default {
     .attachments-item {
         &.attachments-item-photo {
             height: 100% !important;
+        }
+
+        &.attachments-item-video {
+            .attachments-item-video-preview, .attachments-item-video-playing {
+                height: 100% !important;
+            }
         }
 
         &.attachments-item-doc {

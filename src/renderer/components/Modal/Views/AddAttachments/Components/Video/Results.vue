@@ -54,7 +54,7 @@ export default {
     height: 100%;
 
     &-label {
-        padding: 10px;
+        padding: 0px 5px 5px 5px;
     }
 
     &-list {
