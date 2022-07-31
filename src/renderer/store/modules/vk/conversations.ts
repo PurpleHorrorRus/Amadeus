@@ -165,7 +165,7 @@ export default {
             });
         },
 
-        DELETE_SYNC: ({ state }, peer_id) => {
+        DELETE_SYNC: ({ dispatch, state }, peer_id) => {
             const index = state.cache.findIndex(chat => {
                 return chat.id === peer_id;
             });
@@ -173,6 +173,7 @@ export default {
             if (~index) {
                 state.count--;
                 state.cache.splice(index, 1);
+                dispatch("UPDATE_ICON");
                 return true;
             }
 
