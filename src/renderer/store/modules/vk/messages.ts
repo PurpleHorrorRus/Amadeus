@@ -369,7 +369,7 @@ export default {
             };
         },
 
-        READ: async ({ rootState }, chat: TChat) => {
+        READ: async ({ dispatch, rootState }, chat: TChat) => {
             const canRead: boolean = !rootState.settings.settings.vk.disable_read
                 && !chat.search
                 && chat.messages.length > 0
@@ -385,11 +385,19 @@ export default {
                 return false;
             }
 
-            chat.conversation.readIn(message.id);
+            return await dispatch("READ_MESSAGE", {
+                chat: chat.conversation,
+                message
+            });
+        },
+
+        READ_MESSAGE: async ({ rootState }, { chat, message }) => {
+            chat.readIn(message.id);
+
             return await rootState.vk.client.api.messages.markAsRead({
-                peer_id: message.peer_id,
-                message_ids: message.id,
-                mark_conversation_as_read: 1
+                peer_id: chat.id,
+                start_message_id: message.id,
+                mark_conversation_as_read: Number(chat.information.last_message_id === message.id)
             });
         },
 

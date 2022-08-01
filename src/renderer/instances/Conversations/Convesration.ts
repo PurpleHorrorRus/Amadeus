@@ -102,8 +102,8 @@ abstract class Conversation {
     }
 
     readIn(id: number): void {
-        this.unread = 0;
         this.information.in_read = id;
+        this.unread = this.information.last_message_id - this.information.in_read;
     }
 
     readOut(id: number): void {
