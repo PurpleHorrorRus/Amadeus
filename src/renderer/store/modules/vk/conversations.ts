@@ -281,12 +281,22 @@ export default {
             return conversation;
         },
 
-        UPDATE_LAST_MESSAGE: async ({ dispatch }, data) => {
-            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
+        UPDATE_LAST_MESSAGE: async ({ dispatch, rootState }, data) => {
+            const conversation: Conversation
+                = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
+
+            const message: ConversationMessageType = {
+                id: data.localId,
+                peer_id: data.peerId,
+                from_id: data.isInbox ? rootState.vk.user.id : data.peerId,
+                out: data.isInbox,
+                date: Math.floor(Date.now() / 1000),
+                text: ""
+            };
 
             data.isInbox
-                ? conversation.readIn(data.payload.local_id)
-                : conversation.readOut(data.payload.local_id);
+                ? conversation.readIn(message)
+                : conversation.readOut(data.localId);
 
             dispatch("UPDATE_ICON");
             return true;

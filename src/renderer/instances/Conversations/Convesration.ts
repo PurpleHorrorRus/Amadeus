@@ -4,6 +4,7 @@ import {
     MessagesConversationWithMessage,
     MessagesConversation
 } from "vk-io/lib/api/schemas/objects";
+import Message from "../Messages/Message";
 
 import { TProfile } from "../Types/Conversation";
 import { ConversationMessageType } from "../Types/ConversationMessage";
@@ -101,9 +102,11 @@ abstract class Conversation {
         this.profile = profile;
     }
 
-    readIn(id: number): void {
-        this.information.in_read = id;
-        this.unread = this.information.last_message_id - this.information.in_read;
+    readIn(message: Message | ConversationMessageType): void {
+        this.information.in_read = message.id;
+        this.unread = !message.out
+            ? this.information.last_message_id - this.information.in_read
+            : 0;
     }
 
     readOut(id: number): void {

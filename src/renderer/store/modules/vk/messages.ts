@@ -102,18 +102,18 @@ export default {
         },
 
         ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
-            if (data.payload.message.peer_id in state.cache) {
-                const response: MessagesGetByIdResponse = await rootState.vk.client.api.messages.getById({
-                    message_ids: data.payload.message.id
-                });
-
-                const message = new Message(response.items[0]);
-                dispatch("SYNC", message);
-                state.cache[message.peer_id].count++;
-                return state.cache[message.peer_id];
+            if (!(data.payload.message.peer_id in state.cache)) {
+                return false;
             }
 
-            return false;
+            const response: MessagesGetByIdResponse = await rootState.vk.client.api.messages.getById({
+                message_ids: data.payload.message.id
+            });
+
+            const message = new Message(response.items[0]);
+            dispatch("SYNC", message);
+            state.cache[message.peer_id].count++;
+            return state.cache[message.peer_id];
         },
 
         PREPARE_DATA: ({ rootState }, data) => {
@@ -392,7 +392,7 @@ export default {
         },
 
         READ_MESSAGE: async ({ rootState }, { chat, message }) => {
-            chat.readIn(message.id);
+            chat.readIn(message);
 
             return await rootState.vk.client.api.messages.markAsRead({
                 peer_id: chat.id,
