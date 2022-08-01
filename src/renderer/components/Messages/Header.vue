@@ -70,6 +70,8 @@ export default {
     column-gap: 5px;
     flex-wrap: nowrap;
 
+    height: 100%;
+
     background: var(--primary);
 
     z-index: 1;
