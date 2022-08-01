@@ -2,8 +2,8 @@
     <div
         class="upload nowrap"
         :class="uploadClass"
-        @click="open"
-        @drop.prevent.stop="open"
+        @click="openFiles"
+        @drop.prevent.stop="dropFiles"
         @dragenter="onDragEnter"
         @dragleave="drag = false"
         @dragover.prevent
@@ -16,6 +16,7 @@
 </template>
 
 <script lang="ts">
+import path from "path";
 import { ipcRenderer } from "electron";
 
 export default {
@@ -65,17 +66,9 @@ export default {
             this.drag = true;
         },
 
-        async open(event) {
-            if (this.uploading || event.dataTransfer?.items[0]?.kind === "string") {
+        async openFiles() {
+            if (this.uploading) {
                 return false;
-            }
-
-            if (event.dataTransfer) {
-                const files: string[] = Array.from(event.dataTransfer.files, (file: File) => {
-                    return file.path;
-                });
-
-                return this.$emit("choose", files);
             }
 
             const files: Array<string> | boolean
@@ -84,6 +77,30 @@ export default {
             return files
                 ? this.$emit("choose", files)
                 : false;
+        },
+
+        dropFiles(event) {
+            if (this.uploading || event.dataTransfer.items[0]?.kind === "string") {
+                return false;
+            }
+
+            let files: string[] = Array.from(event.dataTransfer.files, (file: File) => {
+                return file.path;
+            });
+
+            if (this.properties.filters?.[0]?.extensions) {
+                files = files.filter(file => {
+                    const extension = path.extname(file).replace(".", "");
+                    return this.properties.filters[0].extensions.includes(extension);
+                });
+            }
+
+            if (files.length > 0) {
+                return this.$emit("choose", files);
+            }
+
+            this.drag = false;
+            return false;
         }
     }
 };
