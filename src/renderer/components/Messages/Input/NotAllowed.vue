@@ -17,7 +17,11 @@ export default {};
     justify-content: center;
     align-items: center;
 
-    height: 70px;
+    height: 62px;
+
+    background: var(--primary);
+
+    z-index: 1;
 
     &-label {
         color: var(--small-text);

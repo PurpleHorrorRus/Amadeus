@@ -62,6 +62,10 @@ export default {
         grid-template-columns: 1fr;
         grid-template-rows: 1fr;
         grid-template-areas: "item-1";
+
+        .attachments-item-photo {
+            height: 40vh;
+        }
     }
 
     &.grid-2 {
