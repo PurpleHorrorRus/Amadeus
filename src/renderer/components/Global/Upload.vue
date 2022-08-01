@@ -65,7 +65,7 @@ export default {
         },
 
         async open(event) {
-            if (this.uploading || event.dataTransfer.items[0].kind === "string") {
+            if (this.uploading || event.dataTransfer?.items[0].kind === "string") {
                 return false;
             }
 
