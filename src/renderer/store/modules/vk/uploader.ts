@@ -1,3 +1,8 @@
+import fetch from "node-fetch";
+
+import { VideoSaveResult } from "vk-io/lib/api/schemas/objects";
+import { VideoSaveParams } from "vk-io/lib/api/schemas/params";
+import { VideoGetResponse } from "vk-io/lib/api/schemas/responses";
 import AudioMessage from "~/instances/Messages/Attachments/AudioMessage";
 import Doc from "~/instances/Messages/Attachments/Doc";
 import Video from "~/instances/Messages/Attachments/Video";
@@ -18,6 +23,29 @@ export default {
 
             const upload = await video.upload(rootState.vk.client);
             return await dispatch("input/ADD_ATTACHMENT", upload, { root: true });
+        },
+
+        UPLOAD_VIDEO_EXTERNAL: async ({ rootState }, url): Promise<Video | boolean> => {
+            const params: VideoSaveParams = {
+                link: url,
+                is_private: 1,
+                wallpost: 0
+            };
+
+            const upload: VideoSaveResult = await rootState.vk.client.api.video.save(params);
+            const request = await fetch(upload.upload_url);
+            const data = await request.json();
+
+            if (data.response === 1) {
+                const response: VideoGetResponse = await rootState.vk.client.api.video.get({
+                    owner_id: upload.owner_id,
+                    videos: `${upload.owner_id}_${upload.video_id}`
+                });
+
+                return new Video(response.items[0]);
+            }
+
+            return false;
         },
 
         UPLOAD_DOC: async ({ dispatch, rootState }, file) => {

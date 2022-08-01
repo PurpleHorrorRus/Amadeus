@@ -1,3 +1,6 @@
+// eslint-disable-next-line max-len
+const linkRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g;
+
 class Common {
     static formatTimeToDayAndMonth(time: Date, months: string[]): string {
         const day = time.getDate();
@@ -66,6 +69,13 @@ class Common {
 
         arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
         return arr;
+    }
+
+    static checkLinks(text: string) {
+        return Array.from(
+            text.matchAll(linkRegex),
+            ([_, match]) => match
+        );
     }
 }
 

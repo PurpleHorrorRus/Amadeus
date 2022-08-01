@@ -14,6 +14,7 @@ import { TChat } from "~/instances/Types/Messages";
 
 import stickers from "~/store/modules/vk/stickers";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
+import Video from "~/instances/Messages/Attachments/Video";
 
 const fields = {
     count: 20
@@ -220,6 +221,18 @@ export default {
                 payload: { message },
                 text: message.text
             }, { root: true });
+
+            const linksResult = common.checkLinks(message.text);
+            if (linksResult.length > 0) {
+                for await (const link of linksResult) {
+                    const video: Video | boolean
+                        = await dispatch("vk/uploader/UPLOAD_VIDEO_EXTERNAL", link, { root: true });
+
+                    if (video instanceof Video) {
+                        message.attachments.push(video);
+                    }
+                }
+            }
 
             if (message.attachments.length > 0) {
                 if (message.attachments[0].type === "sticker") {

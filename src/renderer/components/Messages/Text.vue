@@ -13,9 +13,9 @@
 
 <script lang="ts">
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
+import common from "~/plugins/common";
 
 // eslint-disable-next-line max-len
-const linkRegex = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/;
 const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 const types = {
     text: "text",
@@ -63,7 +63,7 @@ export default {
                 return mention;
             }
 
-            if (linkRegex.test(word)) {
+            if (common.checkLinks(word).length > 0) {
                 this.formatted.push({
                     type: types.link,
                     data: word
