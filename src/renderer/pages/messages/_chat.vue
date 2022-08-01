@@ -7,7 +7,8 @@
     >
         <MessagesHeader v-if="current" :conversation="current" />
 
-        <div id="chat-page-container" :style="chatViewportStyle">
+        <div id="chat-page-container">
+            <div id="chat-page-container-background" :style="backgroundStyle" />
             <MessagesViewport v-if="!first" :chat="chat" />
             <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
@@ -98,7 +99,7 @@ export default {
             };
         },
 
-        chatViewportStyle() {
+        backgroundStyle() {
             const background = this.settings.appearance.messages.background;
 
             return {
@@ -289,6 +290,19 @@ export default {
 
         background-size: cover;
         background-repeat: no-repeat;
+
+        z-index: 0;
+
+        &-background {
+            position: absolute;
+            top: 0px; left: 0px;
+
+            width: 100%;
+            height: 100%;
+
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
     }
 
     .upload {

@@ -220,8 +220,9 @@ export default {
         align-items: center;
 
         width: 100%;
+        height: 100%;
         min-height: 30px;
-        max-height: 40vw;
+        max-height: 200px;
 
         padding: 7px;
 

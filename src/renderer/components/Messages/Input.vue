@@ -183,6 +183,10 @@ export default {
 
     padding: 7px;
 
+    background: var(--primary);
+
+    z-index: 1;
+
     &-main {
         display: grid;
         grid-template-columns: 30px 1fr;

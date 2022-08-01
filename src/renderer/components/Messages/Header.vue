@@ -70,6 +70,10 @@ export default {
     column-gap: 5px;
     flex-wrap: nowrap;
 
+    background: var(--primary);
+
+    z-index: 1;
+
     &-main {
         grid-area: main;
 
