@@ -68,7 +68,7 @@ export default {
             return {
                 properties: ["openFile", "multiSelections"],
                 filters: [{
-                    name: ".jpg, .jpeg, .png",
+                    name: "JPG, JPEG, PNG",
                     extensions: ["jpg", "jpeg", "png"]
                 }]
             };

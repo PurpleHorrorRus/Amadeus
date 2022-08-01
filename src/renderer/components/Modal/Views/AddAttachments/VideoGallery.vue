@@ -3,6 +3,7 @@
         <Upload
             v-if="search.query.length === 0"
             :uploading="uploading"
+            :properties="videoUploadProperties"
             @choose="upload"
         />
 
@@ -93,6 +94,16 @@ export default {
             }
 
             return this.items.length < this.count;
+        },
+
+        videoUploadProperties() {
+            return {
+                properties: ["openFile", "multiSelections"],
+                filters: [{
+                    name: "AVI, MP4, 3GP, MPEG, MOV, MP3, FLV, WMV, MKV",
+                    extensions: ["avi", "mp4", "3gp", "mpeg", "mov", "flv", "wmv", "mkv"]
+                }]
+            };
         }
     },
 

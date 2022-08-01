@@ -4,8 +4,9 @@
         :class="uploadClass"
         @click="open"
         @drop.prevent.stop="open"
-        @dragenter.prevent="onDragEnter"
-        @dragleave.prevent="drag = false"
+        @dragenter="onDragEnter"
+        @dragleave="drag = false"
+        @dragover.prevent
     >
         <UploadIcon v-if="!uploading" class="icon amadeus" />
         <LoaderIcon v-else class="icon loader-icon spin" />
@@ -65,17 +66,23 @@ export default {
         },
 
         async open(event) {
-            if (this.uploading || event.dataTransfer?.items[0].kind === "string") {
+            if (this.uploading || event.dataTransfer?.items[0]?.kind === "string") {
                 return false;
             }
 
             if (event.dataTransfer) {
-                return this.$emit("choose", event.dataTransfer.files);
+                const files: string[] = Array.from(event.dataTransfer.files, (file: File) => {
+                    return file.path;
+                });
+
+                return this.$emit("choose", files);
             }
 
-            const filePaths = await ipcRenderer.invoke("select", this.properties);
-            return filePaths
-                ? this.$emit("choose", filePaths)
+            const files: Array<string> | boolean
+                = await ipcRenderer.invoke("select", this.properties);
+
+            return files
+                ? this.$emit("choose", files)
                 : false;
         }
     }
