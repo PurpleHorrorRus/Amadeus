@@ -97,12 +97,13 @@ export default {
                         return message.selected;
                     });
 
+                    this.unselectAll();
+
                     await this.$router
                         .replace(`/messages/${conversation.id}?type=${conversation.type}`)
                         .catch(() => (false));
 
                     this.setForward(forwardMessages);
-                    this.unselectAll();
                 }
             });
         }

@@ -141,15 +141,15 @@ export default {
 
     beforeDestroy() {
         this.clearInput();
-
         document.removeEventListener("keydown", this.exit);
 
         if (!this.first) {
-            this.unselectAll();
-            return !this.chat.search
+            !this.chat.search
                 ? this.flush(this.current)
                 : this.clear(this.current);
         }
+
+        this.setCurrent(null);
     },
 
     methods: {
