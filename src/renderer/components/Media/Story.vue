@@ -6,8 +6,8 @@
             class="media-page-item-frame"
             :src="story.src"
             autoplay loop
-            @mousedown="pause"
-            @mouseup="resume"
+            @mousedown.left="pause"
+            @mouseup.left="resume"
         />
 
         <div id="media-page-story-icon" @click="toggleMute">

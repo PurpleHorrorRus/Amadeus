@@ -1,5 +1,5 @@
 <template>
-    <div id="modal-window" @mousedown.self="close">
+    <div id="modal-window" @mousedown.left.self="close">
         <Component
             :is="renderLayout"
             :view="modal.view"

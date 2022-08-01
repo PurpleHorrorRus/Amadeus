@@ -30,7 +30,7 @@
                 id="conversations-wrapper-resize"
                 slot="thumb"
                 class="resizable-thumb"
-                @mousedown="resizableRef.holdThumb"
+                @mousedown.left="resizableRef.holdThumb"
             />
         </Resizable>
 

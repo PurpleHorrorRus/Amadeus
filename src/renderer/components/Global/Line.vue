@@ -3,8 +3,8 @@
         <div
             class="line-click"
             @click="calculate"
-            @mousedown="hold"
-            @mouseup="release"
+            @mousedown.left="hold"
+            @mouseup.left="release"
             @mousemove="move"
             @mouseleave="release"
         />
