@@ -43,7 +43,7 @@ export default {
     },
 
     watch: {
-        "profile.users": {
+        "conversation.profile.users": {
             deep: true,
 
             handler: function() {
@@ -51,10 +51,9 @@ export default {
             }
         },
 
-        "profile.online": {
-            deep: true,
-
+        "conversation.profile.online": {
             handler: function() {
+                console.log("WATCH conversation.profile.online");
                 this.updateLastSeen();
             }
         }

@@ -317,7 +317,7 @@ export default {
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.userId);
-            return conversation?.setOnline(data.isOnline, Number(data.isOnline && data.platform < 6));
+            return conversation?.setOnline(data.isOnline, data.platform);
         },
 
         RESTRICT: async ({ dispatch }, id: number) => {

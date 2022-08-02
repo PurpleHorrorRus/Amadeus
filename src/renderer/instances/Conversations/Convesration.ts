@@ -80,9 +80,14 @@ abstract class Conversation {
         this.mention = mentionRegex.test(text);
     }
 
-    setOnline(online, online_mobile): void {
+    setOnline(online, platform): void {
         this.profile.online = online;
-        this.profile.online_mobile = online_mobile;
+        this.profile.online_mobile = Number(online && platform < 6);
+
+        if (!this.profile.online) {
+            this.profile.last_seen.time = Math.floor(Date.now() / 1000);
+            this.profile.last_seen.platform = platform;
+        }
     }
 
     triggerTyping(..._args: any): void {
