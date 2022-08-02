@@ -64,7 +64,7 @@ abstract class Conversation {
         if (!message.out) {
             this.unread++;
             this.updateMention(message.text);
-        }
+        } else this.readIn(message);
     }
 
     setMessage(message: ConversationMessageType): void {
