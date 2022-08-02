@@ -15,7 +15,7 @@ jobs:
       - name: Initialize Environment
         uses: actions/setup-node@v3
         with:
-          node-version: 16.8.0
+          node-version: 16.15.0
 
       - name: Install Dependencies
         run: yarn
@@ -41,7 +41,7 @@ jobs:
       - name: Initialize Environment
         uses: actions/setup-node@v3
         with:
-          node-version: 16.8.0
+          node-version: 16.15.0
 
       - name: Install Dependencies
         run: yarn
