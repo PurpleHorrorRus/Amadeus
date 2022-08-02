@@ -191,7 +191,9 @@ export default {
 
         async success() {
             const { config } = await ipcRenderer.invoke("config");
-            const accountExist = config.vk.accounts.some(account => account.user === this.DirectData.user);
+            const accountExist = config.vk.accounts.some(account => {
+                return account.user === this.DirectData.user;
+            });
 
             if (accountExist) {
                 this.loginError = "Этот аккаунт уже добавлен";
