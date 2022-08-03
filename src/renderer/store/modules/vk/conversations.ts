@@ -200,7 +200,7 @@ export default {
             }
 
             const notification = new Audio("./message.mp3");
-            notification.volume = 0.2;
+            notification.volume = 0.4;
             return notification.play();
         },
 
