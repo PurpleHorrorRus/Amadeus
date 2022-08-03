@@ -61,6 +61,7 @@ export default {
 
             if (diff.minutes() >= 30) {
                 const { response, keywordsResponse } = await dispatch("FETCH_REMOTE");
+
                 const formatted = await dispatch("FORMAT", { response, keywordsResponse });
                 state.collections = formatted.collections;
                 state.words = formatted.words;
@@ -89,6 +90,7 @@ export default {
                 });
             }
 
+            rootState.config.stickers = null;
             return state.collections;
         },
 
