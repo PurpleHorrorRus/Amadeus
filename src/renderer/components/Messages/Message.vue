@@ -25,18 +25,6 @@ export default {
         message: {
             type: Object,
             required: true
-        },
-
-        first: {
-            type: Boolean,
-            required: false,
-            default: false
-        },
-
-        last: {
-            type: Boolean,
-            required: false,
-            default: false
         }
     },
 
@@ -44,7 +32,6 @@ export default {
         messageClass() {
             return {
                 out: this.message.out,
-                last: this.last,
                 selected: this.message.selected,
                 noBackground: this.message.attachments.length >= 1
                     && !this.message.text
@@ -60,8 +47,7 @@ export default {
         },
 
         showAvatar() {
-            return this.last
-                && this.provideData.conversation.isChat;
+            return this.provideData.conversation.isChat;
         },
 
         avatar() {
@@ -80,13 +66,6 @@ export default {
     &:not(.extended) {
         .message-content {
             max-width: 60vw;
-        }
-    }
-
-    #chat-page.chat {
-        .message:not(.last) {
-            &.out { padding-right: 48px; }
-            &:not(.out) { padding-left: 48px; }
         }
     }
 }
@@ -153,7 +132,10 @@ export default {
     }
 
     &-avatar {
-        align-self: flex-end;
+        position: relative;
+        top: 10px;
+
+        align-self: flex-start;
 
         width: 10vw;
         max-width: 40px;

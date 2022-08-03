@@ -1,9 +1,9 @@
 <template>
     <div id="chat-page-messages-list">
         <MessagesChunk
-            v-for="(chunk, index) of chunks"
-            :key="index"
-            :chunk="chunk"
+            v-for="message of messages"
+            :key="message.id"
+            :message="message"
         />
 
         <ContextMenu
@@ -42,27 +42,10 @@ export default {
     }),
 
     computed: {
-        chunks() {
-            const chunks = [];
-            let current = [];
-
-            for (const message of this.messages) {
-                if (current.length === 0) {
-                    current.push(message);
-                    continue;
-                }
-
-                if (current[current.length - 1].from_id !== message.from_id) {
-                    chunks.push(current);
-                    current = [message];
-                } else current.push(message);
-            }
-
-            if (current.length > 0) {
-                chunks.push(current);
-            }
-
-            return chunks;
+        visibleMessages() {
+            return this.chunk.filter(message => {
+                return !message.deleted;
+            });
         }
     },
 

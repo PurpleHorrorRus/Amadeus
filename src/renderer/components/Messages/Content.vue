@@ -1,31 +1,33 @@
 <template>
     <div class="message-content">
-        <span
-            v-if="showName"
-            class="message-content-name"
-            v-text="name"
-        />
-
         <AllAttachments :message="message" />
 
         <div class="message-content-info">
             <span
-                class="message-content-info-date"
-                v-text="relativeDate(message.date)"
+                v-if="showName"
+                class="message-content-name"
+                v-text="name"
             />
 
-            <PenIcon
-                v-if="message.edited"
-                v-tooltip.top-start="editedText"
-                class="icon amadeus message-content-info-edit"
-            />
+            <div class="message-content-info-right">
+                <span
+                    class="message-content-info-right-date"
+                    v-text="relativeDate(message.date)"
+                />
 
-            <CheckIcon
-                v-if="showCheckIcon"
-                v-tooltip.top-start="$strings.CHAT.MESSAGE.READED"
-                class="icon message-content-info-read"
-                :class="checkIconClass"
-            />
+                <PenIcon
+                    v-if="message.edited"
+                    v-tooltip.top-start="editedText"
+                    class="icon amadeus message-content-info-right-edit"
+                />
+
+                <CheckIcon
+                    v-if="showCheckIcon"
+                    v-tooltip.top-start="$strings.CHAT.MESSAGE.READED"
+                    class="icon message-content-info-right-read"
+                    :class="checkIconClass"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -46,13 +48,12 @@ export default {
 
     computed: {
         showName() {
-            return this.$parent.last
-                && !this.message.out
+            return !this.message.out
                 && this.provideData.conversation.isChat;
         },
 
         name() {
-            return this.$parent.chatUserProfile.first_name;
+            return this.$parent.chatUserProfile.name;
         },
 
         isNotRead() {
@@ -83,6 +84,10 @@ export default {
 </script>
 
 <style lang="scss">
+.message.out .message-content-info {
+    justify-content: flex-end;
+}
+
 .message-content {
     display: flex;
     flex-direction: column;
@@ -98,7 +103,9 @@ export default {
     border-radius: 8px;
 
     &-name {
-        color: var(--contrast);
+        width: max-content;
+
+        color: var(--secondary);
         font-size: 12px;
     }
 
@@ -110,23 +117,34 @@ export default {
 
     &-info {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         align-items: center;
-        column-gap: 5px;
+        column-gap: 10px;
 
-        height: 15px;
+        padding: 5px 0px 0px 0px;
 
-        &-date {
-            color: var(--contrast);
-            font-size: 10px;
+        &-name {
+            font-size: 12px;
         }
 
-        .icon {
-            width: 10px;
+        &-right {
+            display: flex;
             align-items: center;
+            column-gap: 5px;
+            justify-self: flex-end;
 
-            &.message-content-info-read path {
-                stroke: var(--out-contrast);
+            &-date {
+                color: var(--contrast);
+                font-size: 10px;
+            }
+
+            .icon {
+                width: 10px;
+                align-items: center;
+
+                &.message-content-info-right-read path {
+                    stroke: var(--out-contrast);
+                }
             }
         }
     }
