@@ -214,43 +214,29 @@ export default {
 
             this.uploading = true;
 
-            const payload: TUploadingPath[] = [...files].filter(attachment => {
-                const extension = path.extname(attachment.path);
-                return allowUploadExtensions.includes(extension);
-            }).map(attachment => {
-                return {
-                    extension: path.extname(attachment.path),
-                    path: attachment.path
-                };
+            const payload: TUploadingPath[] = [...files].filter(file => {
+                const extension = path.extname(file);
+                return allowUploadExtensions.includes(extension)
+                    || !docsExclude.includes(extension);
+            }).map(file => ({
+                extension: path.extname(file),
+                path: file
+            }));
+
+            await Promise.each(payload, async file => {
+                if (allowUpload.image.includes(file.extension)) {
+                    return await this.addPhotoPath({
+                        file: file.path,
+                        temp: false
+                    });
+                }
+
+                if (allowUpload.video.includes(file.extension)) {
+                    return await this.uploadVideo(file.path);
+                }
+
+                return await this.uploadDoc(file.path);
             });
-
-            if (payload.length > 0) {
-                await Promise.each(payload, async file => {
-                    if (allowUpload.image.includes(file.extension)) {
-                        return await this.addPhotoPath({
-                            file: file.path,
-                            temp: false
-                        });
-                    }
-
-                    if (allowUpload.video.includes(file.extension)) {
-                        return await this.uploadVideo(file.path);
-                    }
-                });
-            }
-
-            const docsPayload: TUploadingPath[] = [...files].filter(attachment => {
-                const extension = path.extname(attachment.path);
-                return !docsExclude.includes(extension)
-                    && !allowUpload.image.includes(extension)
-                    && !allowUpload.video.includes(extension);
-            });
-
-            if (docsPayload.length > 0) {
-                await Promise.each(docsPayload, async file => {
-                    return await this.uploadDoc(file.path);
-                });
-            }
 
             this.uploading = false;
             this.drag = false;
