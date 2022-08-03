@@ -222,14 +222,16 @@ export default {
                 text: message.text
             }, { root: true });
 
-            const linksResult = common.checkLinks(message.text);
-            if (linksResult.length > 0) {
-                for await (const link of linksResult) {
-                    const video: Video | boolean
-                        = await dispatch("vk/uploader/UPLOAD_VIDEO_EXTERNAL", link, { root: true });
+            if (message.text?.length > 0) {
+                const linksResult = common.checkLinks(message.text);
+                if (linksResult.length > 0) {
+                    for await (const link of linksResult) {
+                        const video: Video | boolean
+                            = await dispatch("vk/uploader/UPLOAD_VIDEO_EXTERNAL", link, { root: true });
 
-                    if (video instanceof Video) {
-                        message.attachments.push(video);
+                        if (video instanceof Video) {
+                            message.attachments.push(video);
+                        }
                     }
                 }
             }
