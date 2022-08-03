@@ -1,4 +1,5 @@
 import DateDiff from "date-diff";
+import { ipcRenderer } from "electron";
 import { StoreProduct } from "vk-io/lib/api/schemas/objects";
 import { StoreGetProductsParams, StoreGetStickersKeywordsParams } from "vk-io/lib/api/schemas/params";
 import { StoreGetStickersKeywordsResponse } from "vk-io/lib/api/schemas/responses";
@@ -91,6 +92,7 @@ export default {
             }
 
             rootState.config.stickers = null;
+            ipcRenderer.send("clearStickers");
             return state.collections;
         },
 

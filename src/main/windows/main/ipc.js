@@ -89,6 +89,10 @@ class IPC {
 
         this.events.openDevTools = () => this.window.openDevTools({ mode: "undocked" });
         this.events.closeDevTools = () => this.window.closeDevTools();
+
+        this.events.clearStickers = () => {
+            common.storage.config.stickers = null;
+        };
     }
 }
 
