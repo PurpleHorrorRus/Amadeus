@@ -28,8 +28,8 @@ export default {
     computed: {
         sticker() {
             return this.settings.appearance.stickersTheme === 1
-                ? this.item.dark
-                : this.item.light;
+                ? this.item.light
+                : this.item.dark;
         }
     }
 };
