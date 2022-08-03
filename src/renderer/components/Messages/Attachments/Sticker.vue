@@ -1,11 +1,14 @@
 <template>
-    <div class="attachments-item attachments-item-sticker">
+    <div
+        class="attachments-item attachments-item-sticker"
+        @mouseenter="turnAnimation(true)"
+        @mouseleave="turnAnimation(false)"
+    >
         <lottie-vue-player
             v-if="item.animated"
-            :key="settings.appearance.stickersTheme"
+            ref="player"
             :src="sticker"
-            class="attachments-item-sticker-animation"
-            autoplay
+            class="attachments-item-sticker-animated-video"
             loop
         />
 
@@ -28,8 +31,20 @@ export default {
     computed: {
         sticker() {
             return this.settings.appearance.stickersTheme === 1
-                ? this.item.light
-                : this.item.dark;
+                ? this.item.dark
+                : this.item.light;
+        }
+    },
+
+    methods: {
+        turnAnimation(sequence) {
+            if (!this.item.animated) {
+                return false;
+            }
+
+            return sequence
+                ? this.$refs.player.togglePlayPause()
+                : this.$refs.player.stop();
         }
     }
 };
@@ -37,25 +52,34 @@ export default {
 
 <style lang="scss">
 .attachments-item-sticker {
+    min-width: 170px;
+    max-width: 320px;
     width: 20vw;
-    min-width: 150px;
+
+    &.clickable {
+        cursor: pointer;
+
+        border-radius: 4px;
+
+        &:hover {
+            background: var(--secondary-hover);
+        }
+    }
 
     &:hover {
         cursor: default;
     }
 
-    &-image, &-animation {
+    &-animated {
+        &-video .lf-spinner {
+            display: none;
+        }
+    }
+
+    &-image, &-animated-preview, &-animated-video {
         width: 100%;
 
         background: none;
-    }
-
-    &-animation {
-        height: 20%;
-
-        .lf-spinner {
-            display: none;
-        }
     }
 }
 </style>

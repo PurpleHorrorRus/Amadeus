@@ -10,7 +10,8 @@
             <Sticker
                 v-for="sticker of collection.stickers"
                 :key="sticker.id"
-                :sticker="sticker"
+                :item="sticker"
+                class="clickable"
                 @click.native="$emit('send', sticker)"
             />
         </div>
@@ -20,7 +21,7 @@
 <script lang="ts">
 export default {
     components: {
-        Sticker: () => import("./Collection/Sticker.vue")
+        Sticker: () => import("~/components/Messages/Attachments/Sticker.vue")
     },
 
     props: {
@@ -52,11 +53,17 @@ export default {
         display: flex;
         justify-content: flex-start;
         flex-wrap: wrap;
-        gap: 1.1vw;
+        column-gap: 5%;
+        row-gap: 5px;
 
         padding: 0px 0px 10px 1vw;
 
         overflow-y: auto;
+
+        .attachments-item-sticker {
+            width: 30%;
+            min-width: unset !important;
+        }
     }
 }
 </style>

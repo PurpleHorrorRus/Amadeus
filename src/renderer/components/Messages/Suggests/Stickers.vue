@@ -3,7 +3,8 @@
         <Sticker
             v-for="sticker of stickers"
             :key="sticker.id"
-            :sticker="sticker"
+            :item="sticker"
+            class="clickable"
             @click.native="send(sticker)"
         />
     </SuggestBlock>
@@ -16,7 +17,7 @@ import Sticker from "~/instances/Messages/Attachments/Sticker";
 export default {
     components: {
         SuggestBlock: () => import("./Block.vue"),
-        Sticker: () => import("~/components/Messages/Stickers/Collection/Sticker.vue")
+        Sticker: () => import("~/components/Messages/Attachments/Sticker.vue")
     },
 
     props: {
@@ -60,11 +61,12 @@ export default {
         height: 0px;
     }
 
-    .sticker {
+    .attachments-item-sticker {
         flex: none;
 
         width: 100px;
         height: 100px;
+        min-width: unset !important;
     }
 }
 </style>

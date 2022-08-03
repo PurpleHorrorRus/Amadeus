@@ -35,13 +35,13 @@ class Sticker extends Attachment implements BaseSticker, IPreview {
 
     get light() {
         return this.animated
-            ? this.animations[0].url
+            ? this.animations[1].url
             : this.sizesBackground.max;
     }
 
     get dark() {
         return this.animated
-            ? this.animations[1].url
+            ? this.animations[0].url
             : this.sizes.max;
     }
 }
