@@ -9,6 +9,7 @@
         "build:skip": "electron-builder --config builder.config.js",
         "build:linux": "docker run --privileged --rm -v E:\\Projects\\Meridius:/usr/meridius -w /usr/meridius meridius-linux yarn build:skip",
         "build:all": "yarn build && yarn build:linux",
+        "release": "electron-builder --config builder.config.js --publish always",
         "postinstall": "electron-builder install-app-deps",
         "docker": "docker build -t amadeus-linux .",
         "deps": "yarn && yarn postinstall",
