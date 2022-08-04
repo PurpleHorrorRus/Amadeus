@@ -1,5 +1,5 @@
 <template>
-    <div id="conversations" class="page" :class="conversationClass">
+    <div id="conversations" :class="conversationClass">
         <ConversationsHeader v-if="showHeader" />
 
         <div id="conversations-list" ref="conversations">
@@ -44,7 +44,6 @@ export default {
 
     computed: {
         ...mapState({
-            extended: (state: any) => state.extendedView,
             conversations: (state: any) => state.vk.conversations.cache,
             count: (state: any) => state.vk.conversations.count
         }),
@@ -56,8 +55,7 @@ export default {
         },
 
         showHeader() {
-            return (this.extended && !this.settings.appearance.minimized)
-                || !this.extended;
+            return !this.settings.appearance.minimized;
         },
 
         pinned() {

@@ -12,10 +12,8 @@
         <Player v-if="showPlayer" />
 
         <Resizable
-            v-if="showConversations"
             id="conversations-wrapper"
             ref="resizable"
-            :style="conversationStyle"
             :anchor="'start'"
             :direction="'horizontal'"
             :value="settings.appearance.conversationsWidth"
@@ -34,14 +32,14 @@
             />
         </Resizable>
 
-        <nuxt v-if="showPage" class="page" />
+        <nuxt class="page" />
 
         <ModalWindow v-if="modalShow" />
     </div>
 </template>
 
 <script lang="ts">
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 import Resizable from "~/components/Global/Resizable.vue";
 
@@ -60,8 +58,6 @@ export default {
     mixins: [CoreMixin, AppearanceMixin],
 
     data: () => ({
-        windowWidth: 0,
-
         resizableRef: Resizable.data().resizableRef,
         minWidth: 150,
         maxWidth: 300
@@ -69,7 +65,6 @@ export default {
 
     computed: {
         ...mapState({
-            extended: (state: any) => state.extendedView,
             current: (state: any) => state.vk.messages.current,
 
             song: (state: any) => state.audio.song,
@@ -79,9 +74,8 @@ export default {
 
         layoutClass() {
             return {
-                extended: this.extended,
                 chat: this.isChat,
-                minimized: this.settings.appearance.minimized && this.extended,
+                minimized: this.settings.appearance.minimized,
                 player: this.showPlayer
             };
         },
@@ -92,30 +86,11 @@ export default {
 
         isChat() {
             return this.$route.name !== "general";
-        },
-
-        showConversations() {
-            return (!this.extended && !this.isChat)
-                || this.extended;
-        },
-
-        showPage() {
-            return (!this.extended && this.isChat)
-                || this.extended;
-        },
-
-        conversationStyle() {
-            return {
-                width: this.extended
-                    ? this.settings.appearance.conversationsWidth + "px"
-                    : "100%"
-            };
         }
     },
 
     created() {
         this.setTheme(this.settings.appearance.theme);
-        this.detectView();
 
         for (const variable of Object.keys(this.settings.appearance.colors)) {
             this.calculateContrasts({
@@ -125,28 +100,11 @@ export default {
         }
     },
 
-    mounted() {
-        window.onresize = () => this.detectView();
-    },
-
     beforeDestroy() {
         window.onresize = null;
     },
 
     methods: {
-        ...mapActions({
-            setExtendedView: "SET_VIEW"
-        }),
-
-        detectView() {
-            this.windowWidth = window.innerWidth;
-            if (this.windowWidth >= 600 && !this.extended) {
-                this.setExtendedView(true);
-            } else if (this.windowWidth < 600 && this.extended) {
-                this.setExtendedView(false);
-            }
-        },
-
         resize({ position, size }) {
             if (position < this.minWidth) {
                 if (!this.settings.appearance.minimized) {
@@ -170,6 +128,54 @@ export default {
 </script>
 
 <style lang="scss">
+@media screen and (max-width: 600px) {
+    #default-layout {
+        grid-template-columns: 1fr !important;
+        grid-template-rows: 35px 1fr !important;
+        grid-template-areas: "titlebar"
+                            "page" !important;
+
+        &:not(.chat) {
+            #general-page {
+                display: none;
+            }
+
+            #conversations-wrapper {
+                grid-area: page;
+
+                width: 100% !important;
+
+                &-resize {
+                    display: none;
+                }
+            }
+        }
+
+        &.chat {
+            #conversations-wrapper {
+                display: none !important;
+            }
+        }
+
+        &.player {
+            grid-template-rows: 35px 40px 1fr !important;
+            grid-template-areas: "titlebar"
+                                "player"
+                                "page" !important;
+        }
+
+        #messages-header {
+            &-main {
+                padding: 0px !important;
+            }
+
+            &-back {
+                display: flex !important;
+            }
+        }
+    }
+}
+
 #default-layout {
     position: absolute;
     top: 0px;
@@ -188,44 +194,11 @@ export default {
 
     background: var(--primary);
 
-    &.extended.player {
+    &.player {
         grid-template-rows: 35px 40px 1fr;
-
         grid-template-areas: "titlebar titlebar"
-            "conversations player"
-            "conversations page";
-    }
-
-    &:not(.extended) {
-        grid-template-columns: 1fr;
-
-        &.chat {
-            grid-template-areas: "titlebar"
-                    "page";
-        }
-
-        &:not(.chat) {
-            grid-template-areas: "titlebar"
-                    "conversations";
-        }
-
-        &.player {
-            grid-template-rows: 35px 40px 1fr;
-
-            grid-template-areas: "titlebar"
-                "player"
-                "conversations";
-
-            &.chat {
-                grid-template-areas: "titlebar"
-                    "player"
-                    "page";
-            }
-        }
-    }
-
-    &.extended.minimized {
-        grid-template-columns: 60px 1fr;
+                            "conversations player"
+                            "conversations page";
     }
 
     #conversations-wrapper {

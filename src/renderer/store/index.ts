@@ -15,8 +15,6 @@ import updater from "~/store/modules/updater";
 export default () => {
     return new Store({
         state: () => ({
-            extendedView: false,
-
             config: {},
             paths: {},
 
@@ -33,11 +31,6 @@ export default () => {
 
                 await dispatch("settings/SET", data.config.settings);
                 return state.config;
-            },
-
-            SET_VIEW: ({ state }, view) => {
-                state.extendedView = view;
-                return state.extendedView;
             },
 
             SET_BACKGROUND: ({ state }, setBackground: boolean) => {

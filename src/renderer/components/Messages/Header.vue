@@ -1,7 +1,7 @@
 <template>
     <div id="messages-header" :class="headerClass">
-        <div id="messages-header-main" class="nowrap" :class="mainClass">
-            <MessagesHeaderBack v-if="!extended" />
+        <div id="messages-header-main" class="nowrap">
+            <MessagesHeaderBack />
 
             <div id="messages-header-main-profile" class="nowrap" @click="$parent.turnProfile">
                 <img id="messages-header-main-profile-avatar" :src="conversation.avatar">
@@ -17,8 +17,6 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
-
 export default {
     components: {
         MessagesHeaderBack: () => import("./Header/Back.vue"),
@@ -34,19 +32,10 @@ export default {
     },
 
     computed: {
-        ...mapState({
-            extended: (state: any) => state.extendedView
-        }),
 
         headerClass() {
             return {
                 selected: this.isSelectedMessages
-            };
-        },
-
-        mainClass() {
-            return {
-                extended: this.extended
             };
         },
 
@@ -84,6 +73,8 @@ export default {
 
         width: 100%;
         height: 100%;
+
+        padding: 0px 10px;
 
         &-profile {
             display: flex;

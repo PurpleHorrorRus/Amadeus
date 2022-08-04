@@ -49,14 +49,13 @@ export default {
 
     computed: {
         ...mapState({
-            current: (state: any) => state.vk.messages.current,
-            extended: (state: any) => state.extendedView
+            current: (state: any) => state.vk.messages.current
         }),
 
         conversationClass() {
             return {
                 active: this.current?.id === this.conversation.id,
-                minimized: this.settings.appearance.minimized && this.extended
+                minimized: this.settings.appearance.minimized
             };
         },
 

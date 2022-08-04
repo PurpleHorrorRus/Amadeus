@@ -1,6 +1,6 @@
 <template>
     <div id="important-page" :class="pageClass">
-        <MessagesHeaderBack v-if="!extended && !first" ref="back" />
+        <MessagesHeaderBack v-if="!first" ref="back" />
 
         <div v-if="!first" id="important-page-list" ref="messages">
             <ImportantMessage
@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts">
-import { mapActions, mapState } from "vuex";
+import { mapActions } from "vuex";
 
 import PageMixin from "~/mixins/page";
 import ScrollMixin from "~/mixins/scroll";
@@ -36,10 +36,6 @@ export default {
     }),
 
     computed: {
-        ...mapState({
-            extended: (state: any) => state.extendedView
-        }),
-
         canScroll() {
             return this.messages.length < this.count;
         }

@@ -2,7 +2,6 @@
     <div class="settings-navigation-item" :class="settingsNavigationItemClass">
         <Component :is="item.icon" class="icon" />
         <span
-            v-if="extended"
             class="settings-navigation-item-label nowrap"
             v-text="item.label"
         />
@@ -10,8 +9,6 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
-
 export default {
     props: {
         item: {
@@ -27,10 +24,6 @@ export default {
     },
 
     computed: {
-        ...mapState({
-            extended: (state: any) => state.extendedView
-        }),
-
         settingsNavigationItemClass() {
             return {
                 active: this.active
@@ -41,6 +34,12 @@ export default {
 </script>
 
 <style lang="scss">
+@media screen and (max-width: 600px) {
+    .settings-navigation-item-label {
+        display: none !important;
+    }
+}
+
 .settings-navigation-item {
     display: flex;
     flex-direction: row;

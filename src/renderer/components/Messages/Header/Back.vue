@@ -39,7 +39,7 @@ export default {
 
 <style lang="scss">
 #messages-header-back {
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
 

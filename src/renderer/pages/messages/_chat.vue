@@ -145,6 +145,8 @@ export default {
         document.removeEventListener("keydown", this.exit);
 
         if (!this.first) {
+            this.unselectAll();
+
             !this.chat.search
                 ? this.flush(this.current)
                 : this.clear(this.current);
@@ -163,14 +165,12 @@ export default {
             clear: "vk/messages/CLEAR",
             delete: "vk/messages/DELETE",
             setCurrent: "vk/messages/SET_CURRENT",
-            markImportant: "vk/messages/MARK_IMPORTANT",
             unselectAll: "vk/messages/UNSELECT_ALL",
 
             uploadVideo: "vk/uploader/UPLOAD_VIDEO",
             uploadDoc: "vk/uploader/UPLOAD_DOC",
 
             addPhotoPath: "input/ADD_PHOTO_PATH",
-            addReply: "input/ADD_REPLY",
             edit: "input/EDIT",
             clearEdit: "input/CLEAR_EDIT",
             clearInput: "input/CLEAR",
