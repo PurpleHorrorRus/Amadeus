@@ -3,7 +3,7 @@
         <div id="chat-page-viewport-messages">
             <MessagesList
                 ref="messages"
-                :messages="chat.messages"
+                :messages="visibleMessages"
             />
 
             <ScrollArrow
@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { mapActions, mapState } from "vuex";
+import Message from "~/instances/Messages/Message";
 
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
@@ -70,6 +71,12 @@ export default {
             return !this.chat.search
                 && this.chat.messages.length < this.chat.count
                 && !this.loadMore;
+        },
+
+        visibleMessages() {
+            return this.chat.messages.filter((message: Message) => {
+                return !message.deleted;
+            });
         },
 
         showSuggests() {
