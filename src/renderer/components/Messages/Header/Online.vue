@@ -53,7 +53,6 @@ export default {
 
         "conversation.profile.online": {
             handler: function() {
-                console.log("WATCH conversation.profile.online");
                 this.updateLastSeen();
             }
         }
