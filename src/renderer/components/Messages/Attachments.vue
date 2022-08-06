@@ -1,11 +1,6 @@
 <template>
     <div class="message-content-attachments">
         <div v-if="message.attachments.length > 0" class="message-content-attachments-list">
-            <AttachmentWall
-                v-if="attachment.type === 'wall'"
-                :item="attachment"
-            />
-
             <Gallery
                 v-if="galleryItems.length > 0"
                 :data="galleryItems"
@@ -41,6 +36,7 @@
                 :item="attachment"
             />
 
+            <AttachmentWall v-if="wallItem" :item="wallItem" />
             <AttachmentPoll v-if="pollItem" :item="pollItem" />
             <AttachmentsLink v-if="linkItem" :item="linkItem" />
 
@@ -68,7 +64,6 @@
 <script lang="ts">
 export default {
     components: {
-        AttachmentWall: () => import("~/components/Messages/Attachments/Wall.vue"),
         Gallery: () => import("~/components/Messages/Attachments/Gallery.vue"),
         AttachmentSticker: () => import("~/components/Messages/Attachments/Sticker.vue"),
         AttachmentPlaylist: () => import("~/components/Messages/Attachments/AudioPlaylist.vue"),
@@ -78,6 +73,7 @@ export default {
         AttachmentStory: () => import("~/components/Messages/Attachments/Story.vue"),
         AttachmentGift: () => import("~/components/Messages/Attachments/Gift.vue"),
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio.vue"),
+        AttachmentWall: () => import("~/components/Messages/Attachments/Wall.vue"),
         AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc.vue"),
         AttachmentsLink: () => import("~/components/Messages/Attachments/Link.vue"),
         AttachmentsMap: () => import("~/components/Messages/Attachments/Map.vue")
@@ -96,7 +92,8 @@ export default {
         audioItems: [],
 
         pollItem: null,
-        linkItem: null
+        linkItem: null,
+        wallItem: null
     }),
 
     computed: {
@@ -125,6 +122,7 @@ export default {
 
             this.pollItem = this.find("poll");
             this.linkItem = this.find("link");
+            this.wallItem = this.find("wall");
         },
 
         filter(type) {
@@ -141,7 +139,7 @@ export default {
         },
 
         find(type) {
-            return this.message.attachment?.find(attachment => {
+            return this.message.attachments?.find(attachment => {
                 return attachment.type === type;
             }) || null;
         }

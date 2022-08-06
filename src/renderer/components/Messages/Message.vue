@@ -55,7 +55,9 @@ export default {
         },
 
         isWallAttachment() {
-            return this.message.attachments[0]?.type === "wall";
+            return this.message.attachments?.some(attachment => {
+                return attachment.type === "wall";
+            });
         }
     }
 };

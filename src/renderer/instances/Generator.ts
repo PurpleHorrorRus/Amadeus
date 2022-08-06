@@ -22,7 +22,7 @@ class ProfileGenerator {
             return new User(user);
         }
 
-        const group: GroupsGroupFull = ProfileGenerator.findProfile(id, groups) as GroupsGroupFull;
+        const group: GroupsGroupFull = ProfileGenerator.findProfile(Math.abs(id), groups) as GroupsGroupFull;
         return new Group(group);
     }
 

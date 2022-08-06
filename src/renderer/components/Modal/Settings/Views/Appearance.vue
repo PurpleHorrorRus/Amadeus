@@ -5,11 +5,12 @@
         <FileChoosing
             :text="$strings.SETTINGS.APPEARANCE.BACKGROUND"
             :value="messagesBackground"
-            :canClear="true"
+            :canClear="backgroundExist"
             @choose="changeMessagesBackground"
         />
 
         <Crop
+            v-if="backgroundExist"
             :image="settings.appearance.messages.background.url"
             @crop="resizeBackground"
         />
@@ -66,8 +67,13 @@ export default {
         }),
 
         messagesBackground() {
-            return this.settings.appearance.messages.background.url
-                || "Не задано";
+            return this.backgroundExist
+                ? this.settings.appearance.messages.background.url
+                : "Не задано";
+        },
+
+        backgroundExist() {
+            return Boolean(this.settings.appearance.messages.background.url);
         },
 
         themeNames() {

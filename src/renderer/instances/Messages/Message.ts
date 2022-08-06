@@ -1,5 +1,6 @@
 import { MessagesForeignMessage, MessagesMessage, MessagesMessageAttachment } from "vk-io/lib/api/schemas/objects";
 import { TMap } from "../Types/Attachments";
+import { TProfile } from "../Types/Conversation";
 import { TMessage } from "../Types/Messages";
 
 import Attachment from "./Attachment";
@@ -15,7 +16,8 @@ class Message implements TMessage {
     public text: string;
 
     public attachments?: Attachment[] | MessagesMessageAttachment[] = [];
-    public fwd_messages?: TMessage[] = [];
+    public fwd_messages?: any[] = [];
+    public profile?: TProfile;
     public reply_message?: TMessage;
     public action?: any;
     public random_id?: number;
@@ -26,7 +28,7 @@ class Message implements TMessage {
     public selected?: boolean = false;
     public syncing?: boolean | number = 0;
 
-    constructor(message: MessagesMessage | MessagesForeignMessage) {
+    constructor(message: MessagesMessage | MessagesForeignMessage, profile?: TProfile) {
         this.id = message.id;
         this.date = message.date;
         this.from_id = message.from_id;
@@ -38,18 +40,20 @@ class Message implements TMessage {
         this.syncing = message.syncing;
         this.update_time = message.update_time || 0;
 
+        if (profile) {
+            this.profile = profile;
+        }
+
         if (message.attachments?.length > 0) {
             this.attachments = AttachmentGenerator.generateList(message.attachments);
         }
 
-        if (message.fwd_messages?.length > 0) {
-            this.fwd_messages = message.fwd_messages.map(message => {
-                return new Message(message);
-            });
-        }
-
         if (message.reply_message) {
             this.reply_message = new Message(message.reply_message);
+        }
+
+        if (message.fwd_messages) {
+            this.fwd_messages = message.fwd_messages;
         }
 
         if (message.action) {

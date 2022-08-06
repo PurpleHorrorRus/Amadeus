@@ -5,14 +5,20 @@
             :reply="message.reply_message"
         />
 
-        <MessageText v-if="message.text" :message="message" />
+        <MessageText
+            v-if="message.text"
+            :message="message"
+        />
 
         <MessageForwardedMessages
             v-if="showForwardedMessages"
             :messages="message.fwd_messages"
         />
 
-        <MessageAttachments v-if="showAttachments" :message="message" />
+        <MessageAttachments
+            v-if="showAttachments"
+            :message="message"
+        />
     </div>
 </template>
 

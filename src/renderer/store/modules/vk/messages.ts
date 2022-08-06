@@ -3,8 +3,19 @@ import Promise from "bluebird";
 import lodash from "lodash";
 import DateDiff from "date-diff";
 
-import { MessagesDeleteParams, MessagesEditParams, MessagesSendParams } from "vk-io/lib/api/schemas/params";
-import { MessagesGetByIdResponse, MessagesGetHistoryResponse } from "vk-io/lib/api/schemas/responses";
+import {
+    MessagesDeleteParams,
+    MessagesEditParams,
+    MessagesGetHistoryParams,
+    MessagesSendParams
+} from "vk-io/lib/api/schemas/params";
+
+import {
+    MessagesGetByIdResponse,
+    MessagesGetHistoryResponse
+} from "vk-io/lib/api/schemas/responses";
+
+import { WallWallpostFull } from "vk-io/lib/api/schemas/objects";
 
 import Message from "~/instances/Messages/Message";
 import Attachment from "~/instances/Messages/Attachment";
@@ -15,9 +26,13 @@ import { TChat } from "~/instances/Types/Messages";
 import stickers from "~/store/modules/vk/stickers";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import Video from "~/instances/Messages/Attachments/Video";
+import Wall from "~/instances/Messages/Attachments/Wall";
+import { TProfile } from "~/instances/Types/Conversation";
+import ProfileGenerator from "~/instances/Generator";
 
-const fields = {
-    count: 20
+const fields: MessagesGetHistoryParams = {
+    count: 20,
+    extended: 1
 };
 
 export default {
@@ -51,7 +66,7 @@ export default {
                 id: data.id,
                 count: history.count,
                 search: isSearch,
-                messages: await dispatch("FORMAT_MESSAGES", history.items),
+                messages: await dispatch("FORMAT_MESSAGES", history),
                 conversation: await dispatch("vk/conversations/GET_CONVERSATION_CACHE", data.id, { root: true })
             };
 
@@ -69,14 +84,73 @@ export default {
                 ...fields
             });
 
-            const formatted: Message[] = await dispatch("FORMAT_MESSAGES", history.items);
+            const formatted: Message[] = await dispatch("FORMAT_MESSAGES", history);
             state.cache[id].messages = state.cache[id].messages.concat(formatted);
             return state.cache[id];
         },
 
-        FORMAT_MESSAGES: (_, items): Message[] => {
-            return items.map(message => {
+        FORMAT_MESSAGES: async ({ dispatch }, history: MessagesGetHistoryResponse) => {
+            return await Promise.map(history.items, async message => {
+                if (message.fwd_messages.length > 0) {
+                    message.fwd_messages = await dispatch("FORMAT_FORWARD_MESSAGES", {
+                        history,
+                        messages: message.fwd_messages
+                    });
+                }
+
+                if (message.attachments.length > 0) {
+                    message.attachments = await dispatch("FORMAT_WALL_ATTACHMENTS", {
+                        history,
+                        attachments: message.attachments
+                    });
+                }
+
                 return new Message(message);
+            });
+        },
+
+        FORMAT_WALL_ATTACHMENTS: async (_, { history, attachments }) => {
+            const wallAttachmentIndex = attachments.findIndex(attachment => {
+                return attachment.type === "wall";
+            });
+
+            if (~wallAttachmentIndex) {
+                if (attachments[wallAttachmentIndex].profile) {
+                    return attachments;
+                }
+
+                const wallAttachment: WallWallpostFull
+                    = attachments[wallAttachmentIndex].wall;
+
+                const wall = Wall.format(wallAttachment, history);
+                attachments.push(wall);
+            }
+
+            return attachments;
+        },
+
+        FORMAT_FORWARD_MESSAGES: async ({ dispatch }, { history, messages }) => {
+            return await Promise.map(messages, async (message: Message) => {
+                if (message.profile) {
+                    return message;
+                }
+
+                if (message.fwd_messages) {
+                    message.fwd_messages = await dispatch("FORMAT_FORWARD_MESSAGES", {
+                        history,
+                        messages: message.fwd_messages
+                    });
+                }
+
+                if (message.attachments.length > 0) {
+                    message.attachments = await dispatch("FORMAT_WALL_ATTACHMENTS", {
+                        history,
+                        attachments: message.attachments
+                    });
+                }
+
+                const profile: TProfile = ProfileGenerator.generate(message.from_id, history.profiles, history.groups);
+                return new Message(message, profile);
             });
         },
 
@@ -107,7 +181,8 @@ export default {
             }
 
             const response: MessagesGetByIdResponse = await rootState.vk.client.api.messages.getById({
-                message_ids: data.payload.message.id
+                message_ids: data.payload.message.id,
+                extended: 1
             });
 
             const message = new Message(response.items[0]);

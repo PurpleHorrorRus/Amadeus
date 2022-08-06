@@ -6,7 +6,6 @@ import Video from "./Video";
 import Audio from "./Audio";
 import Doc from "./Doc";
 import DocGif from "./Doc/Gif";
-import Wall from "./Wall";
 import AudioMessage from "./AudioMessage";
 import Link from "./Link";
 import Sticker from "./Sticker";
@@ -42,7 +41,6 @@ class AttachmentGenerator {
                     : new Doc(attachment.doc);
             }
 
-            case "wall": return new Wall(attachment.wall);
             case "audio_message": return new AudioMessage(attachment.audio_message);
             case "link": return new Link(attachment.link);
             case "sticker": return new Sticker(attachment.sticker);
@@ -50,6 +48,8 @@ class AttachmentGenerator {
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);
             case "gift": return new Gift(attachment.gift);
+
+            case "wall": return attachment.wall;
         }
     }
 }

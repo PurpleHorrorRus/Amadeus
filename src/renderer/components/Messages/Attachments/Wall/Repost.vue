@@ -2,27 +2,23 @@
     <div class="attachments-item-repost">
         <Component :is="icon" class="icon attachments-item-repost-icon" />
 
-        <div v-if="loaded" class="attachments-item-repost-block">
-            <img :src="profile.photo_100" class="attachments-item-repost-block-avatar">
+        <div class="attachments-item-repost-block">
+            <img :src="item.profile.photo_100" class="attachments-item-repost-block-avatar">
 
             <div class="attachments-item-repost-block-information nowrap">
                 <span
                     class="attachments-item-repost-block-information-name nowrap clickable"
-                    @click.stop="() => profile.openExternal()"
-                    v-text="profile.name"
+                    @click.stop="() => item.profile.openExternal()"
+                    v-text="item.profile.name"
                 />
 
                 <span class="attachments-item-repost-block-information-date" v-text="date" />
             </div>
         </div>
-
-        <LoaderIcon v-else class="icon loader-icon spin" />
     </div>
 </template>
 
 <script lang="ts">
-import { mapActions } from "vuex";
-
 import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
@@ -46,21 +42,11 @@ export default {
     },
 
     data: () => ({
-        profile: {},
-        date: new Date(),
-        loaded: false
+        date: new Date()
     }),
 
     async created() {
-        this.profile = await this.getProfile(this.item.from_id);
         this.date = this.relativeDate(this.item.date);
-        this.loaded = true;
-    },
-
-    methods: {
-        ...mapActions({
-            getProfile: "vk/GET_PROFILE"
-        })
     }
 };
 </script>
