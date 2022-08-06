@@ -210,7 +210,7 @@ export default {
                 ...data
             });
 
-            if (!toSend.reply_to && data.forward_messages) {
+            if (data.forward_messages) {
                 data.forward_messages.sort((a, b) => {
                     return a.date - b.date;
                 });

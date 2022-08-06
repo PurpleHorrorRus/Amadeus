@@ -93,7 +93,11 @@ export default {
             });
         },
 
-        SET_FORWARD: ({ state }, messages: TMessage[]) => {
+        SET_FORWARD: ({ dispatch, state }, messages: TMessage[]) => {
+            if (state.reply) {
+                dispatch("REMOVE_REPLY");
+            }
+
             state.fwd_messages = messages;
             return state.fwd_messages;
         },
@@ -110,6 +114,10 @@ export default {
         ADD_REPLY: async ({ dispatch, state }, message: TMessage) => {
             if (state.editing.enable) {
                 return false;
+            }
+
+            if (state.fwd_messages.length > 0) {
+                dispatch("REMOVE_FORWARD");
             }
 
             if (state.reply) {
