@@ -211,6 +211,12 @@ export default {
             });
 
             if (!toSend.reply_to && data.forward_messages) {
+                data.forward_messages.sort((a, b) => {
+                    return a.date - b.date;
+                });
+
+                message.fwd_messages = data.forward_messages;
+
                 toSend.forward_messages = data.forward_messages.map(message => {
                     return message.id;
                 }).join(",");
