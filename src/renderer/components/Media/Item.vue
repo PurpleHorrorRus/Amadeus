@@ -48,11 +48,7 @@ export default {
             this.menu.items = [{
                 id: "share",
                 label: this.$strings.MEDIA.SHARE,
-
-                function: () => {
-                    this.$parent.close();
-                    this.share();
-                }
+                function: () => this.share()
             },
 
             {
@@ -70,7 +66,7 @@ export default {
 
         share() {
             ipcRenderer.send("share", this.item);
-            this.close();
+            this.$parent.close();
         },
 
         copy(event) {
