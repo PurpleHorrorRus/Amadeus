@@ -4,11 +4,13 @@ export default {
     data: () => ({
         refComponent: null,
         scrollPercent: 0,
+        destroyed: false as boolean,
         trigger: () => (false) as boolean,
         handler: () => ({ }) as unknown
     }),
 
     beforeDestroy() {
+        this.destroyed = true;
         this.refComponent?.removeEventListener("scroll", this.onScroll);
         this.refComponent = null;
         this.scrollPercent = 0;
@@ -18,6 +20,10 @@ export default {
 
     methods: {
         async registerScroll(refComponent: string | Element, handler: Promise<any>, trigger: boolean) {
+            if (this.destroyed || !refComponent) {
+                return false;
+            }
+
             const element = typeof refComponent === "string"
                 ? await this.awaitElement(refComponent)
                 : refComponent;

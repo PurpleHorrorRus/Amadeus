@@ -18,6 +18,7 @@
 
         <PhotoItems
             v-else-if="data.length > 0"
+            ref="items"
             :items="data"
         />
     </div>
@@ -124,7 +125,8 @@ export default {
             this.current = album;
             this.load = false;
 
-            this.registerScroll("list", async () => {
+            const items = await this.awaitElement("items");
+            this.registerScroll(items.$refs.list, async () => {
                 if (this.loadMore || !this.canScroll) {
                     return false;
                 }
@@ -132,7 +134,7 @@ export default {
                 this.loadMore = true;
 
                 const more = await this.fetch(this.current);
-                this.data = [...this.data, ...more];
+                this.data = this.data.concat(more);
 
                 this.loadMore = false;
             }, percent => percent > 80);
