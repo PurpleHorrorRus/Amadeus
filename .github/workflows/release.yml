@@ -19,6 +19,11 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
+
+      - name: Build Application
+        run: yarn build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
       
       - name: Upload Release
         run: yarn release
@@ -39,6 +44,11 @@ jobs:
 
       - name: Install Dependencies
         run: yarn
+
+      - name: Build Application
+        run: yarn build
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Upload Release
         run: yarn release
