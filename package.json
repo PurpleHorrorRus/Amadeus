@@ -29,7 +29,11 @@
         "node": ">=16.15.0"
     },
     "resolutions": {
-        "vue-plyr/plyr": "github:sampotts/plyr#master"
+        "vue-plyr/plyr": "github:sampotts/plyr#master",
+        "parse-path": "^5.0.0",
+        "got": "^11.8.5",
+        "nth-check": "^2.0.1",
+        "glob-parent": "^6.0.1"
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.18.9",
@@ -48,7 +52,7 @@
         "core-js": "^3.24.1",
         "cross-env": "^7.0.3",
         "deepmerge": "^4.2.2",
-        "electron": "^20.0.0",
+        "electron": "^20.0.1",
         "electron-builder": "^23.3.3",
         "eslint": "^8.21.0",
         "eslint-plugin-vue": "^9.3.0",
@@ -72,7 +76,7 @@
         "date-diff": "^1.0.2",
         "electron-updater": "^5.2.1",
         "formdata-node": "^4.3.3",
-        "sass": "^1.54.0",
+        "sass": "^1.54.3",
         "v-emoji-picker": "^2.3.3",
         "v-tooltip": "2.1.3",
         "vk-io": "4.3.2",
