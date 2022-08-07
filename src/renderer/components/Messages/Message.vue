@@ -64,14 +64,6 @@ export default {
 </script>
 
 <style lang="scss">
-#default-layout {
-    &:not(.extended) {
-        .message-content {
-            max-width: 60vw;
-        }
-    }
-}
-
 .message {
     display: flex;
     flex-direction: row;

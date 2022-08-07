@@ -1,5 +1,9 @@
 <template>
-    <div :key="conversation" class="conversation" :class="conversationClass">
+    <div
+        :key="conversation"
+        class="conversation"
+        :class="conversationClass"
+    >
         <ConversationAvatar :conversation="conversation" />
 
         <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">
@@ -72,6 +76,43 @@ export default {
 </script>
 
 <style lang="scss">
+#default-layout.minimized .conversation {
+    grid-template-columns: 1fr;
+
+    padding-left: 0px;
+
+    .conversation-avatar {
+        justify-self: center;
+    }
+
+    .conversation-unread {
+        position: absolute;
+        top: 3px; right: 2px;
+    }
+
+    .mute-icon {
+        position: absolute;
+        top: 2px; left: 3px;
+
+        width: 24px;
+
+        padding: 3px;
+
+        background: var(--item-disabled);
+        border-radius: 100%;
+
+        path {
+            fill: var(--text);
+        }
+    }
+
+    &-message {
+        &-name, &-body {
+            display: none;
+        }
+    }
+}
+
 .conversation {
     position: relative;
 
@@ -89,37 +130,6 @@ export default {
 
     span {
         font-weight: 600;
-    }
-
-    &.minimized {
-        grid-template-columns: 1fr;
-
-        padding-left: 0px;
-
-        .conversation-avatar {
-            justify-self: center;
-        }
-
-        .conversation-unread {
-            position: absolute;
-            top: 3px; right: 2px;
-        }
-
-        .mute-icon {
-            position: absolute;
-            top: 2px; left: 3px;
-
-            width: 18px;
-
-            padding: 3px;
-
-            background: var(--item-disabled);
-            border-radius: 100%;
-
-            path {
-                fill: var(--text);
-            }
-        }
     }
 
     &.active, &:hover {
