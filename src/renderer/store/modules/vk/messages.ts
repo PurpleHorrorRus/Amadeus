@@ -503,7 +503,7 @@ export default {
         },
 
         SEND_TYPING: async ({ rootState }, { id, type }) => {
-            if (rootState.settings.settings.vk.disable_write) {
+            if (id === undefined || rootState.settings.settings.vk.disable_write) {
                 return false;
             }
 

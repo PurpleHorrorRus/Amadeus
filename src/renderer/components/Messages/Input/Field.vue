@@ -113,7 +113,7 @@ export default {
     mounted() {
         this.typingThrottle = lodash.throttle(() => {
             this.sendTyping({
-                id: this.current.id,
+                id: this.current?.id,
                 type: "typing"
             });
         }, 6 * 1000);
