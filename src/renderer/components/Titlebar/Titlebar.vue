@@ -1,10 +1,11 @@
 <template>
     <div id="titlebar">
         <span id="titlebar-title" v-text="'Amadeus'" />
+
         <span
             id="titlebar-title-dev"
             class="small-text"
-            v-text="devLabel"
+            v-text="version"
         />
 
         <div id="titlebar-buttons">
@@ -28,6 +29,8 @@ export default {
     },
 
     data: () => ({
+        version: "0.0.0",
+
         AppButtons: [{
             icon: () => import("~icons/minus.svg"),
             event: "minimize"
@@ -46,12 +49,10 @@ export default {
         }]
     }),
 
-    computed: {
-        devLabel() {
-            return this.$isDev
-                ? "development mode"
-                : "beta";
-        }
+    async created() {
+        this.version = this.$isDev
+            ? "development mode"
+            : await ipcRenderer.invoke("getVersion");
     },
 
     methods: {
