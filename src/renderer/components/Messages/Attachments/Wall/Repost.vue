@@ -3,13 +3,13 @@
         <Component :is="icon" class="icon attachments-item-repost-icon" />
 
         <div class="attachments-item-repost-block">
-            <img :src="item.profile.photo_100" class="attachments-item-repost-block-avatar">
+            <img :src="profile.photo_100" class="attachments-item-repost-block-avatar">
 
             <div class="attachments-item-repost-block-information nowrap">
                 <span
                     class="attachments-item-repost-block-information-name nowrap clickable"
-                    @click.stop="() => item.profile.openExternal()"
-                    v-text="item.profile.name"
+                    @click.stop="() => profile.openExternal()"
+                    v-text="profile.name"
                 />
 
                 <span class="attachments-item-repost-block-information-date" v-text="date" />
@@ -19,6 +19,8 @@
 </template>
 
 <script lang="ts">
+import { mapState } from "vuex";
+
 import CoreMixin from "~/mixins/core";
 import DateMixin from "~/mixins/date";
 import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
@@ -44,6 +46,16 @@ export default {
     data: () => ({
         date: new Date()
     }),
+
+    computed: {
+        ...mapState({
+            profiles: (state: any) => state.vk.messages.profiles
+        }),
+
+        profile() {
+            return this.profiles[Math.abs(this.item.from_id)];
+        }
+    },
 
     async created() {
         this.date = this.relativeDate(this.item.date);

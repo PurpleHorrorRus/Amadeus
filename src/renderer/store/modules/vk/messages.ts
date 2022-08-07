@@ -15,7 +15,7 @@ import {
     MessagesGetHistoryResponse
 } from "vk-io/lib/api/schemas/responses";
 
-import { WallWallpostFull } from "vk-io/lib/api/schemas/objects";
+import { MessagesMessage } from "vk-io/lib/api/schemas/objects";
 
 import Message from "~/instances/Messages/Message";
 import Attachment from "~/instances/Messages/Attachment";
@@ -26,8 +26,6 @@ import { TChat } from "~/instances/Types/Messages";
 import stickers from "~/store/modules/vk/stickers";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import Video from "~/instances/Messages/Attachments/Video";
-import Wall from "~/instances/Messages/Attachments/Wall";
-import { TProfile } from "~/instances/Types/Conversation";
 import ProfileGenerator from "~/instances/Generator";
 
 const fields: MessagesGetHistoryParams = {
@@ -35,11 +33,16 @@ const fields: MessagesGetHistoryParams = {
     extended: 1
 };
 
+const getAllProfilesFields = {
+    fields: "photo_100"
+};
+
 export default {
     namespaced: true,
 
     state: () => ({
         cache: {},
+        profiles: {},
         current: null
     }),
 
@@ -62,15 +65,89 @@ export default {
                 ...fields
             });
 
+            state.profiles = Object.assign(state.profiles, {
+                ...await dispatch("GET_ALL_PROFILES", history),
+                ...ProfileGenerator.asObjects(history.profiles, "user"),
+                ...ProfileGenerator.asObjects(history.groups, "group")
+            });
+
             state.cache[data.id] = {
                 id: data.id,
                 count: history.count,
                 search: isSearch,
-                messages: await dispatch("FORMAT_MESSAGES", history),
+                messages: Message.formatMessages(history.items, state.profiles),
                 conversation: await dispatch("vk/conversations/GET_CONVERSATION_CACHE", data.id, { root: true })
             };
 
             return state.cache[data.id];
+        },
+
+        GET_PROFILES_AS_OBJECTS: (_, profiles) => {
+            return profiles.map(profile => {
+                return {
+                    [profile.id]: profile
+                };
+            });
+        },
+
+        GET_ALL_PROFILES: async ({ rootState }, history: MessagesGetHistoryResponse) => {
+            /*
+                Добор недостающий профилей или сообществ
+                для корректного отображения репостов
+            */
+
+            const profiles = [];
+            const groups = [];
+
+            const push = (array, original, id) => {
+                const exist = original?.some(profile => {
+                    return profile.id === id;
+                });
+
+                if (!exist) {
+                    array.push(id);
+                }
+            };
+
+            history.items.forEach((message: MessagesMessage) => {
+                if (message.attachments?.length > 0) {
+                    let wallAttachment = message.attachments.find(attachment => {
+                        return attachment.type === "wall";
+                    });
+
+                    while (wallAttachment?.wall.copy_history?.length > 0) {
+                        const id = wallAttachment.wall.copy_history[0].from_id;
+                        id > 0
+                            ? push(profiles, history.profiles, id)
+                            : push(groups, history.groups, Math.abs(id));
+
+                        wallAttachment = wallAttachment.attachments?.find(attachment => {
+                            return attachment.type === "wall";
+                        });
+                    }
+                }
+            });
+
+            const data = await Promise.all([
+                profiles.length > 0
+                    ? rootState.vk.client.api.users.get({
+                        user_ids: profiles,
+                        ...getAllProfilesFields
+                    })
+                    : Promise.resolve(history.profiles),
+
+                groups.length > 0
+                    ? rootState.vk.client.api.groups.getById({
+                        group_ids: groups,
+                        ...getAllProfilesFields
+                    })
+                    : Promise.resolve({ groups: history.groups })
+            ]);
+
+            return Object.assign(
+                ProfileGenerator.asObjects(data[0], "user"),
+                ProfileGenerator.asObjects(data[1].groups, "group")
+            );
         },
 
         APPEND: async ({ dispatch, state, rootState }, id) => {
@@ -84,74 +161,15 @@ export default {
                 ...fields
             });
 
-            const formatted: Message[] = await dispatch("FORMAT_MESSAGES", history);
+            state.profiles = Object.assign(state.profiles, {
+                ...await dispatch("GET_ALL_PROFILES", history),
+                ...ProfileGenerator.asObjects(history.profiles, "user"),
+                ...ProfileGenerator.asObjects(history.groups, "group")
+            });
+
+            const formatted: Message[] = Message.formatMessages(history.items, state.profiles);
             state.cache[id].messages = state.cache[id].messages.concat(formatted);
             return state.cache[id];
-        },
-
-        FORMAT_MESSAGES: async ({ dispatch }, history: MessagesGetHistoryResponse) => {
-            return await Promise.map(history.items, async message => {
-                if (message.fwd_messages.length > 0) {
-                    message.fwd_messages = await dispatch("FORMAT_FORWARD_MESSAGES", {
-                        history,
-                        messages: message.fwd_messages
-                    });
-                }
-
-                if (message.attachments.length > 0) {
-                    message.attachments = await dispatch("FORMAT_WALL_ATTACHMENTS", {
-                        history,
-                        attachments: message.attachments
-                    });
-                }
-
-                return new Message(message);
-            });
-        },
-
-        FORMAT_WALL_ATTACHMENTS: async (_, { history, attachments }) => {
-            const wallAttachmentIndex = attachments.findIndex(attachment => {
-                return attachment.type === "wall";
-            });
-
-            if (~wallAttachmentIndex) {
-                if (attachments[wallAttachmentIndex].profile) {
-                    return attachments;
-                }
-
-                const wallAttachment: WallWallpostFull
-                    = attachments[wallAttachmentIndex].wall;
-
-                const wall = Wall.format(wallAttachment, history);
-                attachments.push(wall);
-            }
-
-            return attachments;
-        },
-
-        FORMAT_FORWARD_MESSAGES: async ({ dispatch }, { history, messages }) => {
-            return await Promise.map(messages, async (message: Message) => {
-                if (message.profile) {
-                    return message;
-                }
-
-                if (message.fwd_messages) {
-                    message.fwd_messages = await dispatch("FORMAT_FORWARD_MESSAGES", {
-                        history,
-                        messages: message.fwd_messages
-                    });
-                }
-
-                if (message.attachments.length > 0) {
-                    message.attachments = await dispatch("FORMAT_WALL_ATTACHMENTS", {
-                        history,
-                        attachments: message.attachments
-                    });
-                }
-
-                const profile: TProfile = ProfileGenerator.generate(message.from_id, history.profiles, history.groups);
-                return new Message(message, profile);
-            });
         },
 
         FLUSH: ({ state }, conversation): void => {
@@ -185,7 +203,7 @@ export default {
                 extended: 1
             });
 
-            const message = new Message(response.items[0]);
+            const [message] = Message.formatMessages(response.items, state.profiles);
             dispatch("SYNC", message);
             state.cache[message.peer_id].count++;
             return state.cache[message.peer_id];

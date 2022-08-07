@@ -10,9 +10,10 @@
 </template>
 
 <script lang="ts">
+import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
+
 import CoreMixin from "~/mixins/core";
 import AttachmentsMixin from "~/mixins/message/attachments";
-import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 export default {
     components: {

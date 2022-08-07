@@ -1,4 +1,8 @@
-import { MessagesForeignMessage, MessagesMessage, MessagesMessageAttachment } from "vk-io/lib/api/schemas/objects";
+import {
+    MessagesForeignMessage,
+    MessagesMessage,
+    MessagesMessageAttachment
+} from "vk-io/lib/api/schemas/objects";
 import { TMap } from "../Types/Attachments";
 import { TProfile } from "../Types/Conversation";
 import { TMessage } from "../Types/Messages";
@@ -6,6 +10,9 @@ import { TMessage } from "../Types/Messages";
 import Attachment from "./Attachment";
 import AttachmentGenerator from "./Attachments/Generator";
 import Map from "./Attachments/Map";
+import Wall from "./Attachments/Wall";
+
+type TProfiles = Record<number, TProfile>;
 
 class Message implements TMessage {
     public id: number;
@@ -81,6 +88,32 @@ class Message implements TMessage {
 
     restore(): void {
         this.deleted = false;
+    }
+
+    static formatMessages(items: MessagesMessage[] | MessagesForeignMessage[], profiles: TProfiles) {
+        return items.map(message => {
+            if (message.fwd_messages?.length > 0) {
+                message.fwd_messages = Message.formatMessages(message.fwd_messages, profiles);
+            }
+
+            if (message.attachments?.length > 0) {
+                message.attachments = Message.formatWallAttachment(message.attachments);
+            }
+
+            return new Message(message, profiles[message.id]);
+        });
+    }
+
+    static formatWallAttachment(attachments: any[]) {
+        for (const index in attachments) {
+            const attachment = attachments[index];
+            if (attachment.type === "wall") {
+                attachments[index] = Wall.format(attachment.wall);
+                break;
+            }
+        }
+
+        return attachments;
     }
 
     get edited(): boolean {
