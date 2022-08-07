@@ -23,7 +23,7 @@ export default {
     align-items: center;
     column-gap: 5px;
 
-    padding: 10px;
+    padding: 10px 5px;
 
     border-radius: 4px;
     transition: background .08s ease-in-out;
