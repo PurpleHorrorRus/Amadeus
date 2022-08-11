@@ -222,28 +222,24 @@ export default {
         },
 
         SYNC: async ({ state }, message: Message) => {
-            const messages: Message[] = state.cache[message.peer_id]?.messages;
-            if (!messages) {
+            if (!(message.peer_id in state.cache)) {
                 return false;
             }
 
-            let messageIndex: number = message.random_id > 0
-                ? messages.findIndex(msg => {
-                    return msg.id === message.id;
-                })
-                : -1;
+            const messages = state.cache[message.peer_id].messages;
 
-            if (!~messageIndex && message.random_id > 0) {
-                messageIndex = lodash.findLastIndex(messages, msg => {
+            let messageIndex: number = messages.findIndex(msg => {
+                return msg.id === message.id;
+            });
+
+            if (!~messageIndex && message.random_id !== 0) {
+                messageIndex = messages.findIndex(msg => {
                     return msg.random_id === message.random_id;
                 });
             }
 
             if (~messageIndex) {
-                const cacheMessage: Message = messages[messageIndex];
-                cacheMessage.id = message.id;
-                cacheMessage.syncing = 0;
-                return cacheMessage;
+                return Object.assign(messages[messageIndex], message);
             } else {
                 messages.unshift(message);
                 return message;
