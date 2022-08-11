@@ -6,6 +6,7 @@
             :text="$strings.SETTINGS.APPEARANCE.BACKGROUND"
             :value="messagesBackground"
             :canClear="backgroundExist"
+            :properties="backgroundProperties"
             @choose="changeMessagesBackground"
         />
 
@@ -60,6 +61,16 @@ export default {
     },
 
     mixins: [CoreMixin, AppearanceMixin],
+
+    data: () => ({
+        backgroundProperties: {
+            properties: ["openFile"],
+            filters: [{
+                name: "JPG, JPEG, PNG",
+                extensions: ["jpg", "jpeg", "png"]
+            }]
+        }
+    }),
 
     computed: {
         ...mapState({
