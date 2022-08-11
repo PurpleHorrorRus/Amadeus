@@ -2,7 +2,7 @@
     <div id="chat-page-messages-list">
         <MessagesChunk
             v-for="message of messages"
-            :key="message.id"
+            :key="message.id + '_' + message.update_time"
             :message="message"
         />
 
