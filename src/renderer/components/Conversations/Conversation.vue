@@ -166,56 +166,58 @@ export default {
         }
 
         &.minimized {
-            .conversations-list {
-                row-gap: 5px;
-            }
+            #conversations-lists {
+                &::-webkit-scrollbar {
+                    width: 0px;
+                    height: 0px;
+                }
 
-            #conversations-list-pinned-label {
-                display: none;
-            }
+                .conversations-list {
+                    row-gap: 5px;
+                }
 
-            &::-webkit-scrollbar {
-                width: 0px;
-                height: 0px;
-            }
-
-            .conversation {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
-                margin: 0px 5px;
-                padding: 5px 0px;
-
-                border-radius: 4px;
-
-                .conversation-message {
+                #conversations-list-pinned-label {
                     display: none;
                 }
 
-                .conversation-icons {
-                    position: relative;
+                .conversation {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
 
-                    .conversation-unread-out {
-                        position: absolute;
-                        top: -20px; right: -13px;
+                    margin: 0px 5px;
+                    padding: 5px 0px;
+
+                    border-radius: 4px;
+
+                    .conversation-message {
+                        display: none;
                     }
 
-                    .unread-counter {
-                        position: absolute;
-                        top: -25px; left: -13px;
-                    }
+                    .conversation-icons {
+                        position: relative;
 
-                    .mute-icon {
-                        position: absolute;
-                        left: -45px; top: -25px;
+                        .conversation-unread-out {
+                            position: absolute;
+                            top: -20px; right: -13px;
+                        }
 
-                        width: 20px;
+                        .unread-counter {
+                            position: absolute;
+                            top: -25px; left: -13px;
+                        }
 
-                        padding: 3px;
+                        .mute-icon {
+                            position: absolute;
+                            left: -45px; top: -25px;
 
-                        background: var(--backdrop);
-                        border-radius: 100%;
+                            width: 20px;
+
+                            padding: 3px;
+
+                            background: var(--backdrop);
+                            border-radius: 100%;
+                        }
                     }
                 }
             }

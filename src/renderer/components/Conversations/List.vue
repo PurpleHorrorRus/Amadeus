@@ -2,30 +2,32 @@
     <div id="conversations" :class="conversationClass">
         <ConversationsHeader v-if="showHeader" />
 
-        <div v-if="pinned.length > 0" id="pinned" class="conversations-list">
-            <span
-                id="conversations-list-pinned-label"
-                class="small-text"
-                v-text="$strings.CONVERSATIONS.PINNED"
-            />
+        <div id="conversations-lists" ref="conversations">
+            <div v-if="pinned.length > 0" id="pinned" class="conversations-list">
+                <span
+                    id="conversations-list-pinned-label"
+                    class="small-text"
+                    v-text="$strings.CONVERSATIONS.PINNED"
+                />
 
-            <Conversation
-                v-for="conversation of pinned"
-                :key="conversation.message.id"
-                :conversation="conversation"
-                @click.native.left="open(conversation)"
-                @click.native.right="openMenu($event, conversation)"
-            />
-        </div>
+                <Conversation
+                    v-for="conversation of pinned"
+                    :key="conversation.message.id"
+                    :conversation="conversation"
+                    @click.native.left="open(conversation)"
+                    @click.native.right="openMenu($event, conversation)"
+                />
+            </div>
 
-        <div class="conversations-list">
-            <Conversation
-                v-for="conversation of notPinned"
-                :key="conversation.message.id"
-                :conversation="conversation"
-                @click.native.left="open(conversation)"
-                @click.native.right="openMenu($event, conversation)"
-            />
+            <div class="conversations-list">
+                <Conversation
+                    v-for="conversation of notPinned"
+                    :key="conversation.message.id"
+                    :conversation="conversation"
+                    @click.native.left="open(conversation)"
+                    @click.native.right="openMenu($event, conversation)"
+                />
+            </div>
         </div>
 
         <ContextMenu v-if="menu.show" :menu="menu" />
@@ -146,27 +148,25 @@ export default {
     width: 100%;
     height: 100%;
 
-    overflow-x: hidden;
-    overflow-y: auto;
+    &-lists {
+        overflow-x: hidden;
+        overflow-y: auto;
 
-    .conversations-list {
-        display: flex;
-        flex-direction: column;
-        row-gap: 10px;
+        .conversations-list {
+            display: flex;
+            flex-direction: column;
+            row-gap: 10px;
 
-        padding: 5px 0px;
+            padding: 5px 0px;
 
-        &#pinned {
-            border-bottom: 1px solid var(--border);
+            &#pinned {
+                border-bottom: 1px solid var(--border);
 
-            #conversations-list-pinned-label {
-                padding: 10px 10px 0px 10px;
+                #conversations-list-pinned-label {
+                    padding: 10px 10px 0px 10px;
+                }
             }
         }
-    }
-
-    .skeleton-list {
-        flex-direction: column;
     }
 }
 </style>
