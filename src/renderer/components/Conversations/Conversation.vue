@@ -166,6 +166,10 @@ export default {
         }
 
         &.minimized {
+            .conversations-list {
+                row-gap: 5px;
+            }
+
             #conversations-list-pinned-label {
                 display: none;
             }
@@ -180,7 +184,10 @@ export default {
                 justify-content: center;
                 align-items: center;
 
+                margin: 0px 5px;
                 padding: 5px 0px;
+
+                border-radius: 4px;
 
                 .conversation-message {
                     display: none;

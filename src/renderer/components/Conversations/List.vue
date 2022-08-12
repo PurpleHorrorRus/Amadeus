@@ -147,7 +147,7 @@ export default {
     height: 100%;
 
     overflow-x: hidden;
-    overflow-y: overlay;
+    overflow-y: auto;
 
     .conversations-list {
         display: flex;
