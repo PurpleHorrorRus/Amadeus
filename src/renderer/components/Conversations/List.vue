@@ -2,12 +2,23 @@
     <div id="conversations" :class="conversationClass">
         <ConversationsHeader v-if="showHeader" />
 
-        <div id="conversations-list" ref="conversations">
-            <PinnedConversations
-                v-if="pinned.length > 0"
-                :conversations="pinned"
+        <div v-if="pinned.length > 0" id="pinned" class="conversations-list">
+            <span
+                id="conversations-list-pinned-label"
+                class="small-text"
+                v-text="$strings.CONVERSATIONS.PINNED"
             />
 
+            <Conversation
+                v-for="conversation of pinned"
+                :key="conversation.message.id"
+                :conversation="conversation"
+                @click.native.left="open(conversation)"
+                @click.native.right="openMenu($event, conversation)"
+            />
+        </div>
+
+        <div class="conversations-list">
             <Conversation
                 v-for="conversation of notPinned"
                 :key="conversation.message.id"
@@ -32,7 +43,6 @@ import ScrollMixin from "~/mixins/scroll";
 export default {
     components: {
         ConversationsHeader: () => import("~/components/Conversations/Header.vue"),
-        PinnedConversations: () => import("~/components/Conversations/Pinned.vue"),
         Conversation: () => import("~/components/Conversations/Conversation.vue")
     },
 
@@ -130,31 +140,29 @@ export default {
 
 <style lang="scss">
 #conversations {
-    display: grid;
-    grid-template-rows: 40px 1fr;
+    display: flex;
+    flex-direction: column;
 
     width: 100%;
     height: 100%;
 
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: overlay;
 
-    &.minimized {
-        grid-template-rows: 1fr;
-
-        ::-webkit-scrollbar {
-            width: 0px;
-        }
-    }
-
-    &-list {
+    .conversations-list {
         display: flex;
         flex-direction: column;
+        row-gap: 10px;
 
         padding: 5px 0px;
 
-        overflow-x: hidden;
-        overflow-y: auto;
+        &#pinned {
+            border-bottom: 1px solid var(--border);
+
+            #conversations-list-pinned-label {
+                padding: 10px 10px 0px 10px;
+            }
+        }
     }
 
     .skeleton-list {

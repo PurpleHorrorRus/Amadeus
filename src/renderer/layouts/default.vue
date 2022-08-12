@@ -128,7 +128,7 @@ export default {
 </script>
 
 <style lang="scss">
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 599px) {
     #default-layout {
         grid-template-columns: 1fr !important;
         grid-template-rows: 35px 1fr !important;

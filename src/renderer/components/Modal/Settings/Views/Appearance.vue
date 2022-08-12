@@ -66,7 +66,7 @@ export default {
         backgroundProperties: {
             properties: ["openFile"],
             filters: [{
-                name: "JPG, JPEG, PNG",
+                name: "jpg, jpeg, png",
                 extensions: ["jpg", "jpeg", "png"]
             }]
         }

@@ -6,7 +6,7 @@
     >
         <ConversationAvatar :conversation="conversation" />
 
-        <div v-if="!settings.appearance.minimized || !extended" class="conversation-message">
+        <div class="conversation-message">
             <span class="conversation-message-name nowrap" v-text="conversation.name" />
             <ConversationMessage v-if="!conversation.isTyping" :message="conversation.message" />
             <ConversationTyping v-else :conversation="conversation" />
@@ -58,8 +58,7 @@ export default {
 
         conversationClass() {
             return {
-                active: this.current?.id === this.conversation.id,
-                minimized: this.settings.appearance.minimized
+                active: this.current?.id === this.conversation.id
             };
         },
 
@@ -76,44 +75,7 @@ export default {
 </script>
 
 <style lang="scss">
-#default-layout.minimized .conversation {
-    grid-template-columns: 1fr;
-
-    padding-left: 0px;
-
-    .conversation-avatar {
-        justify-self: center;
-    }
-
-    .conversation-unread {
-        position: absolute;
-        top: 3px; right: 2px;
-    }
-
-    .mute-icon {
-        position: absolute;
-        top: 2px; left: 3px;
-
-        width: 24px;
-
-        padding: 3px;
-
-        background: var(--item-disabled);
-        border-radius: 100%;
-
-        path {
-            fill: var(--text);
-        }
-    }
-
-    &-message {
-        &-name, &-body {
-            display: none;
-        }
-    }
-}
-
-.conversation {
+@mixin Conversation {
     position: relative;
 
     display: grid;
@@ -123,22 +85,10 @@ export default {
 
     height: 50px;
 
-    margin: 5px;
-    padding-left: 8px;
+    margin: 0px 5px;
+    padding: 0px 5px;
 
     border-radius: 4px;
-
-    span {
-        font-weight: 600;
-    }
-
-    &.active, &:hover {
-        background: var(--navigation-select);
-    }
-
-    &:hover {
-        cursor: pointer;
-    }
 
     &-message {
         display: grid;
@@ -188,4 +138,82 @@ export default {
         }
     }
 }
+
+.conversation {
+    span {
+        font-weight: 600;
+    }
+
+    &.active, &:hover {
+        background: var(--navigation-select);
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+@media screen and (max-width: 599px) {
+    .conversation {
+        @include Conversation;
+    }
+}
+
+@media screen and (min-width: 600px) {
+    #conversations {
+        &:not(.minimized) .conversation {
+            @include Conversation;
+        }
+
+        &.minimized {
+            #conversations-list-pinned-label {
+                display: none;
+            }
+
+            &::-webkit-scrollbar {
+                width: 0px;
+                height: 0px;
+            }
+
+            .conversation {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                padding: 5px 0px;
+
+                .conversation-message {
+                    display: none;
+                }
+
+                .conversation-icons {
+                    position: relative;
+
+                    .conversation-unread-out {
+                        position: absolute;
+                        top: -20px; right: -13px;
+                    }
+
+                    .unread-counter {
+                        position: absolute;
+                        top: -25px; left: -13px;
+                    }
+
+                    .mute-icon {
+                        position: absolute;
+                        left: -45px; top: -25px;
+
+                        width: 20px;
+
+                        padding: 3px;
+
+                        background: var(--backdrop);
+                        border-radius: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
+
 </style>
