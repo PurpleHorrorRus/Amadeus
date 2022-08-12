@@ -76,7 +76,7 @@ export default {
             {
                 id: "edit",
                 label: this.$strings.MENU.MESSAGE.EDIT,
-                show: this.menu.target
+                show: message.out
                     && hours < 24
                     && !this.checkBlockedAttachments(this.menu.target),
 
