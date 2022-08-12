@@ -14,6 +14,8 @@ export default {
 
 <style lang="scss">
 .attachments-item-graffiti {
+    min-width: 170px;
+    max-width: 320px;
     width: 20vw;
 
     &-image {
