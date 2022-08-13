@@ -75,7 +75,9 @@ export default {
             });
         },
 
-        FORMAT_ITEM: async (_, { item, profiles, groups }) => {
+        FORMAT_ITEM: async ({ rootState }, { item, profiles, groups }) => {
+            item.muted = rootState.settings.settings.vk.mute.includes(item.conversation.peer.id);
+
             return ProfileGenerator.conversationProfileByType(
                 item.conversation.peer.type,
                 item, profiles, groups
@@ -83,7 +85,8 @@ export default {
         },
 
         FORMAT_MESSAGE: async ({ dispatch, rootState }, message) => {
-            message.out = message.out || Number(message.from_id === rootState.vk.user.id);
+            message.out = message.out
+                    || Number(message.from_id === rootState.vk.user.id);
 
             if (message.action) {
                 const action = await dispatch("vk/GET_ACTION_MESSAGE", message, { root: true });
