@@ -3,7 +3,7 @@ let audio = null;
 export default {
     namespaced: true,
 
-    state: ({
+    state: () => ({
         voice: null,
         playing: false,
         time: 0
