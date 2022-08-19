@@ -37,16 +37,6 @@ export default {
 </script>
 
 <style lang="scss">
-#default-layout {
-    &:not(.extended) #stickers-menu {
-        width: 80vw;
-    }
-
-    &.extended #stickers-menu {
-        width: 50vw;
-    }
-}
-
 #stickers {
     display: flex;
     justify-content: center;
@@ -57,10 +47,10 @@ export default {
         position: absolute;
         left: unset !important;
         top: unset !important;
-
         bottom: 70px !important;
         right: 5px !important;
 
+        width: 80%;
         height: 50vh;
     }
 

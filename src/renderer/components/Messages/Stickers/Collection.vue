@@ -61,7 +61,7 @@ export default {
         overflow-y: auto;
 
         .attachments-item-sticker {
-            width: 30%;
+            width: 20.5%;
             min-width: unset !important;
         }
     }
