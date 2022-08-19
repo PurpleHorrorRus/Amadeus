@@ -15,7 +15,7 @@
         "deps": "yarn && yarn postinstall",
         "lint": "eslint --ext .ts,.vue --ignore-path .eslintignore src/renderer"
     },
-    "keywords": [],
+    "keywords": ["VK", "vk.com", "messenger", "vk messenger"],
     "author": {
         "name": "Maxim",
         "email": "purplehorrorrus@gmail.com",
