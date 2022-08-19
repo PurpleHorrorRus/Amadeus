@@ -283,8 +283,7 @@ export default {
                 attachment: "",
                 peer_ids: data.peer_id,
                 random_id: common.getRandom(10, 99999999),
-                message: data.text || "",
-                reply_to: data.reply_message?.id
+                message: data.text || ""
             };
 
             const message: Message = new Message({
@@ -299,7 +298,7 @@ export default {
                 ...data
             });
 
-            if (data.forward_messages) {
+            if (data.forward_messages?.length > 0) {
                 data.forward_messages.sort((a, b) => {
                     return a.date - b.date;
                 });
@@ -309,6 +308,9 @@ export default {
                 toSend.forward_messages = data.forward_messages.map(message => {
                     return message.id;
                 }).join(",");
+            } else if (data.reply_message) {
+                delete toSend.forward_messages;
+                toSend.reply_to = data.reply_message.id;
             }
 
             dispatch("SYNC", message);
@@ -336,6 +338,7 @@ export default {
                     delete toSend.attachment;
                     delete toSend.message;
                     delete toSend.reply_to;
+                    delete toSend.forward_messages;
                     toSend.sticker_id = data.attachments[0].id;
                 } else {
                     const attachments = await dispatch("UPLOAD", message.attachments);
@@ -441,6 +444,8 @@ export default {
         },
 
         HANDLE_ERROR: ({ dispatch }, { error, data }) => {
+            console.error(error, data);
+
             switch (error.code) {
                 case 7: { // Ban or other restrictions
                     return dispatch("vk/conversations/RESTRICT", data.peer_id, { root: true });
