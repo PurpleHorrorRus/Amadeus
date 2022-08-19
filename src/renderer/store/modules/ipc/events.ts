@@ -21,7 +21,7 @@ export default {
                 title: global.$nuxt.$strings.MENU.SHARE,
 
                 function: async conversation => {
-                    commit("REDIRECT", `/messages/${conversation.id}?type=${conversation.type}`);
+                    commit("REDIRECT", `/messages/${conversation.id}?type=${conversation.type}&redirect=1`);
 
                     const generated: Attachment | MessagesMessageAttachment
                         = AttachmentGenerator.generate(attachment);

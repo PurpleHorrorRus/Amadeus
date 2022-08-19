@@ -100,7 +100,7 @@ export default {
                     this.unselectAll();
 
                     await this.$router
-                        .replace(`/messages/${conversation.id}?type=${conversation.type}`)
+                        .replace(`/messages/${conversation.id}?type=${conversation.type}&redirect=1`)
                         .catch(() => (false));
 
                     this.setForward(forwardMessages);

@@ -124,13 +124,19 @@ export default {
         }
     },
 
-    async created() {
+    created() {
+        if (!this.$route.query.redirect) {
+            this.clearInput();
+        }
+
         this.id = Number(this.$route.params.chat);
         this.type = this.$route.query.type;
-        this.setCurrent(await this.getConversationCache(this.id));
     },
 
     async mounted() {
+        const conversation = await this.getConversationCache(this.id);
+        this.setCurrent(conversation);
+
         this.chat = await this.load({
             id: this.id,
             start_message_id: Number(this.$route.query.start_message_id) || undefined
@@ -141,7 +147,6 @@ export default {
     },
 
     beforeDestroy() {
-        this.clearInput();
         document.removeEventListener("keydown", this.exit);
 
         if (!this.first) {
