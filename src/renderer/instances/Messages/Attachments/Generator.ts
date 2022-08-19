@@ -50,7 +50,7 @@ class AttachmentGenerator {
             case "graffiti": return new Graffiti(attachment.graffiti);
             case "gift": return new Gift(attachment.gift);
 
-            case "wall": return new Wall(attachment.wall);
+            case "wall": return Wall.format(attachment.wall);
         }
     }
 }

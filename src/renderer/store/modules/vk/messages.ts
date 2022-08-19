@@ -203,10 +203,10 @@ export default {
                 extended: 1
             });
 
-            const [message] = Message.formatMessages(response.items, state.profiles);
+            const message = new Message(response.items[0], state.profiles);
             dispatch("SYNC", message);
             state.cache[message.peer_id].count++;
-            return state.cache[message.peer_id];
+            return message;
         },
 
         PREPARE_DATA: ({ rootState }, data) => {
@@ -239,7 +239,10 @@ export default {
             }
 
             if (~messageIndex) {
-                return Object.assign(messages[messageIndex], message);
+                return {
+                    ...messages[messageIndex],
+                    ...message
+                };
             } else {
                 messages.unshift(message);
                 return message;

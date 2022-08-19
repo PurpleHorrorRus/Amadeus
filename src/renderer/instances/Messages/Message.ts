@@ -10,9 +10,6 @@ import { TMessage } from "../Types/Messages";
 import Attachment from "./Attachment";
 import AttachmentGenerator from "./Attachments/Generator";
 import Map from "./Attachments/Map";
-import Wall from "./Attachments/Wall";
-
-type TProfiles = Record<number, TProfile>;
 
 class Message implements TMessage {
     public id: number;
@@ -35,7 +32,7 @@ class Message implements TMessage {
     public selected?: boolean = false;
     public syncing?: boolean | number = 0;
 
-    constructor(message: MessagesMessage | MessagesForeignMessage, profile?: TProfile) {
+    constructor(message: MessagesMessage | MessagesForeignMessage, profiles?: TProfile[]) {
         this.id = message.id;
         this.date = message.date;
         this.from_id = message.from_id;
@@ -47,8 +44,8 @@ class Message implements TMessage {
         this.syncing = message.syncing;
         this.update_time = message.update_time || 0;
 
-        if (profile) {
-            this.profile = profile;
+        if (profiles) {
+            this.profile = profiles[message.from_id];
         }
 
         if (message.attachments?.length > 0) {
@@ -59,8 +56,8 @@ class Message implements TMessage {
             this.reply_message = new Message(message.reply_message);
         }
 
-        if (message.fwd_messages) {
-            this.fwd_messages = message.fwd_messages;
+        if (message.fwd_messages?.length > 0) {
+            this.fwd_messages = Message.formatMessages(message.fwd_messages, profiles);
         }
 
         if (message.action) {
@@ -90,30 +87,10 @@ class Message implements TMessage {
         this.deleted = false;
     }
 
-    static formatMessages(items: MessagesMessage[] | MessagesForeignMessage[], profiles: TProfiles) {
+    static formatMessages(items: MessagesMessage[] | MessagesForeignMessage[], profiles: TProfile[]) {
         return items.map(message => {
-            if (message.fwd_messages?.length > 0) {
-                message.fwd_messages = Message.formatMessages(message.fwd_messages, profiles);
-            }
-
-            if (message.attachments?.length > 0) {
-                message.attachments = Message.formatWallAttachment(message.attachments);
-            }
-
-            return new Message(message, profiles[message.id]);
+            return new Message(message, profiles);
         });
-    }
-
-    static formatWallAttachment(attachments: any[]) {
-        for (const index in attachments) {
-            const attachment = attachments[index];
-            if (attachment.type === "wall") {
-                attachments[index] = Wall.format(attachment.wall);
-                break;
-            }
-        }
-
-        return attachments;
     }
 
     get edited(): boolean {
