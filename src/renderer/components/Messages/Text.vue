@@ -5,7 +5,7 @@
             :key="index"
             class="message-content-text-item break"
             :class="itemClass(item)"
-            @click.prevent="openItem(item)"
+            @click.stop.prevent="openItem(item, $event)"
             v-text="itemText(item)"
         />
     </div>
@@ -85,11 +85,11 @@ export default {
     },
 
     methods: {
-        openItem(item) {
+        openItem(item, event) {
             switch (item.type) {
                 case types.link: return this.openExternal(item.data);
                 case types.mention: return this.openExternal(`https://vk.com/id${item.data.id}`);
-                default: return false;
+                default: return this.$parent.$parent.$parent.$parent.select(event, this.message);
             }
         },
 
