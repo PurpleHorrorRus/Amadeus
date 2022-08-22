@@ -23,6 +23,12 @@ export default {
         }
     }),
 
+    mutations: {
+        LOGIN_ERROR() {
+            this.$router.replace("/login").catch(() => (false));
+        }
+    },
+
     actions: {
         AUTH: async ({ dispatch, state }, account) => {
             state.client = new VK({
@@ -32,7 +38,7 @@ export default {
 
             const [user] = await state.client.api.users.get({
                 user_ids: [account.user]
-            });
+            }).catch(async e => await dispatch("LOGIN_ERROR", e));
 
             state.user = new User(user);
 
@@ -139,6 +145,12 @@ export default {
 
             state.client.updates.start();
             return state.client;
+        },
+
+        LOGIN_ERROR: ({ commit }, e) => {
+            console.log(e);
+            commit("LOGIN_ERROR");
+            return null;
         },
 
         GET_PROFILE: async ({ state }, id) => {
