@@ -191,26 +191,23 @@ export default {
 
         async success() {
             const { config } = await ipcRenderer.invoke("config");
-            const accountExist = config.vk.accounts.some(account => {
+            const accountIndex = config.vk.accounts.findIndex(account => {
                 return account.user === this.DirectData.user;
             });
 
-            if (accountExist) {
-                this.loginError = "Этот аккаунт уже добавлен";
-                return this.reset();
+            if (~accountIndex) {
+                config.vk.accounts[accountIndex].token = this.DirectData.token;
+                config.vk.active = accountIndex;
+            } else {
+                config.vk.active = config.vk.accounts.push({
+                    token: this.DirectData.token,
+                    user: this.DirectData.user
+                }) - 1;
             }
-
-            config.vk.accounts.push({
-                token: this.DirectData.token,
-                user: this.DirectData.user
-            });
 
             ipcRenderer.send("save", {
                 type: "vk",
-                content: {
-                    ...config.vk,
-                    active: config.vk.accounts.length - 1
-                }
+                content: config.vk
             });
 
             await common.wait(1000);
