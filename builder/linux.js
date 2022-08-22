@@ -10,9 +10,7 @@ class LinuxTarget extends BuildTarget {
         this.config = {
             linux: {
                 icon: path.join(this.iconDir, "png"),
-                target: ["tar.gz"],
-                synopsis: "Free and modern music player for VK",
-                category: "Audio"
+                target: ["tar.gz"]
             }
         };
     }
