@@ -44,7 +44,6 @@ export default {
     watch: {
         image: {
             handler: function(image) {
-                console.log("reset");
                 this.$refs.cropper.replace(image);
                 this.$refs.cropper.reset();
             }
