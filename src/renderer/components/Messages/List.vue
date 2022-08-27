@@ -2,7 +2,7 @@
     <div id="chat-page-messages-list">
         <MessagesChunk
             v-for="message of messages"
-            :key="message.id + '_' + message.update_time"
+            :key="message.id + '_' + message.update_time + '_' + message.syncing"
             :message="message"
         />
 
@@ -40,14 +40,6 @@ export default {
         firstLoad: true,
         loadMore: false
     }),
-
-    computed: {
-        visibleMessages() {
-            return this.chunk.filter(message => {
-                return !message.deleted;
-            });
-        }
-    },
 
     methods: {
         ...mapActions({

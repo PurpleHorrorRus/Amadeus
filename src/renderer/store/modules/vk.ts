@@ -54,15 +54,15 @@ export default {
                 data = await dispatch("messages/PREPARE_DATA", data);
 
                 await Promise.all([
-                    dispatch("messages/ADD_MESSAGE", data),
-                    dispatch("conversations/ADD_MESSAGE", data)
+                    dispatch("conversations/ADD_MESSAGE", data),
+                    dispatch("messages/ADD_MESSAGE", data)
                 ]);
 
                 dispatch("conversations/PLAY_NOTIFICATION", data.payload.message.peer_id);
             });
 
             state.client.updates.on("messages_read", data => {
-                dispatch("conversations/UPDATE_LAST_MESSAGE", data);
+                dispatch("conversations/MARK_AS_READ", data);
             });
 
             state.client.updates.on("typing", data => {

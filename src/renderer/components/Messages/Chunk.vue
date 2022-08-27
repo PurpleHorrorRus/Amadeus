@@ -1,5 +1,5 @@
 <template>
-    <div class="chat-page-messages-list-chunk">
+    <div :id="message.id" class="chat-page-messages-list-chunk">
         <Message
             v-if="!message.action"
             :message="message"

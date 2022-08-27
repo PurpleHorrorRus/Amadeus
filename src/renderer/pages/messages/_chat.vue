@@ -9,7 +9,7 @@
 
         <div id="chat-page-container">
             <div id="chat-page-container-background" :style="backgroundStyle" />
-            <MessagesViewport v-if="!first" :chat="chat" />
+            <MessagesViewport v-if="!first" />
             <LoaderIcon v-else class="icon loader-icon spin" />
         </div>
 

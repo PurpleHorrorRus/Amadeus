@@ -239,10 +239,12 @@ export default {
             }
 
             if (~messageIndex) {
-                return {
-                    ...messages[messageIndex],
-                    ...message
-                };
+                messages[messageIndex] = Object.assign(messages[messageIndex], {
+                    ...message,
+                    syncing: 0
+                });
+
+                return messages[messageIndex];
             } else {
                 messages.unshift(message);
                 return message;
@@ -497,7 +499,7 @@ export default {
         },
 
         READ_MESSAGE: async ({ rootState }, { chat, message }) => {
-            chat.readIn(message);
+            chat.readIn(message.id);
 
             return await rootState.vk.client.api.messages.markAsRead({
                 peer_id: chat.id,

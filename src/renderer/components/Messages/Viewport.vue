@@ -3,7 +3,7 @@
         <div id="chat-page-viewport-messages">
             <MessagesList
                 ref="messages"
-                :messages="visibleMessages"
+                :messages="$parent.chat.messages"
             />
 
             <ScrollArrow
@@ -15,7 +15,7 @@
                 <Profile
                     v-if="$parent.opened"
                     v-click-away="closeProfile"
-                    :conversation="chat.conversation"
+                    :conversation="$parent.chat.conversation"
                 />
             </transition>
         </div>
@@ -28,7 +28,6 @@
 
 <script lang="ts">
 import { mapActions, mapState } from "vuex";
-import Message from "~/instances/Messages/Message";
 
 import CoreMixin from "~/mixins/core";
 import ScrollMixin from "~/mixins/scroll";
@@ -43,13 +42,6 @@ export default {
 
     mixins: [CoreMixin, ScrollMixin],
 
-    props: {
-        chat: {
-            type: Object,
-            required: true
-        }
-    },
-
     data: () => ({
         loadMore: false,
         showScrollArrow: false,
@@ -63,20 +55,14 @@ export default {
 
         chatViewportClass() {
             return {
-                chat: this.chat.isChat
+                chat: this.$parent.chat.isChat
             };
         },
 
         canScroll() {
-            return !this.chat.search
-                && this.chat.messages.length < this.chat.count
+            return !this.$parent.chat.search
+                && this.$parent.chat.messages.length < this.$parent.chat.count
                 && !this.loadMore;
-        },
-
-        visibleMessages() {
-            return this.chat.messages.filter((message: Message) => {
-                return !message.deleted;
-            });
         },
 
         showSuggests() {
@@ -87,13 +73,13 @@ export default {
     watch: {
         scrollPercent: {
             handler: function(scrollPercent) {
-                return this.chat.conversation.unread > 0
+                return this.$parent.chat.conversation.unread > 0
                     && scrollPercent <= this.percentToRead
                     && this.readOnBottom();
             }
         },
 
-        "chat.messages.length": {
+        "$parent.chat.messages.length": {
             handler: function() {
                 if (this.scrollPercent <= this.percentToRead) {
                     this.scrollToBottom();
@@ -118,7 +104,7 @@ export default {
             }
 
             this.loadMore = true;
-            await this.append(this.chat.id);
+            await this.append(this.$parent.chat.id);
             this.loadMore = false;
         }, percent => {
             this.showScrollArrow = percent > 10

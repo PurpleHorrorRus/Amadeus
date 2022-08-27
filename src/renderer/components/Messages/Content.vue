@@ -1,6 +1,6 @@
 <template>
     <div class="message-content">
-        <AllAttachments :message="message" />
+        <AllAttachments :message="$parent.message" />
 
         <div class="message-content-info">
             <span
@@ -12,11 +12,11 @@
             <div class="message-content-info-right">
                 <span
                     class="message-content-info-right-date"
-                    v-text="relativeDate(message.date)"
+                    v-text="relativeDate($parent.message.date)"
                 />
 
                 <PenIcon
-                    v-if="message.edited"
+                    v-if="$parent.message.edited"
                     v-tooltip.top-start="editedText"
                     class="icon amadeus message-content-info-right-edit"
                 />
@@ -44,40 +44,53 @@ export default {
 
     mixins: [DateMixin],
 
-    inject: ["provideData", "message"],
-
     computed: {
+        conversation() {
+            return this
+                .$parent
+                .$parent
+                .$parent
+                .$parent
+                .$parent
+                .chat.conversation;
+        },
+
         showName() {
-            return !this.message.out
-                && this.provideData.conversation.isChat;
+            return !this.$parent.message.out
+                && this.conversation.isChat;
         },
 
         name() {
             return this.$parent.chatUserProfile.name;
         },
 
-        isNotRead() {
-            return this.provideData.conversation.information.out_read < this.message.id;
+        readed() {
+            if (!this.$parent.message.out) {
+                return this.conversation.information.in_read
+                    >= this.$parent.message.id;
+            }
+
+            return this.conversation.information.out_read
+                >= this.$parent.message.id;
         },
 
         editedText() {
             return this.$i18n(
                 this.$strings.CHAT.MESSAGE.EDITED,
                 "relativeDate",
-                this.relativeDate(this.message.update_time)
+                this.relativeDate(this.$parent.message.update_time)
             );
         },
 
         checkIconClass() {
             return {
-                read: !this.isNotRead
+                read: this.readed
             };
         },
 
         showCheckIcon() {
-            return this.message.out
-                && !this.message.syncing
-                && !this.isNotRead;
+            return !this.$parent.message.syncing
+                && this.readed;
         }
     }
 };

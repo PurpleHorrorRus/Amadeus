@@ -4,7 +4,6 @@ import {
     MessagesConversationWithMessage,
     MessagesConversation
 } from "vk-io/lib/api/schemas/objects";
-import Message from "../Messages/Message";
 
 import { TProfile } from "../Types/Conversation";
 import { ConversationMessageType } from "../Types/ConversationMessage";
@@ -23,7 +22,6 @@ abstract class Conversation {
     public muted = false;
     public mention = false;
     public restricted = false;
-    public unread = 0;
 
     public isUser = false;
     public isGroup = false;
@@ -47,7 +45,6 @@ abstract class Conversation {
         this.restricted = !item.conversation.can_write.allowed;
         this.muted = item.muted;
         this.mention = mentionRegex.test(this.message.text);
-        this.unread = item.conversation.unread_count || 0;
 
         this.typing = {
             enable: false,
@@ -60,20 +57,11 @@ abstract class Conversation {
     addMessage(message: ConversationMessageType) {
         this.setMessage(message);
         this.stopTyping();
-
-        if (!message.out) {
-            this.unread++;
-            this.updateMention(message.text);
-        } else this.readIn(message);
     }
 
-    setMessage(message: ConversationMessageType): void {
+    setMessage(message: ConversationMessageType) {
         this.message = message;
-        this.setLastMessageId(message.id);
-    }
-
-    setLastMessageId(id: number): void {
-        this.information.last_message_id = id;
+        this.information.last_message_id = message.id;
     }
 
     updateMention(text: string): void {
@@ -107,11 +95,8 @@ abstract class Conversation {
         this.profile = profile;
     }
 
-    readIn(message: Message | ConversationMessageType): void {
-        this.information.in_read = message.id;
-        this.unread = !message.out
-            ? this.information.last_message_id - this.information.in_read
-            : 0;
+    readIn(id: number): void {
+        this.information.in_read = id;
     }
 
     readOut(id: number): void {
@@ -136,6 +121,12 @@ abstract class Conversation {
 
     get avatar(): string {
         return this.profile.photo_100 || "https://vk.com/images/camera_100.png";
+    }
+
+    get unread(): number {
+        return !this.message.out
+            ? this.information.last_message_id - this.information.in_read
+            : 0;
     }
 
     get isTyping(): boolean {
