@@ -1,7 +1,7 @@
 <template>
     <div id="chat-page-messages-list">
         <MessagesChunk
-            v-for="message of messages"
+            v-for="message of visibleMessages"
             :key="message.id + '_' + message.update_time + '_' + message.syncing"
             :message="message"
         />
@@ -22,6 +22,8 @@ import MenuMixin from "~/mixins/menu";
 import DateMixin from "~/mixins/date";
 import ActionsMixin from "~/mixins/message/actions";
 
+import Message from "~/instances/Messages/Message";
+
 export default {
     components: {
         MessagesChunk: () => import("~/components/Messages/Chunk.vue")
@@ -40,6 +42,14 @@ export default {
         firstLoad: true,
         loadMore: false
     }),
+
+    computed: {
+        visibleMessages() {
+            return this.messages.filter((message: Message) => {
+                return !message.deleted;
+            });
+        }
+    },
 
     methods: {
         ...mapActions({
