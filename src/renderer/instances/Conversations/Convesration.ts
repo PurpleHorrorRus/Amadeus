@@ -22,6 +22,7 @@ abstract class Conversation {
     public muted = false;
     public mention = false;
     public restricted = false;
+    public unread = 0;
 
     public isUser = false;
     public isGroup = false;
@@ -31,7 +32,6 @@ abstract class Conversation {
 
     public typing: {
         enable: boolean
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         debounce: lodash.DebouncedFunc<any>
     };
 
@@ -44,7 +44,7 @@ abstract class Conversation {
         this.pinned = item.conversation.sort_id.major_id !== 0;
         this.restricted = !item.conversation.can_write.allowed;
         this.muted = item.muted;
-        this.mention = mentionRegex.test(this.message.text);
+        this.unread = item.conversation.unread_count;
 
         this.typing = {
             enable: false,
@@ -56,6 +56,11 @@ abstract class Conversation {
 
     addMessage(message: ConversationMessageType) {
         this.setMessage(message);
+
+        this.unread = !message.out
+            ? this.unread + 1
+            : 0;
+
         this.stopTyping();
     }
 
@@ -97,6 +102,7 @@ abstract class Conversation {
 
     readIn(id: number): void {
         this.information.in_read = id;
+        this.unread = 0;
     }
 
     readOut(id: number): void {
@@ -121,12 +127,6 @@ abstract class Conversation {
 
     get avatar(): string {
         return this.profile.photo_100 || "https://vk.com/images/camera_100.png";
-    }
-
-    get unread(): number {
-        return !this.message.out
-            ? this.information.last_message_id - this.information.in_read
-            : 0;
     }
 
     get isTyping(): boolean {

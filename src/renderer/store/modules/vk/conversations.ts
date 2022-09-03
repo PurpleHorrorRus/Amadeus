@@ -231,7 +231,11 @@ export default {
                 count: state.count + 1,
 
                 items: [{
-                    conversation: response.items[0],
+                    conversation: {
+                        ...response.items[0],
+                        unread_count: 1
+                    },
+
                     last_message: data.payload.message
                 }],
 
