@@ -269,7 +269,7 @@ export default {
                         return user.id === message.from_id;
                     });
 
-                    typingUser.stopTyping();
+                    typingUser?.stopTyping();
                 }
 
                 const conversationIndex = state.cache.findIndex(conversation => {
