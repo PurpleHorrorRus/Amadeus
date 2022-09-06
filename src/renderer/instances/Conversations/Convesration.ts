@@ -44,7 +44,7 @@ abstract class Conversation {
         this.pinned = item.conversation.sort_id.major_id !== 0;
         this.restricted = !item.conversation.can_write.allowed;
         this.muted = item.muted;
-        this.unread = item.conversation.unread_count;
+        this.unread = item.conversation.unread_count ?? 0;
 
         this.typing = {
             enable: false,
