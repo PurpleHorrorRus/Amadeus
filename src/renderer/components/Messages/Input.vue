@@ -1,5 +1,9 @@
 <template>
-    <div id="message-page-input" class="nowrap" :class="inputClass">
+    <div
+        id="message-page-input"
+        class="nowrap"
+        :class="inputClass"
+    >
         <InputEdit v-if="input.editing.enable" />
 
         <div id="message-page-input-main">

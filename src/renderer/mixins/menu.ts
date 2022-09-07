@@ -37,17 +37,21 @@ export default {
                     this.menu.position = [left, top];
                 } else this.menu.position = [event.clientX, event.clientY];
 
-                if (target) {
-                    this.menu.target = target;
-                    this.setMenuItems(target);
-                } else this.setMenuItems();
+                this.menu.target = target;
+                await this.setMenuItems(target, event);
+                this.menu.items = this.menu.items.filter(item => {
+                    return item.show || item.show === undefined;
+                });
 
-                this.menu.show = true;
+                this.menu.show = this.menu.items.length > 0
+                    || target === null;
 
-                if (hold) {
-                    const menu = await this.awaitElement("menu");
-                    menu.$el.onmousemove = event.target.onmousemove = () => this.handleMenu();
-                    menu.$el.onmouseleave = event.target.onmouseleave = () => this.unhandleMenu();
+                if (this.menu.show) {
+                    if (hold) {
+                        const menu = await this.awaitElement("menu");
+                        menu.$el.onmousemove = event.target.onmousemove = () => this.handleMenu();
+                        menu.$el.onmouseleave = event.target.onmouseleave = () => this.unhandleMenu();
+                    }
                 }
             });
         },

@@ -9,6 +9,7 @@
             :disabled="disabled"
             @keypress.enter="send"
             @keydown.up="hotkeyEdit"
+            @click.right="openMenu($event)"
         />
 
         <InputStickers v-if="stickersExist" />
@@ -19,6 +20,8 @@
             :canSend="canSend"
             @send="send"
         />
+
+        <ContextMenu v-if="menu.show" :menu="menu" />
     </div>
 </template>
 
@@ -30,6 +33,7 @@ import TextareaAutosizeDirective from "./Field/Autosize";
 import AttachmentsMixin from "~/mixins/message/attachments";
 import ActionsMixin from "~/mixins/message/actions";
 import DateMixin from "~/mixins/date";
+import MenuMixin from "~/mixins/menu";
 
 import Message from "~/instances/Messages/Message";
 
@@ -44,7 +48,7 @@ export default {
         autosize: TextareaAutosizeDirective
     },
 
-    mixins: [AttachmentsMixin, ActionsMixin, DateMixin],
+    mixins: [AttachmentsMixin, ActionsMixin, DateMixin, MenuMixin],
 
     props: {
         disabled: {
@@ -176,7 +180,7 @@ export default {
                     return this.addPhotoClipboard(item);
                 }
 
-                default:
+                default: break;
             }
         },
 
@@ -201,6 +205,35 @@ export default {
             }
 
             return false;
+        },
+
+        async setMenuItems() {
+            const paste = await navigator.clipboard.readText();
+            const selection = this.message.substring(
+                this.$refs.textarea.selectionStart,
+                this.$refs.textarea.selectionEnd
+            );
+
+            this.menu.items.push({
+                id: "paste",
+                label: this.$strings.CHAT.INPUT_ACTIONS.PASTE,
+                show: paste && typeof paste === "string",
+                function: () => document.execCommand("paste")
+            });
+
+            this.menu.items.push({
+                id: "copy",
+                label: this.$strings.CHAT.INPUT_ACTIONS.COPY,
+                show: selection.length > 0,
+                function: () => document.execCommand("copy")
+            });
+
+            this.menu.items.push({
+                id: "cut",
+                label: this.$strings.CHAT.INPUT_ACTIONS.CUT,
+                show: selection.length > 0,
+                function: () => document.execCommand("cut")
+            });
         }
     }
 };
