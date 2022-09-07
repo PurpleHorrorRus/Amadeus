@@ -12,17 +12,7 @@
             <ConversationTyping v-else :conversation="conversation" />
         </div>
 
-        <div class="conversation-icons">
-            <VolumeMuteIcon
-                v-if="conversation.muted"
-                class="icon amadeus mute-icon"
-            />
-
-            <ConversationUnread
-                v-if="inUnread || outUnread"
-                :conversation="conversation"
-            />
-        </div>
+        <ConversationIcons />
     </div>
 </template>
 
@@ -35,11 +25,10 @@ import ProfileMixin from "~/mixins/profile";
 
 export default {
     components: {
-        ConversationAvatar: () => import("~/components/Conversations/Conversation/Avatar.vue"),
-        ConversationMessage: () => import("~/components/Conversations/Conversation/Message.vue"),
-        ConversationTyping: () => import("~/components/Conversations/Conversation/Typing.vue"),
-        ConversationUnread: () => import("~/components/Conversations/Conversation/Unread.vue"),
-        VolumeMuteIcon: () => import("~icons/volume-mute.svg")
+        ConversationAvatar: () => import("./Conversation/Avatar.vue"),
+        ConversationMessage: () => import("./Conversation/Message.vue"),
+        ConversationTyping: () => import("./Conversation/Typing.vue"),
+        ConversationIcons: () => import("./Conversation/Icons.vue")
     },
 
     mixins: [CoreMixin, ConversationsMixin, ProfileMixin],
@@ -60,15 +49,6 @@ export default {
             return {
                 active: this.current?.id === this.conversation.id
             };
-        },
-
-        inUnread() {
-            return this.conversation.unread > 0;
-        },
-
-        outUnread() {
-            return this.conversation.information.out_read < this.conversation.information.last_message_id
-                && this.conversation.message.out;
         }
     }
 };
@@ -116,24 +96,6 @@ export default {
 
             path {
                 stroke: var(--small-text);
-            }
-        }
-    }
-
-    &-icons {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        align-items: center;
-        column-gap: 5px;
-
-        padding: 0px 10px;
-
-        .mute-icon {
-            width: 18px;
-
-            path {
-                fill: var(--small-text);
             }
         }
     }
