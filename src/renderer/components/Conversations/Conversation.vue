@@ -157,21 +157,21 @@ export default {
                     }
 
                     .conversation-icons {
-                        position: relative;
+                        position: absolute;
 
                         .conversation-unread-out {
                             position: absolute;
-                            top: -20px; right: -13px;
+                            top: -20px; right: -20px;
                         }
 
                         .unread-counter {
                             position: absolute;
-                            top: -25px; left: -13px;
+                            top: -22px; left: 13px;
                         }
 
                         .mute-icon {
                             position: absolute;
-                            left: -45px; top: -25px;
+                            left: -13px; bottom: -22px;
 
                             width: 20px;
 
