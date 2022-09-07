@@ -184,22 +184,27 @@ export default {
         },
 
         PLAY_NOTIFICATION: async ({ dispatch, rootState }, id) => {
+            /*
+                Не проигрывть звук оповещения, если:
+                1. Включен глобальный мут
+                2. Сообщение является исходящим
+                3. Конкретный чат в муте
+                4. Окно в фокусе? Если да, проигрывать, только если открыт другой чат
+            */
+
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", id);
 
-            if (conversation) {
-                if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
-                    return false;
-                }
-
-                const muted = rootState.settings.settings.vk.mute.includes(conversation.id);
-
-                const cantPlayNotification = muted ||
-                    rootState.vk.messages.current?.id === conversation.id ||
-                    await ipcRenderer.invoke("focused");
-
-                if (cantPlayNotification) {
-                    return false;
-                }
+            if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
+                return false;
+            }
+    
+            if (rootState.settings.settings.vk.mute.includes(conversation.id)) {
+                return false;
+            }
+    
+            const focused = await ipcRenderer.invoke("focused");
+            if (focused && rootState.vk.messages.current?.id === conversation.id) {
+                return false;
             }
 
             const notification = new Audio("./message.mp3");
