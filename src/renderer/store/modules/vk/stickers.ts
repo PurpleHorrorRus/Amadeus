@@ -1,4 +1,5 @@
 import DateDiff from "date-diff";
+import Promise from "bluebird";
 import { ipcRenderer } from "electron";
 import { StoreProduct } from "vk-io/lib/api/schemas/objects";
 import { StoreGetProductsParams, StoreGetStickersKeywordsParams } from "vk-io/lib/api/schemas/params";
@@ -97,13 +98,11 @@ export default {
         },
 
         FETCH_REMOTE: async ({ rootState }) => {
-            const [response, keywordsResponse]: [
-                { items?: StoreProduct[] },
-                StoreGetStickersKeywordsResponse
-            ] = await Promise.all([
-                rootState.vk.client.api.store.getProducts(params),
-                rootState.vk.client.api.store.getStickersKeywords(keywordsParams)
-            ]);
+            console.log("[Stickers]: FETCH REMOTELY...");
+
+            const response = await rootState.vk.client.api.store.getProducts(params);
+            await Promise.delay(5000);
+            const keywordsResponse = await rootState.vk.client.api.store.getStickersKeywords(keywordsParams);
 
             return { response, keywordsResponse };
         },
