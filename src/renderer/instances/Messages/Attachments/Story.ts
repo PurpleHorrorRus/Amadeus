@@ -22,9 +22,13 @@ class Story extends Attachment implements IPreview {
         this._is_deleted = story.is_deleted;
 
         if (!this.restriction) {
-            const links = Object.values(story.video.files);
-            this.src = links[links.length - 1];
-            this.sizes = this.calculateSize(story.video.image);
+            if (story.video) {
+                const links = Object.values(story.video.files);
+                this.src = links[links.length - 1];
+            }
+
+            const preview = story.video?.files || story.photo.sizes;
+            this.sizes = this.calculateSize(preview);
         }
     }
 
