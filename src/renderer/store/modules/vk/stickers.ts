@@ -1,9 +1,7 @@
 import DateDiff from "date-diff";
 import Promise from "bluebird";
 import { ipcRenderer } from "electron";
-import { StoreProduct } from "vk-io/lib/api/schemas/objects";
 import { StoreGetProductsParams, StoreGetStickersKeywordsParams } from "vk-io/lib/api/schemas/params";
-import { StoreGetStickersKeywordsResponse } from "vk-io/lib/api/schemas/responses";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import StickersCollection from "~/instances/Messages/StickersCollection";
 
