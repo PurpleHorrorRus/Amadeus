@@ -251,6 +251,15 @@ export default {
             }
         },
 
+        EDIT_SYNC: async ({ dispatch, state, rootState }, msg) => {
+            const response = await rootState.vk.client.api.messages.getById({
+                message_ids: msg.id
+            });
+
+            const message = new Message(response.items[0], state.profiles);
+            return await dispatch("SYNC", message);
+        },
+
         SYNC_VISIBLE: ({ state }, { message, deleted }) => {
             if (!(message.peer_id in state.cache)) {
                 return false;

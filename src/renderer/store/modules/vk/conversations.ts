@@ -156,7 +156,8 @@ export default {
 
         EDIT_SYNC: async ({ dispatch }, message) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
-            conversation.setMessage(await dispatch("FORMAT_MESSAGE", message));
+            const formatted: ConversationMessageType = await dispatch("FORMAT_MESSAGE", message);
+            conversation.setMessage(formatted);
             return conversation;
         },
 
@@ -197,11 +198,11 @@ export default {
             if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
                 return false;
             }
-    
+
             if (rootState.settings.settings.vk.mute.includes(conversation.id)) {
                 return false;
             }
-    
+
             const focused = await ipcRenderer.invoke("focused");
             if (focused && rootState.vk.messages.current?.id === conversation.id) {
                 return false;

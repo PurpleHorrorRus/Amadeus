@@ -76,12 +76,7 @@ export default {
             state.client.updates.on("message_edit", async data => {
                 data = await dispatch("messages/PREPARE_DATA", data);
                 dispatch("conversations/EDIT_SYNC", data.payload.message);
-
-                const response = await state.client.api.messages.getById({
-                    message_ids: data.payload.message.id
-                });
-
-                return dispatch("messages/SYNC", response.items[0]);
+                dispatch("messages/EDIT_SYNC", data.payload.message);
             });
 
             state.client.updates.on("dialog_messages_delete", data => {
