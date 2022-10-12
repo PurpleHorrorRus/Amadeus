@@ -107,8 +107,7 @@ export default {
 
     methods: {
         ...mapActions({
-            append: "vk/conversations/APPEND",
-            read: "vk/messages/READ"
+            append: "vk/conversations/APPEND"
         }),
 
         async open(conversation) {

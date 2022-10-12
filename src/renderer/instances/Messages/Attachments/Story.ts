@@ -27,7 +27,12 @@ class Story extends Attachment implements IPreview {
                 this.src = links[links.length - 1];
             }
 
-            const preview = story.video?.files || story.photo.sizes;
+            const preview = story.video 
+                ? Array.isArray(story.video.files)
+                    ? story.video.files
+                    : story.video.image 
+                : story.photo.sizes;
+
             this.sizes = this.calculateSize(preview);
         }
     }

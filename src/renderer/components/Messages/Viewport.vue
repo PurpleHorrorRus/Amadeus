@@ -132,7 +132,7 @@ export default {
         },
 
         readOnBottom() {
-            return this.read(this.chat);
+            return this.read(this.$parent.chat);
         },
 
         closeProfile() {
