@@ -204,6 +204,14 @@ export default {
             justify-self: center;
             align-self: center;
         }
+
+        .icon {
+            &:hover {
+                path {
+                    fill: var(--icons-hover);
+                }
+            }
+        }
     }
 }
 </style>

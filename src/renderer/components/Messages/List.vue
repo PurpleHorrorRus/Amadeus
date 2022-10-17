@@ -9,6 +9,7 @@
         <ContextMenu
             v-if="menu.show"
             :menu="menu"
+            :margins="[0, -70]"
         />
     </div>
 </template>
