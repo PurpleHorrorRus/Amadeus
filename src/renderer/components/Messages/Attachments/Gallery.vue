@@ -127,7 +127,7 @@ export default {
 
     &.grid-10 {
         grid-template-columns: repeat(3, 1fr);
-        grid-template-rows: max-content repeat(3, 1fr);
+        grid-template-rows: 270px repeat(3, 135px);
         grid-template-areas: "item-1 item-1 item-1"
                             "item-2 item-3 item-4"
                             "item-5 item-6 item-7"
