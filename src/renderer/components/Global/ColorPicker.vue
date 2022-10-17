@@ -154,7 +154,6 @@ export default {
 
         padding: 10px !important;
 
-        font-family: Roboto !important;
         user-select: all !important;
     }
 }

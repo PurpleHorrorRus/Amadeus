@@ -1,11 +1,11 @@
 <template>
     <div class="solid-button" :class="{ disabled }">
         <span v-if="!load" class="solid-button-label" v-text="label" />
-        <LoaderIcon v-else class="icon loader-icon spin" />
+        <LoaderIcon v-else class="icon spin" />
     </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
     props: {
         load: {
@@ -39,15 +39,15 @@ export default {
     max-width: 400px;
     height: 30px;
 
-    padding: 8px;
+    padding: 16px 12px;
 
     background: var(--secondary);
     border-radius: 4px;
 
-    font-size: 11px;
+    font-size: 12px;
     text-align: center;
 
-    transition: all 0.5s ease;
+    transition: background .25s ease;
 
     &.disabled {
         cursor: not-allowed;
@@ -73,6 +73,12 @@ export default {
 
     .icon {
         width: 16px;
+    }
+
+    &-label {
+        color: var(--buttons-text);
+        font-weight: 600;
+        text-transform: uppercase;
     }
 }
 </style>

@@ -52,7 +52,8 @@ type TAttachmentType =
     | "poll"
     | "graffiti"
     | "geo"
-    | "gift";
+    | "gift"
+    | "mini_app";
 
 type TUpload =
     PhotosSaveMessagesPhotoParams

@@ -36,6 +36,11 @@
                 :item="attachment"
             />
 
+            <AttachmentMiniApp
+                v-else-if="attachment.type === 'mini_app'"
+                :item="attachment"
+            />
+
             <AttachmentWall v-if="wallItem" :item="wallItem" />
             <AttachmentPoll v-if="pollItem" :item="pollItem" />
             <AttachmentsLink v-if="linkItem" :item="linkItem" />
@@ -72,6 +77,7 @@ export default {
         AttachmentAudioMessage: () => import("~/components/Messages/Attachments/AudioMessage.vue"),
         AttachmentStory: () => import("~/components/Messages/Attachments/Story.vue"),
         AttachmentGift: () => import("~/components/Messages/Attachments/Gift.vue"),
+        AttachmentMiniApp: () => import("~/components/Messages/Attachments/MiniApp.vue"),
         AttachmentAudio: () => import("~/components/Messages/Attachments/Audio.vue"),
         AttachmentWall: () => import("~/components/Messages/Attachments/Wall.vue"),
         AttachmentsDoc: () => import("~/components/Messages/Attachments/Doc.vue"),

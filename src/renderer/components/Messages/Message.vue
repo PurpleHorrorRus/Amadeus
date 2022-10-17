@@ -55,8 +55,12 @@ export default {
         },
 
         isWallAttachment() {
+            if (this.message.attachments?.[0] === undefined) {
+                console.log(this.message);
+            }
+
             return this.message.attachments?.some(attachment => {
-                return attachment.type === "wall";
+                return attachment?.type === "wall";
             });
         }
     }

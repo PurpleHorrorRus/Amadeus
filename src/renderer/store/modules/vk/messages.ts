@@ -161,6 +161,8 @@ export default {
                 ...fields
             });
 
+            console.log(history);
+
             state.profiles = Object.assign(state.profiles, {
                 ...await dispatch("GET_ALL_PROFILES", history),
                 ...ProfileGenerator.asObjects(history.profiles, "user"),

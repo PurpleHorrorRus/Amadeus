@@ -15,6 +15,7 @@ import Graffiti from "./Graffiti";
 import AudioPlaylist from "./AudioPlaylist";
 import Gift from "./Gift";
 import Wall from "./Wall";
+import MiniApp from "./MiniApp";
 
 class AttachmentGenerator {
     static generateList(list: MessagesMessageAttachment[]): Attachment[] {
@@ -49,8 +50,8 @@ class AttachmentGenerator {
             case "poll": return new Poll(attachment.poll);
             case "graffiti": return new Graffiti(attachment.graffiti);
             case "gift": return new Gift(attachment.gift);
-
             case "wall": return Wall.format(attachment.wall);
+            case "mini_app": return new MiniApp(attachment.mini_app);
         }
     }
 }

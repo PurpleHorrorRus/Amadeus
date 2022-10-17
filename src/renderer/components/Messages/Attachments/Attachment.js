@@ -33,12 +33,6 @@ export default {
             return ipcRenderer.send("openMedia", { data, index });
         },
 
-        calculateMaxSize(images) {
-            return [...images].sort((a, b) => {
-                return (b.width * b.height) - (a.width * a.height);
-            })[0];
-        },
-
         openExternal(url) {
             return shell.openExternal(url);
         }
