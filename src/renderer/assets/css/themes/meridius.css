@@ -1,17 +1,17 @@
 html.meridius-mode {
-    --primary: #131313;
+    --primary: #141414;
 
-    --secondary: #9c3536;
-    --secondary-hover: #d1484a;
-    --secondary-opacity-half: #9c353680;
-    --secondary-hover-opacity: #9c353640;
-    --secondary-disabled: #491819;
+    --secondary: #E9003F;
+    --secondary-hover: #c40034;
+    --secondary-opacity-half: #E9003F80;
+    --secondary-hover-opacity: #E9003F40;
+    --secondary-disabled: #99002980;
 
     --scroll: #545454;
     --scroll-width: 12px;
     --scroll-radius: 8px;
 
-    --backdrop: #141414;
+    --backdrop: #0e0e0e;
 
     --titlebar: var(--primary);
 
