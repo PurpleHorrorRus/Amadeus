@@ -40,7 +40,7 @@ export default {
     created() {
         let text = "";
 
-        this.message.text.split(" ").forEach(word => {
+        for (const word of this.message.text.split(" ")) {
             if (mentionRegex.test(word)) {
                 if (text.length > 0) {
                     this.formatted.push({
@@ -60,7 +60,7 @@ export default {
                     }
                 });
 
-                return mention;
+                continue;
             }
 
             const links = common.checkLinks(word);
@@ -71,12 +71,11 @@ export default {
                 }));
 
                 this.formatted = this.formatted.concat(formattedLinks);
-                return word;
+                continue;
             }
 
             text += " " + word;
-            return text;
-        });
+        }
 
         if (text.length > 0) {
             this.formatted.push({
