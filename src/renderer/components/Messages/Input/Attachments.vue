@@ -18,7 +18,7 @@
         <CompactAttachment
             v-if="firstAttachmentType === 'wall'"
             :message="input"
-            :text="$strings.CHAT.ATTACHMENTS.WALL"
+            :text="$strings.CHAT.ATTACHMENTS.WALL.TITLE"
             @click.native="removeAttachment(0)"
         />
 

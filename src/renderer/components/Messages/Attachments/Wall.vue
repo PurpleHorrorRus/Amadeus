@@ -12,6 +12,11 @@
             v-if="item.attachments.length > 0"
             :message="item"
         />
+
+        <SolidButton
+            :label="$strings.CHAT.ATTACHMENTS.WALL.OPEN"
+            @click.native="openWall"
+        />
     </div>
 </template>
 
@@ -29,7 +34,13 @@ export default {
     data: () => ({
         loaded: false,
         repost: null
-    })
+    }),
+
+    methods: {
+        openWall() {
+            return this.openExternal(`https://vk.com/wall${this.item.owner_id}_${this.item.id}`);
+        }
+    }
 };
 </script>
 
@@ -48,6 +59,15 @@ export default {
         font-size: 12px;
 
         cursor: text;
+    }
+
+    .solid-button {
+        width: 100%;
+
+        align-self: center;
+
+        background: none;
+        border: 1px solid var(--contrast);
     }
 }
 </style>
