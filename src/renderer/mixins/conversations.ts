@@ -12,6 +12,11 @@ export default {
             deleteConversation: "vk/conversations/DELETE"
         }),
 
+        async openConversation(conversation) {
+            const { id, type } = conversation.information.peer;
+            return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => (false));
+        },
+
         async readConversation(conversation: Conversation) {
             conversation.readIn(conversation.message.id);
             return await this.client.api.messages.markAsRead({

@@ -14,7 +14,7 @@
                     v-for="conversation of pinned"
                     :key="conversation.message.id"
                     :conversation="conversation"
-                    @click.native.left="open(conversation)"
+                    @click.native.left="openConversation(conversation)"
                     @click.native.right="openMenu($event, conversation)"
                 />
             </div>
@@ -24,7 +24,7 @@
                     v-for="conversation of notPinned"
                     :key="conversation.message.id"
                     :conversation="conversation"
-                    @click.native.left="open(conversation)"
+                    @click.native.left="openConversation(conversation)"
                     @click.native.right="openMenu($event, conversation)"
                 />
             </div>
@@ -109,11 +109,6 @@ export default {
         ...mapActions({
             append: "vk/conversations/APPEND"
         }),
-
-        async open(conversation) {
-            const { id, type } = conversation.information.peer;
-            return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => (false));
-        },
 
         setMenuItems() {
             this.menu.items = [{

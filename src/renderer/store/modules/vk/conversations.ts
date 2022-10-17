@@ -224,6 +224,28 @@ export default {
             return null;
         },
 
+        GET_NEXT: ({ state, rootState }, add = 1) => {
+            const currentIndex = rootState.vk.messages.current
+                ? state.cache.findIndex(conversation => {
+                    return conversation.id === rootState.vk.messages.current.id;
+                })
+                : -1;
+
+            if (add >= 0) {
+                const nextIndex = currentIndex + add < state.cache.length - 1
+                    ? currentIndex + add
+                    : 0;
+
+                return state.cache[nextIndex];
+            }
+
+            const prevIndex = currentIndex + add > -1
+                ? currentIndex + add
+                : state.cache.length - 1;
+
+            return state.cache[prevIndex];
+        },
+
         ADD_CONVERSATION: async ({ dispatch, state, rootState }, data) => {
             const params: MessagesGetConversationsByIdParams = {
                 peer_ids: data.peerId,

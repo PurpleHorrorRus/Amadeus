@@ -39,11 +39,12 @@
 </template>
 
 <script lang="ts">
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 import Resizable from "~/components/Global/Resizable.vue";
 
 import CoreMixin from "~/mixins/core";
+import ConversationsMixin from "~/mixins/conversations";
 import AppearanceMixin from "~/mixins/appearance";
 
 export default {
@@ -55,12 +56,13 @@ export default {
         Resizable
     },
 
-    mixins: [CoreMixin, AppearanceMixin],
+    mixins: [CoreMixin, ConversationsMixin, AppearanceMixin],
 
     data: () => ({
         resizableRef: Resizable.data().resizableRef,
         minWidth: 150,
-        maxWidth: 300
+        maxWidth: 300,
+        ctrl: false
     }),
 
     computed: {
@@ -98,13 +100,22 @@ export default {
                 value: this.settings.appearance.colors[variable]
             });
         }
+
+        window.addEventListener("keydown", this.keyPress);
+        window.addEventListener("keyup", this.keyRelease);
     },
 
     beforeDestroy() {
+        window.removeEventListener("keydown", this.keyPress);
+        window.removeEventListener("keyup", this.keyRelease);
         window.onresize = null;
     },
 
     methods: {
+        ...mapActions({
+            getNextConversation: "vk/conversations/GET_NEXT"
+        }),
+
         resize({ position, size }) {
             if (position < this.minWidth) {
                 if (!this.settings.appearance.minimized) {
@@ -122,6 +133,25 @@ export default {
 
         resized() {
             this.saveSettings(this.settings);
+        },
+
+        async keyPress(event) {
+            if (event.keyCode === 17) {
+                this.ctrl = true;
+            } if (event.keyCode === 16) {
+                this.shift = true;
+            } else if (this.ctrl && event.keyCode === 9) {
+                const chat = await this.getNextConversation(this.shift ? -1 : 1);
+                return await this.openConversation(chat);
+            }
+        },
+
+        keyRelease(event) {
+            if (event.keyCode === 17) {
+                this.ctrl = false;
+            } else if (event.keyCode === 16) {
+                this.shift = false;
+            }
         }
     }
 };
