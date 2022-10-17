@@ -63,12 +63,14 @@ export default {
                 return mention;
             }
 
-            if (common.checkLinks(word).length > 0) {
-                this.formatted.push({
+            const links = common.checkLinks(word);
+            if (links.length > 0) {
+                const formattedLinks = links.map(link => ({
                     type: types.link,
-                    data: word
-                });
+                    data: link
+                }));
 
+                this.formatted = this.formatted.concat(formattedLinks);
                 return word;
             }
 
