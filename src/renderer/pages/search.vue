@@ -7,7 +7,7 @@
                 v-for="message of messages"
                 :key="message.date"
                 :message="message"
-                @click.native="open(message)"
+                @click.native.prevent="open(message)"
             />
         </div>
 
