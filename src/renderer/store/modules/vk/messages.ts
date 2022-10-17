@@ -203,6 +203,11 @@ export default {
                 extended: 1
             });
 
+            state.profiles = Object.assign(state.profiles, {
+                ...ProfileGenerator.asObjects(response.profiles, "user"),
+                ...ProfileGenerator.asObjects(response.groups, "group")
+            });
+
             const message = new Message(response.items[0], state.profiles);
             dispatch("SYNC", message);
             state.cache[message.peer_id].count++;
