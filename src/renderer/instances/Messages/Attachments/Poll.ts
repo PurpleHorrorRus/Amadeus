@@ -61,7 +61,9 @@ class Poll extends Attachment implements IPreview {
     }
 
     vote(answer: TPollChoice): boolean {
-        if (this.choice(answer)) {
+        this.choice(answer);
+
+        if (!this.multiple) {
             this.votes++;
             this._can_vote = false;
             return true;
@@ -105,10 +107,12 @@ class Poll extends Attachment implements IPreview {
                 },
 
                 foreground: {
-                    background: `linear-gradient(
+                    background: this._background
+                        ? `linear-gradient(
                         transparent -100%,
                         #${this._background.color} 100%
                     )`
+                        : "var(--backdrop)"
                 }
             };
         }
@@ -117,11 +121,13 @@ class Poll extends Attachment implements IPreview {
             poll: {},
 
             foreground: {
-                background: `linear-gradient(
+                background: this._background
+                    ? `linear-gradient(
                     ${this._background.angle}deg, 
                     #${this._background.points[0].color} 0%, 
                     #${this._background.points[1].color} 100%
                 )`
+                    : "var(--backdrop)"
             }
         };
     }
