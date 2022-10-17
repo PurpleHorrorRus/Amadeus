@@ -54,7 +54,7 @@ export default {
 
         padding: 0px 10px;
 
-        background-color: #00000000;
+        background-color: var(--field);
 
         color: var(--text);
 

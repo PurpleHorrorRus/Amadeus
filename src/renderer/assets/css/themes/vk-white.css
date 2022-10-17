@@ -1,0 +1,47 @@
+html.vk-white-mode {
+    --primary: #ffffff; 
+    --conversations: #ffffff;
+    --conversations-collapsed: #ebeef1;
+
+    --secondary: #3f8ae0;
+    --secondary-hover: #3f8ae0;
+    --secondary-opacity-half: #3178b4;
+    --secondary-hover-opacity: #1a1e2b2d;
+    --secondary-disabled: #3f6381;
+
+    --scroll: #b2b2b2;
+    --scroll-width: 12px;
+    --scroll-radius: 8px;
+
+    --backdrop: #ffffff;
+
+    --titlebar: #507299;
+    --titlebar-color: #ffffff;
+    --titlebar-hover: #405b7b;
+
+    --navigation-select: #f2f3f5;
+
+    --border: #e1e3e6;
+    --border-opacity: #e1e3e625;
+
+    --field: #f5f5f5;
+
+    --text: #000000;
+    --small-text: #647081;
+
+    --icons: #488fe1;
+    --icons-hover: #488fe1;
+    --icons-disabled: #dfe4e8;
+
+    --item: #f2f3f5;
+    --item-hover: #f2f3f5;
+    --item-disabled: #dfe4e8;
+
+    --player-slider: #ffffff26;
+    --player-slider-progress: #ffffff52;
+
+    --switch-unchecked: #dfe4e8;
+
+    --tooltip: #70a7f0;
+    --tooltip-text: #ffffff;
+}

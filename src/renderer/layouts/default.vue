@@ -217,14 +217,10 @@ export default {
             width: 2px;
             height: 100%;
 
-            background: var(--border-opacity);
-
             z-index: 101;
 
             &:hover {
                 cursor: ew-resize;
-
-                background: var(--secondary);
             }
         }
     }

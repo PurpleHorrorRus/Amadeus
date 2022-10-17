@@ -94,7 +94,7 @@ export default {
 
             padding-left: 10px;
 
-            background-color: var(--item);
+            background-color: var(--field);
             border: var(--borderWidth) solid var(--border);
             border-radius: 50px;
 

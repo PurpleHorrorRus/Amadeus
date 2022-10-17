@@ -28,12 +28,8 @@ export default {
     height: 100%;
 
     &:hover {
-        background: var(--item);
+        background: var(--titlebar-hover);
         cursor: pointer;
-
-        svg {
-            stroke: var(--icons-hover) !important;
-        }
     }
 
     &.maximize {
@@ -55,7 +51,7 @@ export default {
     svg {
         width: 14px !important;
 
-        stroke: var(--icons) !important;
+        stroke: var(--titlebar-color) !important;
 
         transition: none !important;
 

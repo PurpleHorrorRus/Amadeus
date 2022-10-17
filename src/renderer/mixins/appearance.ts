@@ -4,9 +4,20 @@ import { contrastColor } from "contrast-color";
 export default {
     data: () => ({
         themes: [
+
             {
                 id: "vk-black",
                 name: "VK Black"
+            },
+
+            {
+                id: "vk-white",
+                name: "VK White"
+            },
+
+            {
+                id: "vk-messenger",
+                name: "VK Messenger"
             },
 
             {

@@ -123,11 +123,15 @@ export default {
 
 @media screen and (min-width: 600px) {
     #conversations {
+        background: var(--conversations);
+
         &:not(.minimized) .conversation {
             @include Conversation;
         }
 
         &.minimized {
+            background: var(--conversations-collapsed);
+
             #conversations-lists {
                 &::-webkit-scrollbar {
                     width: 0px;
@@ -143,6 +147,8 @@ export default {
                 }
 
                 .conversation {
+                    position: relative;
+
                     display: flex;
                     justify-content: center;
                     align-items: center;

@@ -1,4 +1,6 @@
 [
     "~assets/css/themes/vk-black.css",
+    "~assets/css/themes/vk-white.css",
+    "~assets/css/themes/vk-messenger.css",
     "~assets/css/themes/meridius.css"
 ]

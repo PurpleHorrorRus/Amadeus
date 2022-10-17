@@ -1,5 +1,7 @@
 html.vk-black-mode {
-    --primary: #131313; 
+    --primary: #131313;
+    --conversations: #131313;
+    --conversations-collapsed: #131313;
 
     --secondary: #71aaeb;
     --secondary-hover: #aeb7c21f;
@@ -14,6 +16,8 @@ html.vk-black-mode {
     --backdrop: #19191a;
 
     --titlebar: #131313;
+    --titlebar-color: #ffffff;
+    --titlebar-hover: #aeb7c21f;
 
     --navigation-select: #ffffff26;
 

@@ -18,7 +18,7 @@
                 v-if="menu.show"
                 ref="menu"
                 :menu="menu"
-                :margins="[-8, -120]"
+                :margins="[-35, -130]"
             />
 
             <InputField :disabled="sending" />

@@ -1,0 +1,47 @@
+html.vk-messenger-mode {
+    --primary: #1f2333; 
+    --conversations: #1f2333;
+    --conversations-collapsed: #394050;
+
+    --secondary: #70a7f0;
+    --secondary-hover: #3f8ae0;
+    --secondary-opacity-half: #3178b4;
+    --secondary-hover-opacity: #1a1e2b2d;
+    --secondary-disabled: #3f6381;
+
+    --scroll: #404451;
+    --scroll-width: 12px;
+    --scroll-radius: 8px;
+
+    --backdrop: #1f2333;
+
+    --titlebar: #507299;
+    --titlebar-color: #ffffff;
+    --titlebar-hover: #405b7b;
+
+    --navigation-select: #ffffff26;
+
+    --border: #3a4051;
+    --border-opacity: #3a405125;
+
+    --field: #3a4051;
+
+    --text: #ffffff;
+    --small-text: #647081;
+
+    --icons: #70a7f0;
+    --icons-hover: #5580b8;
+    --icons-disabled: #5580b8;
+
+    --item: #1a1e2b;
+    --item-hover: #1a1e2b;
+    --item-disabled: #1a1e2b;
+
+    --player-slider: #ffffff26;
+    --player-slider-progress: #ffffff52;
+
+    --switch-unchecked: #1a1e2b;
+
+    --tooltip: #70a7f0;
+    --tooltip-text: #ffffff;
+}

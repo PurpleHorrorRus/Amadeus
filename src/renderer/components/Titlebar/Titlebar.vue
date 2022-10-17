@@ -82,6 +82,7 @@ export default {
     &-title {
         padding-left: 20px;
 
+        color: var(--titlebar-color);
         font-family: "Fira Sans";
         font-size: 12px;
     }

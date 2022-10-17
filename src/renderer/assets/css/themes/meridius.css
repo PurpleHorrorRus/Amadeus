@@ -1,5 +1,7 @@
 html.meridius-mode {
     --primary: #141414;
+    --conversations: #0e0e0e;
+    --conversations-collapsed: #0e0e0e;
 
     --secondary: #E9003F;
     --secondary-hover: #c40034;
@@ -13,7 +15,9 @@ html.meridius-mode {
 
     --backdrop: #0e0e0e;
 
-    --titlebar: var(--primary);
+    --titlebar: #080808;
+    --titlebar-color: #ffffff;
+    --titlebar-hover: #1a1a1a;
 
     --navigation-select: #ffffff26;
 

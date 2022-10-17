@@ -46,7 +46,7 @@ export default {
     align-items: center;
     column-gap: 5px;
 
-    padding: 5px;
+    padding: 10px;
 
     .single-input {
         height: 30px;
