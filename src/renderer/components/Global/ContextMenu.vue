@@ -89,6 +89,7 @@ export default {
 
     border: 1px solid var(--border);
     border-radius: 8px;
+    box-shadow: 0 1px 7px rgb(0 0 0 / 25%), 0 6px 15px rgb(0 0 0 / 22%);
 
     z-index: 1001;
 }

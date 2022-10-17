@@ -155,8 +155,9 @@ export default {
                 width: 10px;
                 align-items: center;
 
-                &.message-content-info-right-read path {
-                    stroke: var(--out-contrast);
+                path {
+                    fill: var(--contrast) !important;
+                    stroke: var(--contrast) !important;
                 }
             }
         }

@@ -44,6 +44,7 @@ export default {
     }
 
     &-text {
+        color: var(--contrast);
         font-size: 12px;
 
         cursor: text;

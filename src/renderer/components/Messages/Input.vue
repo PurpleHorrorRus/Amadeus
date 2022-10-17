@@ -206,6 +206,10 @@ export default {
         }
 
         .icon {
+            path {
+                transition: fill .2s ease-in-out;
+            }
+
             &:hover {
                 path {
                     fill: var(--icons-hover);

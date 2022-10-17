@@ -97,6 +97,7 @@ export default {
             line-height: 13px;
 
             &-name {
+                color: var(--contrast);
                 font-size: 14px;
             }
 

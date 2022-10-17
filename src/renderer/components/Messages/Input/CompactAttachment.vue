@@ -71,7 +71,7 @@ export default {
 <style lang="scss">
 .message.out {
     .compact-attachment {
-        border-left: 4px solid var(--text);
+        border-left: 4px solid var(--contrast);
     }
 }
 
@@ -86,6 +86,10 @@ export default {
     border-left: 4px solid var(--secondary);
 
     cursor: pointer;
+
+    &-attachments, &-name, &-text {
+        color: var(--contrast);
+    }
 
     &-attachments, &-text {
         font-size: 12px;

@@ -258,7 +258,7 @@ export default {
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 40px 1fr max-content;
+    grid-template-rows: 45px 1fr max-content;
     grid-template-areas: "header"
                         "container"
                         "input";

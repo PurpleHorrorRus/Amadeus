@@ -157,7 +157,7 @@ export default {
                 border-bottom: 1px solid var(--border);
 
                 #conversations-list-pinned-label {
-                    padding: 10px 10px 0px 10px;
+                    padding: 0px 10px 0px 10px;
                 }
             }
         }
