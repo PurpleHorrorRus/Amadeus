@@ -1,11 +1,11 @@
 <template>
     <div class="notification">
-        <img :src="message.profile.avatar" class="notification-avatar">
+        <img :src="notification.profile.avatar" class="notification-avatar">
 
         <div class="notification-information nowrap">
             <div class="notification-information-name nowrap">
                 <img
-                    v-if="message.isChat"
+                    v-if="notification.isChat"
                     class="notification-information-name__chat__avatar"
                     :src="user.photo_100"
                 >
@@ -13,21 +13,36 @@
                 <span class="notification-information-name__title" v-text="name" />
 
                 <span
-                    v-if="message.isChat"
+                    v-if="notification.isChat"
                     class="notification-information-name__chat small-text nowrap"
-                    v-text="message.profile.name"
+                    v-text="notification.profile.name"
                 />
             </div>
 
-            <span class="notification-information__text nowrap small-text" v-text="message.message.text" />
+            <div class="notification-information-text nowrap">
+                <span
+                    v-if="notification.message.attachments?.length > 0"
+                    class="notification-information-text__attachments small-text"
+                    v-text="formatAttachmentsString(notification.message, false)"
+                />
+
+                <span
+                    class="notification-information-text__main nowrap small-text"
+                    v-text="notification.message.text"
+                />
+            </div>
         </div>
     </div>
 </template>
 
 <script lang="ts">
+import AttachmentsMixin from "~/mixins/message/attachments";
+
 export default {
+    mixins: [AttachmentsMixin],
+
     props: {
-        message: {
+        notification: {
             type: Object,
             required: true
         }
@@ -35,17 +50,17 @@ export default {
 
     computed: {
         user() {
-            return this.message.users.find(user => {
-                return user.id === this.message.message.from_id;
+            return this.notification.users.find(user => {
+                return user.id === this.notification.message.from_id;
             });
         },
 
         name() {
-            if (this.message.isChat) {
+            if (this.notification.isChat) {
                 return `${this.user.first_name} ${this.user.last_name}`;
             }
 
-            return this.message.profile.name;
+            return this.notification.profile.name;
         }
     }
 };
@@ -125,8 +140,18 @@ export default {
             }
         }
 
-        &__text {
-            font-weight: 500;
+        &-text {
+            display: flex;
+            flex-direction: row;
+            column-gap: 5px;
+
+            span {
+                font-weight: 500;
+            }
+
+            &__attachments {
+                color: var(--secondary) !important;
+            }
         }
     }
 }

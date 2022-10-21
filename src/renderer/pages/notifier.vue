@@ -1,12 +1,12 @@
 <template>
     <div id="notifier-page">
         <Notification
-            v-for="(message, index) of messages"
-            :key="message.message.id"
-            :message="message"
-            @click.native="open(message, index)"
-            @mouseenter.native="turnClickable(message, false)"
-            @mouseleave.native="turnClickable(message, true)"
+            v-for="(notification, index) of notifications"
+            :key="notification.message.id"
+            :notification="notification"
+            @click.native="open(notification, index)"
+            @mouseenter.native="turnClickable(notification, false)"
+            @mouseleave.native="turnClickable(notification, true)"
         />
     </div>
 </template>
@@ -25,15 +25,15 @@ export default {
     layout: "empty",
 
     data: () => ({
-        messages: [] as Array<Conversation>
+        notifications: [] as Conversation[]
     }),
 
     created() {
-        ipcRenderer.on("notifierMessage", (_, conversation: Conversation) => {
-            conversation.hover = false;
-            conversation.removeDebounce = debounce(() => this.removeMessage(-1, conversation), 6000);
-            this.messages.push(conversation);
-            conversation.removeDebounce();
+        ipcRenderer.on("notifierMessage", (_, notification: Conversation) => {
+            notification.hover = false;
+            notification.removeDebounce = debounce(() => this.removeMessage(-1, notification), 6000);
+            this.notifications.push(notification);
+            notification.removeDebounce();
         });
     },
 
@@ -41,30 +41,30 @@ export default {
         removeMessage(index = -1, conversation?: Conversation, force = false) {
             index = ~index
                 ? index
-                : this.messages.findIndex((message: Conversation) => {
-                    return message.message.id === conversation.message.id;
+                : this.notifications.findIndex((notification: Conversation) => {
+                    return notification.message.id === conversation.message.id;
                 });
 
-            if (this.messages[index].hover && !force) {
+            if (this.notifications[index].hover && !force) {
                 return false;
             }
 
-            this.messages.splice(index, 1);
+            this.notifications.splice(index, 1);
             return true;
         },
 
-        turnClickable(message: Conversation, ignore: boolean) {
-            message.hover = !ignore;
+        turnClickable(notification: Conversation, ignore: boolean) {
+            notification.hover = !ignore;
             ipcRenderer.send("notifierClickable", ignore);
 
-            if (!message.hover) {
-                message.removeDebounce();
+            if (!notification.hover) {
+                notification.removeDebounce();
             }
         },
 
-        open(conversation: Conversation, index: number) {
+        open(notification: Conversation, index: number) {
             this.removeMessage(index, null, true);
-            return ipcRenderer.send("notifierOpen", JSON.parse(JSON.stringify(conversation)));
+            return ipcRenderer.send("notifierOpen", JSON.parse(JSON.stringify(notification)));
         }
     }
 };
