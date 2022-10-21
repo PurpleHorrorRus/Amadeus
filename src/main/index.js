@@ -10,7 +10,10 @@ if (!app.requestSingleInstanceLock()) {
     app.quit();
 } else {
     app.on("second-instance", () => {
-        const window = BrowserWindow.getAllWindows()[0];
+        const window = BrowserWindow.getAllWindows().find(window => {
+            return window.isResizable();
+        });
+
         common.windows.restore(window);
     });
 
