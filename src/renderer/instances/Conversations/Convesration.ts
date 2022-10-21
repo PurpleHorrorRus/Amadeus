@@ -35,6 +35,10 @@ abstract class Conversation {
         debounce: lodash.DebouncedFunc<any>
     };
 
+    // Notifier
+    public hover?: boolean = false;
+    public removeDebounce?: lodash.DebouncedFunc<any>;
+
     constructor(item: MessagesConversationWithMessage) {
         this.message = item.last_message;
         this.information = item.conversation;

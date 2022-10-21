@@ -12,6 +12,8 @@ import modal from "~/store/modules/modal";
 import i18n from "~/store/modules/i18n";
 import updater from "~/store/modules/updater";
 
+import Conversation from "~/instances/Conversations/Convesration";
+
 export default () => {
     return new Store({
         state: () => ({
@@ -20,6 +22,13 @@ export default () => {
 
             background: "var(--primary)"
         }),
+
+        mutations: {
+            openConversation(_, conversation: Conversation) {
+                const { id, type } = conversation.information.peer;
+                return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => (false));
+            }
+        },
 
         actions: {
             SET_CONFIG: async ({ dispatch, state }, data) => {
@@ -42,6 +51,10 @@ export default () => {
 
                 state.background = "var(--primary)";
                 return false;
+            },
+
+            OPEN_CONVERSATION: ({ commit }, conversation: Conversation) => {
+                return commit("openConversation", conversation);
             }
         },
 

@@ -59,7 +59,10 @@ class ProfileGenerator {
         const rProfiles = {};
 
         profiles.map(profile => {
-            rProfiles[profile.id] = type === "user" ? new User(profile) : new Group(profile);
+            rProfiles[profile.id] = type === "user"
+                ? new User(profile)
+                : new Group(profile);
+
             return rProfiles[profile.id];
         });
 

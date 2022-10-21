@@ -184,7 +184,7 @@ export default {
             return false;
         },
 
-        PLAY_NOTIFICATION: async ({ dispatch, rootState }, id) => {
+        NOTIFY: async ({ dispatch, rootState }, id) => {
             /*
                 Не проигрывть звук оповещения, если:
                 1. Включен глобальный мут
@@ -210,7 +210,18 @@ export default {
 
             const notification = new Audio("./message.mp3");
             notification.volume = 0.4;
-            return notification.play();
+            notification.play();
+
+            ipcRenderer.send("notifierMessage", JSON.parse(JSON.stringify({
+                ...conversation,
+                profile: {
+                    ...conversation.profile,
+                    avatar: conversation.avatar,
+                    name: conversation.name
+                }
+            })));
+
+            return true;
         },
 
         GET_CONVERSATION_CACHE: ({ state }, id) => {
@@ -342,6 +353,8 @@ export default {
         },
 
         TRIGGER_ONLINE: async ({ dispatch }, data) => {
+            console.log("TRIGGER_ONLINE", data);
+
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.userId);
             return conversation?.setOnline(data.isOnline, data.platform);
         },

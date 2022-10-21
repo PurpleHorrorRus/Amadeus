@@ -241,22 +241,11 @@ a:not(.clickable) {
     color: var(--secondary) !important;
 }
 
-.fade {
-    &-enter-active, &-leave-active {
-        transition: opacity .15s; 
-    }
-
-    &-enter, &-leave-to {
-        opacity: 0 
-    }
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
 }
 
-.component-fade-enter-active, .component-fade-leave-active {
-    transition: opacity .1s ease-in-out;
-}
-
-.component-fade-enter, .component-fade-leave-to
-  /* .component-fade-leave-active до версии 2.1.8 */ {
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
 

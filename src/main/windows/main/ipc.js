@@ -72,6 +72,16 @@ class IPC {
             return this.window.events.close();
         };
 
+        this.events.notifierMessage = conversation => {
+            common.windows.send(this.window.notifier, "notifierMessage", conversation);
+        };
+
+        this.events.notifierOpen = conversation => {
+            this.window.show();
+            this.window.focus();
+            common.windows.send(this.window, "notifierOpen", conversation);
+        };
+
         this.events.buildNotificationIcon = count => {
             if (count > 9) count = "9-plus";
             else if (count === 0) count = "default";

@@ -1,6 +1,6 @@
 {
     "name": "amadeus",
-    "version": "1.0.0-beta.18",
+    "version": "1.0.0-beta.19",
     "description": "Free, functional and open source VK Messenger",
     "main": "./dist/main/index.js",
     "scripts": {

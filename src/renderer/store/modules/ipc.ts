@@ -1,5 +1,6 @@
 import { ipcRenderer } from "electron";
 import { UpdateInfo } from "electron-updater";
+import Conversation from "~/instances/Conversations/Convesration";
 
 import events from "~/store/modules/ipc/events";
 
@@ -18,6 +19,10 @@ export default {
 
             ipcRenderer.on("share", (_, attachment) => {
                 return dispatch("events/SHARE", attachment);
+            });
+
+            ipcRenderer.on("notifierOpen", (_, conversation: Conversation) => {
+                dispatch("OPEN_CONVERSATION", conversation, { root: true });
             });
 
             if (process.platform === "win32") {

@@ -209,8 +209,9 @@ export default {
             });
 
             const message = new Message(response.items[0], state.profiles);
-            dispatch("SYNC", message);
             state.cache[message.peer_id].count++;
+            dispatch("SYNC", message);
+
             return message;
         },
 

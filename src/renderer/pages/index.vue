@@ -39,6 +39,11 @@ export default {
             return true;
         });
 
+        ipcRenderer.once("notifier", () => {
+            this.$router.replace("/notifier").catch(() => ({}));
+            return true;
+        });
+
         await this.loadLanguage("ru");
         ipcRenderer.send("dom-ready");
     },

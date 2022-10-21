@@ -1,5 +1,6 @@
 import { VK } from "vk-io";
 // const vk = new VK();
+// vk.updates.on("")
 // vk.upload.video
 
 import conversations from "~/store/modules/vk/conversations";
@@ -42,8 +43,8 @@ export default {
 
             state.user = new User(user);
 
-            await dispatch("conversations/FETCH");
             await dispatch("LISTEN");
+            await dispatch("conversations/FETCH");
             dispatch("messages/stickers/FETCH");
 
             return state.client;
@@ -58,7 +59,7 @@ export default {
                     dispatch("messages/ADD_MESSAGE", data)
                 ]);
 
-                dispatch("conversations/PLAY_NOTIFICATION", data.payload.message.peer_id);
+                dispatch("conversations/NOTIFY", data.payload.message.peer_id);
             });
 
             state.client.updates.on("messages_read", data => {
@@ -69,7 +70,16 @@ export default {
                 dispatch("conversations/TRIGGER_TYPING", data);
             });
 
+            state.client.updates.on("friend_online", data => {
+                console.log("friend_online", data);
+            });
+
+            state.client.updates.on("friend_offline", data => {
+                console.log("friend_offline", data);
+            });
+
             state.client.updates.on("friend_activity", data => {
+                console.log("friend_activity", data);
                 dispatch("conversations/TRIGGER_ONLINE", data);
             });
 

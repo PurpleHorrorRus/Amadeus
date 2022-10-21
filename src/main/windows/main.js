@@ -6,6 +6,7 @@ import common from "../common";
 import AmadeusTray from "../tray";
 import MainWindowEvents from "./main/events";
 import IPC from "./main/ipc";
+import NotifierWindow from "./notifier";
 
 nativeTheme.themeSource = "system";
 
@@ -67,6 +68,8 @@ class VKGramWindow {
         });
 
         this.window.show();
+        this.window.notifier = await new NotifierWindow(this.window).create();
+
         await common.windows.load(this.window, "normal");
 
         if (common.storage.config.settings.devtools) {
