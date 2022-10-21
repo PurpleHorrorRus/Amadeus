@@ -1,5 +1,8 @@
 <template>
-    <div id="notifier-page">
+    <div
+        id="notifier-page"
+        @mouseleave.native="turnClickable(notification, true)"
+    >
         <Notification
             v-for="(notification, index) of notifications"
             :key="notification.message.id"
@@ -50,20 +53,28 @@ export default {
             }
 
             this.notifications.splice(index, 1);
+
+            if (this.notifications.length === 0) {
+                this.turnClickable(null, true);
+            }
+
             return true;
         },
 
-        turnClickable(notification: Conversation, ignore: boolean) {
-            notification.hover = !ignore;
+        turnClickable(notification: Conversation | null, ignore: boolean) {
             ipcRenderer.send("notifierClickable", ignore);
 
-            if (!notification.hover) {
-                notification.removeDebounce();
+            if (notification) {
+                notification.hover = !ignore;
+
+                if (!notification.hover) {
+                    notification.removeDebounce();
+                }
             }
         },
 
         open(notification: Conversation, index: number) {
-            this.removeMessage(index, null, true);
+            this.removeMessage(index, notification, true);
             return ipcRenderer.send("notifierOpen", JSON.parse(JSON.stringify(notification)));
         }
     }
