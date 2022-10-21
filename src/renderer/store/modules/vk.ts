@@ -148,7 +148,7 @@ export default {
                 return enabled;
             });
 
-            state.client.updates.start();
+            state.client.updates.startPolling();
             return state.client;
         },
 

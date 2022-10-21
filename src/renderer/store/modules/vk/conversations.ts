@@ -331,9 +331,11 @@ export default {
             const conversation: Conversation
                 = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
 
-            data.isInbox
-                ? conversation.readIn(data.localId)
-                : conversation.readOut(data.localId);
+            if (conversation) {
+                data.isInbox
+                    ? conversation.readIn(data.localId)
+                    : conversation.readOut(data.localId);
+            }
 
             dispatch("UPDATE_ICON");
             return true;
