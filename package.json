@@ -4,9 +4,8 @@
     "description": "Free, functional and open source VK Messenger",
     "main": "./dist/main/index.js",
     "scripts": {
-        "dev": "cross-env NODE_ENV=development node .electron-nuxt/index.js",
-        "run:build": "cross-env NODE_ENV=production node .electron-nuxt/index.js",
-        "build": "yarn run:build --publish never",
+        "dev": "cross-env NODE_ENV=development node --openssl-legacy-provider .electron-nuxt/index.js",
+        "build": "cross-env NODE_ENV=production node --openssl-legacy-provider .electron-nuxt/index.js",
         "build:linux": "docker run --privileged --rm -v E:\\Projects\\Meridius:/usr/meridius -w /usr/meridius meridius-linux yarn build",
         "build:all": "yarn build && yarn build:linux",
         "release": "yarn run:build --publish always",
@@ -26,7 +25,7 @@
         "url": "https://github.com/PurpleHorrorRus/Amadeus"
     },
     "engines": {
-        "node": ">=16.15.0"
+        "node": ">=18.12.0"
     },
     "resolutions": {
         "vue-plyr/plyr": "github:sampotts/plyr#master",
