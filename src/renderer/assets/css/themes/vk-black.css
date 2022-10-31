@@ -9,6 +9,9 @@ html.vk-black-mode {
     --secondary-hover-opacity: #aeb7c22d;
     --secondary-disabled: #aeb7c20c;
 
+    --notification: #131313;
+    --notification-hover: #2c2c2c;
+
     --scroll: #545454;
     --scroll-width: 12px;
     --scroll-radius: 8px;

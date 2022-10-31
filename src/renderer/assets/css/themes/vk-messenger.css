@@ -9,6 +9,9 @@ html.vk-messenger-mode {
     --secondary-hover-opacity: #1a1e2b2d;
     --secondary-disabled: #3f6381;
 
+    --notification: #1f2333;
+    --notification-hover: #2c3249;
+
     --scroll: #404451;
     --scroll-width: 12px;
     --scroll-radius: 8px;

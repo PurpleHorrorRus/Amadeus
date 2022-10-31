@@ -9,6 +9,9 @@ html.meridius-mode {
     --secondary-hover-opacity: #E9003F40;
     --secondary-disabled: #99002980;
 
+    --notification: #141414;
+    --notification-hover: #242424;
+
     --scroll: #545454;
     --scroll-width: 12px;
     --scroll-radius: 8px;

@@ -33,7 +33,11 @@ export default {
     actions: {
         AUTH: async ({ dispatch, state }, account) => {
             state.client = new VK({
-                apiVersion: "5.154",
+                apiHeaders: {
+                    // eslint-disable-next-line max-len
+                    "User-Agent": "VKAndroidApp/7.7-10445 (Android 11; SDK 30; arm64-v8a; Xiaomi M2003J15SC; ru; 2340x1080)"
+                },
+
                 token: account.token
             });
 
@@ -52,6 +56,8 @@ export default {
 
         LISTEN: ({ dispatch, state, rootState }) => {
             state.client.updates.on("message_new", async data => {
+                console.log(data);
+
                 data = await dispatch("messages/PREPARE_DATA", data);
 
                 await Promise.all([
