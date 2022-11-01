@@ -14,7 +14,12 @@
         "deps": "yarn && yarn postinstall",
         "lint": "eslint --ext .ts,.vue --ignore-path .eslintignore src/renderer"
     },
-    "keywords": ["VK", "vk.com", "messenger", "vk messenger"],
+    "keywords": [
+        "VK",
+        "vk.com",
+        "messenger",
+        "vk messenger"
+    ],
     "author": {
         "name": "Maxim",
         "email": "purplehorrorrus@gmail.com",
@@ -37,13 +42,13 @@
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.19.1",
-        "@babel/runtime-corejs3": "^7.20.0",
+        "@babel/runtime-corejs3": "^7.20.1",
         "@nuxt/types": "^2.15.8",
         "@nuxt/typescript-build": "^2.1.0",
         "@nuxtjs/eslint-config": "^11.0.0",
         "@nuxtjs/eslint-config-typescript": "^11.0.0",
         "@types/bluebird": "^3.5.37",
-        "@types/lodash": "^4.14.186",
+        "@types/lodash": "^4.14.187",
         "@vue/runtime-dom": "^3.2.41",
         "@xpda-dev/core": "^0.1.6",
         "@xpda-dev/electron-builder": "^0.2.1",
@@ -52,7 +57,7 @@
         "core-js": "^3.26.0",
         "cross-env": "^7.0.3",
         "deepmerge": "^4.2.2",
-        "electron": "^21.2.0",
+        "electron": "^21.2.1",
         "electron-builder": "^23.6.0",
         "eslint": "^8.26.0",
         "eslint-plugin-vue": "^9.7.0",
