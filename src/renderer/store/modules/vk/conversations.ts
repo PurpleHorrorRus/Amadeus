@@ -11,11 +11,10 @@ import {
 import Conversation from "~/instances/Conversations/Convesration";
 import Chat from "~/instances/Conversations/Chat";
 
-import { ConversationMessageType } from "~/instances/Types/ConversationMessage";
-import ChatUser from "~/instances/Conversations/ChatUser";
-
-import common from "~/plugins/common";
 import ProfileGenerator from "~/instances/Generator";
+import ChatUser from "~/instances/Conversations/ChatUser";
+import common from "~/plugins/common";
+import Message from "~/instances/Messages/Message";
 
 const fields: MessagesGetConversationsParams = {
     extended: 1,
@@ -84,9 +83,8 @@ export default {
             );
         },
 
-        FORMAT_MESSAGE: async ({ dispatch, rootState }, message) => {
-            message.out = message.out
-                    || Number(message.from_id === rootState.vk.user.id);
+        FORMAT_MESSAGE: async ({ dispatch, rootState }, message: Message) => {
+            message.out = message.out || message.from_id === rootState.vk.user.id;
 
             if (message.action) {
                 const action = await dispatch("vk/GET_ACTION_MESSAGE", message, { root: true });
@@ -96,19 +94,19 @@ export default {
             return message;
         },
 
-        UPDATE_ONE: async ({ dispatch, state, rootState }, data) => {
-            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
+        UPDATE_ONE: async ({ dispatch, rootState }, data) => {
+            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
 
             if (!conversation) {
                 return false;
             }
 
-            if (!data.payload.message?.action && conversation.message.id !== data.id) {
+            if (!data.payload.message?.action && conversation.message.id !== data.payload.message.id) {
                 return false;
             }
 
             const list = await rootState.vk.client.api.messages.getHistory({
-                peer_id: data.peerId,
+                peer_id: data.payload.message.peer_id,
                 count: 1,
                 extended: 1
             });
@@ -119,9 +117,6 @@ export default {
                 conversation.updateTitle(chat.title);
             }
 
-            const message: ConversationMessageType = await dispatch("FORMAT_MESSAGE", list.items[0]);
-            conversation.setMessage(message);
-            state.cache.sort((a, b) => b.message.date - a.message.date);
             return true;
         },
 
@@ -154,10 +149,9 @@ export default {
             return list.items;
         },
 
-        EDIT_SYNC: async ({ dispatch }, message) => {
+        EDIT_SYNC: async ({ dispatch }, message: Message) => {
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
-            const formatted: ConversationMessageType = await dispatch("FORMAT_MESSAGE", message);
-            conversation.setMessage(formatted);
+            conversation.setMessage(message);
             return conversation;
         },
 
@@ -257,9 +251,9 @@ export default {
             return state.cache[prevIndex];
         },
 
-        ADD_CONVERSATION: async ({ dispatch, state, rootState }, data) => {
+        ADD_CONVERSATION: async ({ dispatch, state, rootState }, message: Message) => {
             const params: MessagesGetConversationsByIdParams = {
-                peer_ids: data.peerId,
+                peer_ids: message.peer_id,
                 ...fields
             };
 
@@ -275,7 +269,7 @@ export default {
                         unread_count: 1
                     },
 
-                    last_message: data.payload.message
+                    last_message: message
                 }],
 
                 groups: response.groups,
@@ -287,20 +281,16 @@ export default {
             return conversation;
         },
 
-        ADD_MESSAGE: async ({ dispatch, state }, data) => {
-            let conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
+        ADD_MESSAGE: async ({ dispatch, state }, message: Message) => {
+            message = await dispatch("FORMAT_MESSAGE", message);
+
+            let conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", message.peer_id);
 
             if (!conversation) {
-                conversation = await dispatch("ADD_CONVERSATION", data);
+                conversation = await dispatch("ADD_CONVERSATION", message);
                 state.count++;
                 state.cache.unshift(conversation);
             } else {
-                const message: ConversationMessageType = await dispatch("FORMAT_MESSAGE", {
-                    ...data.payload.message,
-                    date: Math.floor(Date.now() / 1000),
-                    text: data.text // Fix unescaped characters in message,
-                });
-
                 conversation.addMessage(message);
 
                 if (conversation.isChat) {
@@ -312,7 +302,7 @@ export default {
                 }
 
                 const conversationIndex = state.cache.findIndex(conversation => {
-                    return conversation.id === data.peerId;
+                    return conversation.id === message.peer_id;
                 });
 
                 if (conversationIndex > 0) {

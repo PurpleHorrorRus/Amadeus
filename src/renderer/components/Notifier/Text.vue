@@ -1,27 +1,36 @@
 <template>
     <div class="notification-information-text nowrap">
         <span
-            v-if="$parent.notification.message.attachments?.length > 0"
+            v-if="showAttachments || showForwardedMessages"
             class="notification-information-text__attachments small-text"
             v-text="formattedText"
         />
 
         <span
             class="notification-information-text__main nowrap small-text"
-            v-text="$parent.notification.message.text"
+            v-text="message.text"
         />
     </div>
 </template>
 
 <script lang="ts">
+import Message from "~/instances/Messages/Message";
+
 import AttachmentsMixin from "~/mixins/message/attachments";
 
 export default {
     mixins: [AttachmentsMixin],
 
+    props: {
+        message: {
+            type: Message,
+            required: true
+        }
+    },
+
     computed: {
         formattedText() {
-            return this.formatAttachmentsString(this.$parent.notification.message, false);
+            return this.formatAttachmentsString(this.message, false);
         }
     }
 };

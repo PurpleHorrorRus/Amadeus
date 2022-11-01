@@ -4,7 +4,7 @@
 
         <div class="notification-information nowrap">
             <NotificationName />
-            <NotificationText />
+            <NotificationText :message="notification.message" />
         </div>
 
         <span class="notification-time small-text" v-text="time" />
@@ -29,7 +29,8 @@ export default {
 
     computed: {
         time() {
-            return common.timestampFormat(new Date(this.notification.message.date * 1000));
+            const messageTime = new Date(this.notification.message.date * 1000);
+            return common.timestampFormat(messageTime);
         }
     }
 };
@@ -59,6 +60,7 @@ export default {
 
     background: var(--notification);
 
+    border: 1px solid var(--notification-hover);
     border-radius: 8px;
 
     transition: background 0.2s ease-in-out;
@@ -93,7 +95,7 @@ export default {
     &-time {
         position: absolute;
         right: 10px;
-        bottom: 10px;
+        top: 10px;
 
         font-size: 10px;
     }

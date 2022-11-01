@@ -16,7 +16,7 @@ class Message implements TMessage {
     public readonly date: number;
     public readonly from_id: number;
     public readonly peer_id: number;
-    public readonly out: boolean;
+    public out: boolean;
     public text: string;
 
     public attachments?: Attachment[] | MessagesMessageAttachment[] = [];
@@ -32,7 +32,7 @@ class Message implements TMessage {
     public selected?: boolean = false;
     public syncing?: boolean | number = 0;
 
-    constructor(message: MessagesMessage | MessagesForeignMessage, profiles?: TProfile[]) {
+    constructor(message: MessagesMessage | MessagesForeignMessage, profiles?: Record<TProfile["id"], TProfile>) {
         this.id = message.id;
         this.date = message.date;
         this.from_id = message.from_id;
@@ -45,7 +45,7 @@ class Message implements TMessage {
         this.update_time = message.update_time || 0;
 
         if (profiles) {
-            this.profile = profiles[message.from_id];
+            this.profile = profiles[Math.abs(message.from_id)];
         }
 
         if (message.attachments?.length > 0) {
@@ -87,7 +87,10 @@ class Message implements TMessage {
         this.deleted = false;
     }
 
-    static formatMessages(items: MessagesMessage[] | MessagesForeignMessage[], profiles: TProfile[]) {
+    static formatMessages(
+        items: MessagesMessage[] | MessagesForeignMessage[],
+        profiles: Record<TProfile["id"], TProfile>
+    ) {
         return items.map(message => {
             return new Message(message, profiles);
         });

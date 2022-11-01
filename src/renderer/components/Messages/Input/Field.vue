@@ -199,7 +199,12 @@ export default {
                     return false;
                 }
 
-                if (message.out && !message.deleted && !this.checkBlockedAttachments(message)) {
+                if (
+                    message.out
+                    && !message.action
+                    && !message.deleted
+                    && !this.checkBlockedAttachments(message)
+                ) {
                     return this.action("edit", message);
                 }
             }

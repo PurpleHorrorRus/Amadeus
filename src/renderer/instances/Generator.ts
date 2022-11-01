@@ -51,7 +51,10 @@ class ProfileGenerator {
         }
     }
 
-    static asObjects(profiles: UsersUserFull[] | GroupsGroupFull[], type: "user" | "group") {
+    static asObjects(
+        profiles: UsersUserFull[] | GroupsGroupFull[],
+        type: "user" | "group"
+    ): Record<TProfile["id"], TProfile> {
         if (!profiles) {
             return {};
         }

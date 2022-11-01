@@ -64,6 +64,7 @@ export default {
             }
 
             let formatted = [];
+
             if (message.fwd_messages?.length > 0) {
                 const forwarded = this.formatAttachment("fwd", message.fwd_messages.length, unset);
                 formatted.push(forwarded);

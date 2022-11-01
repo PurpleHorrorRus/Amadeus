@@ -12,6 +12,8 @@ import uploader from "~/store/modules/vk/uploader";
 import User from "~/instances/User";
 import Group from "~/instances/Group";
 
+import Message from "~/instances/Messages/Message";
+
 export default {
     namespaced: true,
 
@@ -38,6 +40,7 @@ export default {
                     "User-Agent": "VKAndroidApp/7.7-10445 (Android 11; SDK 30; arm64-v8a; Xiaomi M2003J15SC; ru; 2340x1080)"
                 },
 
+                apiVersion: "5.134",
                 token: account.token
             });
 
@@ -47,7 +50,7 @@ export default {
 
             state.user = new User(user);
 
-            await dispatch("LISTEN");
+            state.client = await dispatch("LISTEN");
             await dispatch("conversations/FETCH");
             dispatch("messages/stickers/FETCH");
 
@@ -56,16 +59,14 @@ export default {
 
         LISTEN: ({ dispatch, state, rootState }) => {
             state.client.updates.on("message_new", async data => {
-                console.log(data);
-
-                data = await dispatch("messages/PREPARE_DATA", data);
+                const message: Message = await dispatch("messages/PREPARE_MESSAGE", data);
 
                 await Promise.all([
-                    dispatch("conversations/ADD_MESSAGE", data),
-                    dispatch("messages/ADD_MESSAGE", data)
+                    dispatch("conversations/ADD_MESSAGE", message),
+                    dispatch("messages/ADD_MESSAGE", message)
                 ]);
 
-                dispatch("conversations/NOTIFY", data.payload.message.peer_id);
+                dispatch("conversations/NOTIFY", message.peer_id);
             });
 
             state.client.updates.on("messages_read", data => {
@@ -90,9 +91,10 @@ export default {
             });
 
             state.client.updates.on("message_edit", async data => {
-                data = await dispatch("messages/PREPARE_DATA", data);
-                dispatch("conversations/EDIT_SYNC", data.payload.message);
-                dispatch("messages/EDIT_SYNC", data.payload.message);
+                const message: Message = await dispatch("messages/PREPARE_MESSAGE", data);
+
+                dispatch("conversations/EDIT_SYNC", message);
+                dispatch("messages/EDIT_SYNC", message);
             });
 
             state.client.updates.on("dialog_messages_delete", data => {
@@ -100,17 +102,19 @@ export default {
                 dispatch("messages/CLEAR", { id: data.payload.peer_id });
             });
 
-            state.client.updates.on("chat_photo_update", data => {
+            const updateChat = async data => {
                 dispatch("conversations/UPDATE_ONE", data);
-            });
 
-            state.client.updates.on("chat_photo_remove", data => {
-                dispatch("conversations/UPDATE_ONE", data);
-            });
+                const message = await dispatch("messages/PREPARE_MESSAGE", data);
+                return await Promise.all([
+                    dispatch("conversations/ADD_MESSAGE", message),
+                    dispatch("messages/ADD_MESSAGE", message)
+                ]);
+            };
 
-            state.client.updates.on("chat_title_update", data => {
-                dispatch("conversations/UPDATE_ONE", data);
-            });
+            state.client.updates.on("chat_photo_update", updateChat);
+            state.client.updates.on("chat_photo_remove", updateChat);
+            state.client.updates.on("chat_title_update", updateChat);
 
             state.client.updates.on("chat_invite_user", async data => {
                 console.log("chat_invite_user", data);
@@ -184,7 +188,7 @@ export default {
             return new User(data.profiles?.[0] || data[0]);
         },
 
-        GET_ACTION_MESSAGE: async ({ dispatch }, message) => {
+        GET_ACTION_MESSAGE: async ({ dispatch }, message: Message) => {
             const conversation = await dispatch("conversations/GET_CONVERSATION_CACHE", message.peer_id);
             const user = conversation.users.find(user => {
                 return user.id === message.from_id;

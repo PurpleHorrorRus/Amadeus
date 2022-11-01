@@ -4,6 +4,7 @@ import {
     MessagesConversationWithMessage,
     MessagesConversation
 } from "vk-io/lib/api/schemas/objects";
+import Message from "../Messages/Message";
 
 import { TProfile } from "../Types/Conversation";
 import { ConversationMessageType } from "../Types/ConversationMessage";
@@ -58,7 +59,7 @@ abstract class Conversation {
         };
     }
 
-    addMessage(message: ConversationMessageType) {
+    addMessage(message: Message) {
         this.setMessage(message);
 
         this.unread = !message.out
@@ -68,7 +69,7 @@ abstract class Conversation {
         this.stopTyping();
     }
 
-    setMessage(message: ConversationMessageType) {
+    setMessage(message: Message) {
         this.message = message;
         this.information.last_message_id = message.id;
     }

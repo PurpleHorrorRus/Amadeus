@@ -27,6 +27,7 @@ import stickers from "~/store/modules/vk/stickers";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import Video from "~/instances/Messages/Attachments/Video";
 import ProfileGenerator from "~/instances/Generator";
+import { TProfile } from "~/instances/Types/Conversation";
 
 const fields: MessagesGetHistoryParams = {
     count: 20,
@@ -193,29 +194,22 @@ export default {
             delete state.cache[conversation.id];
         },
 
-        ADD_MESSAGE: async ({ dispatch, state, rootState }, data) => {
-            if (!(data.payload.message.peer_id in state.cache)) {
+        ADD_MESSAGE: async ({ dispatch, state }, message: Message) => {
+            if (!(message.peer_id in state.cache)) {
                 return false;
             }
 
-            const response: MessagesGetByIdResponse = await rootState.vk.client.api.messages.getById({
-                message_ids: data.payload.message.id,
-                extended: 1
-            });
+            if (!(message.profile.id in state.profiles)) {
+                state.profiles[message.profile.id] = message.profile;
+            }
 
-            state.profiles = Object.assign(state.profiles, {
-                ...ProfileGenerator.asObjects(response.profiles, "user"),
-                ...ProfileGenerator.asObjects(response.groups, "group")
-            });
-
-            const message = new Message(response.items[0], state.profiles);
             state.cache[message.peer_id].count++;
             dispatch("SYNC", message);
 
             return message;
         },
 
-        PREPARE_DATA: ({ rootState }, data) => {
+        PREPARE_MESSAGE: async ({ rootState }, data) => {
             data.payload.message.peer_id = data.isGroup
                 ? -Math.abs(data.payload.message.peer_id)
                 : data.payload.message.peer_id;
@@ -224,7 +218,17 @@ export default {
             data.payload.message.out = Number(data.payload.message.out
                 || data.payload.message.from_id === rootState.vk.user.id);
 
-            return data;
+            const response: MessagesGetByIdResponse = await rootState.vk.client.api.messages.getById({
+                message_ids: data.payload.message.id,
+                extended: 1
+            });
+
+            const profiles: Record<TProfile["id"], TProfile> = Object.assign(
+                ProfileGenerator.asObjects(response.profiles, "user"),
+                ProfileGenerator.asObjects(response.groups, "group")
+            );
+
+            return new Message(response.items[0], profiles);
         },
 
         SYNC: async ({ state }, message: Message) => {
