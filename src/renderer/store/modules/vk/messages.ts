@@ -19,15 +19,13 @@ import { MessagesMessage } from "vk-io/lib/api/schemas/objects";
 
 import Message from "~/instances/Messages/Message";
 import Attachment from "~/instances/Messages/Attachment";
-
-import common from "~/plugins/common";
-import { TChat } from "~/instances/Types/Messages";
-
 import stickers from "~/store/modules/vk/stickers";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import Video from "~/instances/Messages/Attachments/Video";
 import ProfileGenerator from "~/instances/Generator";
-import { TProfile } from "~/instances/Types/Conversation";
+import { TChat } from "~/instances/Types/Messages";
+
+import common from "~/plugins/common";
 
 const fields: MessagesGetHistoryParams = {
     count: 20,
@@ -199,17 +197,13 @@ export default {
                 return false;
             }
 
-            if (!(message.profile.id in state.profiles)) {
-                state.profiles[message.profile.id] = message.profile;
-            }
-
             state.cache[message.peer_id].count++;
             dispatch("SYNC", message);
 
             return message;
         },
 
-        PREPARE_MESSAGE: async ({ rootState }, data) => {
+        PREPARE_MESSAGE: async ({ state, rootState }, data) => {
             data.payload.message.peer_id = data.isGroup
                 ? -Math.abs(data.payload.message.peer_id)
                 : data.payload.message.peer_id;
@@ -223,12 +217,12 @@ export default {
                 extended: 1
             });
 
-            const profiles: Record<TProfile["id"], TProfile> = Object.assign(
-                ProfileGenerator.asObjects(response.profiles, "user"),
-                ProfileGenerator.asObjects(response.groups, "group")
-            );
+            state.profiles = Object.assign(state.profiles, {
+                ...ProfileGenerator.asObjects(response.profiles, "user"),
+                ...ProfileGenerator.asObjects(response.groups, "group")
+            });
 
-            return new Message(response.items[0], profiles);
+            return new Message(response.items[0], state.profiles);
         },
 
         SYNC: async ({ state }, message: Message) => {

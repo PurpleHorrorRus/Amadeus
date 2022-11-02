@@ -5,7 +5,7 @@ import {
 } from "vk-io/lib/api/schemas/objects";
 import { TMap } from "../Types/Attachments";
 import { TProfile } from "../Types/Conversation";
-import { TMessage } from "../Types/Messages";
+import { TMessage, TProfilesList } from "../Types/Messages";
 
 import Attachment from "./Attachment";
 import AttachmentGenerator from "./Attachments/Generator";
@@ -32,7 +32,7 @@ class Message implements TMessage {
     public selected?: boolean = false;
     public syncing?: boolean | number = 0;
 
-    constructor(message: MessagesMessage | MessagesForeignMessage, profiles?: Record<TProfile["id"], TProfile>) {
+    constructor(message: MessagesMessage | MessagesForeignMessage, profiles?: TProfilesList) {
         this.id = message.id;
         this.date = message.date;
         this.from_id = message.from_id;
@@ -89,7 +89,7 @@ class Message implements TMessage {
 
     static formatMessages(
         items: MessagesMessage[] | MessagesForeignMessage[],
-        profiles: Record<TProfile["id"], TProfile>
+        profiles: TProfilesList
     ) {
         return items.map(message => {
             return new Message(message, profiles);

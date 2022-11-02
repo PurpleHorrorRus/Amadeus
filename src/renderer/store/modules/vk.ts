@@ -60,6 +60,7 @@ export default {
         LISTEN: ({ dispatch, state, rootState }) => {
             state.client.updates.on("message_new", async data => {
                 const message: Message = await dispatch("messages/PREPARE_MESSAGE", data);
+                console.log(message);
 
                 await Promise.all([
                     dispatch("conversations/ADD_MESSAGE", message),

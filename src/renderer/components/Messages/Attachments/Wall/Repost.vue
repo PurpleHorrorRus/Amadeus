@@ -27,6 +27,8 @@ import AttachmentMixin from "~/components/Messages/Attachments/Attachment";
 
 import RepostIcon from "~icons/repost.svg";
 
+import { TProfilesList } from "~/instances/Types/Messages";
+
 export default {
     mixins: [CoreMixin, DateMixin, AttachmentMixin],
 
@@ -49,7 +51,7 @@ export default {
 
     computed: {
         ...mapState({
-            profiles: (state: any) => state.vk.messages.profiles
+            profiles: (state: any) => state.vk.messages.profiles as TProfilesList
         }),
 
         profile() {
