@@ -121,7 +121,20 @@ export default {
     padding: 10px;
 
     overflow-x: hidden;
-    overflow-y: auto;
+    overflow-y: overlay;
+
+    &::-webkit-scrollbar {
+        width: 0px;
+
+        &-thumb {
+            border: 4px solid transparent;
+            background-clip: padding-box;
+        }
+    }
+
+    &:hover::-webkit-scrollbar {
+        width: 11px;
+    }
 
     .scroll-arrow {
         position: absolute;

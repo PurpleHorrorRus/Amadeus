@@ -150,12 +150,15 @@ export default {
 
         &::-webkit-scrollbar {
             width: 0px;
+
+            &-thumb {
+                border: 3px solid transparent;
+                background-clip: padding-box;
+            }
         }
 
-        &:hover {
-            &::-webkit-scrollbar {
-                width: 3px;
-            }
+        &:hover::-webkit-scrollbar {
+            width: 10px;
         }
 
         .conversations-list {
