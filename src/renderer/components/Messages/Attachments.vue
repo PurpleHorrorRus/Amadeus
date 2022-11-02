@@ -45,14 +45,6 @@
             <AttachmentPoll v-if="pollItem" :item="pollItem" />
             <AttachmentsLink v-if="linkItem" :item="linkItem" />
 
-            <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
-                <AttachmentAudio
-                    v-for="item of audioItems"
-                    :key="item.id"
-                    :item="item"
-                />
-            </div>
-
             <div v-if="docItems.length > 0" class="message-content-attachments-docs">
                 <AttachmentsDoc
                     v-for="item of docItems"
@@ -60,6 +52,14 @@
                     :item="item"
                 />
             </div>
+        </div>
+
+        <div v-if="audioItems.length > 0" class="message-content-attachments-audios">
+            <AttachmentAudio
+                v-for="item of audioItems"
+                :key="item.id"
+                :item="item"
+            />
         </div>
 
         <AttachmentsMap v-if="message.geo" :geo="message.geo" />
