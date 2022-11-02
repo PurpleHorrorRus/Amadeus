@@ -15,7 +15,7 @@
 
         <SolidButton
             :label="$strings.CHAT.ATTACHMENTS.WALL.OPEN"
-            @click.native="openWall"
+            @click.stop.native="openWall"
         />
     </div>
 </template>
