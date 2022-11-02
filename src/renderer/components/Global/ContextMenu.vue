@@ -63,8 +63,15 @@ export default {
         this.$nextTick(() => {
             const { width, height } = this.$refs.menu.getBoundingClientRect();
             this.position = [
-                Math.min(this.menu.position[0] + this.margins[0], window.innerWidth - width - this.margin),
-                Math.min(this.menu.position[1] + this.margins[1], window.innerHeight - height - this.margin)
+                Math.min(
+                    Math.max(this.margin, this.menu.position[0] + this.margins[0]),
+                    window.innerWidth - width - this.margin
+                ),
+
+                Math.min(
+                    Math.max(this.margin, this.menu.position[1] + this.margins[1]),
+                    window.innerHeight - height - this.margin
+                )
             ];
         });
     },
