@@ -131,7 +131,7 @@ export default {
             });
 
             state.client.updates.on("message_flags", async data => {
-                const message = await dispatch("messages/FIND_MESSAGE", data);
+                const message: Message = await dispatch("messages/FIND_MESSAGE", data);
 
                 if (data.isDeleted) {
                     if (message) {

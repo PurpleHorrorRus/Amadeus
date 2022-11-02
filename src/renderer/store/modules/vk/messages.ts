@@ -280,7 +280,7 @@ export default {
                 return false;
             }
 
-            const cached = state.cache[message.peer_id].messages.find(msg => {
+            const cached: Message = state.cache[message.peer_id].messages.find(msg => {
                 return msg.id === message.id;
             });
 
@@ -338,10 +338,7 @@ export default {
             }
 
             dispatch("SYNC", message);
-            dispatch("vk/conversations/ADD_MESSAGE", {
-                payload: { message },
-                text: message.text
-            }, { root: true });
+            dispatch("vk/conversations/ADD_MESSAGE", message, { root: true });
 
             if (message.text?.length > 0) {
                 const linksResult = common.checkLinks(message.text);

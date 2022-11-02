@@ -5,7 +5,8 @@ import { MessagesGetConversationsByIdParams, MessagesGetConversationsParams } fr
 
 import {
     MessagesGetConversationsByIdExtendedResponse,
-    MessagesGetConversationsResponse
+    MessagesGetConversationsResponse,
+    MessagesGetHistoryResponse
 } from "vk-io/lib/api/schemas/responses";
 
 import Conversation from "~/instances/Conversations/Convesration";
@@ -94,19 +95,19 @@ export default {
             return message;
         },
 
-        UPDATE_ONE: async ({ dispatch, rootState }, data) => {
-            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.payload.message.peer_id);
+        UPDATE_ONE: async ({ dispatch, state, rootState }, data) => {
+            const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", data.peerId);
 
             if (!conversation) {
                 return false;
             }
 
-            if (!data.payload.message?.action && conversation.message.id !== data.payload.message.id) {
+            if (!data.payload.message?.action && conversation.message.id !== data.id) {
                 return false;
             }
 
-            const list = await rootState.vk.client.api.messages.getHistory({
-                peer_id: data.payload.message.peer_id,
+            const list: MessagesGetHistoryResponse = await rootState.vk.client.api.messages.getHistory({
+                peer_id: data.peerId,
                 count: 1,
                 extended: 1
             });
@@ -115,6 +116,15 @@ export default {
                 const chat = list.conversations[0].chat_settings;
                 conversation.updateAvatar(chat.photo?.photo_100);
                 conversation.updateTitle(chat.title);
+            }
+
+            const latestMessage: Message = new Message(list.items[0]);
+            conversation.setMessage(latestMessage);
+
+            if (!conversation.pinned) {
+                state.cache.sort((a: Conversation, b: Conversation) => {
+                    return b.message.date - a.message.date;
+                });
             }
 
             return true;
