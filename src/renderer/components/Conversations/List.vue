@@ -171,7 +171,7 @@ export default {
                 border-bottom: 1px solid var(--border);
 
                 #conversations-list-pinned-label {
-                    padding: 0px 10px 0px 10px;
+                    margin: 10px;
                 }
             }
         }
