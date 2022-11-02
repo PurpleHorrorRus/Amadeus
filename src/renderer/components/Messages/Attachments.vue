@@ -201,6 +201,8 @@ export default {
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
+
+        height: 35vh;
     }
 }
 
