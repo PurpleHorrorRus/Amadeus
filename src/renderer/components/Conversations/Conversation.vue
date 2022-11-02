@@ -60,15 +60,12 @@ export default {
 
     display: grid;
     grid-template-columns: 40px 1fr max-content;
-    grid-template-rows: 50px;
+    grid-template-rows: 60px;
     align-items: center;
 
-    height: 50px;
+    height: 60px;
 
-    margin: 0px 5px;
-    padding: 0px 5px;
-
-    border-radius: 4px;
+    padding: 0px 10px;
 
     &-message {
         display: grid;

@@ -113,7 +113,7 @@ export default {
 
     display: flex;
     flex-direction: column-reverse;
-    row-gap: 10px;
+    row-gap: 5px;
 
     width: 100%;
     height: 100%;

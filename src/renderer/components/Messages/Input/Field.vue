@@ -258,8 +258,8 @@ export default {
         align-items: center;
 
         width: 100%;
-        height: 100%;
-        min-height: 30px;
+        height: 35px;
+        min-height: 35px;
         max-height: 200px;
 
         padding: 7px;
@@ -270,6 +270,7 @@ export default {
         overflow: hidden;
 
         font-size: 14px;
+        line-height: 20px;
 
         outline: none;
         resize: none;

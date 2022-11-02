@@ -22,6 +22,8 @@ html.meridius-mode {
     --titlebar-color: #ffffff;
     --titlebar-hover: #1a1a1a;
 
+    --conversations-border: #000000;
+
     --navigation-select: #ffffff26;
 
     --border: #202020;

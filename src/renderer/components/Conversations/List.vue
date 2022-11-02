@@ -142,16 +142,27 @@ export default {
     width: 100%;
     height: 100%;
 
+    border-right: 1px solid var(--conversations-border);
+
     &-lists {
         overflow-x: hidden;
-        overflow-y: auto;
+        overflow-y: overlay;
+
+        &::-webkit-scrollbar {
+            width: 0px;
+        }
+
+        &:hover {
+            &::-webkit-scrollbar {
+                width: 3px;
+            }
+        }
 
         .conversations-list {
             display: flex;
             flex-direction: column;
-            row-gap: 10px;
 
-            padding: 5px 0px;
+            padding: 0px 0px;
 
             &#pinned {
                 border-bottom: 1px solid var(--border);

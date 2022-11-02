@@ -1,7 +1,5 @@
 <template>
     <div id="titlebar">
-        <span id="titlebar-title" v-text="'Amadeus'" />
-
         <span
             id="titlebar-title-dev"
             class="small-text"
@@ -75,17 +73,11 @@ export default {
     width: 100%;
     height: 100%;
 
+    padding: 0px 0px 0px 10px;
+
     background: var(--titlebar);
 
     z-index: 999;
-
-    &-title {
-        padding-left: 20px;
-
-        color: var(--titlebar-color);
-        font-family: "Fira Sans";
-        font-size: 12px;
-    }
 
     &-buttons {
         -webkit-app-region: no-drag;

@@ -70,8 +70,6 @@ export default {
     align-self: flex-start;
     column-gap: 8px;
 
-    border-radius: 8px;
-
     &.selected {
         transform: scale(.95);
     }

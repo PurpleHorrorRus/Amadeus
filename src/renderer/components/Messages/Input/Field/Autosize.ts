@@ -1,15 +1,16 @@
 export default {
     name: "autosize",
 
-    inserted: function (el: HTMLElement & { resize?: () => void }) {
+    inserted: function (el: HTMLTextAreaElement & { resize?: () => void }) {
         const style = getComputedStyle(el);
-        const minHeight = parseInt(style.getPropertyValue("min-height"));
-        const maxHeight = parseInt(style.getPropertyValue("max-height"));
+        const minHeight = parseInt(style.minHeight);
+        const maxHeight = parseInt(style.maxHeight);
 
         const resize = () => {
-            el.style.height = "auto";
+            const height = el.value.length > 0
+                ? Math.max(Math.min(el.scrollHeight, maxHeight), minHeight)
+                : minHeight;
 
-            const height = Math.max(Math.min(el.scrollHeight, maxHeight), minHeight);
             el.style.setProperty("overflow-y", height < maxHeight ? "hidden" : "overlay");
             el.style.setProperty("height", `${height}px`, "important");
         };

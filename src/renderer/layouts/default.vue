@@ -161,7 +161,7 @@ export default {
 @media screen and (max-width: 599px) {
     #default-layout {
         grid-template-columns: 1fr !important;
-        grid-template-rows: 35px 1fr !important;
+        grid-template-rows: 25px 1fr !important;
         grid-template-areas: "titlebar"
                             "page" !important;
 
@@ -188,7 +188,7 @@ export default {
         }
 
         &.player {
-            grid-template-rows: 35px 40px 1fr !important;
+            grid-template-rows: 25px 40px 1fr !important;
             grid-template-areas: "titlebar"
                                 "player"
                                 "page" !important;
@@ -213,7 +213,7 @@ export default {
 
     display: grid;
     grid-template-columns: max-content 1fr;
-    grid-template-rows: 35px 1fr;
+    grid-template-rows: 25px 1fr;
     grid-template-areas: "titlebar titlebar"
                         "conversations page";
 
@@ -225,7 +225,7 @@ export default {
     background: var(--primary);
 
     &.player {
-        grid-template-rows: 35px 40px 1fr;
+        grid-template-rows: 25px 40px 1fr;
         grid-template-areas: "titlebar titlebar"
                             "conversations player"
                             "conversations page";

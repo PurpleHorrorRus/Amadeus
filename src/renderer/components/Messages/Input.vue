@@ -187,7 +187,7 @@ export default {
 
     padding: 7px;
 
-    background: var(--primary);
+    background: var(--field);
 
     z-index: 1;
 

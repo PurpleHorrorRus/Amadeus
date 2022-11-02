@@ -113,7 +113,7 @@ export default {
 
     background: var(--message);
     border: 1px solid var(--message-bg);
-    border-radius: 8px;
+    border-radius: 6px;
 
     &-name {
         width: max-content;
