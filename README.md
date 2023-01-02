@@ -44,7 +44,6 @@ yarn
 yarn dev
 
 # Build in Production
-yarn global add modclean # Необходимо для уменьшения размера приложения
 yarn build # Сборка происходит под ту систему, с которой вы её запускаете
 ```
 
