@@ -487,7 +487,7 @@ export default {
         },
 
         READ: async ({ dispatch, rootState }, chat: TChat) => {
-            const canRead: boolean = !rootState.config.vkService.read
+            const canRead: boolean = rootState.config.vkService.read
                 && !chat.search
                 && chat.messages.length > 0
                 && chat.conversation.unread > 0
