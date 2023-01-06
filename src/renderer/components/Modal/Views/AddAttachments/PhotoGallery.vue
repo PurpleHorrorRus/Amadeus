@@ -8,7 +8,7 @@
 
         <LoaderIcon
             v-if="load"
-            class="icon loader-icon spin"
+            class="icon loader-icon"
         />
 
         <PhotoAlbums

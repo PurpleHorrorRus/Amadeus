@@ -17,7 +17,7 @@
 
         <LoaderIcon
             v-else
-            class="icon loader-icon spin"
+            class="icon loader-icon"
         />
     </div>
 </template>

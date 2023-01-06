@@ -9,7 +9,7 @@
         @dragover.prevent
     >
         <UploadIcon v-if="!uploading" class="icon amadeus" />
-        <LoaderIcon v-else class="icon loader-icon spin" />
+        <LoaderIcon v-else class="icon loader-icon" />
 
         <span class="upload-label nowrap" v-text="text" />
     </div>

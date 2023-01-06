@@ -10,7 +10,7 @@
         <LoaderIcon
             v-else
             id="message-page-input-loader-icon"
-            class="icon loader-icon spin"
+            class="icon loader-icon"
         />
     </div>
 </template>

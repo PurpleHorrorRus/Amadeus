@@ -205,24 +205,6 @@ a:not(.clickable) {
     }
 }
 
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.spin {
-    animation: spin 3s infinite linear;
-}
-
 .nowrap {
     display: inline-block;
     width: auto;
