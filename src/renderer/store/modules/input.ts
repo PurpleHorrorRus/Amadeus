@@ -82,7 +82,7 @@ export default {
 
             const filename = Date.now() + ".jpg";
             const savePath = path.resolve(rootState.config.paths.temp, filename);
-            // eslint-disable-next-line no-undef
+
             const arrayBuffer = await blob.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
             fs.writeFileSync(savePath, buffer, "binary");

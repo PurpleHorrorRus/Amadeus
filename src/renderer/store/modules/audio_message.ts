@@ -20,7 +20,7 @@ export default {
             audio = new Audio(data.link_ogg);
 
             try {
-                audio.setSinkId(rootState.settings.settings.outputDevice);
+                audio.setSinkId(rootState.config.general.outputDevice);
             } catch (e) { audio.setSinkId("default"); }
 
             audio.onended = () => dispatch("CLEAR");

@@ -67,15 +67,11 @@ export default {
                 state.words = formatted.words;
                 state.stickersExist = state.collections.length > 0;
 
-                dispatch("settings/SAVE_CUSTOM", {
-                    type: "stickers",
-                    space: 0,
-                    content: {
-                        updated: Date.now(),
-                        response,
-                        keywordsResponse
-                    }
-                }, { root: true });
+                rootState.config.stickers.save({
+                    updated: Date.now(),
+                    response,
+                    keywordsResponse
+                });
             }
 
             const favorite: TFavoriteResponse =

@@ -17,7 +17,7 @@ export default {
     mixins: [CoreMixin, AppearanceMixin],
 
     created() {
-        this.setTheme(this.settings.appearance.theme);
+        this.setTheme(this.config.appearance.theme);
     }
 };
 </script>

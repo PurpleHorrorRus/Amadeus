@@ -10,7 +10,7 @@
 
         <VolumeLine
             id="messages-player-actions-volume-line"
-            :value="settings.player.volume"
+            :value="config.player.volume"
             :width="120"
             @change="setVolume"
         />

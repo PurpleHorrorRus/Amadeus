@@ -14,7 +14,7 @@
 
         <img
             v-else
-            :key="settings.appearance.stickersTheme"
+            :key="config.appearance.stickersTheme"
             :src="sticker"
             class="attachments-item-sticker-image"
         >
@@ -30,7 +30,7 @@ export default {
 
     computed: {
         sticker() {
-            return this.settings.appearance.stickersTheme === 1
+            return this.config.appearance.stickersTheme === 1
                 ? this.item.dark
                 : this.item.light;
         }

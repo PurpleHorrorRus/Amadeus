@@ -1,5 +1,4 @@
 /* eslint-disable no-undef */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 
 import lodash from "lodash";
@@ -15,9 +14,8 @@ const hlsConfig = {
 let hls = null;
 let sound = null;
 
-const saveVolumeDebounce = lodash.debounce((dispatch, settings) => {
-    dispatch("settings/SAVE", settings, { root: true });
-    return true;
+const saveVolumeDebounce = lodash.debounce(context => {
+    return context.save();
 }, 2000);
 
 export default {
@@ -47,7 +45,6 @@ export default {
                 if (fatal) {
                     switch (type) {
                         case Hls.ErrorTypes.NETWORK_ERROR: {
-                            // eslint-disable-next-line max-len
                             console.error("[HLS]: Fatal network error encountered, try to recover");
                             hls.startLoad();
                             break;
@@ -66,10 +63,10 @@ export default {
             hls.loadSource(state.song.url);
 
             try {
-                sound.player.media.setSinkId(rootState.settings.settings.outputDevice);
+                sound.player.media.setSinkId(rootState.config.general.outputDevice);
             } catch (e) { sound.player.media.setSinkId("default"); }
 
-            state.volume = await dispatch("CALCULATE_VOLUME", rootState.settings.settings.player.volume);
+            state.volume = await dispatch("CALCULATE_VOLUME", rootState.config.player.volume);
 
             sound.player.media.oncanplaythrough = () => {
                 sound.player.media.volume = state.volume;
@@ -149,10 +146,9 @@ export default {
 
             sound.player.media.volume = result;
             state.volume = volume;
-            rootState.settings.settings.player.volume = Math.floor(volume);
+            rootState.config.player.volume = Math.floor(volume);
 
-            saveVolumeDebounce(dispatch, rootState.settings.settings);
-            return true;
+            return saveVolumeDebounce(rootState.config.player);
         },
 
         CALCULATE_VOLUME: async ({ dispatch }, volume) => {

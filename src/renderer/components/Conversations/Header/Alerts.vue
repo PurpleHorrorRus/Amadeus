@@ -1,7 +1,7 @@
 <template>
     <div id="conversations-header-alerts">
         <AlertIcon
-            v-if="!$parent.settings.vk.disable_notifications"
+            v-if="$parent.config.vkService.notifications"
             v-tooltip.left="$strings.TOOLTIP.NOTIFICATIONS.ENABLED"
             class="icon amadeus clickable"
         />

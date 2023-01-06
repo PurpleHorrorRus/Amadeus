@@ -1,10 +1,8 @@
-/* eslint-disable indent */
-/* eslint-disable no-undef */
 import path from "path";
 import os from "os";
 import { app } from "electron";
 
-import storage from "./storage";
+import Storage from "./storage";
 import WindowsLogic from "./windows/logic";
 
 app.getVersion = () => "1.0.0-beta.19";
@@ -41,7 +39,7 @@ export default {
     isDev,
     getIcon,
     webPreferences,
-    storage,
+    storage: new Storage().create(),
     windows: new WindowsLogic(),
 
     isWindows,

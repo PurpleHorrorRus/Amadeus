@@ -4,19 +4,19 @@
 
         <ToggleButton
             :text="$strings.SETTINGS.GENERAL.STARTUP"
-            :value="settings.startup"
+            :value="config.window.startup"
             @change="turnStartup"
         />
 
         <ToggleButton
             :text="$strings.SETTINGS.GENERAL.HIDE_ON_CLOSE"
-            :value="settings.hideOnClose"
-            @change="deepChange(settings, 'hideOnClose')"
+            :value="config.window.hideOnClose"
+            @change="deepChange('window', config.window, 'hideOnClose')"
         />
 
         <ToggleButton
             :text="$strings.SETTINGS.GENERAL.DEVTOOLS"
-            :value="settings.devtools"
+            :value="config.window.devtools"
             @change="turnDevTools"
         />
 
@@ -52,13 +52,13 @@ export default {
     computed: {
         selectedInputDevice() {
             return this.inputDevices.findIndex(device => {
-                return device.deviceId === this.settings.inputDevice;
+                return device.deviceId === this.config.general.inputDevice;
             }) || 0;
         },
 
         selectedOutputDevice() {
             return this.outputDevices.findIndex(device => {
-                return device.deviceId === this.settings.outputDevice;
+                return device.deviceId === this.config.general.outputDevice;
             }) || 0;
         }
     },
@@ -75,13 +75,13 @@ export default {
         },
 
         turnStartup() {
-            ipcRenderer.send("changeStartup", !this.settings.startup);
-            return this.deepChange(this.settings, "startup");
+            ipcRenderer.send("changeStartup", !this.config.window.startup);
+            return this.deepChange("window", this.config.window, "startup");
         },
 
         turnDevTools() {
-            ipcRenderer.send(this.settings.devtools ? "closeDevTools" : "openDevTools");
-            return this.deepChange(this.settings, "devtools");
+            ipcRenderer.send(this.config.window.devtools ? "closeDevTools" : "openDevTools");
+            return this.deepChange("window", this.config.window, "devtools");
         },
 
         getDevices(devices: MediaDeviceInfo[], kind: string) {
@@ -95,7 +95,7 @@ export default {
         },
 
         changeDevice(device: string, devices: MediaDeviceInfo[], index: number) {
-            this.deepChange(this.settings, device, devices[index].deviceId);
+            return this.deepChange("general", this.config.general, device, devices[index].deviceId);
         }
     }
 };

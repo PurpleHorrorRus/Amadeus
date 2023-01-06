@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { BrowserWindow, ipcMain, nativeTheme, shell } from "electron";
 
 import common from "../common";
@@ -17,8 +16,8 @@ const params = {
     title: "Amadeus",
     icon: common.getIcon("amadeus-default.ico"),
 
-    width: Math.max(common.storage.config.settings.width, minWidth),
-    height: Math.max(common.storage.config.settings.height, minHeight),
+    width: Math.max(common.storage.config.window.width, minWidth),
+    height: Math.max(common.storage.config.window.height, minHeight),
 
     minWidth,
     minHeight,
@@ -72,7 +71,7 @@ class VKGramWindow {
 
         await common.windows.load(this.window, "normal");
 
-        if (common.storage.config.settings.devtools) {
+        if (common.storage.config.window.devtools) {
             this.window.webContents.openDevTools({ mode: "undocked" });
         }
 

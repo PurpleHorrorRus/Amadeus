@@ -37,6 +37,8 @@ class IPC {
         };
 
         this.events.save = args => {
+            console.log(args);
+
             if (!args.content) {
                 console.error("Settings content is empty", args.type);
                 return;
@@ -47,11 +49,7 @@ class IPC {
                 return;
             }
 
-            if (args.type === "settings") {
-                common.storage.config.settings = args.content;
-            }
-
-            return common.storage.save(args);
+            return common.storage.save(args.type, args.content);
         };
 
         this.events.openMedia = media => {

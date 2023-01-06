@@ -68,8 +68,6 @@ export default {
 
     methods: {
         ...mapActions({
-            setConfig: "SET_CONFIG",
-            saveCustom: "settings/SAVE_CUSTOM",
             auth: "vk/AUTH"
         }),
 
@@ -78,15 +76,9 @@ export default {
                 return false;
             }
 
-            const config = this.config;
-            config.vk.active = index;
+            this.config.vk.active = index;
+            this.config.vk.save();
 
-            this.saveCustom({
-                type: "vk",
-                content: config
-            });
-
-            this.setConfig(config);
             this.close();
             return await this.auth(this.config.vk.accounts[index]);
         },
@@ -96,28 +88,23 @@ export default {
                 return false;
             }
 
-            const config = this.config;
             const currentAccountIndex = this.config.accounts.findIndex(account => {
                 return account.user === this.user.id;
             });
 
             if (index < currentAccountIndex) {
-                config.vk.active = currentAccountIndex - 1;
+                this.config.vk.active = currentAccountIndex - 1;
             }
 
-            config.vk.accounts.splice(index, 1);
-            this.saveCustom({
-                type: "vk",
-                content: config
-            });
-
-            this.setConfig(config);
-            return true;
+            this.config.vk.accounts.splice(index, 1);
+            return this.config.vk.save();
         },
 
         openLogin() {
             this.close();
-            return this.$router.replace("/login").catch(() => (false));
+
+            return this.$router.replace("/login")
+                .catch(() => (false));
         }
     }
 };

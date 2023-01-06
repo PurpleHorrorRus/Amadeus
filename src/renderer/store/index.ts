@@ -1,16 +1,14 @@
 import fs from "fs";
-
 import { Store } from "vuex";
 
-import vk from "~/store/modules/vk";
-import ipc from "~/store/modules/ipc";
-import settings from "~/store/modules/settings";
-import input from "~/store/modules/input";
-import audio from "~/store/modules/audio";
-import audio_message from "~/store/modules/audio_message";
-import modal from "~/store/modules/modal";
-import i18n from "~/store/modules/i18n";
-import updater from "~/store/modules/updater";
+import vk from "./modules/vk";
+import ipc from "./modules/ipc";
+import input from "./modules/input";
+import audio from "./modules/audio";
+import audio_message from "./modules/audio_message";
+import modal from "./modules/modal";
+import i18n from "./modules/i18n";
+import updater from "./modules/updater";
 
 import Conversation from "~/instances/Conversations/Convesration";
 
@@ -26,19 +24,28 @@ export default () => {
         mutations: {
             openConversation(_, conversation: Conversation) {
                 const { id, type } = conversation.information.peer;
-                return this.$router.replace(`/messages/${id}?type=${type}`).catch(() => (false));
+                return this.$router.replace(`/messages/${id}?type=${type}`)
+                    .catch(() => (false));
             }
         },
 
         actions: {
             SET_CONFIG: async ({ dispatch, state }, data) => {
+                for (const key of Object.keys(data.config)) {
+                    data.config[key].save = content => {
+                        global.$nuxt.$ipc.send("save", {
+                            type: key,
+                            content: content || state.config[key]
+                        });
+
+                        return data.config[key];
+                    };
+                }
+
                 state.config = data.config;
                 state.paths = data.paths;
 
-                // state.background = data.background;
                 await dispatch("SET_BACKGROUND", state.background.length > 0);
-
-                await dispatch("settings/SET", data.config.settings);
                 return state.config;
             },
 
@@ -61,7 +68,6 @@ export default () => {
         modules: {
             vk,
             ipc,
-            settings,
             input,
             audio,
             audio_message,

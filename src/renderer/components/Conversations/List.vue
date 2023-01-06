@@ -62,12 +62,12 @@ export default {
 
         conversationClass() {
             return {
-                minimized: this.settings.appearance.minimized
+                minimized: this.config.appearance.minimized
             };
         },
 
         showHeader() {
-            return !this.settings.appearance.minimized;
+            return !this.config.appearance.minimized;
         },
 
         pinned() {

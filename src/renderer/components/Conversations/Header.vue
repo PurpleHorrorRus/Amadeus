@@ -6,7 +6,7 @@
             @keydown.enter.native="search"
         />
 
-        <HeaderAlerts @click.native="deepChange(settings.vk, 'disable_notifications')" />
+        <HeaderAlerts @click.native="deepChange('vkService', config.vkService, 'notifications')" />
         <HeaderMenu />
     </div>
 </template>

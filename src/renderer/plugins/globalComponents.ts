@@ -1,4 +1,5 @@
 import Vue from "vue";
+import { ipcRenderer } from "electron";
 
 import LottieVuePlayer from "@lottiefiles/vue-lottie-player/dist/vue-lottie-player.umd.min.js";
 
@@ -20,4 +21,18 @@ Vue.use(LottieVuePlayer);
 
 export default (_context, inject) => {
     inject("isDev", process.env.NODE_ENV === "development");
+
+    inject("ipc", {
+        send: (event, content) => {
+            if (content && typeof content === "object") {
+                return ipcRenderer.send(event, JSON.parse(JSON.stringify(content)));
+            }
+
+            return ipcRenderer.send(event, content);
+        },
+
+        invoke: async (event, content) => {
+            return await ipcRenderer.invoke(event, content);
+        }
+    });
 };

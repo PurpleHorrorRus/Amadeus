@@ -3,21 +3,21 @@
         <span class="modal-view-title" v-text="$strings.SETTINGS.VK.TITLE" />
 
         <ToggleButton
-            :text="$strings.SETTINGS.VK.DONT_READ"
-            :value="settings.vk.disable_read"
-            @change="deepChange(settings.vk, 'disable_read')"
+            :text="$strings.SETTINGS.VK.READ"
+            :value="config.vkService.read"
+            @change="deepChange('vkService', config.vkService, 'read')"
         />
 
         <ToggleButton
-            :text="$strings.SETTINGS.VK.DONT_WRITE"
-            :value="settings.vk.disable_write"
-            @change="deepChange(settings.vk, 'disable_write')"
+            :text="$strings.SETTINGS.VK.WRITE"
+            :value="config.vkService.write"
+            @change="deepChange('vkService', config.vkService, 'write')"
         />
 
         <ToggleButton
             :text="$strings.SETTINGS.VK.SEND_OFFLINE"
-            :value="settings.vk.send_offline"
-            @change="deepChange(settings.vk, 'send_offline')"
+            :value="config.vkService.offline"
+            @change="deepChange('vkService', config.vkService, 'offline')"
         />
     </div>
 </template>

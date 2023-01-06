@@ -1,4 +1,4 @@
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 
 const mentionRegex = /\[id(.*?)\|@(.*?)\]/;
 
@@ -9,37 +9,35 @@ export default {
             paths: (state: any) => state.paths,
             client: (state: any) => state.vk.client,
             user: (state: any) => state.vk.user,
-            settings: (state: any) => state.settings.settings,
             current: (state: any) => state.vk.messages.current
         })
     },
 
     methods: {
-        ...mapActions({
-            saveSettings: "settings/SAVE",
-            saveCustom: "settings/SAVE_CUSTOM"
-        }),
+        deepChange(category, root, option, value = "") {
+            if (!this.config[category]) {
+                this.error(`Can't change state: ${category}`);
+                return root[option];
+            }
 
-        deepChange(category: any, option: string, value: string | number | boolean = "") {
-            switch (typeof category[option]) {
+            switch (typeof root[option]) {
                 case "boolean": {
-                    category[option] = !category[option];
+                    root[option] = !root[option];
                     break;
                 }
 
-                case "number": {
-                    category[option] = value ? Number(value) : Number(!category[option]);
-                    break;
-                }
+                case "string": case "number": {
+                    if (!value) {
+                        return false;
+                    }
 
-                case "string": {
-                    category[option] = value;
+                    root[option] = value;
                     break;
                 }
             }
 
-            this.saveSettings(this.settings);
-            return category[option];
+            this.config[category].save();
+            return root[option];
         },
 
         formatText(text: string): string {

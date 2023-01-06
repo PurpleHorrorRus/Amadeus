@@ -12,7 +12,7 @@ class MainWindowEvents {
             event.preventDefault();
         }
 
-        if (!common.storage.config.settings.hideOnClose) {
+        if (!common.storage.config.window.hideOnClose) {
             common.windows.closeAll();
             return app.quit();
         }
@@ -22,13 +22,11 @@ class MainWindowEvents {
 
     resized() {
         const [width, height] = this.window.getSize();
-        common.storage.config.settings.width = width;
-        common.storage.config.settings.height = height;
 
-        common.storage.save({
-            type: "settings",
-            content: common.storage.config.settings
-        });
+        common.storage.config.window.width = width;
+        common.storage.config.window.height = height;
+
+        return common.storage.save("window", common.storage.config.window);
     }
 }
 

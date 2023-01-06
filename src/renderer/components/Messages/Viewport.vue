@@ -88,9 +88,9 @@ export default {
             }
         },
 
-        "settings.vk.disable_read": {
-            handler: function(disable_read) {
-                if (!disable_read) {
+        "config.vkService.read": {
+            handler: function(read) {
+                if (!read) {
                     this.readOnBottom();
                 }
             }

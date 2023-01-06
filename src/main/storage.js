@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 import path from "path";
 import fs from "fs-extra";
 import { app } from "electron";
@@ -7,53 +5,55 @@ import { app } from "electron";
 const isDev = process.env.NODE_ENV === "development";
 
 const clear = {
-    settings: {
+    window: {
         width: 380,
         height: 530,
-
-        inputDevice: "default",
-        outputDevice: "default",
-
         startup: false,
         hideOnClose: true,
-        devtools: false,
+        devtools: false
+    },
 
-        vk: {
-            mute: [],
-            disable_write_whitelist: [],
-            disable_read_whitelist: [],
+    general: {
+        inputDevice: "default",
+        outputDevice: "default"
+    },
 
-            disable_notifications: false,
-            disable_read: false,
-            disable_write: false,
-            send_offline: false
-        },
+    vkService: {
+        mute: [],
 
-        appearance: {
-            theme: "vk-black",
+        disableWriteWhitelist: [],
+        disableReadWhitelist: [],
 
-            conversationsWidth: 300,
-            minimized: false,
+        notifications: true,
+        read: true,
+        write: false,
+        offline: false
+    },
 
-            stickersTheme: 1,
+    appearance: {
+        theme: "vk-black",
 
-            messages: {
-                background: {
-                    url: "",
-                    x: 0,
-                    y: 0
-                }
-            },
+        conversationsWidth: 300,
+        minimized: false,
 
-            colors: {
-                message: "#242424",
-                out: "#71aaeb"
+        stickersTheme: 1,
+
+        messages: {
+            background: {
+                url: "",
+                x: 0,
+                y: 0
             }
         },
 
-        player: {
-            volume: 50
+        colors: {
+            message: "#242424",
+            out: "#71aaeb"
         }
+    },
+
+    player: {
+        volume: 50
     },
 
     vk: {
@@ -68,105 +68,102 @@ const clear = {
     }
 };
 
-const appdata = app.getPath("userData");
-const configPath = path.join(appdata, "config");
+class Storage {
+    constructor () {
+        this.appdata = app.getPath("userData");
 
-const checkDirs = dirs => {
-    dirs.forEach(dir => {
-        if (!fs.existsSync(dir)) {
-            fs.mkdirSync(dir);
+        this.root = isDev
+            ? path.resolve(this.appdata, "config", "Amadeus")
+            : path.resolve(this.appdata, "config");
+
+        this.paths = {
+            root: this.root,
+            temp: path.resolve(app.getPath("temp"), "amadeus")
+        };
+
+        this.config = {};
+    }
+
+    checkDirs (dirs) {
+        for (const dir of dirs) {
+            if (!fs.pathExistsSync(dir)) {
+                fs.mkdirsSync(dir);
+            }
         }
-    });
-};
 
-const rootPath = isDev ? path.join(configPath, "Amadeus") : configPath;
-checkDirs([rootPath]);
+        return dirs;
+    }
 
-const nested = (settings, clear) => {
-    if (!clear) {
+    merge (settings, clear) {
+        if (!clear) {
+            return settings;
+        }
+
+        for (const key of Object.keys(clear)) {
+            const differentTypes = typeof settings[key] !== typeof clear[key];
+            const isNewKey = (!(key in settings) && key in clear) || differentTypes;
+            const settingIsArray = Array.isArray(settings[key]);
+
+            if (isNewKey) {
+                settings[key] = clear[key];
+            } else if (typeof settings[key] === "object" && !settingIsArray) {
+                settings[key] = this.merge(settings[key], clear[key]);
+            }
+        }
+
+        for (const key of Object.keys(settings)) {
+            if (key in settings && !(key in clear)) {
+                delete settings[key];
+            }
+        }
+
         return settings;
     }
 
-    const clearKeys = Object.keys(clear);
-    for (const key of clearKeys) {
-        const settingType = typeof settings[key];
-        // eslint-disable-next-line valid-typeof
-        const differentTypes = settingType !== typeof clear[key];
-        // eslint-disable-next-line no-mixed-operators
-        const isNewKey = !(key in settings) && key in clear || differentTypes;
-        const settingIsArray = Array.isArray(settings[key]);
+    nested (name, skip = false) {
+        const path = this.paths[name];
+        const clearConfig = clear[name];
 
-        if (isNewKey) {
-            settings[key] = clear[key];
-        } else if (settingType === "object" && !settingIsArray) {
-            settings[key] = nested(settings[key], clear[key]);
+        if (fs.existsSync(path)) {
+            const content = fs.readJsonSync(path);
+            return !skip ? this.merge(content, clearConfig) : content;
         }
+
+        fs.writeJsonSync(path, clearConfig, { spaces: 4 });
+        return clearConfig;
     }
 
-    const settingsKeys = Object.keys(settings);
-    for (const key of settingsKeys) {
-        if (key in settings && !(key in clear)) {
-            delete settings[key];
+    create () {
+        this.checkDirs(Object.values(this.paths));
+
+        for (const key of Object.keys(clear)) {
+            this.paths[key] = path.resolve(this.root, `${key}.json`);
         }
+
+        this.paths.background = path.resolve(this.root, "background");
+
+        this.config = {
+            window: this.nested("window"),
+            general: this.nested("general"),
+            vkService: this.nested("vkService"),
+            appearance: this.nested("appearance"),
+            player: this.nested("player"),
+            vk: this.nested("vk", true),
+            stickers: this.nested("stickers")
+        };
+
+        return this;
     }
 
-    return settings;
-};
-
-const dataPath = filename => path.join(rootPath, filename);
-const dataNested = (path, clear, skip = false) => {
-    if (fs.existsSync(path)) {
-        const content = fs.readJsonSync(path);
-        return !skip ? nested(content, clear) : content;
+    save (type, content) {
+        this.config[type] = content;
+        return fs.writeJsonSync(this.paths[type], content, { spaces: 4 });
     }
 
-    fs.writeJsonSync(path, clear);
-    return clear;
-};
-
-const paths = {
-    rootPath,
-    vk: path.join(rootPath, "vk.json"),
-    settings: path.join(rootPath, "settings.json"),
-    stickers: path.join(rootPath, "stickers.json"),
-    temp: path.join(app.getPath("temp"), "amadeus"),
-    background: path.join(rootPath, "background")
-};
-
-if (!fs.existsSync(paths.temp)) {
-    fs.mkdirSync(paths.temp);
+    clear (type) {
+        this.config[type] = clear[type];
+        return fs.writeJsonSync(this.paths[type], this.config[type], { spaces: 4 });
+    }
 }
 
-if (!fs.existsSync(paths.background)) {
-    fs.writeFileSync(paths.background, "");
-}
-
-Object.keys(clear).map(key => {
-    paths[key] = dataPath(`${key}.json`);
-    return clear[key];
-});
-
-const config = {
-    vk: dataNested(paths.vk, clear.vk),
-    settings: dataNested(paths.settings, clear.settings),
-    stickers: dataNested(paths.stickers, clear.stickers, true),
-    paths,
-    background: fs.readFileSync(paths.background, "base64url")
-};
-
-export default {
-    paths,
-    config,
-
-    save: data => {
-        config[data.type] = data.content;
-        return fs.writeJsonSync(paths[data.type], data.content, {
-            spaces: data.space === 0 ? 0 : (data.space || 4)
-        });
-    },
-
-    clear: type => {
-        config[type] = clear[type];
-        return fs.writeFileSync(paths[type], config[type]);
-    }
-};
+export default Storage;

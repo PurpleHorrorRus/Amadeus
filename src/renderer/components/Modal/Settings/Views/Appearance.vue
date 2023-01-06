@@ -1,6 +1,9 @@
 <template>
     <div id="settings-view-appearance" class="settings-view">
-        <span class="modal-view-title" v-text="$strings.SETTINGS.APPEARANCE.TITLE" />
+        <span
+            class="modal-view-title"
+            v-text="$strings.SETTINGS.APPEARANCE.TITLE"
+        />
 
         <FileChoosing
             :text="$strings.SETTINGS.APPEARANCE.BACKGROUND"
@@ -12,7 +15,7 @@
 
         <Crop
             v-if="backgroundExist"
-            :image="settings.appearance.messages.background.url"
+            :image="config.appearance.messages.background.url"
             @crop="resizeBackground"
         />
 
@@ -27,22 +30,22 @@
             <ColorPicker
                 :text="$strings.SETTINGS.APPEARANCE.THEME_MESSAGES.IN"
                 :variable="'message'"
-                :value="settings.appearance.colors.message"
+                :value="config.appearance.colors.message"
                 @input="saveColor"
             />
 
             <ColorPicker
                 :text="$strings.SETTINGS.APPEARANCE.THEME_MESSAGES.OUT"
                 :variable="'out'"
-                :value="settings.appearance.colors.out"
+                :value="config.appearance.colors.out"
                 @input="saveColor"
             />
         </div>
 
         <ToggleButton
             :text="$strings.SETTINGS.APPEARANCE.STICKERS"
-            :value="settings.appearance.stickersTheme"
-            @change="deepChange(settings.appearance, 'stickersTheme')"
+            :value="config.appearance.stickersTheme"
+            @change="deepChange('appearance', config.appearance, 'stickersTheme')"
         />
     </div>
 </template>
@@ -79,12 +82,12 @@ export default {
 
         messagesBackground() {
             return this.backgroundExist
-                ? this.settings.appearance.messages.background.url
+                ? this.config.appearance.messages.background.url
                 : "Не задано";
         },
 
         backgroundExist() {
-            return Boolean(this.settings.appearance.messages.background.url);
+            return Boolean(this.config.appearance.messages.background.url);
         },
 
         themeNames() {
@@ -95,14 +98,14 @@ export default {
 
         choosedThemeIndex() {
             return this.themes.findIndex(theme => {
-                return theme.id === this.settings.appearance.theme;
+                return theme.id === this.config.appearance.theme;
             });
         }
     },
 
     methods: {
         changeMessagesBackground(path) {
-            this.deepChange(this.settings.appearance.messages.background, "url", path);
+            this.deepChange("appearance", this.config.appearance.messages.background, "url", path);
 
             if (!path) {
                 this.setBackground(false);
@@ -153,23 +156,22 @@ export default {
                 : 0;
 
             console.log("x =", x, "y =", y);
-
             console.log("");
-            this.settings.appearance.messages.background.x = x;
-            this.settings.appearance.messages.background.y = y;
 
-            this.saveSettings(this.settings);
+            this.config.appearance.messages.background.x = x;
+            this.config.appearance.messages.background.y = y;
+            this.config.appearance.save();
         },
 
         changeTheme(index) {
             this.setTheme(this.themes[index].id);
-            this.deepChange(this.settings.appearance, "theme", this.themes[index].id);
+            this.deepChange("appearance", this.config.appearance, "theme", this.themes[index].id);
             return true;
         },
 
         saveColor(data) {
             this.calculateContrasts(data);
-            this.deepChange(this.settings.appearance.colors, data.variable, data.value);
+            this.deepChange("appearance", this.config.appearance.colors, data.variable, data.value);
             return true;
         }
     }

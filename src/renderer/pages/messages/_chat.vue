@@ -100,7 +100,7 @@ export default {
         },
 
         backgroundStyle() {
-            const background = this.settings.appearance.messages.background;
+            const background = this.config.appearance.messages.background;
 
             return {
                 backgroundPositionX: background.x + "%",

@@ -19,9 +19,8 @@ export default {
             await this.setConfig(data);
 
             if (!~data.config.vk.active || data.config.vk.accounts.length === 0) {
-                this.$router.replace("/login").catch(() => ({}));
-                ipcRenderer.send("dom-ready");
-                return false;
+                return this.$router.replace("/login")
+                    .catch(() => (false));
             }
 
             const account = data.config.vk.accounts[data.config.vk.active];
@@ -30,8 +29,8 @@ export default {
             this.ipc();
             this.registerUpdater();
 
-            this.$router.replace("/general").catch(() => ({}));
-            return true;
+            return this.$router.replace("/general")
+                .catch(() => (false));
         });
 
         ipcRenderer.once("media", () => {
@@ -44,8 +43,11 @@ export default {
             return true;
         });
 
-        await this.loadLanguage("ru");
-        ipcRenderer.send("dom-ready");
+        return await this.loadLanguage("ru");
+    },
+
+    mounted() {
+        return ipcRenderer.send("dom-ready");
     },
 
     methods: {

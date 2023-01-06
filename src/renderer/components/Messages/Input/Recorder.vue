@@ -152,7 +152,7 @@ export default {
                 video: false,
 
                 audio: {
-                    deviceId: this.settings.inputDevice,
+                    deviceId: this.config.general.inputDevice,
                     ...params
                 }
             });

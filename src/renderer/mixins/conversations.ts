@@ -22,31 +22,34 @@ export default {
         },
 
         profileInMute(conversation: Conversation): boolean {
-            return this.settings.vk.mute.includes(conversation.id);
+            return this.config.vkService.mute.includes(conversation.id);
         },
 
         turnMute(conversation: Conversation): void {
             conversation.setMute(!conversation.muted);
 
             if (conversation.muted) {
-                this.settings.vk.mute.push(conversation.id);
+                this.config.vkService.mute.push(conversation.id);
             } else {
-                const muteIndex = this.settings.vk.mute.findIndex(id => {
+                const muteIndex = this.config.vkService.mute.findIndex(id => {
                     return id === conversation.id;
                 });
 
-                this.settings.vk.mute.splice(muteIndex, 1);
+                this.config.vkService.mute.splice(muteIndex, 1);
             }
 
-            this.saveSettings(this.settings);
+            return this.config.vkService.save();
         },
 
         openDeleteConfirmation(conversation: Conversation): void {
             this.confirmation({
                 text: "Вы действительно хотите удалить историю сообщений?",
+
                 accept: () => {
-                    this.$router.replace("/general").catch(() => (false));
-                    this.deleteConversation(conversation.id);
+                    this.$router.replace("/general")
+                        .catch(() => (false));
+
+                    return this.deleteConversation(conversation.id);
                 }
             });
         }

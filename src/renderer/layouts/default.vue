@@ -16,7 +16,7 @@
             ref="resizable"
             :anchor="'start'"
             :direction="'horizontal'"
-            :value="settings.appearance.conversationsWidth"
+            :value="config.appearance.conversationsWidth"
             :min="minWidth"
             :max="maxWidth"
             @mounted="resizableRef = $event"
@@ -77,7 +77,7 @@ export default {
         layoutClass() {
             return {
                 chat: this.isChat,
-                minimized: this.settings.appearance.minimized,
+                minimized: this.config.appearance.minimized,
                 player: this.showPlayer
             };
         },
@@ -92,12 +92,12 @@ export default {
     },
 
     created() {
-        this.setTheme(this.settings.appearance.theme);
+        this.setTheme(this.config.appearance.theme);
 
-        for (const variable of Object.keys(this.settings.appearance.colors)) {
+        for (const variable of Object.keys(this.config.appearance.colors)) {
             this.calculateContrasts({
                 variable,
-                value: this.settings.appearance.colors[variable]
+                value: this.config.appearance.colors[variable]
             });
         }
 
@@ -118,21 +118,21 @@ export default {
 
         resize({ position, size }) {
             if (position < this.minWidth) {
-                if (!this.settings.appearance.minimized) {
-                    this.settings.appearance.minimized = true;
-                    this.settings.appearance.conversationsWidth = 60;
+                if (!this.config.appearance.minimized) {
+                    this.config.appearance.minimized = true;
+                    this.config.appearance.conversationsWidth = 60;
                 }
             } else {
-                if (this.settings.appearance.minimized) {
-                    this.settings.appearance.minimized = false;
+                if (this.config.appearance.minimized) {
+                    this.config.appearance.minimized = false;
                 }
 
-                this.settings.appearance.conversationsWidth = size;
+                this.config.appearance.conversationsWidth = size;
             }
         },
 
         resized() {
-            this.saveSettings(this.settings);
+            return this.config.apppearance.save();
         },
 
         async keyPress(event) {

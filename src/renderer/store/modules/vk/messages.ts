@@ -487,7 +487,7 @@ export default {
         },
 
         READ: async ({ dispatch, rootState }, chat: TChat) => {
-            const canRead: boolean = !rootState.settings.settings.vk.disable_read
+            const canRead: boolean = !rootState.config.vkService.read
                 && !chat.search
                 && chat.messages.length > 0
                 && chat.conversation.unread > 0
@@ -519,7 +519,7 @@ export default {
         },
 
         SEND_TYPING: async ({ rootState }, { id, type }) => {
-            if (id === undefined || rootState.settings.settings.vk.disable_write) {
+            if (id === undefined || rootState.config.vkService.disableWrite) {
                 return false;
             }
 
@@ -530,7 +530,7 @@ export default {
         },
 
         SEND_OFFLINE: async ({ rootState }) => {
-            if (!rootState.settings.settings.vk.send_offline) {
+            if (!rootState.config.vkService.send_offline) {
                 return false;
             }
 

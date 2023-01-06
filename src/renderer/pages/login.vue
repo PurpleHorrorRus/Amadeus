@@ -41,7 +41,6 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from "electron";
 import { CallbackService } from "vk-io";
 import { DirectAuthorization, officialAppCredentials } from "@vk-io/authorization";
 
@@ -190,28 +189,25 @@ export default {
         },
 
         async success() {
-            const { config } = await ipcRenderer.invoke("config");
-            const accountIndex = config.vk.accounts.findIndex(account => {
+            const accountIndex = this.config.vk.accounts.findIndex(account => {
                 return account.user === this.DirectData.user;
             });
 
             if (~accountIndex) {
-                config.vk.accounts[accountIndex].token = this.DirectData.token;
-                config.vk.active = accountIndex;
+                this.config.vk.accounts[accountIndex].token = this.DirectData.token;
+                this.config.vk.active = accountIndex;
             } else {
-                config.vk.active = config.vk.accounts.push({
+                this.config.vk.active = this.config.vk.accounts.push({
                     token: this.DirectData.token,
                     user: this.DirectData.user
                 }) - 1;
             }
 
-            ipcRenderer.send("save", {
-                type: "vk",
-                content: config.vk
-            });
+            this.config.vk.save();
 
             await common.wait(1000);
-            return this.$router.replace("/").catch(() => (false));
+            return this.$router.replace("/")
+                .catch(() => (false));
         },
 
         setCaptcha(payload, retry) {

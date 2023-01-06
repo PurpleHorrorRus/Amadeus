@@ -76,7 +76,7 @@ export default {
         },
 
         FORMAT_ITEM: async ({ rootState }, { item, profiles, groups }) => {
-            item.muted = rootState.settings.settings.vk.mute.includes(item.conversation.peer.id);
+            item.muted = rootState.config.vkService.mute.includes(item.conversation.peer.id);
 
             return ProfileGenerator.conversationProfileByType(
                 item.conversation.peer.type,
@@ -199,11 +199,11 @@ export default {
 
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", id);
 
-            if (rootState.settings.settings.vk.disable_notifications || conversation.message.out) {
+            if (rootState.config.vkService.notifications || conversation.message.out) {
                 return false;
             }
 
-            if (rootState.settings.settings.vk.mute.includes(conversation.id)) {
+            if (rootState.config.vkService.mute.includes(conversation.id)) {
                 return false;
             }
 
