@@ -273,6 +273,8 @@ export default {
         justify-self: flex-start;
         align-self: flex-start;
 
+        width: 100%;
+
         padding: 0px 10px;
 
         &-icon {
