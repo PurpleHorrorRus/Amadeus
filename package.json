@@ -30,7 +30,7 @@
         "url": "https://github.com/PurpleHorrorRus/Amadeus"
     },
     "engines": {
-        "node": ">=18.12.0"
+        "node": ">=18.13.0"
     },
     "resolutions": {
         "vue-plyr/plyr": "github:sampotts/plyr#master",
