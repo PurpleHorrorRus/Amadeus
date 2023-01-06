@@ -149,7 +149,7 @@ class Storage {
             appearance: this.nested("appearance"),
             player: this.nested("player"),
             vk: this.nested("vk", true),
-            stickers: this.nested("stickers")
+            stickers: this.nested("stickers", true)
         };
 
         return this;
