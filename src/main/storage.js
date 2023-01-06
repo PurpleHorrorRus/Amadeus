@@ -155,9 +155,13 @@ class Storage {
         return this;
     }
 
-    save (type, content) {
+    save (type, content, params = { spaces: 4 }) {
+        if (type === "stickers") {
+            params.spaces = 0;
+        }
+
         this.config[type] = content;
-        return fs.writeJsonSync(this.paths[type], content, { spaces: 4 });
+        return fs.writeJsonSync(this.paths[type], content, params);
     }
 
     clear (type) {

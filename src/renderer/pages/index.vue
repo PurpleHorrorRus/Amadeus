@@ -34,19 +34,16 @@ export default {
         });
 
         ipcRenderer.once("media", () => {
-            this.$router.replace("/media").catch(() => ({}));
-            return true;
+            return this.$router.replace("/media")
+                .catch(() => (false));
         });
 
         ipcRenderer.once("notifier", () => {
-            this.$router.replace("/notifier").catch(() => ({}));
-            return true;
+            return this.$router.replace("/notifier")
+                .catch(() => (false));
         });
 
-        return await this.loadLanguage("ru");
-    },
-
-    mounted() {
+        await this.loadLanguage("ru");
         return ipcRenderer.send("dom-ready");
     },
 

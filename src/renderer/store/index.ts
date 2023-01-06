@@ -32,6 +32,10 @@ export default () => {
         actions: {
             SET_CONFIG: async ({ dispatch, state }, data) => {
                 for (const key of Object.keys(data.config)) {
+                    if (!(key in data.config)) {
+                        data.config[key] = {};
+                    }
+
                     data.config[key].save = content => {
                         global.$nuxt.$ipc.send("save", {
                             type: key,

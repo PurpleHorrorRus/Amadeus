@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { BrowserWindow, ipcMain } from "electron";
 import common from "../common";
 
