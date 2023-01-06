@@ -207,6 +207,11 @@ export default {
         gap: 5px;
 
         height: max-content;
+
+        padding: 10px;
+
+        background: var(--backdrop);
+        border-radius: 6px;
     }
 }
 
