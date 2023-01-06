@@ -80,7 +80,7 @@ export default {
 
             sound.onplay = () => {
                 state.playing = true;
-            }
+            };
 
             sound.onended = () => {
                 state.playing = false;
@@ -132,10 +132,10 @@ export default {
 
         DESTROY: async ({ dispatch }) => {
             await dispatch("PAUSE");
-            
+
             hls.destroy();
             hls = null;
-            
+
             return true;
         },
 

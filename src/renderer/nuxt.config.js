@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-undef */
 const path = require("path");
 
 const headConfig = require("../../nuxt-config/head");
@@ -85,7 +84,6 @@ module.exports = {
     css: [
         "~assets/css/global.scss",
 
-        "vue-plyr/dist/vue-plyr.css",
         "vue-range-component/dist/vue-range-slider.css",
         "vue-loading-skeleton/dist/vue-loading-skeleton.css",
         "cropperjs/dist/cropper.css",

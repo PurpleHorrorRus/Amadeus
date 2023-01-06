@@ -33,7 +33,6 @@
         "node": ">=18.13.0"
     },
     "resolutions": {
-        "vue-plyr/plyr": "github:sampotts/plyr#master",
         "parse-path": "^5.0.0",
         "got": "^11.8.5",
         "nth-check": "^2.0.1",
@@ -89,7 +88,6 @@
         "vue-cropperjs": "4.2.0",
         "vue-js-toggle-button": "^1.3.3",
         "vue-loading-skeleton": "^1.1.9",
-        "vue-plyr": "^7.0.0",
         "vue-range-component": "https://github.com/xwpongithub/vue-range-slider",
         "vue-scroll-outside": "^1.0.1",
         "vue-yandex-maps": "^0.11.13",
