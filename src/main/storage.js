@@ -26,7 +26,7 @@ const clear = {
 
         notifications: true,
         read: true,
-        write: false,
+        write: true,
         offline: false
     },
 
