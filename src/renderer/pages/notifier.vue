@@ -75,7 +75,7 @@ export default {
 
         open(notification: Conversation, index: number) {
             this.removeMessage(index, notification, true);
-            return this.$ipc.send("notifierOpen", JSON.parse(JSON.stringify(notification)));
+            return this.$ipc.send("notifierOpen", notification);
         }
     }
 };

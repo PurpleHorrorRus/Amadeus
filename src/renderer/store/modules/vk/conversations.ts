@@ -198,7 +198,7 @@ export default {
 
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", id);
 
-            if (rootState.config.vkService.notifications || conversation.message.out) {
+            if (!rootState.config.vkService.notifications || conversation.message.out) {
                 return false;
             }
 
@@ -215,16 +215,15 @@ export default {
             notification.volume = 0.4;
             notification.play();
 
-            global.$nuxt.$ipc.send("notifierMessage", JSON.parse(JSON.stringify({
+            return global.$nuxt.$ipc.send("notifierMessage", {
                 ...conversation,
+
                 profile: {
                     ...conversation.profile,
                     avatar: conversation.avatar,
                     name: conversation.name
                 }
-            })));
-
-            return true;
+            });
         },
 
         GET_CONVERSATION_CACHE: ({ state }, id) => {

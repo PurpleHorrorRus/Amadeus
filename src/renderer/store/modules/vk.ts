@@ -27,8 +27,9 @@ export default {
     }),
 
     mutations: {
-        LOGIN_ERROR() {
-            this.$router.replace("/login").catch(() => (false));
+        LOGIN_ERROR () {
+            return this.$router.replace("/login")
+                .catch(() => (false));
         }
     },
 
