@@ -22,7 +22,7 @@ export default () => {
         }),
 
         mutations: {
-            openConversation(_, conversation: Conversation) {
+            openConversation (_, conversation: Conversation) {
                 const { id, type } = conversation.information.peer;
                 return this.$router.replace(`/messages/${id}?type=${type}`)
                     .catch(() => (false));

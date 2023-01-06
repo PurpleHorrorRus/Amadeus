@@ -81,7 +81,7 @@ export default {
             const blob = item.getAsFile();
 
             const filename = Date.now() + ".jpg";
-            const savePath = path.resolve(rootState.config.paths.temp, filename);
+            const savePath = path.resolve(rootState.paths.temp, filename);
 
             const arrayBuffer = await blob.arrayBuffer();
             const buffer = Buffer.from(arrayBuffer);
