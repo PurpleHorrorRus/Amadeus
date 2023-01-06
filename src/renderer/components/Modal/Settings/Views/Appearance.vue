@@ -45,7 +45,12 @@
         <ToggleButton
             :text="$strings.SETTINGS.APPEARANCE.STICKERS"
             :value="config.appearance.stickersTheme"
-            @change="deepChange('appearance', config.appearance, 'stickersTheme')"
+            @change="deepChange(
+                'appearance',
+                config.appearance,
+                'stickersTheme',
+                Number(!config.appearance.stickersTheme)
+            )"
         />
     </div>
 </template>
@@ -165,14 +170,12 @@ export default {
 
         changeTheme(index) {
             this.setTheme(this.themes[index].id);
-            this.deepChange("appearance", this.config.appearance, "theme", this.themes[index].id);
-            return true;
+            return this.deepChange("appearance", this.config.appearance, "theme", this.themes[index].id);
         },
 
         saveColor(data) {
             this.calculateContrasts(data);
-            this.deepChange("appearance", this.config.appearance.colors, data.variable, data.value);
-            return true;
+            return this.deepChange("appearance", this.config.appearance.colors, data.variable, data.value);
         }
     }
 };

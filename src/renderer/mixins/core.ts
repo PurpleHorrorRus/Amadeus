@@ -27,7 +27,7 @@ export default {
                 }
 
                 case "string": case "number": {
-                    if (!value) {
+                    if (value === null || value === undefined) {
                         return false;
                     }
 
