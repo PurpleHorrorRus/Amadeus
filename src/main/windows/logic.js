@@ -10,7 +10,7 @@ class WindowLogic {
     load(window, type) {
         const url = isDev
             ? process.env.DEV_SERVER_URL
-            : "meridius://./index.html";
+            : "amadeus://./index.html";
 
         return new Promise(resolve => {
             ipcMain.on("dom-ready", () => {

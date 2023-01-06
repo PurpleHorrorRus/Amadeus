@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "cross-env NODE_ENV=development node --openssl-legacy-provider .electron-nuxt/index.js",
         "build": "cross-env NODE_ENV=production node --openssl-legacy-provider .electron-nuxt/index.js",
-        "build:linux": "docker run --privileged --rm -v E:\\Projects\\Meridius:/usr/meridius -w /usr/meridius meridius-linux yarn build",
+        "build:linux": "docker run --privileged --rm -v E:\\Projects\\Amadeus:/usr/amadeus -w /usr/amadeus amadeus-linux yarn build",
         "build:all": "yarn build && yarn build:linux",
         "release": "yarn run:build --publish always",
         "postinstall": "electron-builder install-app-deps",
