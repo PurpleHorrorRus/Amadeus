@@ -30,7 +30,7 @@ export default {
             });
 
             state.active = true;
-            return ipcRenderer.send("install-update");
+            return global.$nuxt.$ipc.send("install-update");
         }
     }
 };

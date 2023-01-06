@@ -3,11 +3,11 @@ import { VK } from "vk-io";
 // vk.updates.on("")
 // vk.upload.video
 
-import conversations from "~/store/modules/vk/conversations";
-import messages from "~/store/modules/vk/messages";
-import important from "~/store/modules/vk/important";
-import search from "~/store/modules/vk/search";
-import uploader from "~/store/modules/vk/uploader";
+import conversations from "./vk/conversations";
+import messages from "./vk/messages";
+import important from "./vk/important";
+import search from "./vk/search";
+import uploader from "./vk/uploader";
 
 import User from "~/instances/User";
 import Group from "~/instances/Group";

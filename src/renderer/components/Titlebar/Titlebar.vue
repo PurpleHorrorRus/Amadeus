@@ -50,12 +50,12 @@ export default {
     async created() {
         this.version = this.$isDev
             ? "development mode"
-            : await ipcRenderer.invoke("getVersion");
+            : await this.$ipc.invoke("getVersion");
     },
 
     methods: {
         send(event) {
-            ipcRenderer.send(event);
+            this.$ipc.send(event);
         }
     }
 };

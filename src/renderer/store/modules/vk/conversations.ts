@@ -1,4 +1,3 @@
-import { ipcRenderer } from "electron";
 import Promise from "bluebird";
 
 import { MessagesGetConversationsByIdParams, MessagesGetConversationsParams } from "vk-io/lib/api/schemas/params";
@@ -207,7 +206,7 @@ export default {
                 return false;
             }
 
-            const focused = await ipcRenderer.invoke("focused");
+            const focused = await global.$nuxt.$ipc.invoke("focused");
             if (focused && rootState.vk.messages.current?.id === conversation.id) {
                 return false;
             }
@@ -216,7 +215,7 @@ export default {
             notification.volume = 0.4;
             notification.play();
 
-            ipcRenderer.send("notifierMessage", JSON.parse(JSON.stringify({
+            global.$nuxt.$ipc.send("notifierMessage", JSON.parse(JSON.stringify({
                 ...conversation,
                 profile: {
                     ...conversation.profile,
@@ -346,7 +345,7 @@ export default {
                 return conversation.unread > 0;
             }).length;
 
-            return ipcRenderer.send("buildNotificationIcon", notificationsCount);
+            return global.$nuxt.$ipc.send("buildNotificationIcon", notificationsCount);
         },
 
         TRIGGER_TYPING: async ({ dispatch }, data) => {

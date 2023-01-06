@@ -1,6 +1,5 @@
 import DateDiff from "date-diff";
 import Promise from "bluebird";
-import { ipcRenderer } from "electron";
 import { StoreGetProductsParams, StoreGetStickersKeywordsParams } from "vk-io/lib/api/schemas/params";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import StickersCollection from "~/instances/Messages/StickersCollection";
@@ -87,7 +86,7 @@ export default {
             }
 
             rootState.config.stickers = null;
-            ipcRenderer.send("clearStickers");
+            global.$nuxt.$ipc.send("clearStickers");
             return state.collections;
         },
 

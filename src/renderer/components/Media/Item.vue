@@ -24,8 +24,6 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from "electron";
-
 import GalleryMixin from "~/components/Messages/Attachments/Gallery/Gallery";
 import MenuMixin from "~/mixins/menu";
 
@@ -65,12 +63,12 @@ export default {
         },
 
         share() {
-            ipcRenderer.send("share", this.item);
-            this.$parent.close();
+            this.$ipc.send("share", this.item);
+            return this.$parent.close();
         },
 
         copy(event) {
-            ipcRenderer.send(event, this.item.sizes.max);
+            this.$ipc.send(event, this.item.sizes.max);
         }
     }
 };

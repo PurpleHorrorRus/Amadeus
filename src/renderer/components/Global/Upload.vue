@@ -72,7 +72,7 @@ export default {
             }
 
             const files: Array<string> | boolean
-                = await ipcRenderer.invoke("select", this.properties);
+                = await this.$ipc.invoke("select", this.properties);
 
             return files
                 ? this.$emit("choose", files)

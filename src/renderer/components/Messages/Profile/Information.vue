@@ -75,7 +75,7 @@ export default {
                 return false;
             }
 
-            const filePaths = await ipcRenderer.invoke("select", {
+            const filePaths = await this.$ipc.invoke("select", {
                 properties: ["openFile", "singleSelection"],
                 filters: [filter]
             });

@@ -55,7 +55,7 @@ export default {
 
     methods: {
         async open() {
-            const filePaths = await ipcRenderer.invoke("select", this.properties);
+            const filePaths = await this.$ipc.invoke("select", this.properties);
 
             if (filePaths) {
                 const [path] = filePaths;

@@ -36,7 +36,7 @@ export default {
     },
 
     async created() {
-        this.media = await ipcRenderer.invoke("requestMedia");
+        this.media = await this.$ipc.invoke("requestMedia");
     },
 
     mounted() {
@@ -53,12 +53,12 @@ export default {
         },
 
         share() {
-            ipcRenderer.send("share", this.item);
+            this.$ipc.send("share", this.item);
             this.close();
         },
 
         close() {
-            ipcRenderer.send("closeMedia");
+            this.$ipc.send("closeMedia");
         }
     }
 };

@@ -62,7 +62,7 @@ export default {
         },
 
         turnClickable(notification: Conversation | null, ignore: boolean) {
-            ipcRenderer.send("notifierClickable", ignore);
+            this.$ipc.send("notifierClickable", ignore);
 
             if (notification) {
                 notification.hover = !ignore;
@@ -75,7 +75,7 @@ export default {
 
         open(notification: Conversation, index: number) {
             this.removeMessage(index, notification, true);
-            return ipcRenderer.send("notifierOpen", JSON.parse(JSON.stringify(notification)));
+            return this.$ipc.send("notifierOpen", JSON.parse(JSON.stringify(notification)));
         }
     }
 };

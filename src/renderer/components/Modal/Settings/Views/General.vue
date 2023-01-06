@@ -75,12 +75,12 @@ export default {
         },
 
         turnStartup() {
-            ipcRenderer.send("changeStartup", !this.config.window.startup);
+            this.$ipc.send("changeStartup", !this.config.window.startup);
             return this.deepChange("window", this.config.window, "startup");
         },
 
         turnDevTools() {
-            ipcRenderer.send(this.config.window.devtools ? "closeDevTools" : "openDevTools");
+            this.$ipc.send(this.config.window.devtools ? "closeDevTools" : "openDevTools");
             return this.deepChange("window", this.config.window, "devtools");
         },
 

@@ -15,7 +15,7 @@ export default {
 
     async created() {
         ipcRenderer.once("normal", async () => {
-            const data = await ipcRenderer.invoke("config");
+            const data = await this.$ipc.invoke("config");
             await this.setConfig(data);
 
             if (!~data.config.vk.active || data.config.vk.accounts.length === 0) {
@@ -44,7 +44,7 @@ export default {
         });
 
         await this.loadLanguage("ru");
-        return ipcRenderer.send("dom-ready");
+        return this.$ipc.send("dom-ready");
     },
 
     methods: {
@@ -61,7 +61,7 @@ export default {
                 return false;
             }
 
-            ipcRenderer.send("register-updater");
+            this.$ipc.send("register-updater");
         }
     }
 };

@@ -30,7 +30,7 @@ export default {
                 return false;
             }
 
-            return ipcRenderer.send("openMedia", { data, index });
+            return this.$ipc.send("openMedia", { data, index });
         },
 
         openExternal(url) {

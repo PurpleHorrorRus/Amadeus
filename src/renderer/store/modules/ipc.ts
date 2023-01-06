@@ -1,8 +1,9 @@
 import { ipcRenderer } from "electron";
 import { UpdateInfo } from "electron-updater";
-import Conversation from "~/instances/Conversations/Convesration";
 
-import events from "~/store/modules/ipc/events";
+import events from "./ipc/events";
+
+import Conversation from "~/instances/Conversations/Convesration";
 
 export default {
     namespaced: true,

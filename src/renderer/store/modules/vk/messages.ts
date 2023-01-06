@@ -1,4 +1,3 @@
-import { ipcRenderer } from "electron";
 import Promise from "bluebird";
 import lodash from "lodash";
 import DateDiff from "date-diff";
@@ -17,9 +16,10 @@ import {
 
 import { MessagesMessage } from "vk-io/lib/api/schemas/objects";
 
+import stickers from "./stickers";
+
 import Message from "~/instances/Messages/Message";
 import Attachment from "~/instances/Messages/Attachment";
-import stickers from "~/store/modules/vk/stickers";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import Video from "~/instances/Messages/Attachments/Video";
 import ProfileGenerator from "~/instances/Generator";
@@ -491,7 +491,7 @@ export default {
                 && !chat.search
                 && chat.messages.length > 0
                 && chat.conversation.unread > 0
-                && await ipcRenderer.invoke("focused");
+                && await global.$nuxt.$ipc.invoke("focused");
 
             if (!canRead) {
                 return false;

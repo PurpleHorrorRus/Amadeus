@@ -82,7 +82,7 @@ export default {
         ];
 
         this.version.electron = process.versions.electron;
-        this.version.amadeus = await ipcRenderer.invoke("getVersion");
+        this.version.amadeus = await this.$ipc.invoke("getVersion");
     }
 };
 </script>
