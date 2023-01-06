@@ -67,6 +67,8 @@
 </template>
 
 <script lang="ts">
+import { MessagesMessageAttachment } from "vk-io/lib/api/schemas/objects";
+
 export default {
     components: {
         Gallery: () => import("~/components/Messages/Attachments/Gallery.vue"),
@@ -103,7 +105,7 @@ export default {
     }),
 
     computed: {
-        attachment() {
+        attachment(): MessagesMessageAttachment {
             return this.message.attachments[0];
         }
     },
@@ -112,7 +114,9 @@ export default {
         message: {
             deep: true,
 
-            handler: function() { this.updateAttachments(); }
+            handler: function() {
+                return this.updateAttachments();
+            }
         }
     },
 
@@ -202,7 +206,7 @@ export default {
         flex-wrap: wrap;
         gap: 5px;
 
-        height: 35vh;
+        height: max-content;
     }
 }
 
