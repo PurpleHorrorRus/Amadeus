@@ -37,8 +37,6 @@ class IPC {
         };
 
         this.events.save = args => {
-            console.log(args);
-
             if (!args.content) {
                 console.error("Settings content is empty", args.type);
                 return;
