@@ -1,23 +1,52 @@
 <template>
     <div class="player-timeline">
-        <VuePlyr ref="plyr">
-            <audio />
-        </VuePlyr>
+        <ProgressLine
+            v-if="init"
+            id="player-timeline"
+            ref="line"
+            :value="time"
+            :max="song.duration"
+            :parentMove="true"
+            :tooltipValue="formatTime(tooltipTime)"
+            @select="seek"
+            @updateTooltip="tooltipTime = $event"
+        />
     </div>
 </template>
 
 <script lang="ts">
-import { mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
+
+import AudioMixin from "~/mixins/audio";
+
+import common from "~/plugins/common";
 
 export default {
-    mounted() {
-        this.setPlayer(this.$refs.plyr);
+    components: {
+        ProgressLine: () => import("~/components/Other/Line.vue")
+    },
+
+    mixins: [AudioMixin],
+
+    data: () => ({
+        tooltipTime: 0
+    }),
+
+    computed: {
+        ...mapState({
+            init: (state: any) => state.audio.init,
+            time: (state: any) => state.audio.time
+        })
     },
 
     methods: {
         ...mapActions({
-            setPlayer: "audio/SET_PLAYER"
-        })
+            seek: "audio/SET_TIME"
+        }),
+
+        formatTime(time) {
+            return common.fancyTimeFormat(time);
+        }
     }
 };
 </script>
@@ -25,36 +54,5 @@ export default {
 <style lang="scss">
 .player-timeline {
     width: 100%;
-
-    --plyr-audio-controls-background: none;
-    --plyr-audio-control-color: var(--small-text) !important;
-    --plyr-range-fill-background: var(--player-slider-progress);
-    --plyr-audio-progress-buffered-background: var(--player-slider);
-    --plyr-tooltip-background: var(--tooltip);
-    --plyr-tooltip-color: var(--secondary);
-
-    --plyr-range-thumb-height: 0px;
-    --plyr-range-track-height: 4px;
-
-    --plyr-font-size-time: 8pt;
-
-    .plyr--audio .plyr__controls {
-        padding: 0px !important;
-    }
-
-    .plyr__controls {
-        display: block;
-
-        width: 100%;
-
-        &:hover {
-            --plyr-range-thumb-height: 8px;
-            --plyr-range-fill-background: var(--secondary);
-        }
-    }
-
-    .plyr__tooltip {
-        z-index: 900 !important;
-    }
 }
 </style>

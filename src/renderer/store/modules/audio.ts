@@ -12,7 +12,7 @@ const hlsConfig = {
 };
 
 let hls = null;
-let sound = null;
+let sound = new Audio();
 
 const saveVolumeDebounce = lodash.debounce(context => {
     return context.save();
@@ -32,13 +32,24 @@ export default {
     }),
 
     actions: {
-        SET_PLAYER: async ({ dispatch }, player) => {
-            sound = player;
-            return await dispatch("CREATE_PLAYER");
+        PLAY: async ({ dispatch, state }, song) => {
+            if (state.song) {
+                await dispatch("CLEAR");
+            }
+
+            state.song = song;
+
+            if (!state.init) {
+                state.init = true;
+            }
+
+            await dispatch("CREATE_PLAYER");
+            return state.song;
         },
 
         CREATE_PLAYER: async ({ dispatch, state, rootState }) => {
             hls = new Hls(hlsConfig);
+
             hls.on(Hls.Events.ERROR, (_event, data) => {
                 const { type, fatal } = data;
 
@@ -59,41 +70,30 @@ export default {
                 }
             });
 
-            hls.attachMedia(sound.player.media);
+            sound = new Audio();
+            hls.attachMedia(sound);
             hls.loadSource(state.song.url);
 
             try {
-                sound.player.media.setSinkId(rootState.config.general.outputDevice);
-            } catch (e) { sound.player.media.setSinkId("default"); }
+                sound.setSinkId(rootState.config.general.outputDevice);
+            } catch (e) { sound.setSinkId("default"); }
 
-            state.volume = await dispatch("CALCULATE_VOLUME", rootState.config.player.volume);
+            sound.onplay = () => {
+                state.playing = true;
+            }
 
-            sound.player.media.oncanplaythrough = () => {
-                sound.player.media.volume = state.volume;
-                sound.player.media.play();
-            };
-
-            sound.player.media.onended = () => {
+            sound.onended = () => {
                 state.playing = false;
                 state.time = 0;
             };
 
-            sound.player.media.ontimeupdate = () => {
-                state.time = sound.player.media.currentTime;
+            sound.ontimeupdate = () => {
+                state.time = sound.currentTime;
             };
 
-            state.playing = true;
-            return state.song;
-        },
-
-        PLAY: async ({ dispatch, state }, song) => {
-            if (state.song) {
-                await dispatch("DESTROY");
-            }
-
-            state.song = song;
-            if (!state.init) state.init = true;
-            else await dispatch("CREATE_PLAYER");
+            state.volume = await dispatch("CALCULATE_VOLUME", rootState.config.player.volume);
+            sound.volume = state.volume;
+            sound.play();
 
             return state.song;
         },
@@ -103,7 +103,7 @@ export default {
                 return false;
             }
 
-            sound.player.media.pause();
+            sound.pause();
             state.playing = false;
             return true;
         },
@@ -113,8 +113,8 @@ export default {
                 return false;
             }
 
-            if (hls) hls.startLoad(sound.player.media.currentTime);
-            sound.player.media.play();
+            if (hls) hls.startLoad(sound.currentTime);
+            sound.play();
             state.playing = true;
 
             return true;
@@ -130,21 +130,23 @@ export default {
             return true;
         },
 
-        DESTROY: () => {
-            sound.player.media.pause();
+        DESTROY: async ({ dispatch }) => {
+            await dispatch("PAUSE");
+            
             hls.destroy();
             hls = null;
+            
             return true;
         },
 
         SET_VOLUME: async ({ dispatch, state, rootState }, volume) => {
             const result = await dispatch("CALCULATE_VOLUME", volume);
 
-            if (sound?.player.media.volume === result) {
+            if (sound.volume === result) {
                 return false;
             }
 
-            sound.player.media.volume = result;
+            sound.volume = result;
             state.volume = volume;
             rootState.config.player.volume = Math.floor(volume);
 
@@ -159,6 +161,12 @@ export default {
         LIMIT_VOLUME: async (_, volume) => {
             const min = Math.min(volume, 1);
             return Math.max(min, 0);
+        },
+
+        SET_TIME: async ({ dispatch, state }, time) => {
+            sound.currentTime = time;
+            state.time = time;
+            return await dispatch("RESUME");
         }
     }
 };
