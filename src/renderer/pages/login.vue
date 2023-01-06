@@ -44,6 +44,8 @@
 import { CallbackService } from "vk-io";
 import { DirectAuthorization, officialAppCredentials } from "@vk-io/authorization";
 
+import CoreMixin from "~/mixins/core";
+
 import common from "~/plugins/common";
 
 const callbackService = new CallbackService();
@@ -55,6 +57,8 @@ export default {
         LoginCredits: () => import("~/components/Login/Credits.vue"),
         LoginCaptcha: () => import("~/components/Login/Captcha.vue")
     },
+
+    mixins: [CoreMixin],
 
     layout: "login",
 
