@@ -51,28 +51,19 @@ export default {
 
         contacts: [],
         links: {
-            VK: "https://vk.com/id529592613",
-            VKGroup: "https://vk.com/meridius_player",
+            VKGroup: "https://vk.com/infinitesoftware",
             GitHub: "https://github.com/PurpleHorrorRus/Amadeus",
-            Trovo: "https://trovo.live/VierDreissig",
-            Donate: "https://donatepay.ru/don/InfiniteHorror"
+            Donate: "https://www.donationalerts.com/dashboard"
         }
     }),
 
     async created() {
         this.contacts = [
             {
-                id: "VK",
-                url: this.links.VK,
-                icon: () => import("~/assets/icons/brands/vk.svg"),
-                label: "VK"
-            },
-
-            {
                 id: "VKGroup",
                 url: this.links.VKGroup,
                 icon: () => import("~/assets/icons/brands/vk.svg"),
-                label: "Группа VK"
+                label: "Infinite Software"
             },
 
             {
@@ -83,13 +74,6 @@ export default {
             },
 
             {
-                id: "Trovo",
-                url: this.links.Trovo,
-                icon: () => import("~/assets/icons/brands/trovo.svg"),
-                label: "Trovo"
-            },
-
-            {
                 id: "Donate",
                 url: this.links.Donate,
                 icon: () => import("~/assets/icons/brands/dollar.svg"),
@@ -97,7 +81,6 @@ export default {
             }
         ];
 
-        // eslint-disable-next-line no-undef
         this.version.electron = process.versions.electron;
         this.version.amadeus = await ipcRenderer.invoke("getVersion");
     }
@@ -130,7 +113,7 @@ export default {
         }
 
         .modal-window-about-view-contacts-item {
-            &#VK, &#VKGroup {
+            &#VKGroup {
                 &:hover {
                     span {
                         color: #2787f5;
@@ -149,16 +132,6 @@ export default {
 
                 .icon path {
                     fill: #c0c0c0 !important;
-                }
-            }
-
-            &#Trovo:hover {
-                span {
-                    color: #1aab77;
-                }
-
-                .icon path {
-                    fill: #1aab77 !important;
                 }
             }
 
