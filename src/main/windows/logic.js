@@ -9,17 +9,17 @@ class WindowLogic {
     }
 
     load(window, type) {
+        const url = isDev
+            ? process.env.DEV_SERVER_URL
+            : "meridius://./index.html";
+
         return new Promise(resolve => {
             ipcMain.on("dom-ready", () => {
-                if (this.isWindowAlive(window)) {
-                    this.send(window, type);
-                    return resolve(window);
-                }
+                window.loaded = this.send(window, type);
+                return resolve(window.loaded);
             });
 
-            const url = isDev ? process.env.DEV_SERVER_URL : "amadeus://./index.html";
-            window.loadURL(url);
-            console.log("Load page", url);
+            return window.loadURL(url);
         });
     }
 
