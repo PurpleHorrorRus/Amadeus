@@ -519,7 +519,7 @@ export default {
         },
 
         SEND_TYPING: async ({ rootState }, { id, type }) => {
-            if (id === undefined || rootState.config.vkService.disableWrite) {
+            if (id === undefined || !rootState.config.vkService.write) {
                 return false;
             }
 
