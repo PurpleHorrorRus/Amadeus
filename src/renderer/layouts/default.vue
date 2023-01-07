@@ -132,7 +132,7 @@ export default {
         },
 
         resized() {
-            return this.config.apppearance.save();
+            return this.config.appearance.save();
         },
 
         async keyPress(event) {
