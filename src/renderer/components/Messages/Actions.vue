@@ -53,7 +53,7 @@ export default {
 
         canRead() {
             return !this.message.out
-                && this.config.vkService.read
+                && !this.config.vkService.read
                 && this.current.information.in_read < this.message.id;
         }
     },
