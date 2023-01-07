@@ -184,6 +184,10 @@ export default {
     align-items: center;
     column-gap: 5px;
 
+    &-attachments {
+        flex: 0 0 max-content;
+    }
+
     &-date {
         &::before {
             content: "•";
