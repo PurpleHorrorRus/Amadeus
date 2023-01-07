@@ -23,11 +23,18 @@ export default {
                 audio.setSinkId(rootState.config.general.outputDevice);
             } catch (e) { audio.setSinkId("default"); }
 
-            audio.onended = () => dispatch("CLEAR");
-            audio.ontimeupdate = () => state.time = audio.currentTime;
+            audio.onended = () => {
+                return dispatch("CLEAR");
+            };
+
+            audio.ontimeupdate = () => {
+                state.time = audio.currentTime;
+                return state.time;
+            };
+
             audio.oncanplaythrough = () => {
                 state.playing = true;
-                audio.play();
+                return audio.play();
             };
 
             state.playing = true;
@@ -47,8 +54,13 @@ export default {
         },
 
         SEEK: ({ dispatch }, time) => {
+            if (!audio) {
+                return false;
+            }
+
             audio.currentTime = time;
             dispatch("RESUME");
+
             return time;
         },
 
