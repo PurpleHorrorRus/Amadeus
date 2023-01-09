@@ -52,7 +52,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
       
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: amadeus.tar.gz
           path: build/amadeus-*.tar.gz
