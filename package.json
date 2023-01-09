@@ -8,7 +8,7 @@
         "build": "cross-env NODE_ENV=production node .electron-nuxt/index.js",
         "build:linux": "docker run --privileged --rm -v E:\\Projects\\Amadeus:/usr/amadeus -w /usr/amadeus amadeus-linux yarn build",
         "build:all": "yarn build && yarn build:linux",
-        "release": "yarn run:build --publish always",
+        "release": "yarn build --publish always",
         "postinstall": "electron-builder install-app-deps",
         "docker": "docker build -t amadeus-linux .",
         "deps": "yarn && yarn postinstall",
