@@ -215,15 +215,19 @@ export default {
             notification.volume = 0.4;
             notification.play();
 
-            return global.$nuxt.$ipc.send("notifierMessage", {
-                ...conversation,
+            if (rootState.config.general.notifications) {
+                global.$nuxt.$ipc.send("notifierMessage", {
+                    ...conversation,
 
-                profile: {
-                    ...conversation.profile,
-                    avatar: conversation.avatar,
-                    name: conversation.name
-                }
-            });
+                    profile: {
+                        ...conversation.profile,
+                        avatar: conversation.avatar,
+                        name: conversation.name
+                    }
+                });
+            }
+
+            return true;
         },
 
         GET_CONVERSATION_CACHE: ({ state }, id) => {

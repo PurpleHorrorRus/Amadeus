@@ -14,6 +14,7 @@ const clear = {
     },
 
     general: {
+        notifications: true,
         inputDevice: "default",
         outputDevice: "default"
     },

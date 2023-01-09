@@ -15,6 +15,12 @@
         />
 
         <ToggleButton
+            :text="$strings.SETTINGS.GENERAL.NOTIFICATIONS"
+            :value="config.general.notifications"
+            @change="deepChange('general', config.general, 'notifications')"
+        />
+
+        <ToggleButton
             :text="$strings.SETTINGS.GENERAL.DEVTOOLS"
             :value="config.window.devtools"
             @change="turnDevTools"
@@ -37,8 +43,6 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from "electron";
-
 import CoreMixin from "~/mixins/core";
 
 export default {
