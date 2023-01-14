@@ -1,6 +1,7 @@
 import DateDiff from "date-diff";
-import Promise from "bluebird";
+import lodash from "lodash";
 import { StoreGetProductsParams, StoreGetStickersKeywordsParams } from "vk-io/lib/api/schemas/params";
+import { StoreStickersKeyword } from "vk-io/lib/api/schemas/objects";
 import Sticker from "~/instances/Messages/Attachments/Sticker";
 import StickersCollection from "~/instances/Messages/StickersCollection";
 
@@ -17,7 +18,7 @@ const params: StoreGetProductsParams = {
 
 const keywordsParams: StoreGetStickersKeywordsParams = {
     aliases: 1,
-    all_products: 1,
+    all_products: 0,
     need_stickers: 1
 };
 
@@ -94,8 +95,17 @@ export default {
             console.log("[Stickers]: FETCH REMOTELY...");
 
             const response = await rootState.vk.client.api.store.getProducts(params);
-            await Promise.delay(5000);
-            const keywordsResponse = await rootState.vk.client.api.store.getStickersKeywords(keywordsParams);
+
+            const keywordsResponse = {};
+
+            for (const chunk of lodash.chunk(response.items, 100)) {
+                const keywords = await rootState.vk.client.api.store.getStickersKeywords({
+                    ...keywordsParams,
+                    products_ids: chunk.map((collection: StoreStickersKeyword) => collection.id).join(",")
+                });
+
+                Object.assign(keywordsResponse, keywords);
+            }
 
             return { response, keywordsResponse };
         },
