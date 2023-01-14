@@ -61,7 +61,8 @@ export default {
 
         showSender() {
             return !("action" in this.message)
-                && (this.message.out || this.$parent.conversation.isChat);
+                && (this.message.out || this.$parent.conversation.isChat)
+                && this.sender;
         },
 
         sender() {
@@ -71,7 +72,7 @@ export default {
 
             return this.$parent.conversation.users.find(user => {
                 return user.id === this.message.from_id;
-            }).first_name + ":";
+            })?.first_name || "";
         }
     },
 
