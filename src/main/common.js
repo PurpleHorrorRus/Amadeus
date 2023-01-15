@@ -5,7 +5,7 @@ import { app } from "electron";
 import Storage from "./storage";
 import WindowsLogic from "./windows/logic";
 
-app.getVersion = () => "1.0.0-beta.20";
+app.getVersion = () => "1.0.0-beta.21";
 
 const isDev = process.env.NODE_ENV === "development";
 const isWindows = process.platform === "win32";
