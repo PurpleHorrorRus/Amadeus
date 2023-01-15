@@ -36,8 +36,6 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from "electron";
-
 export default {
     components: {
         Contact: () => import("./About/Contact.vue")
