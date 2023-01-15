@@ -53,7 +53,7 @@ export default {
         links: {
             VKGroup: "https://vk.com/infinitesoftware",
             GitHub: "https://github.com/PurpleHorrorRus/Amadeus",
-            Donate: "https://www.donationalerts.com/dashboard"
+            Donate: "https://donationalerts.com/r/infinitehorror"
         }
     }),
 
