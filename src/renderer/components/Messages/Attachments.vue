@@ -141,17 +141,18 @@ export default {
             }
 
             const isArray = Array.isArray(type);
+
             return this.message.attachments.filter(attachment => {
                 return isArray
-                    ? type.includes(attachment.type)
-                    : attachment.type === type;
+                    ? type.includes(attachment?.type)
+                    : attachment?.type === type;
             });
         },
 
         find(type) {
             return this.message.attachments?.find(attachment => {
-                return attachment.type === type;
-            }) || null;
+                return attachment?.type === type;
+            });
         }
     }
 };
