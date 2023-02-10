@@ -24,7 +24,7 @@ const params = {
 
     frame: false,
     transparent: false,
-    background: "#131313",
+    backgroundColor: "#131313",
     webPreferences: common.webPreferences
 };
 
