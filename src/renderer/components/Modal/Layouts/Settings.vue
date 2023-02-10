@@ -18,14 +18,15 @@ export default {
     computed: {
         renderView() {
             switch (this.view) {
-                case "general": return () => import("~/components/Modal/Settings/Views/General.vue");
-                case "vk": return () => import("~/components/Modal/Settings/Views/VK.vue");
-                case "appearance": return () => import("~/components/Modal/Settings/Views/Appearance.vue");
-                case "accounts": return () => import("~/components/Modal/Settings/Views/Accounts.vue");
-                case "about": return () => import("~/components/Modal/Settings/Views/About.vue");
+                case "general": return () => import("../Settings/Views/General.vue");
+                case "notifications": return () => import("../Settings/Views/Notifications.vue");
+                case "vk": return () => import("../Settings/Views/VK.vue");
+                case "appearance": return () => import("../Settings/Views/Appearance.vue");
+                case "accounts": return () => import("../Settings/Views/Accounts.vue");
+                case "about": return () => import("../Settings/Views/About.vue");
             }
 
-            return () => import("~/components/Modal/Settings/Views/General.vue");
+            return () => import("../Settings/Views/General.vue");
         }
     },
 

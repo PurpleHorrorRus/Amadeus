@@ -14,15 +14,17 @@ const clear = {
     },
 
     general: {
-        notifications: true,
+        inputDevice: "default",
+        outputDevice: "default"
+    },
+
+    notifications: {
+        desktop: true,
 
         sound: {
             enable: true,
             file: ""
-        },
-
-        inputDevice: "default",
-        outputDevice: "default"
+        }
     },
 
     vkService: {
@@ -152,6 +154,7 @@ class Storage {
         this.config = {
             window: this.nested("window"),
             general: this.nested("general"),
+            notifications: this.nested("notifications"),
             vkService: this.nested("vkService"),
             appearance: this.nested("appearance"),
             player: this.nested("player"),

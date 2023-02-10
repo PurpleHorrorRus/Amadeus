@@ -29,6 +29,12 @@ export default {
             },
 
             {
+                id: "notifications",
+                label: this.$strings.SETTINGS.NAVIGATION.NOTIFICATIONS,
+                icon: () => import("~icons/alert.svg")
+            },
+
+            {
                 id: "vk",
                 label: this.$strings.SETTINGS.NAVIGATION.VK,
                 icon: () => import("~icons/brands/vk.svg")

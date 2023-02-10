@@ -31,7 +31,8 @@ export default {
 
     methods: {
         back() {
-            return this.$router.replace("/general").catch(() => (false));
+            return this.$router.replace("/general")
+                .catch(() => (false));
         }
     }
 };

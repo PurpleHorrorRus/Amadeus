@@ -201,26 +201,21 @@ export default {
 
             const conversation: Conversation = await dispatch("GET_CONVERSATION_CACHE", id);
 
-            if (!rootState.config.vkService.notifications || conversation.message.out) {
+            if (!rootState.config.vkService.notifications
+                || conversation.message.out
+                || rootState.config.vkService.mute.includes(conversation.id)
+                || (await global.$nuxt.$ipc.invoke("focused") && rootState.vk.messages.current?.id === conversation.id)
+            ) {
                 return false;
             }
 
-            if (rootState.config.vkService.mute.includes(conversation.id)) {
-                return false;
-            }
-
-            const focused = await global.$nuxt.$ipc.invoke("focused");
-            if (focused && rootState.vk.messages.current?.id === conversation.id) {
-                return false;
-            }
-
-            if (rootState.config.general.sound.enable) {
-                const notification = new Audio(rootState.config.general.sound.file || "./message.mp3");
+            if (rootState.config.notifications.sound.enable) {
+                const notification = new Audio(rootState.config.notifications.sound.file || "./message.mp3");
                 notification.volume = 0.4;
                 notification.play();
             }
 
-            if (rootState.config.general.notifications) {
+            if (rootState.config.notifications.desktop) {
                 global.$nuxt.$ipc.send("notifierMessage", {
                     ...conversation,
 
