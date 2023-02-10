@@ -1,6 +1,9 @@
 import Promise from "bluebird";
 
-import { MessagesGetConversationsByIdParams, MessagesGetConversationsParams } from "vk-io/lib/api/schemas/params";
+import {
+    MessagesGetConversationsByIdParams,
+    MessagesGetConversationsParams
+} from "vk-io/lib/api/schemas/params";
 
 import {
     MessagesGetConversationsByIdExtendedResponse,
@@ -211,9 +214,11 @@ export default {
                 return false;
             }
 
-            const notification = new Audio("./message.mp3");
-            notification.volume = 0.4;
-            notification.play();
+            if (rootState.config.general.sound.enable) {
+                const notification = new Audio(rootState.config.general.sound.file || "./message.mp3");
+                notification.volume = 0.4;
+                notification.play();
+            }
 
             if (rootState.config.general.notifications) {
                 global.$nuxt.$ipc.send("notifierMessage", {

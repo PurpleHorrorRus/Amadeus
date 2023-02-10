@@ -16,10 +16,11 @@ export default {
     computed: {
         renderLayout() {
             switch (this.modal.layout) {
-                case "settings": return () => import("~/components/Modal/Layouts/Settings.vue");
+                case "settings":
+                    return () => import("./Layouts/Settings.vue");
             }
 
-            return () => import("~/components/Modal/Layouts/Default.vue");
+            return () => import("./Layouts/Default.vue");
         }
     }
 };

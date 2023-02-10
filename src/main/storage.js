@@ -15,6 +15,12 @@ const clear = {
 
     general: {
         notifications: true,
+
+        sound: {
+            enable: true,
+            file: ""
+        },
+
         inputDevice: "default",
         outputDevice: "default"
     },

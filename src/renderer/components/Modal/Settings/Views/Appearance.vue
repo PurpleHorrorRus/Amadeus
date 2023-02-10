@@ -7,7 +7,7 @@
 
         <FileChoosing
             :text="$strings.SETTINGS.APPEARANCE.BACKGROUND"
-            :value="messagesBackground"
+            :value="config.appearance.messages.background.url"
             :canClear="backgroundExist"
             :properties="backgroundProperties"
             @choose="changeMessagesBackground"
@@ -85,12 +85,6 @@ export default {
         ...mapState({
             background: (state: any) => state.background
         }),
-
-        messagesBackground() {
-            return this.backgroundExist
-                ? this.config.appearance.messages.background.url
-                : "Не задано";
-        },
 
         backgroundExist() {
             return Boolean(this.config.appearance.messages.background.url);

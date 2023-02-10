@@ -19,11 +19,9 @@
 </template>
 
 <script lang="ts">
-import ContextMenuItem from "~/components/Menu/Item.vue";
-
 export default {
     components: {
-        ContextMenuItem
+        ContextMenuItem: () => import("~/components/Menu/Item.vue")
     },
 
     props: {
@@ -62,6 +60,7 @@ export default {
     mounted() {
         this.$nextTick(() => {
             const { width, height } = this.$refs.menu.getBoundingClientRect();
+
             this.position = [
                 Math.min(
                     Math.max(this.margin, this.menu.position[0] + this.margins[0]),

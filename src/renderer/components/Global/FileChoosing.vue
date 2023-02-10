@@ -4,7 +4,11 @@
 
         <div class="file-choosing-item-container">
             <div class="file-choosing-item-container-block nowrap flex-spaced">
-                <span class="file-choosing-item-container-block-data nowrap" v-text="value" />
+                <span
+                    class="file-choosing-item-container-block-data nowrap"
+                    v-text="value || $strings.NOT_SPECIFIED"
+                />
+
                 <div class="file-choosing-item-container-block-button clickable" @click="open">
                     <MoreHorizontalIcon class="icon amadeus" />
                 </div>

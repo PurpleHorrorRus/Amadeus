@@ -21,6 +21,22 @@
         />
 
         <ToggleButton
+            :text="$strings.SETTINGS.GENERAL.SOUND.ENABLE"
+            :value="config.general.sound.enable"
+            @change="deepChange('general', config.general.sound, 'enable')"
+        />
+
+        <FileChoosing
+            v-if="config.general.sound.enable"
+            :text="$strings.SETTINGS.GENERAL.SOUND.FILE"
+            :value="config.general.sound.file"
+            :canClear="Boolean(config.general.sound.file)"
+            :properties="soundProperties"
+            @choose="deepChange('general', config.general.sound, 'file', $event)"
+            @clear="deepChange('general', config.general.sound, 'file', '')"
+        />
+
+        <ToggleButton
             :text="$strings.SETTINGS.GENERAL.DEVTOOLS"
             :value="config.window.devtools"
             @change="turnDevTools"
@@ -49,6 +65,15 @@ export default {
     mixins: [CoreMixin],
 
     data: () => ({
+        soundProperties: {
+            properties: ["openFile"],
+
+            filters: [{
+                name: "mp3, wav, ogg",
+                extensions: ["mp3", "wav", "ogg"]
+            }]
+        },
+
         inputDevices: [] as MediaDeviceInfo[],
         outputDevices: [] as MediaDeviceInfo[]
     }),

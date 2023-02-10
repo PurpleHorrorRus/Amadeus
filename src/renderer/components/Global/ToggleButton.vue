@@ -48,7 +48,7 @@ export default {
 
     methods: {
         toggle() {
-            this.$refs["toggle-button"].toggle();
+            return this.$refs["toggle-button"].toggle();
         }
     }
 };

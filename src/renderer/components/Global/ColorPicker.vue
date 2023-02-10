@@ -85,12 +85,12 @@ export default {
             this.position.top = Math.min(event.clientY + 20, window.innerHeight - 270);
 
             this.show = true;
-            this.windowEvents(this.close);
+            return this.windowEvents(this.close);
         },
 
         close() {
             this.show = false;
-            this.closeEvents();
+            return this.closeEvents();
         },
 
         input(value) {
