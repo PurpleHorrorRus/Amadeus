@@ -54,14 +54,14 @@ export default () => {
             },
 
             SET_BACKGROUND: ({ state }, setBackground: boolean) => {
-                if (setBackground) {
+                if (setBackground && fs.existsSync(state.paths.background)) {
                     const base64 = "data:image/png;base64," + fs.readFileSync(state.paths.background, "base64");
                     state.background = `url("${base64}")`;
                     return base64;
                 }
 
                 state.background = "var(--primary)";
-                return false;
+                return state.background;
             },
 
             OPEN_CONVERSATION: ({ commit }, conversation: Conversation) => {

@@ -109,18 +109,14 @@ export default {
     },
 
     methods: {
-        changeMessagesBackground(path) {
-            this.deepChange("appearance", this.config.appearance.messages.background, "url", path);
-
+        changeMessagesBackground(path: string) {
             if (!path) {
-                this.setBackground(false);
-                fs.writeFileSync(this.paths.background, "");
                 return false;
             }
 
+            this.deepChange("appearance", this.config.appearance.messages.background, "url", path);
             fs.copySync(path, this.paths.background);
-            this.setBackground(true);
-            return true;
+            return this.setBackground(true);
         },
 
         resizeBackground({ aspectRatio, area, image }) {
