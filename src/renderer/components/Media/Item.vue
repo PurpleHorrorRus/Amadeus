@@ -1,11 +1,11 @@
 <template>
     <div id="media-page-item" @click.right="openMenu">
-        <img
+        <nuxt-img
             v-if="item.type === 'photo'"
             id="photo"
             class="media-page-item-frame"
             :src="item.sizes.max"
-        >
+        />
 
         <iframe
             v-else-if="item.type === 'video'"

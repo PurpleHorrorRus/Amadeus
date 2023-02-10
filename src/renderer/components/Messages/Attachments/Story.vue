@@ -1,11 +1,11 @@
 <template>
     <div class="attachments-item attachments-item-story" :class="storyClass" @click.stop="openMedia([item], 0)">
         <div class="attachments-item-story-preview">
-            <img
+            <nuxt-img
                 v-if="!item.restriction"
                 :src="item.sizes.max"
                 class="attachments-item-story-preview-image"
-            >
+            />
 
             <StoryExpired v-else />
         </div>

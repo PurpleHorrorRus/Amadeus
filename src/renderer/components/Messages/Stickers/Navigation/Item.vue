@@ -4,11 +4,11 @@
         class="stickers-navigation-item"
         :class="itemClass"
     >
-        <img
+        <nuxt-img
             v-if="!icon"
             :src="collection.preview"
             class="stickers-navigation-item-preview"
-        >
+        />
 
         <Component :is="icon" v-else class="icon amadeus" />
     </div>

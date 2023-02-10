@@ -1,6 +1,9 @@
 <template>
     <div class="inline-doc-preview-gif">
-        <img :src="item.preview" class="inline-doc-preview-gif-image">
+        <nuxt-img
+            :src="item.preview"
+            class="inline-doc-preview-gif-image"
+        />
     </div>
 </template>
 

@@ -1,6 +1,9 @@
 <template>
     <div class="attachments-item attachments-item-link" @click.stop="openExternal(item.url)">
-        <img :src="item.sizes.max" class="attachments-item-link-image">
+        <nuxt-img
+            :src="item.sizes.max"
+            class="attachments-item-link-image"
+        />
 
         <div class="attachments-item-link-information">
             <span class="attachments-item-link-information-title" v-text="item.title" />

@@ -1,6 +1,9 @@
 <template>
     <div class="attachments-item-doc-gif-playing">
-        <img :src="item.url" class="attachments-item-doc-gif-playing-image">
+        <nuxt-img
+            :src="item.url"
+            class="attachments-item-doc-gif-playing-image"
+        />
 
         <div v-if="canAdd" class="attachments-item-doc-gif-playing-add" @click.stop="add">
             <AddIcon v-if="!item.added" class="icon amadeus" />

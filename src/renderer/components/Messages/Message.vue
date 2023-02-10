@@ -1,6 +1,11 @@
 <template>
     <div class="message" :class="messageClass">
-        <img v-if="showAvatar" :src="avatar" class="message-avatar">
+        <nuxt-img
+            v-if="showAvatar"
+            :src="avatar"
+            class="message-avatar"
+        />
+
         <MessageContent />
         <MessageActions />
     </div>

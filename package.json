@@ -41,6 +41,7 @@
     },
     "devDependencies": {
         "@babel/eslint-parser": "^7.19.1",
+        "@nuxt/image": "^0.7.1",
         "@nuxt/types": "2.16.0",
         "@nuxt/typescript-build": "^2.1.0",
         "@nuxtjs/eslint-config": "^12.0.0",

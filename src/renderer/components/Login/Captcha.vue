@@ -1,6 +1,9 @@
 <template>
     <div id="vk-captcha" class="login-form-input">
-        <img id="vk-captcha-image" :src="src">
+        <nuxt-img
+            id="vk-captcha-image"
+            :src="src"
+        />
 
         <SingleInput
             id="captcha-solve"

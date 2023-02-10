@@ -1,10 +1,10 @@
 <template>
     <div class="notification-information-name nowrap">
-        <img
+        <nuxt-img
             v-if="$parent.notification.isChat"
             class="notification-information-name__chat__avatar"
             :src="user.photo_100"
-        >
+        />
 
         <span class="notification-information-name__title" v-text="name" />
 

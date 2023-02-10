@@ -1,8 +1,19 @@
 <template>
     <div class="conversation-avatar">
-        <img :src="conversation.avatar" class="conversation-avatar-image">
-        <div v-if="conversation.profile.online && !onlineMobile" class="conversation-avatar-online" />
-        <PhoneIcon v-else-if="onlineMobile" class="icon conversation-avatar-online-mobile" />
+        <nuxt-img
+            :src="conversation.avatar"
+            class="conversation-avatar-image"
+        />
+
+        <div
+            v-if="conversation.profile.online && !onlineMobile"
+            class="conversation-avatar-online"
+        />
+
+        <PhoneIcon
+            v-else-if="onlineMobile"
+            class="icon conversation-avatar-online-mobile"
+        />
     </div>
 </template>
 

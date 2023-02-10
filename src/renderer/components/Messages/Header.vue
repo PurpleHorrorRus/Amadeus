@@ -4,7 +4,11 @@
             <MessagesHeaderBack />
 
             <div id="messages-header-main-profile" class="nowrap" @click="$parent.turnProfile">
-                <img id="messages-header-main-profile-avatar" :src="conversation.avatar">
+                <nuxt-img
+                    id="messages-header-main-profile-avatar"
+                    :src="conversation.avatar"
+                />
+
                 <MessagesHeaderInformation :conversation="conversation" />
             </div>
         </div>

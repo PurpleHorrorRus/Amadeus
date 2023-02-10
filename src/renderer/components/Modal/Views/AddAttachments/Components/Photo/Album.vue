@@ -1,7 +1,14 @@
 <template>
     <div class="photo-album">
-        <img :src="album.thumb_src" class="photo-album-cover">
-        <span class="photo-album-title nowrap" v-text="album.title" />
+        <nuxt-img
+            :src="album.thumb_src"
+            class="photo-album-cover"
+        />
+
+        <span
+            class="photo-album-title nowrap"
+            v-text="album.title"
+        />
     </div>
 </template>
 

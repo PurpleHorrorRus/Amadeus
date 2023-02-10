@@ -1,6 +1,9 @@
 <template>
     <div class="attachments-item attachments-item-miniapp">
-        <img :src="item.icon" class="attachments-item-miniapp-icon">
+        <nuxt-img
+            :src="item.icon"
+            class="attachments-item-miniapp-icon"
+        />
 
         <div class="attachments-item-miniapp-main nowrap">
             <div class="attachments-item-miniapp-main-info">

@@ -1,7 +1,14 @@
 <template>
     <div class="forward-profile">
-        <img :src="conversation.avatar" class="forward-profile-avatar">
-        <span class="forward-profile-name nowrap" v-text="conversation.name" />
+        <nuxt-img
+            :src="conversation.avatar"
+            class="forward-profile-avatar"
+        />
+
+        <span
+            class="forward-profile-name nowrap"
+            v-text="conversation.name"
+        />
     </div>
 </template>
 

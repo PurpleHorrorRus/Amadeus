@@ -1,6 +1,10 @@
 <template>
     <div class="attachments-item attachments-item-gift">
-        <img :src="item.image" class="attachments-item-gift-image">
+        <nuxt-img
+            :src="item.image"
+            class="attachments-item-gift-image"
+        />
+
         <span
             class="attachments-item-gift-label"
             v-text="$strings.CONVERSATIONS.ATTACHMENTS.GIFT"

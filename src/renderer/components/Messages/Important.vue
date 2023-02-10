@@ -1,6 +1,10 @@
 <template>
     <div class="important-message">
-        <img :src="message.profile.photo_100" class="important-message-avatar">
+        <nuxt-img
+            :src="message.profile.photo_100"
+            class="important-message-avatar"
+        />
+
         <div class="important-message-information">
             <div class="important-message-information-placeholder">
                 <span

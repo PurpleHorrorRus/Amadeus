@@ -1,8 +1,15 @@
 <template>
     <div class="account-profile" :class="accountProfileClass">
         <div class="account-profile-main">
-            <img :src="profile.photo_100" class="account-profile-main-avatar">
-            <span class="account-profile-main-name nowrap" v-text="profile.name" />
+            <nuxt-img
+                :src="profile.photo_100"
+                class="account-profile-main-avatar"
+            />
+
+            <span
+                class="account-profile-main-name nowrap"
+                v-text="profile.name"
+            />
         </div>
 
         <CheckIcon

@@ -1,6 +1,9 @@
 <template>
     <div class="notification">
-        <img :src="notification.profile.avatar" class="notification-avatar">
+        <nuxt-img
+            :src="notification.profile.avatar"
+            class="notification-avatar"
+        />
 
         <div class="notification-information nowrap">
             <NotificationName />

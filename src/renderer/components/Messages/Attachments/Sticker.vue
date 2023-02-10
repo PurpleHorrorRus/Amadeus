@@ -19,12 +19,12 @@
             loop
         />
 
-        <img
+        <nuxt-img
             v-else
             :key="config.appearance.stickersTheme"
             :src="sticker"
             class="attachments-item-sticker__image"
-        >
+        />
     </div>
 </template>
 

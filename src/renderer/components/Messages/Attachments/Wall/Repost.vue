@@ -3,7 +3,10 @@
         <Component :is="icon" class="icon attachments-item-repost-icon" />
 
         <div class="attachments-item-repost-block">
-            <img :src="profile.photo_100" class="attachments-item-repost-block-avatar">
+            <nuxt-img
+                :src="profile.photo_100"
+                class="attachments-item-repost-block-avatar"
+            />
 
             <div class="attachments-item-repost-block-information nowrap">
                 <span

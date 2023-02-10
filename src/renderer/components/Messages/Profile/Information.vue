@@ -1,12 +1,12 @@
 <template>
     <div id="profile-information">
         <div id="profile-information-avatar">
-            <img
+            <nuxt-img
                 id="profile-information-avatar-image"
                 :src="conversation.avatar"
                 :class="avatarClass"
                 @click="choosePhoto"
-            >
+            />
 
             <div
                 v-if="showRemovingAvatar"

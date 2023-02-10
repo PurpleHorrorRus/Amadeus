@@ -1,6 +1,9 @@
 <template>
     <div class="attachments-item attachments-item-playlist">
-        <img :src="item.cover" class="attachments-item-playlist-cover">
+        <nuxt-img
+            :src="item.cover"
+            class="attachments-item-playlist-cover"
+        />
 
         <div class="attachments-item-playlist-main">
             <PlaylistInformation :item="item" />

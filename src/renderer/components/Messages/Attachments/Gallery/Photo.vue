@@ -1,9 +1,9 @@
 <template>
-    <img
+    <nuxt-img
         :src="item.preview"
         class="attachments-item attachments-item-photo"
         :style="itemStyle"
-    >
+    />
 </template>
 
 <script lang="ts">

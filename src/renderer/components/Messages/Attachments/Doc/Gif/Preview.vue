@@ -1,7 +1,14 @@
 <template>
     <div class="attachments-item-doc-gif-preview">
-        <span class="attachments-item-doc-gif-preview-size" v-text="size" />
-        <img :src="item.preview" class="attachments-item-doc-gif-preview-image">
+        <span
+            class="attachments-item-doc-gif-preview-size"
+            v-text="size"
+        />
+
+        <nuxt-img
+            :src="item.preview"
+            class="attachments-item-doc-gif-preview-image"
+        />
     </div>
 </template>
 

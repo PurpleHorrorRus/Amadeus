@@ -67,7 +67,8 @@ module.exports = {
 
     buildModules: [
         "@nuxtjs/color-mode",
-        "@nuxt/typescript-build"
+        "@nuxt/typescript-build",
+        "@nuxt/image"
     ],
 
     css: [

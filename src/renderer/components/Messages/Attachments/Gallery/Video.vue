@@ -7,11 +7,11 @@
         <div class="attachments-item-video-preview" :style="previewStyle">
             <VideoBlock v-if="item.restriction" />
 
-            <img
+            <nuxt-img
                 v-else-if="!quick && item.sizes.medium"
                 :src="item.sizes.medium"
                 class="attachments-item-video-preview-image"
-            >
+            />
 
             <iframe
                 v-else-if="quick"

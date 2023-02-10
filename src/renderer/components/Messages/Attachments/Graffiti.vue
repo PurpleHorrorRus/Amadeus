@@ -1,6 +1,9 @@
 <template>
     <div class="attachments-item attachments-item-graffiti">
-        <img :src="item.url" class="attachments-item-graffiti-image">
+        <nuxt-img
+            :src="item.url"
+            class="attachments-item-graffiti-image"
+        />
     </div>
 </template>
 
