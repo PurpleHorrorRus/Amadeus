@@ -11,6 +11,7 @@
             :canClear="backgroundExist"
             :properties="backgroundProperties"
             @choose="changeMessagesBackground"
+            @clear="clearMessagesBackground"
         />
 
         <Crop
@@ -117,6 +118,12 @@ export default {
             this.deepChange("appearance", this.config.appearance.messages.background, "url", path);
             fs.copySync(path, this.paths.background);
             return this.setBackground(true);
+        },
+
+        clearMessagesBackground() {
+            this.deepChange("appearance", this.config.appearance.messages.background, "url", "");
+            this.setBackground(false);
+            return fs.writeFileSync(this.paths.background, "");
         },
 
         resizeBackground({ aspectRatio, area, image }) {

@@ -13,15 +13,14 @@
             <XIcon
                 v-if="canClear"
                 class="icon clickable"
-                @click="$emit('choose', '')"
+                @click="$emit('clear')"
             />
         </div>
     </div>
 </template>
 
 <script lang="ts">
-import { resolve } from "path";
-import { ipcRenderer } from "electron";
+import path from "path";
 
 export default {
     components: {
@@ -56,11 +55,8 @@ export default {
     methods: {
         async open() {
             const filePaths = await this.$ipc.invoke("select", this.properties);
-
-            if (filePaths) {
-                const [path] = filePaths;
-                this.$emit("choose", resolve(path));
-            }
+            return filePaths
+                && this.$emit("choose", path.resolve(filePaths[0]));
         }
     }
 };
