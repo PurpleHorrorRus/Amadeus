@@ -94,21 +94,10 @@ export default {
 
         cursor: pointer;
 
-        path {
-            fill: var(--secondary);
-        }
-    }
-
-    .star {
-        stroke: var(--secondary);
-        stroke-width: 2px;
-
-        path {
-            fill: none;
-        }
-
-        &.filled path {
-            fill: var(--secondary);
+        &:not(.star) {
+            path {
+                fill: var(--secondary) !important;
+            }
         }
     }
 }

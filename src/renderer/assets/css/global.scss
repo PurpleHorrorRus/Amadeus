@@ -103,17 +103,13 @@ input, textarea {
     &.filled, &.amadeus path {
         fill: var(--secondary);
     }
-
-    &:not(.amadeus):not(.nostroke):not(.filled) {
-        stroke: var(--secondary);
-    }
 }
 
 div.clickable:hover, a.clickable:hover {
     cursor: pointer;
     
     span {
-        color: var(--secondary) !important  ;
+        color: var(--secondary) !important;
         transition: color .1s ease-in-out;
     }
 
@@ -142,32 +138,8 @@ a:not(.clickable) {
 
     width: 24px;
 
-    color: var(--icons);
-
     &.amadeus path {
         fill: var(--icons);
-
-        transition: fill .1s ease-in-out;
-    }
-
-    &:not(.amadeus) {
-        fill: none;
-        
-        &:not(.nostroke) {
-            stroke: var(--icons);
-            stroke-width: 2px;
-            stroke-linecap: square;
-            stroke-linejoin: miter;
-        }
-
-        &.filled {
-            fill: var(--icons);
-            transition: fill .1s ease-in-out;
-        }
-
-        &:not(.filled) {
-            transition: stroke .1s ease-in-out;
-        }
     }
 
     &.clickable {
@@ -181,10 +153,6 @@ a:not(.clickable) {
     &.active {
         &.amadeus path {
             fill: var(--secondary);
-        }
-
-        &:not(.amadeus) {
-            stroke: var(--secondary);
         }
     }
 
@@ -201,6 +169,19 @@ a:not(.clickable) {
 
         path {
             stroke: none;
+        }
+    }
+
+    &.star {
+        stroke: var(--secondary);
+        stroke-width: 2px;
+
+        path {
+            fill: none;
+        }
+
+        &.filled path, &:hover path {
+            fill: var(--secondary);
         }
     }
 }

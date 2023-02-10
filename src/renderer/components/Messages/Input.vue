@@ -205,7 +205,7 @@ export default {
             align-self: center;
         }
 
-        .icon {
+        > .icon {
             path {
                 transition: fill .2s ease-in-out;
             }

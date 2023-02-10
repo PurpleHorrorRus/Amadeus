@@ -29,17 +29,7 @@ export default {
     computed: {
         i18n() {
             return {
-                categories: {
-                    Activity: "Активности",
-                    Flags: "Флаги",
-                    Foods: "Еда",
-                    Frequently: "Часто используемые",
-                    Objects: "Объекты",
-                    Nature: "Природа",
-                    Peoples: "Люди",
-                    Symbols: "Символы",
-                    Places: "Места"
-                }
+                categories: this.$strings.CHAT.EMOJI
             };
         }
     },

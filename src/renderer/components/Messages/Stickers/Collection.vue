@@ -11,7 +11,7 @@
                 v-for="sticker of collection.stickers"
                 :key="sticker.id"
                 :item="sticker"
-                class="clickable"
+                canFavorite
                 @click.native="$emit('send', sticker)"
             />
         </div>
@@ -63,6 +63,16 @@ export default {
         .attachments-item-sticker {
             width: 20.5%;
             min-width: unset !important;
+
+            padding: 10px;
+
+            border-radius: 4px;
+
+            &:hover {
+                background-color: var(--secondary-hover);
+
+                cursor: pointer;
+            }
         }
     }
 }

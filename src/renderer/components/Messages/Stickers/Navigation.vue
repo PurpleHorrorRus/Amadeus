@@ -22,17 +22,14 @@
 </template>
 
 <script lang="ts">
-import StarIcon from "~icons/star.svg";
-import EmojiIcon from "~icons/emoji.svg";
-
 export default {
     components: {
         NavigationItem: () => import("./Navigation/Item.vue")
     },
 
     data: () => ({
-        StarIcon,
-        EmojiIcon
+        StarIcon: () => import("~icons/star.svg"),
+        EmojiIcon: () => import("~icons/emoji.svg")
     }),
 
     methods: {
