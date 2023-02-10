@@ -6,7 +6,10 @@
             v-text="$strings.CHAT.EDITING"
         />
 
-        <XIcon class="icon clickable" @click="clearEdit" />
+        <XIcon
+            class="icon amadeus clickable"
+            @click="clearEdit"
+        />
     </div>
 </template>
 

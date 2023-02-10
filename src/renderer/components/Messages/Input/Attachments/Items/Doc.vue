@@ -1,8 +1,15 @@
 <template>
     <div class="input-attachments-doc">
         <DocPreview :item="item" />
-        <span class="input-attachments-doc nowrap" v-text="item.title" />
-        <XIcon class="icon clickable remove" @click="$emit('remove')" />
+        <span
+            class="input-attachments-doc nowrap"
+            v-text="item.title"
+        />
+
+        <XIcon
+            class="icon amadeus clickable"
+            @click="$emit('remove')"
+        />
     </div>
 </template>
 

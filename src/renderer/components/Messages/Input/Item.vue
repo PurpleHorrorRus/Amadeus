@@ -1,6 +1,9 @@
 <template>
     <div class="message-attachment-item">
-        <XIcon class="icon remove-icon" @click="$emit('remove')" />
+        <XIcon
+            class="icon amadeus remove-icon"
+            @click="$emit('remove')"
+        />
 
         <WallRepost
             v-if="item.type === 'wall'"

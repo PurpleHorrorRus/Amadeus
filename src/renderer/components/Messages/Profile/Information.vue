@@ -13,7 +13,7 @@
                 id="profile-information-avatar-remove"
                 @click="removeAvatar"
             >
-                <XIcon class="icon clickable" />
+                <XIcon class="icon amadeus clickable" />
             </div>
         </div>
 
@@ -22,7 +22,6 @@
 </template>
 
 <script lang="ts">
-import { ipcRenderer } from "electron";
 import { mapActions, mapState } from "vuex";
 
 import CoreMixin from "~/mixins/core";

@@ -16,7 +16,7 @@
 
             <XIcon
                 v-if="canClear"
-                class="icon clickable"
+                class="icon amadeus clickable"
                 @click="$emit('clear')"
             />
         </div>

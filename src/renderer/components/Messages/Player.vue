@@ -12,7 +12,7 @@
             <PlayerVolume />
             <XIcon
                 id="messages-player-actions-remove"
-                class="icon clickable"
+                class="icon amadeus clickable"
                 @click="clear"
             />
         </div>

@@ -5,10 +5,14 @@
             <span class="account-profile-main-name nowrap" v-text="profile.name" />
         </div>
 
-        <CheckIcon v-if="active" class="icon amadeus" />
+        <CheckIcon
+            v-if="active"
+            class="icon amadeus"
+        />
+
         <XIcon
             v-else
-            class="icon clickable account-profile-delete"
+            class="icon amadeus clickable account-profile-delete"
             @click="$emit('remove')"
         />
     </div>
