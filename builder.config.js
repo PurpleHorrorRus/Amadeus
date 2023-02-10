@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable no-undef */
-
 const LinuxTarget = require("./builder/linux");
 const WindowsTarget = require("./builder/windows");
 
