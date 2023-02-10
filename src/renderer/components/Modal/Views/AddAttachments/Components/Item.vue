@@ -88,7 +88,7 @@ export default {
         z-index: 2;
 
         &.selected {
-            background: var(--secondary);
+            background-color: var(--secondary);
         }
 
         .icon {

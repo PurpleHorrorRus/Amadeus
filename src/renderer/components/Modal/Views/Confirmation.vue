@@ -49,7 +49,7 @@ export default {
             transition: background .1s ease;
 
             &:hover {
-                background: var(--item-hover);
+                background-color: var(--item-hover);
             }
         }
     }

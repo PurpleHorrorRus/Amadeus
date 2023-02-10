@@ -111,7 +111,7 @@ export default {
 
     padding: 10px;
 
-    background: var(--message);
+    background-color: var(--message);
     border: 1px solid var(--message-bg);
     border-radius: 6px;
 

@@ -106,7 +106,7 @@ export default {
 
     &:hover {
         .line-range-progress {
-            background: var(--secondary);
+            background-color: var(--secondary);
 
             &-dot {
                 opacity: 1;
@@ -122,7 +122,7 @@ export default {
         height: 25px;
 
         // border: 1px solid #ffffff;
-        // background: #fff;
+        // background-color: #fff;
         z-index: 2;
 
         &:hover {
@@ -136,7 +136,7 @@ export default {
         width: 100%;
         height: 4px;
 
-        background: var(--player-slider);
+        background-color: var(--player-slider);
         border-radius: 4px;
 
         z-index: 1;
@@ -148,7 +148,7 @@ export default {
             width: 20px;
             height: 100%;
 
-            background: var(--player-slider-progress);
+            background-color: var(--player-slider-progress);
             border-radius: 4px;
 
             pointer-events: auto;
@@ -162,7 +162,7 @@ export default {
                 width: 8px;
                 height: 8px;
 
-                background: #ffffff;
+                background-color: #ffffff;
                 border-radius: 100%;
 
                 opacity: 0;

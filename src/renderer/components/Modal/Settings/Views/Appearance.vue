@@ -182,6 +182,6 @@ export default {
 .cropper {
     height: 600px;
     width: 600px;
-    background: #DDD;
+    background-color: #DDD;
 }
 </style>

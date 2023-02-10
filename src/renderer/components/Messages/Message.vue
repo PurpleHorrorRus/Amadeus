@@ -94,7 +94,7 @@ export default {
         --contrast: var(--out-contrast);
 
         .message-content {
-            background: var(--out);
+            background-color: var(--out);
         }
 
         &:not(.noBackground) {
@@ -113,7 +113,7 @@ export default {
 
         span {
             &::selection {
-                background: var(--secondary) !important;
+                background-color: var(--secondary) !important;
             }
         }
     }

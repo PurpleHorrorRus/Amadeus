@@ -75,7 +75,7 @@ export default {
 
     padding: 0px 0px 0px 10px;
 
-    background: var(--titlebar);
+    background-color: var(--titlebar);
 
     z-index: 999;
 

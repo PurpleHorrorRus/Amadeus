@@ -3,7 +3,7 @@ html {
     font-size: 16px;
 
     .page {
-        background: var(--primary);
+        background-color: var(--primary);
 
         overflow-y: auto;
 
@@ -41,13 +41,13 @@ span, input, textarea, select, div {
     }
 
     &::selection {
-        background: var(--backdrop);
+        background-color: var(--backdrop);
     }
 }
 
 input, textarea {
     &::selection {
-        background: var(--secondary) !important;
+        background-color: var(--secondary) !important;
     }
 }
 
@@ -221,7 +221,7 @@ a:not(.clickable) {
     }
 
     &-thumb {
-        background: var(--scroll);
+        background-color: var(--scroll);
         border-radius: var(--scroll-radius);
     }
 }
@@ -234,7 +234,7 @@ a:not(.clickable) {
     .tooltip-inner {
         padding: 5px;
 
-        background: var(--tooltip);
+        background-color: var(--tooltip);
         border-radius: 4px;
         
         color: var(--tooltip-text);

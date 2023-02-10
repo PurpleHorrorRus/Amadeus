@@ -60,13 +60,13 @@ export default {
         width: 30px;
         height: 60px;
 
-        background: var(--secondary-opacity-half);
+        background-color: var(--secondary-opacity-half);
 
         cursor: pointer;
         pointer-events: all;
 
         &:hover {
-            background: var(--secondary);
+            background-color: var(--secondary);
         }
 
         &#left, &#right {

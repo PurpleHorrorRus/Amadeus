@@ -104,7 +104,7 @@ export default {
     }
 
     &.active, &:hover {
-        background: var(--navigation-select);
+        background-color: var(--navigation-select);
     }
 
     &:hover {
@@ -120,14 +120,14 @@ export default {
 
 @media screen and (min-width: 600px) {
     #conversations {
-        background: var(--conversations);
+        background-color: var(--conversations);
 
         &:not(.minimized) .conversation {
             @include Conversation;
         }
 
         &.minimized {
-            background: var(--conversations-collapsed);
+            background-color: var(--conversations-collapsed);
 
             #conversations-lists {
                 &::-webkit-scrollbar {
@@ -180,7 +180,7 @@ export default {
 
                             padding: 3px;
 
-                            background: var(--backdrop);
+                            background-color: var(--backdrop);
                             border-radius: 100%;
                         }
                     }

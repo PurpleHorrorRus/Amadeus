@@ -61,7 +61,7 @@ export default {
 
     padding: 0px 15px;
 
-    background: var(--notification);
+    background-color: var(--notification);
 
     border: 1px solid var(--notification-hover);
     border-radius: 8px;
@@ -77,7 +77,7 @@ export default {
     pointer-events: all;
 
     &:hover {
-        background: var(--notification-hover);
+        background-color: var(--notification-hover);
         cursor: pointer;
     }
 

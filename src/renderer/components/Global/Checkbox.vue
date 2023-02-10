@@ -68,13 +68,13 @@ export default {
         width: 15px;
         height: 15px;
 
-        background: var(--icons);
+        background-color: var(--icons);
         border-radius: 2px;
 
         transition: background .2s ease;
 
         &.checked {
-            background: var(--secondary);
+            background-color: var(--secondary);
         }
 
         .icon {

@@ -76,7 +76,7 @@ export default {
     align-items: center;
     justify-content: center;
 
-    background: #24242480;
+    background-color: #24242480;
 
     pointer-events: all;
 }

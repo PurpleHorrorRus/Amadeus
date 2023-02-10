@@ -111,11 +111,11 @@ export default {
     &.closed {
         .attachments-item-poll-answers {
             .attachments-item-poll-answers-list-item {
-                background: var(--secondary-disabled);
+                background-color: var(--secondary-disabled);
 
                 &:hover {
                     cursor: not-allowed;
-                    background: var(--secondary-disabled);
+                    background-color: var(--secondary-disabled);
                 }
             }
         }

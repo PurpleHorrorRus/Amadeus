@@ -21,14 +21,14 @@ export default {
     justify-content: center;
     align-items: center;
 
-    background: var(--item);
+    background-color: var(--item);
     border-radius: 100%;
     transition: background .2s ease;
 
     cursor: pointer;
 
     &:hover {
-        background: var(--item-hover);
+        background-color: var(--item-hover);
     }
 
     .icon {

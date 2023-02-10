@@ -222,7 +222,7 @@ export default {
 
     overflow: hidden;
 
-    background: var(--primary);
+    background-color: var(--primary);
 
     &.player {
         grid-template-rows: 25px 40px 1fr;

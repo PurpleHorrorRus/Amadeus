@@ -54,7 +54,7 @@ export default {
 
         margin: 0px 9px 0px 7px;
 
-        background: var(--secondary);
+        background-color: var(--secondary);
         border-radius: 100%;
     }
 
@@ -68,7 +68,7 @@ export default {
         width: 16px;
         height: 16px;
 
-        background: var(--secondary);
+        background-color: var(--secondary);
         border-radius: 100%;
 
         &-count {

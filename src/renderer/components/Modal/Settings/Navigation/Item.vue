@@ -56,11 +56,11 @@ export default {
     transition: background .1s ease-in-out;
 
     &:hover {
-        background: var(--item-hover);
+        background-color: var(--item-hover);
     }
 
     &.active {
-        background: var(--item-hover);
+        background-color: var(--item-hover);
     }
 
     .icon {

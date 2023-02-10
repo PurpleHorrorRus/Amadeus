@@ -57,7 +57,7 @@ export default {
 
         border: 1px solid var(--primary);
         border-radius: 8px;
-        background: var(--backdrop);
+        background-color: var(--backdrop);
 
         font-size: 12px;
         user-select: text;

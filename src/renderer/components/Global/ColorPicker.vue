@@ -139,7 +139,7 @@ export default {
     }
 
     .controls {
-        background: var(--item);
+        background-color: var(--item);
     }
 
     select {
@@ -150,7 +150,7 @@ export default {
     input, select {
         color: var(--text) !important;
         border-radius: 4px;
-        background: var(--backdrop);
+        background-color: var(--backdrop);
 
         padding: 10px !important;
 

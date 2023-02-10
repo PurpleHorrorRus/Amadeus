@@ -29,7 +29,7 @@ export default {
     height: 45vw;
     min-width: 100%;
 
-    background: var(--backdrop);
+    background-color: var(--backdrop);
     border-radius: 4px;
 
     &-label {

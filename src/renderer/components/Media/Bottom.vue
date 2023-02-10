@@ -56,7 +56,7 @@ export default {
 
     padding: 0px 2%;
 
-    background: var(--backdrop);
+    background-color: var(--backdrop);
 
     &-buttons {
         display: flex;

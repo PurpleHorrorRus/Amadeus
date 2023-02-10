@@ -65,7 +65,7 @@ export default {
 
     height: 100%;
 
-    background: var(--primary);
+    background-color: var(--primary);
 
     z-index: 1;
 

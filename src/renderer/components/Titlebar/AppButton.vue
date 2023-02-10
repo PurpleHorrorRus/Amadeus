@@ -28,7 +28,7 @@ export default {
     height: 100%;
 
     &:hover {
-        background: var(--titlebar-hover);
+        background-color: var(--titlebar-hover);
         cursor: pointer;
     }
 
@@ -40,7 +40,7 @@ export default {
 
     &.close {
         &:hover {
-            background: #910000;
+            background-color: #910000;
 
             svg {
                 stroke: #ffffff !important;

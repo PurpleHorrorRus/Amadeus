@@ -89,7 +89,7 @@ export default {
 
         padding: 5px;
 
-        background: #00000050;
+        background-color: #00000050;
         border-radius: 8px;
 
         cursor: pointer;

@@ -98,12 +98,12 @@ export default {
     }
 
     .vue-range-slider.slider-component .slider .slider-process {
-        background: var(--secondary) !important;
+        background-color: var(--secondary) !important;
     }
 
     .slider-tooltip {
         border: 1px solid var(--secondary) !important;
-        background: var(--secondary) !important;
+        background-color: var(--secondary) !important;
     }
 }
 </style>

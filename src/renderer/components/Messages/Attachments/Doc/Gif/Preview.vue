@@ -46,7 +46,7 @@ export default {
 
         padding: 5px;
 
-        background: #00000080;
+        background-color: #00000080;
         border-radius: 4px;
 
         font-size: 11px;

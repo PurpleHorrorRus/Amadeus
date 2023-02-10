@@ -43,7 +43,7 @@ export default {
 
     padding: 5px 10px;
 
-    background: var(--item);
+    background-color: var(--item);
     border-radius: 16px;
 
     span {

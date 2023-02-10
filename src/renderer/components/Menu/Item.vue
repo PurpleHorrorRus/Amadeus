@@ -31,7 +31,7 @@ export default {
     cursor: pointer;
 
     &:hover {
-        background: var(--item-hover);
+        background-color: var(--item-hover);
     }
 
     .icon {

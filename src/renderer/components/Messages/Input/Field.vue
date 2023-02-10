@@ -264,7 +264,7 @@ export default {
 
         padding: 7px;
 
-        background: var(--field);
+        background-color: var(--field);
         border: none;
         border-radius: 4px;
         overflow: hidden;

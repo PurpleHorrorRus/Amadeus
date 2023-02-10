@@ -41,11 +41,11 @@ export default {
 .attachments-item-audiomessage-waveform-peak {
     width: 1px;
 
-    background: var(--player-slider);
+    background-color: var(--player-slider);
     pointer-events: none;
 
     &.played {
-        background: var(--secondary);
+        background-color: var(--secondary);
     }
 }
 </style>

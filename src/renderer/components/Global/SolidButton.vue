@@ -41,7 +41,7 @@ export default {
 
     padding: 16px 12px;
 
-    background: var(--secondary);
+    background-color: var(--secondary);
     border-radius: 4px;
 
     font-size: 12px;
@@ -51,7 +51,7 @@ export default {
 
     &.disabled {
         cursor: not-allowed;
-        background: var(--secondary-disabled);
+        background-color: var(--secondary-disabled);
 
         * {
             &:hover {
@@ -67,7 +67,7 @@ export default {
 
         &:hover {
             cursor: pointer;
-            background: var(--secondary-opacity-half);
+            background-color: var(--secondary-opacity-half);
         }
     }
 

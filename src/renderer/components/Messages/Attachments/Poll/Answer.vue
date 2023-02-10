@@ -38,13 +38,13 @@ export default {
 
     padding: 10px;
 
-    background: var(--secondary-opacity-half);
+    background-color: var(--secondary-opacity-half);
 
     transition: background .1s ease-in-out;
 
     &:hover {
         cursor: pointer;
-        background: var(--item-hover);
+        background-color: var(--item-hover);
     }
 
     .icon {

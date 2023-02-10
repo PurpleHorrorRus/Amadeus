@@ -44,7 +44,7 @@ export default {
 
     border-radius: 8px;
 
-    background: var(--backdrop);
+    background-color: var(--backdrop);
 
     &-icon {
         width: 100%;

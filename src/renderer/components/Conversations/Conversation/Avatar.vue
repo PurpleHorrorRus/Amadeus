@@ -62,7 +62,7 @@ export default {
         width: 10px;
         height: 10px;
 
-        background: #37df37;
+        background-color: #37df37;
         border: 1px solid #000000;
         border-radius: 100%;
     }
@@ -72,7 +72,7 @@ export default {
 
         width: 16px;
 
-        background: #000000;
+        background-color: #000000;
         border-radius: 4px;
 
         path {

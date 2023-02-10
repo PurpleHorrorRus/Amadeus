@@ -38,7 +38,7 @@ export default {
 
     padding: 15px 0px;
 
-    background: #2c2c2cb6;
+    background-color: #2c2c2cb6;
 
     z-index: 999;
 
@@ -51,7 +51,7 @@ export default {
         height: auto;
         max-height: 100%;
 
-        background: var(--backdrop);
+        background-color: var(--backdrop);
         border-radius: 8px;
 
         .modal-view {

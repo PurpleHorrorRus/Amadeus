@@ -73,7 +73,7 @@ export default {
         option {
             direction: rtl;
 
-            background: var(--backdrop);
+            background-color: var(--backdrop);
         }
     }
 }

@@ -107,7 +107,7 @@ export default {
 
         height: 30vh;
 
-        background: var(--backdrop);
+        background-color: var(--backdrop);
         background-size: cover !important;
         background-position: center center !important;
         border-radius: 8px;

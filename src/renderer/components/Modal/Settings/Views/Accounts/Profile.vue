@@ -70,7 +70,7 @@ export default {
     &:not(.active) {
         .account-profile-main:hover {
             cursor: pointer;
-            background: var(--item-hover);
+            background-color: var(--item-hover);
         }
     }
 

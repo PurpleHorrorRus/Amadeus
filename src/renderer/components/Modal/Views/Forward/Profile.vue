@@ -41,7 +41,7 @@ export default {
 
     &:hover {
         cursor: pointer;
-        background: var(--item-hover);
+        background-color: var(--item-hover);
     }
 
     &-avatar {

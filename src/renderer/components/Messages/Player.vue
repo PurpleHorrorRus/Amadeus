@@ -5,7 +5,11 @@
             <PauseIcon v-else class="icon amadeus clickable" />
         </div>
 
-        <span id="messages-player-song" class="nowrap" v-text="title" />
+        <span
+            id="messages-player-song"
+            class="nowrap"
+            v-text="title"
+        />
 
         <div v-if="playerInitialized" id="messages-player-actions">
             <PlayerTime />
@@ -88,7 +92,7 @@ export default {
     width: 100%;
     height: 100%;
 
-    background: var(--primary);
+    background-color: var(--primary);
     border-bottom: 1px solid var(--border-opacity);
 
     z-index: 99;

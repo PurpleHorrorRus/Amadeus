@@ -305,7 +305,7 @@ export default {
         justify-content: center;
         align-items: center;
 
-        background: #2c2c2cb6;
+        background-color: #2c2c2cb6;
 
         z-index: 10000;
 

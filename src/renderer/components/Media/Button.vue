@@ -34,7 +34,7 @@ export default {
     width: 30px;
     height: 30px;
 
-    background: var(--backdrop);
+    background-color: var(--backdrop);
     border-radius: 100%;
 
     .icon {

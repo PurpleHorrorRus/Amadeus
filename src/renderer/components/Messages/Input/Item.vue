@@ -67,7 +67,7 @@ export default {
     width: 130px;
     height: 130px;
 
-    background: var(--backdrop);
+    background-color: var(--backdrop);
 
     img {
         object-fit: contain !important;
@@ -104,7 +104,7 @@ export default {
         width: 30px;
         padding: 7px;
 
-        background: var(--backdrop);
+        background-color: var(--backdrop);
         border-radius: 100%;
 
         z-index: 1;

@@ -17,7 +17,7 @@ export default {
 
     padding: 10px;
 
-    background: var(--backdrop);
+    background-color: var(--backdrop);
     border: 1px solid var(--border);
     border-radius: 8px;
 

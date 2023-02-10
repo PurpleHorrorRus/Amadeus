@@ -82,7 +82,7 @@ export default {
         width: 20px;
         height: 20px;
 
-        background: var(--secondary);
+        background-color: var(--secondary);
         border-radius: 4px;
 
         .icon {

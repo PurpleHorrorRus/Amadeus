@@ -38,7 +38,7 @@ export default {
 
     padding: 10px;
 
-    background: var(--primary);
+    background-color: var(--primary);
     border-left: 1px solid var(--border);
 
     overflow-y: overlay;

@@ -71,6 +71,6 @@ export default {
 #index-page {
     grid-area: page;
 
-    background: #131313;
+    background-color: #131313;
 }
 </style>

@@ -182,7 +182,7 @@ export default {
 
             padding: 10px;
 
-            background: var(--backdrop);
+            background-color: var(--backdrop);
             border-radius: 24px;
 
             color: var(--contrast) !important;
@@ -211,7 +211,7 @@ export default {
 
         padding: 10px;
 
-        background: var(--backdrop);
+        background-color: var(--backdrop);
         border-radius: 6px;
     }
 }

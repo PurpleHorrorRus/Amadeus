@@ -19,7 +19,7 @@ export default {};
 
     height: 62px;
 
-    background: var(--primary);
+    background-color: var(--primary);
 
     z-index: 1;
 

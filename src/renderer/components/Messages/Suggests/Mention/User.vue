@@ -42,7 +42,7 @@ export default {
     cursor: pointer;
 
     &:hover {
-        background: var(--secondary-hover);
+        background-color: var(--secondary-hover);
     }
 
     &-avatar {

@@ -55,7 +55,7 @@ export default {
 
         padding: 10px;
 
-        background: var(--backdrop);
+        background-color: var(--backdrop);
         border-radius: 0px 0px 8px 8px;
 
         span {

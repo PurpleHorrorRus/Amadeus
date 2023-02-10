@@ -136,7 +136,7 @@ export default {
 
             padding: 5px;
 
-            background: var(--backdrop);
+            background-color: var(--backdrop);
             border-radius: 100%;
 
             .icon {
